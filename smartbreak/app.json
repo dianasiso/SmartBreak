@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "smartbreak",
+    "slug": "smartbreak",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
