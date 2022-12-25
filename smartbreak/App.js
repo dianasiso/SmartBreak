@@ -1,12 +1,12 @@
 
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Error404 from './src/errors/error404';
+import Maintenance from './src/errors/maintenance';
 
 
 export default function App() {
   return (
-    <Error404/>
+    <Maintenance/>
   );
 }
 

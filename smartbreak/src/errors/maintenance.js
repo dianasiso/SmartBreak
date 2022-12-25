@@ -8,7 +8,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 // Font Gotham
 import { useFonts } from 'expo-font';
 
-export default function Error404() {
+export default function Maintenance() {
      // Loading Gotham font
     const [loaded] = useFonts({
         GothamMedium: require('./../fonts/GothamMedium.ttf'),
@@ -25,12 +25,12 @@ export default function Error404() {
               <MaterialIcons name="arrow-back-ios" size={24} color="white" />
             </View>
             <ScrollView>
-                <Text style={styles.textMessageTitle}>Erro</Text> 
-                <Text style={styles.textMessageBody}>Sobrecarga na bateria!</Text>
+                <Text style={styles.textMessageTitle}>Manutenção</Text> 
+                <Text style={styles.textMessageBody}>Estamos a recarregar as nossas baterias.</Text>
                 <View style={styles.imageOnboarding}>
-                    <Image source={require('./../imgs/img_error_404.png')} />
+                    <Image source={require('./../imgs/img_maintenance.png')} />
                 </View>
-                <Text style={styles.textMessageBody}>Esta página não existe.</Text>
+                <Text style={styles.textMessageBody}>Poderás voltar a ser produtivo não tarda.</Text>
             </ScrollView>
         </View>
     );
