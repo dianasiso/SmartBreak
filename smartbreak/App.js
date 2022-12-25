@@ -1,12 +1,12 @@
-import { StatusBar } from 'expo-status-bar';
+
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Dashboard from './src/screens/dashboard';
-import Onboarding from './src/onboarding/screens';
+import Maintenance from './src/errors/maintenance';
+
 
 export default function App() {
   return (
-    <Onboarding/>
+    <Maintenance/>
   );
 }
 
