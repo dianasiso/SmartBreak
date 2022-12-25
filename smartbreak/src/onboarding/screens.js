@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View, ScrollView, Image, Animated, Dimensions } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { StyleSheet, Text, View, ScrollView, Image, TouchableHighlight, Dimensions } from 'react-native';
 
 // Icons
 import { Ionicons } from '@expo/vector-icons';
@@ -13,61 +13,27 @@ export default function Onboarding() {
         GothamMedium: require('./../fonts/GothamMedium.ttf'),
         GothamBook: require('./../fonts/GothamBook.ttf'),
     });
+    const [page, setPage] = useState(1);
+
+    const skipText = useRef(null);
+
     if (!loaded) {
         return null;
     }
 
-    var screenWidth = Dimensions.get('window').width;
-    var screenHeight = Dimensions.get('window').height + 30;
-
-    return (
-        <ScrollView
-        horizontal={true}
-        pagingEnabled={true}
-        showsHorizontalScrollIndicator={false}
-        style={{backgroundColor: '#0051BA'}}>
-        <View style={{
-          width: screenWidth,
-          height: screenHeight,
-          paddingTop: 65,
-          paddingLeft: 25,
-          paddingRight: 25,
-          flex: 1,
-          backgroundColor: '#0051BA'
-        }}>
-          <StatusBar style="light" />
-          <Text style={styles.textSkip}>Saltar</Text>
-          <ScrollView>
-              <Text style={styles.textMessageTitle}>Bem-vinde à <Text style={{fontFamily: 'GothamMedium'}}>Smart Break</Text></Text> 
-              <Text style={styles.textMessageBody}>Carregue a sua <Text style={{fontFamily: 'GothamMedium'}}>bateria</Text> e aprenda a converter tempo em <Text style={{fontFamily: 'GothamMedium'}}>lucro</Text> e <Text style={{fontFamily: 'GothamMedium'}}>lazer</Text></Text>
-          </ScrollView>
-          <Image style={styles.imageBackground} source={require('./../imgs/img_onboarding_first_screen.png')} />
+    const NavigatorScreen = (page) => {
+      if (page == 1) {
+        return (
           <View style={styles.navigator}>
-          <Ionicons name="ellipse" size={8} color="white" style={{marginLeft: 2, marginRight: 2}}  />
-              <Ionicons name="ellipse" size={8} color="white" style={{opacity: 0.5, marginLeft: 2, marginRight: 2}} />
-              <Ionicons name="ellipse" size={8} color="white" style={{opacity: 0.5, marginLeft: 2, marginRight: 2}} />
-              <Ionicons name="ellipse" size={8} color="white" style={{opacity: 0.5, marginLeft: 2, marginRight: 2}} />
-              <Ionicons name="ellipse" size={8} color="white" style={{opacity: 0.5, marginLeft: 2, marginRight: 2}} />
-          </View>      
-        </View>
-        <View style={{
-          width: screenWidth,
-          height: screenHeight,        
-          paddingTop: 65,
-          paddingLeft: 25,
-          paddingRight: 25,
-          flex: 1,
-          backgroundColor: '#0051BA',
-        }}>
-          <StatusBar style="light" />
-          <Text style={styles.textSkip}>Saltar</Text>
-          <ScrollView>
-            <Text style={styles.textMessageTitle}><Text style={{fontFamily: 'GothamMedium'}}>Energia</Text></Text> 
-            <Text style={styles.textMessageBody}>Tome as decisões mais acertadas, <Text style={{fontFamily: 'GothamMedium'}}>poupe</Text> e <Text style={{fontFamily: 'GothamMedium'}}>ganhe</Text> energia numa pausa </Text>
-            <View style={styles.imageBattery}>
-              <Image source={require('./../imgs/img_onboarding_battery_empty.png')} />
-            </View>
-          </ScrollView>
+            <Ionicons name="ellipse" size={8} color="white" style={{marginLeft: 2, marginRight: 2}}  />
+            <Ionicons name="ellipse" size={8} color="white" style={{opacity: 0.5, marginLeft: 2, marginRight: 2}} />
+            <Ionicons name="ellipse" size={8} color="white" style={{opacity: 0.5, marginLeft: 2, marginRight: 2}} />
+            <Ionicons name="ellipse" size={8} color="white" style={{opacity: 0.5, marginLeft: 2, marginRight: 2}} />
+            <Ionicons name="ellipse" size={8} color="white" style={{opacity: 0.5, marginLeft: 2, marginRight: 2}} />
+        </View>   
+        )
+      } else if (page==2){
+        return (
           <View style={styles.navigator}>
             <Ionicons name="ellipse" size={8} color="white" style={{opacity: 0.5, marginLeft: 2, marginRight: 2}} />
             <Ionicons name="ellipse" size={8} color="white" style={{marginLeft: 2, marginRight: 2}}  />
@@ -75,19 +41,147 @@ export default function Onboarding() {
             <Ionicons name="ellipse" size={8} color="white" style={{opacity: 0.5, marginLeft: 2, marginRight: 2}} />
             <Ionicons name="ellipse" size={8} color="white" style={{opacity: 0.5, marginLeft: 2, marginRight: 2}} />
           </View>   
-        </View>
-      </ScrollView>  
-          
+        )
+      } else if (page==3){
+        return (
+          <View style={styles.navigator}>
+            <Ionicons name="ellipse" size={8} color="white" style={{opacity: 0.5, marginLeft: 2, marginRight: 2}} />
+            <Ionicons name="ellipse" size={8} color="white" style={{opacity: 0.5, marginLeft: 2, marginRight: 2}} />
+            <Ionicons name="ellipse" size={8} color="white" style={{marginLeft: 2, marginRight: 2}}  />
+            <Ionicons name="ellipse" size={8} color="white" style={{opacity: 0.5, marginLeft: 2, marginRight: 2}} />
+            <Ionicons name="ellipse" size={8} color="white" style={{opacity: 0.5, marginLeft: 2, marginRight: 2}} />
+          </View>   
+        )
+      } else if (page == 4){
+        return (
+          <View style={styles.navigator}>
+            <Ionicons name="ellipse" size={8} color="white" style={{opacity: 0.5, marginLeft: 2, marginRight: 2}} />
+            <Ionicons name="ellipse" size={8} color="white" style={{opacity: 0.5, marginLeft: 2, marginRight: 2}} />
+            <Ionicons name="ellipse" size={8} color="white" style={{opacity: 0.5, marginLeft: 2, marginRight: 2}} />
+            <Ionicons name="ellipse" size={8} color="white" style={{marginLeft: 2, marginRight: 2}}  />
+            <Ionicons name="ellipse" size={8} color="white" style={{opacity: 0.5, marginLeft: 2, marginRight: 2}} />
+          </View>   
+        )
+      } else {
+        return (<></>)
+      }
+    }
+
+    const SkipOption = () => {
+      setPage(5);
+      scrollViewRef.current.scrollToEnd();
+    }
+
+    return (
+      <View>
+        <StatusBar style="light" />
+          <Text onPress={SkipOption} style={styles.textSkip}>Saltar</Text>
+
+        <ScrollView
+        horizontal={true}
+        pagingEnabled={true}
+        showsHorizontalScrollIndicator={false}
+        onMomentumScrollEnd={e => {
+          var x = e.nativeEvent.contentOffset.x;
+          if (x == 0) {
+            setPage(1);
+          } else if (x < (screenWidth + 1)) {
+            setPage(2);
+          } else if (x < (screenWidth*2 + 1)) {
+            setPage(3);
+          } else if (x < (screenWidth*3 + 1)){
+            setPage(4);
+          } else {
+            setPage(5);
+          }
+          // alert(screenWidth*2)
+          // alert(e.nativeEvent.contentOffset.x)
+       }}
+        style={{backgroundColor: '#0051BA'}}>
+          <View style={styles.container}>
+            <ScrollView>
+                <Text style={styles.textMessageTitle}>Bem-vinde à <Text style={{fontFamily: 'GothamMedium'}}>Smart Break</Text></Text> 
+                <Text style={styles.textMessageBody}>Carregue a sua <Text style={{fontFamily: 'GothamMedium'}}>bateria</Text> e aprenda a converter tempo em <Text style={{fontFamily: 'GothamMedium'}}>lucro</Text> e <Text style={{fontFamily: 'GothamMedium'}}>lazer</Text></Text>
+            </ScrollView>
+            <Image style={styles.imageBackground} source={require('./../imgs/img_onboarding_first_screen.png')} />
+          </View>
+          <View style={styles.container}>
+            <ScrollView>
+              <Text style={styles.textMessageTitle}><Text style={{fontFamily: 'GothamMedium'}}>Energia</Text></Text> 
+              <Text style={styles.textMessageBody}>Tome as decisões mais acertadas, <Text style={{fontFamily: 'GothamMedium'}}>poupe</Text> e <Text style={{fontFamily: 'GothamMedium'}}>ganhe</Text> energia numa pausa </Text>
+            </ScrollView>
+            <View style={styles.imageOnboarding}>
+              <Image source={require('./../imgs/onboarding_battery.gif')} />
+            </View>
+          </View>
+          <View style={styles.container}>
+            <ScrollView>
+              <Text style={styles.textMessageTitle}><Text style={{fontFamily: 'GothamMedium'}}>Produtividade</Text></Text> 
+              <Text style={styles.textMessageBody}>Aumente a sua <Text style={{fontFamily: 'GothamMedium'}}>produtividade</Text> e o seu contributo para a empresa através de <Text style={{fontFamily: 'GothamMedium'}}>estatísticas</Text> </Text>
+            </ScrollView>
+            <View style={styles.imageOnboarding}>
+              <Image source={require('./../imgs/onboarding_graphs.png')} />
+            </View>
+          </View>
+          <View style={styles.container}>
+            <ScrollView>
+              <Text style={styles.textMessageTitle}><Text style={{fontFamily: 'GothamMedium'}}>Consciencialização</Text></Text> 
+              <Text style={styles.textMessageBody}>Auxilie-se de <Text style={{fontFamily: 'GothamMedium'}}>dicas</Text> para melhorar hábitos de consumo energético mais <Text style={{fontFamily: 'GothamMedium'}}>conscientes</Text> </Text>
+            </ScrollView>
+            <View style={styles.imageOnboarding}>
+              <Image source={require('./../imgs/onboarding_lamp.png')} />
+            </View>
+          </View>
+          <View style={styles.containerFifthScreen}>
+            <ScrollView>
+              <View style={styles.imageLogo} >
+                <Image source={require('./../imgs/logo_white.png')} />
+              </View>
+              <Text style={styles.textMessageTitleLogo}><Text style={{fontFamily: 'GothamMedium'}}>Smart Break</Text></Text> 
+            </ScrollView>  
+            <ScrollView style={styles.containerWelcome}>
+              <Text style={styles.textWelcomeTitle}>Bem-vinde!</Text>
+              <Text style={styles.textWelcomeText}>Faz pausas no trabalho, desliga os teus equipamentos e contribui para a diminuição do desperdício e excesso de energia. Converte o teu tempo em lucro e lazer!</Text>
+              <TouchableHighlight style={styles.buttonWelcome}><Text style={styles.buttonText}>Entrar</Text></TouchableHighlight>
+              <TouchableHighlight style={styles.buttonWelcome}><Text style={styles.buttonText}>Registar</Text></TouchableHighlight>
+            </ScrollView>          
+          </View>
+        </ScrollView>  
+        {NavigatorScreen(page)}
+      </View>
     );
 }
 
+const screenWidth = Dimensions.get('window').width;
+const screenHeight = Dimensions.get('window').height - 50;
+
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 65,
+    width: screenWidth,
+    height: screenHeight,  
     paddingLeft: 25,
     paddingRight: 25,
     flex: 1,
     backgroundColor: '#0051BA'
+  },
+  containerFifthScreen: {
+    width: screenWidth,
+    height: screenHeight,  
+    flex: 1,
+    backgroundColor: '#0051BA'
+  },
+  containerWelcome: {
+    backgroundColor: '#FFF',
+    flex: 1,
+    flexDirection: "column",
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
+    borderTopRightRadius: 50,
+    borderTopLeftRadius: 50,
+    paddingLeft: 25,
+    paddingRight: 25,
+    paddingTop: 10,
+    paddingBottom: 120,
   },
   imageBackground: {
     position: 'absolute',
@@ -96,21 +190,66 @@ const styles = StyleSheet.create({
     right: 0,
     left: undefined,
   },
-  imageBattery: {
+  imageOnboarding: {
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 120,
+    paddingBottom: screenHeight/4,
+  }, 
+  imageLogo: {
+    alignItems: 'center',
+    paddingTop: 65,
   },  
+  buttonText: {
+    fontFamily: 'GothamBook',
+    color: '#FFF',
+    fontSize: 18,
+    textAlign: 'center',
+  },
+  buttonWelcome: {
+    backgroundColor: '#0051BA',
+    justifyContent: 'center',
+    height: 48,
+    borderRadius: 8,
+    marginBottom: 10,
+    marginTop: 10,
+  },
   textSkip: {
+    paddingLeft: 25,
+    paddingRight: 25,
+    paddingTop: 65,
     fontSize: 20,
     textAlign: 'right',
     fontFamily: 'GothamBook',
     color: '#FFFFFF',
+    backgroundColor: '#0051BA'
   },
   textMessageTitle: {
     fontSize: 26,
     textAlign: 'center',
     paddingTop: 120,
+    fontFamily: 'GothamBook',
+    color: '#FFFFFF',
+  },
+  textWelcomeTitle: {
+    fontSize: 24,
+    textAlign: 'left',
+    paddingTop: 20,
+    fontFamily: 'GothamMedium',
+    color: '#001025',
+  },
+  textWelcomeText: {
+    fontSize: 16,
+    textAlign: 'left',
+    paddingTop: 15,
+    paddingBottom: 40,
+    fontFamily: 'GothamBook',
+    lineHeight: 17,
+    color: '#001025',
+  },
+  textMessageTitleLogo: {
+    fontSize: 40,
+    textAlign: 'center',
+    paddingTop: 40,
     fontFamily: 'GothamBook',
     color: '#FFFFFF',
   },
@@ -123,6 +262,10 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
   navigator: {
+    position: 'relative',
+    top: -85,
+    paddingLeft: 25,
+    paddingRight: 25,
     flexDirection: 'row',
     justifyContent: 'center',
     paddingBottom: 65,
