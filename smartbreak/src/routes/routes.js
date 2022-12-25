@@ -1,11 +1,11 @@
-import { NavigationContainer } from "@react-navigation/native";
+// import { NavigationContainer } from "@react-navigation/native";
 
-import { Tabbar } from './tabbar';
+// import { Tabbar } from './tabbar';
 
-export function Routes() {
-    return (
-        <NavigationContainer>
-           <Tabbar /> 
-        </NavigationContainer>
-    )
-}
+// export function Routes() {
+//     return (
+//         <NavigationContainer>
+//            <Tabbar /> 
+//         </NavigationContainer>
+//     )
+// }
