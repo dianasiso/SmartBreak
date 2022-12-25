@@ -9,19 +9,22 @@ import { Ionicons } from '@expo/vector-icons';
 import { useFonts } from 'expo-font';
 
 export default function Onboarding() {
-    const [loaded] = useFonts({
-        GothamMedium: require('./../fonts/GothamMedium.ttf'),
-        GothamBook: require('./../fonts/GothamBook.ttf'),
-    });
-    const [page, setPage] = useState(1);
-    const [isVisible, setIsVisible] = useState(true);
-    const scrollViewRef = useRef(null);
+  // Loading Gotham font
+  const [loaded] = useFonts({
+    GothamMedium: require('./../fonts/GothamMedium.ttf'),
+    GothamBook: require('./../fonts/GothamBook.ttf'),
+  });
 
-    if (!loaded) {
-        return null;
-    }
+  const [page, setPage] = useState(1);  // Onboarding page
+  const [isVisible, setIsVisible] = useState(true);   // Skip button visibility
+  const scrollViewRef = useRef(null);   // ScrollView ref
 
-    const NavigatorScreen = (page) => {
+  if (!loaded) {
+    return null;  // Returns null if unable to load the font
+  }
+
+  // Change navigator when change screen
+  const NavigatorScreen = (page) => {
       if (page == 1) {
         return (
           <View style={styles.navigator}>
@@ -65,20 +68,20 @@ export default function Onboarding() {
       } else {
         return (<></>)
       }
-    }
+  }
 
-    const SkipOption = () => {
-      setPage(5);
-      scrollViewRef.current.scrollToEnd();
-    }
+  // Skip to last screen
+  const SkipOption = () => {
+    setPage(5);
+    scrollViewRef.current.scrollToEnd();
+  }
 
-    return (
+  return (
       <View>
         <StatusBar style="light" />
         <View style={styles.textSkipBox}>
-        <Text onPress={SkipOption} style={[styles.textSkip, { opacity: isVisible ? 1 : 0 }]}>Saltar</Text>
+          <Text onPress={SkipOption} style={[styles.textSkip, { opacity: isVisible ? 1 : 0 }]}>Saltar</Text>
         </View>  
-
         <ScrollView
         ref={scrollViewRef}
         horizontal={true}
@@ -160,6 +163,7 @@ export default function Onboarding() {
     );
 }
 
+// Get screen dimensions
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height - 50;
 
