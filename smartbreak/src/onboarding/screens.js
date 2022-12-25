@@ -14,8 +14,8 @@ export default function Onboarding() {
         GothamBook: require('./../fonts/GothamBook.ttf'),
     });
     const [page, setPage] = useState(1);
-
-    const skipText = useRef(null);
+    const [isVisible, setIsVisible] = useState(true);
+    const scrollViewRef = useRef(null);
 
     if (!loaded) {
         return null;
@@ -75,9 +75,12 @@ export default function Onboarding() {
     return (
       <View>
         <StatusBar style="light" />
-          <Text onPress={SkipOption} style={styles.textSkip}>Saltar</Text>
+        <View style={styles.textSkipBox}>
+        <Text onPress={SkipOption} style={[styles.textSkip, { opacity: isVisible ? 1 : 0 }]}>Saltar</Text>
+        </View>  
 
         <ScrollView
+        ref={scrollViewRef}
         horizontal={true}
         pagingEnabled={true}
         showsHorizontalScrollIndicator={false}
@@ -85,14 +88,19 @@ export default function Onboarding() {
           var x = e.nativeEvent.contentOffset.x;
           if (x == 0) {
             setPage(1);
+            setIsVisible(true);
           } else if (x < (screenWidth + 1)) {
             setPage(2);
+            setIsVisible(true);
           } else if (x < (screenWidth*2 + 1)) {
             setPage(3);
+            setIsVisible(true);
           } else if (x < (screenWidth*3 + 1)){
             setPage(4);
+            setIsVisible(true);
           } else {
             setPage(5);
+            setIsVisible(false);
           }
           // alert(screenWidth*2)
           // alert(e.nativeEvent.contentOffset.x)
@@ -213,15 +221,18 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginTop: 10,
   },
-  textSkip: {
+  textSkipBox: {
     paddingLeft: 25,
     paddingRight: 25,
     paddingTop: 65,
     fontSize: 20,
+    backgroundColor: '#0051BA'
+  },
+  textSkip: {
+    fontSize: 20,
     textAlign: 'right',
     fontFamily: 'GothamBook',
     color: '#FFFFFF',
-    backgroundColor: '#0051BA'
   },
   textMessageTitle: {
     fontSize: 26,
