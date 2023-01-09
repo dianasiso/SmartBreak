@@ -60,9 +60,11 @@ const TabRoutes = () => {
         tabBarStyle: {
           backgroundColor: "#fffff",
           borderTopColor: "transparent",
-          height: 80,
+          height: 90,
           borderTopLeftRadius: 0,
           borderTopRightRadius: 0,
+          borderTopColor: "#0051BA",
+          borderTopWidth: 0,
           position: "absolute",
           elevation: 0,
         },
@@ -87,7 +89,7 @@ const TabRoutes = () => {
         name="Goals"
         component={Goals}
         options={{
-          tabBarLabel: "Dicas",
+          tabBarLabel: "Objetivos",
           tabBarActiveTintColor: "#0051BA",
           tabBarIcon: ({ color }) => <Icon name="goals" color={color} />,
         }}
