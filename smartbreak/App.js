@@ -5,10 +5,9 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 
-import TabRoutes from "./src/routes/TabRoutes";
+import TabRoutes from "./src/routes/Routes";
 
 //funções navegação
-
 const Stack = createStackNavigator();
 
 

@@ -1,22 +1,46 @@
+//navegações
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
 
 //páginas
-import Dashboard from "../../src/screens/dashboard";
-import Goals from "../../src/screens/goals";
-import ProfilePage from "../../src/screens/profile";
-import Stats from "../../src/screens/stats";
+import Dashboard from "../screens/dashboard/dashboard";
+import Goals from "../screens/goals/goals";
+import ProfilePage from "../screens/profile/profile";
+import Stats from "../screens/stats/stats";
+import TestGoal from "../screens/goals/testgoal";
 
 //fontes
 import { useFonts } from "expo-font";
 
+//import de icones
 import { Category } from "iconsax-react-native";
 import { ArchiveBook } from "iconsax-react-native";
 import { Diagram } from "iconsax-react-native";
 import { Profile } from "iconsax-react-native";
 
+//funções navegação
 const Tab = createBottomTabNavigator();
+const GoalsStack = createStackNavigator();
 
-//icones
+//navegação stack nos objetivos
+const GoalsStackNavigation = () => {
+  return (
+    <GoalsStack.Navigator>
+      <GoalsStack.Screen
+        name="GoalsOverview"
+        component={Goals}
+        options={{ headerShown: false }}
+      />
+      <GoalsStack.Screen
+        name="TestGoal"
+        component={TestGoal}
+        options={{ headerShown: false }}
+      />
+    </GoalsStack.Navigator>
+  );
+};
+
+//função para os icones
 function Icon({ name, color }) {
   switch (name) {
     case "dashboard":
@@ -87,12 +111,13 @@ const TabRoutes = () => {
 
       <Tab.Screen
         name="Goals"
-        component={Goals}
+        component={GoalsStackNavigation}
         options={{
           tabBarLabel: "Objetivos",
           tabBarActiveTintColor: "#0051BA",
           tabBarIcon: ({ color }) => <Icon name="goals" color={color} />,
         }}
+        /* navigation={navigation}*/
       />
 
       <Tab.Screen
