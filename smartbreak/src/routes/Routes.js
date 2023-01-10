@@ -1,6 +1,10 @@
+//elementos react
+import { View } from "react-native";
+
 //navegações
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/native";
 
 //páginas
 import Dashboard from "../screens/dashboard/dashboard";
@@ -17,6 +21,7 @@ import { Category } from "iconsax-react-native";
 import { ArchiveBook } from "iconsax-react-native";
 import { Diagram } from "iconsax-react-native";
 import { Profile } from "iconsax-react-native";
+import { ArrowLeft2 } from "iconsax-react-native";
 
 //funções navegação
 const Tab = createBottomTabNavigator();
@@ -24,8 +29,13 @@ const GoalsStack = createStackNavigator();
 
 //navegação stack nos objetivos
 const GoalsStackNavigation = () => {
+  const navigation = useNavigation();
+
   return (
-    <GoalsStack.Navigator>
+    <GoalsStack.Navigator
+      initialRouteName="GoalsOverview"
+      screenOptions={{ animation: "none" }}
+    >
       <GoalsStack.Screen
         name="GoalsOverview"
         component={Goals}
@@ -34,7 +44,19 @@ const GoalsStackNavigation = () => {
       <GoalsStack.Screen
         name="TestGoal"
         component={TestGoal}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: true,
+          headerTitle: "",
+          headerLeft: () => (
+            <View style={{ paddingLeft: 20, paddingTop: 20 }}>
+              <ArrowLeft2
+                size="24"
+                color="#000000"
+                onPress={() => navigation.goBack()}
+              />
+            </View>
+          ),
+        }}
       />
     </GoalsStack.Navigator>
   );
