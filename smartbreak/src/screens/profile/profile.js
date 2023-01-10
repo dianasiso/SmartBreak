@@ -1,12 +1,17 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, View, Button } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 export default function ProfilePage() {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <Text>Profile</Text>
       <StatusBar style="auto" />
+      <Button
+        title="abrir cenas no perfil"
+        onPress={() => navigation.navigate("TestProfile")}
+      />
     </View>
   );
 }
@@ -14,8 +19,8 @@ export default function ProfilePage() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
