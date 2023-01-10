@@ -1,16 +1,18 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import React from "react";
+import { StyleSheet, Text, View, Button } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Goals() {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <Text>Goals</Text>
       <StatusBar style="auto" />
-      <Button 
+      <Button
         title="Go to Goal1"
-        /*onPress={() => navigation.navigate('TestGoal')}*/
-        />
+        onPress={() => navigation.navigate("TestGoal")}
+      />
     </View>
   );
 }
@@ -18,8 +20,8 @@ export default function Goals() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
