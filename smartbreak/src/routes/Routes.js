@@ -16,7 +16,7 @@ import TestGoal from "../screens/goals/testgoal";
 //perfil
 import ProfilePage from "../screens/profile/profile";
 //subpágina do perfil
-import TestProfile from "../screens/profile/testprofile";
+import EditProfile from "../screens/profile/editprofile";
 import Stats from "../screens/stats/stats";
 
 //fontes
@@ -82,8 +82,8 @@ const ProfileStackNavigation = () => {
         options={{ headerShown: false }}
       />
       <ProfileStack.Screen
-        name="TestProfile"
-        component={TestProfile}
+        name="EditProfile"
+        component={EditProfile}
         options={{
           headerShown: true,
           headerTitle: "",
