@@ -2,10 +2,10 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function Profile() {
+export default function TestProfile() {
   return (
     <View style={styles.container}>
-      <Text>Profile</Text>
+      <Text>exemplo de página de detail</Text>
       <StatusBar style="auto" />
     </View>
   );
