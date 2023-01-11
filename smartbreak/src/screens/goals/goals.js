@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, TouchableOpacity, Modal } from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableOpacity} from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 
 // Icons
@@ -10,7 +10,6 @@ import { Candle2, ArrowRight2 } from "iconsax-react-native";
 import { useFonts } from 'expo-font';
 
 export default function Goals() {
-
 
   const data = [
     { label: 'Design', value: '1' },
