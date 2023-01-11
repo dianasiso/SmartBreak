@@ -5,7 +5,7 @@ import { StyleSheet, Text, View } from 'react-native';
 export default function TestGoal() {
   return (
     <View style={styles.container}>
-      <Text>testing goals stack</Text>
+      <Text>exemplo de página de detail</Text>
       <StatusBar style="auto" />
     </View>
   );

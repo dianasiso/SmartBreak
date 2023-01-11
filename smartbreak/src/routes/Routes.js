@@ -1,13 +1,23 @@
+//elementos react
+import { View } from "react-native";
+
 //navegações
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/native";
 
 //páginas
+//dashboard
 import Dashboard from "../screens/dashboard/dashboard";
+//ojbetivos
 import Goals from "../screens/goals/goals";
-import ProfilePage from "../screens/profile/profile";
-import Stats from "../screens/stats/stats";
+//subpágina dos objetivos
 import TestGoal from "../screens/goals/testgoal";
+//perfil
+import ProfilePage from "../screens/profile/profile";
+//subpágina do perfil
+import EditProfile from "../screens/profile/editprofile";
+import Stats from "../screens/stats/stats";
 
 //fontes
 import { useFonts } from "expo-font";
@@ -17,15 +27,21 @@ import { Category } from "iconsax-react-native";
 import { ArchiveBook } from "iconsax-react-native";
 import { Diagram } from "iconsax-react-native";
 import { Profile } from "iconsax-react-native";
+import { ArrowLeft2 } from "iconsax-react-native";
 
 //funções navegação
 const Tab = createBottomTabNavigator();
 const GoalsStack = createStackNavigator();
+const ProfileStack = createStackNavigator();
 
 //navegação stack nos objetivos
 const GoalsStackNavigation = () => {
+  const navigation = useNavigation();
   return (
-    <GoalsStack.Navigator>
+    <GoalsStack.Navigator
+      initialRouteName="GoalsOverview"
+      screenOptions={{ animation: "none" }}
+    >
       <GoalsStack.Screen
         name="GoalsOverview"
         component={Goals}
@@ -34,9 +50,55 @@ const GoalsStackNavigation = () => {
       <GoalsStack.Screen
         name="TestGoal"
         component={TestGoal}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: true,
+          headerTitle: "",
+          headerLeft: () => (
+            <View style={{ paddingLeft: 20, paddingTop: 20 }}>
+              <ArrowLeft2
+                size="24"
+                color="#000000"
+                onPress={() => navigation.goBack()}
+              />
+            </View>
+          ),
+        }}
       />
     </GoalsStack.Navigator>
+  );
+};
+
+//navegação stack no perfil
+const ProfileStackNavigation = () => {
+  const navigation = useNavigation();
+  return (
+    <ProfileStack.Navigator
+      initialRouteName="ProfilePage"
+      screenOptions={{ animation: "none" }}
+    >
+      <ProfileStack.Screen
+        name="ProfilePage"
+        component={ProfilePage}
+        options={{ headerShown: false }}
+      />
+      <ProfileStack.Screen
+        name="EditProfile"
+        component={EditProfile}
+        options={{
+          headerShown: true,
+          headerTitle: "",
+          headerLeft: () => (
+            <View style={{ paddingLeft: 20, paddingTop: 20 }}>
+              <ArrowLeft2
+                size="24"
+                color="#000000"
+                onPress={() => navigation.goBack()}
+              />
+            </View>
+          ),
+        }}
+      />
+    </ProfileStack.Navigator>
   );
 };
 
@@ -132,7 +194,7 @@ const TabRoutes = () => {
 
       <Tab.Screen
         name="Profile"
-        component={ProfilePage}
+        component={ProfileStackNavigation}
         options={{
           tabBarLabel: "Perfil",
           tabBarActiveTintColor: "#0051BA",
