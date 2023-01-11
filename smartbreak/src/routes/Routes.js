@@ -106,15 +106,15 @@ const ProfileStackNavigation = () => {
 function Icon({ name, color }) {
   switch (name) {
     case "dashboard":
-      return <Category size="32" color={color} />;
+      return <Category size="30" color={color} />;
     case "goals":
-      return <ArchiveBook size="32" color={color} />;
+      return <ArchiveBook size="30" color={color} />;
     case "stats":
-      return <Diagram size="32" color={color} />;
+      return <Diagram size="30" color={color} />;
     case "profile":
-      return <Profile size="32" color={color} />;
+      return <Profile size="30" color={color} />;
     default:
-      return <Category size="32" color={color} />;
+      return <Category size="30" color={color} />;
   }
 }
 
@@ -135,16 +135,16 @@ const TabRoutes = () => {
         tabBarLabelPosition: "below-icon",
         tabBarLabelStyle: {
           position: "absolute",
-          padding: 6,
+          padding: 18,
           fontFamily: "GothamBook",
           fontWeight: "400",
           fontSize: 12,
         },
         tabBarIconStyle: {
-          padding: 7,
+          padding: 12,
         },
         tabBarStyle: {
-          backgroundColor: "#fffff",
+          backgroundColor: "white",
           borderTopColor: "transparent",
           height: 90,
           borderTopLeftRadius: 0,
