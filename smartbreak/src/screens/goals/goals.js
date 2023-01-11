@@ -16,7 +16,7 @@ export default function Goals() {
     { label: 'Frontend', value: '2' },
     { label: 'Backend', value: '3' },
     { label: 'Marketing', value: '4' },
-    { label: 'Recursos Humanos', value: '5' },
+    { label: 'Recursos Humanos', value: '5'},
   ];
 
   const [value, setValue] = useState(null);
