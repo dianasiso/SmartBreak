@@ -144,7 +144,7 @@ const TabRoutes = () => {
           padding: 12,
         },
         tabBarStyle: {
-          backgroundColor: "#fffff",
+          backgroundColor: "white",
           borderTopColor: "transparent",
           height: 90,
           borderTopLeftRadius: 0,
