@@ -1,4 +1,3 @@
-//Mudar fonte :p
 import { StatusBar } from "expo-status-bar";
 import {
   StyleSheet,

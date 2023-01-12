@@ -1,4 +1,3 @@
-//Mudar fonte :p
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import {
@@ -58,7 +57,7 @@ export default function ProfileSettings({ navigation }) {
       <View style={styles.options}>
         <Notification color="#000000" />
         <TouchableHighlight
-          onPress={() => navigation.navigate("###")}
+          onPress={() => navigation.navigate("NotificationsProfile")}
           underlayColor={"transparent"}
         >
           <Text style={{ marginLeft: 15 }}>Notificações</Text>
@@ -68,7 +67,7 @@ export default function ProfileSettings({ navigation }) {
       <View style={styles.options}>
         <SecurityUser color="#000000" />
         <TouchableHighlight
-          onPress={() => navigation.navigate("###")}
+          onPress={() => navigation.navigate("SecurityProfile")}
           underlayColor={"transparent"}
         >
           <Text style={{ marginLeft: 15 }}>Segurança</Text>
@@ -78,7 +77,7 @@ export default function ProfileSettings({ navigation }) {
       <View style={styles.options}>
         <DocumentText1 color="#000000" />
         <TouchableHighlight
-          onPress={() => navigation.navigate("###")}
+          onPress={() => navigation.navigate("TermsofUseProfile")}
           underlayColor={"transparent"}
         >
           <Text style={{ marginLeft: 15 }}>Termos de utilização</Text>
@@ -88,7 +87,7 @@ export default function ProfileSettings({ navigation }) {
       <View style={styles.options}>
         <MessageQuestion color="#000000" />
         <TouchableHighlight
-          onPress={() => navigation.navigate("###")}
+          onPress={() => navigation.navigate("HelpCenterProfile")}
           underlayColor={"transparent"}
         >
           <Text style={{ marginLeft: 15 }}>Centro de ajuda</Text>
