@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableOpacity, SafeAreaView, ScrollView,} from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 
 // Icons
@@ -35,7 +35,8 @@ export default function Goals() {
   const handleModal = () => setVisibleModal(() => !visibleModal);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
       {renderItens()}
       <Dropdown
         data={data}
@@ -188,7 +189,8 @@ export default function Goals() {
         title="Go to Goal1"
       /*onPress={() => navigation.navigate('TestGoal')} */
       />
-    </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 

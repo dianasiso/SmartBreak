@@ -144,7 +144,7 @@ const TabRoutes = () => {
           padding: 12,
         },
         tabBarStyle: {
-          backgroundColor: "#fffff",
+          backgroundColor: "white",
           borderTopColor: "transparent",
           height: 90,
           borderTopLeftRadius: 0,
@@ -179,7 +179,7 @@ const TabRoutes = () => {
           tabBarActiveTintColor: "#0051BA",
           tabBarIcon: ({ color }) => <Icon name="goals" color={color} />,
         }}
-        /* navigation={navigation}*/
+      /* navigation={navigation}*/
       />
 
       <Tab.Screen
