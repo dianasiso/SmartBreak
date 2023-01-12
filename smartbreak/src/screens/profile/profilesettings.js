@@ -6,8 +6,8 @@ import {
   ScrollView,
   View,
   Text,
-  Button,
   Alert,
+  TouchableHighlight,
 } from "react-native";
 import {
   Lock1,
@@ -19,7 +19,7 @@ import {
   Logout,
 } from "iconsax-react-native";
 
-export default function ProfileSettings() {
+export default function ProfileSettings({ navigation }) {
   const apagarconta = () => {
     Alert.alert("Atenção", "Deseja apagar a sua conta permanentemente?", [
       { text: "Cancelar" },
@@ -44,63 +44,72 @@ export default function ProfileSettings() {
     <ScrollView style={styles.container}>
       <StatusBar style="auto" />
       <Text style={{ marginTop: 30 }}>Definições</Text>
+
       <View style={styles.options}>
         <Lock1 color="#000000" />
-        <Button
-          color="#000000"
-          title="Alterar palavra-passe"
-          onPress={() => navigation.navigate("###")}
-        />
+        <TouchableHighlight
+          onPress={() => navigation.navigate("EditPassword")}
+          underlayColor={"transparent"}
+        >
+          <Text style={{ marginLeft: 15 }}>Alterar palavra-passe</Text>
+        </TouchableHighlight>
       </View>
+
       <View style={styles.options}>
         <Notification color="#000000" />
-        <Button
-          color="#000000"
-          title="Notificações"
+        <TouchableHighlight
           onPress={() => navigation.navigate("###")}
-        />
+          underlayColor={"transparent"}
+        >
+          <Text style={{ marginLeft: 15 }}>Notificações</Text>
+        </TouchableHighlight>
       </View>
+
       <View style={styles.options}>
         <SecurityUser color="#000000" />
-        <Button
-          color="#000000"
-          title="Segurança"
+        <TouchableHighlight
           onPress={() => navigation.navigate("###")}
-        />
+          underlayColor={"transparent"}
+        >
+          <Text style={{ marginLeft: 15 }}>Segurança</Text>
+        </TouchableHighlight>
       </View>
+
       <View style={styles.options}>
         <DocumentText1 color="#000000" />
-        <Button
-          color="#000000"
-          title="Termos de utilização"
+        <TouchableHighlight
           onPress={() => navigation.navigate("###")}
-        />
+          underlayColor={"transparent"}
+        >
+          <Text style={{ marginLeft: 15 }}>Termos de utilização</Text>
+        </TouchableHighlight>
       </View>
+
       <View style={styles.options}>
         <MessageQuestion color="#000000" />
-        <Button
-          color="#000000"
-          title="Centro de ajuda"
+        <TouchableHighlight
           onPress={() => navigation.navigate("###")}
-        />
+          underlayColor={"transparent"}
+        >
+          <Text style={{ marginLeft: 15 }}>Centro de ajuda</Text>
+        </TouchableHighlight>
       </View>
+
       <View style={styles.options}>
         <Trash color="#000000" />
-        <Button
-          color="#000000"
-          title="Apagar conta"
-          onPress={apagarconta}
-          underlayColor={"transparent"}
-        />
+        <TouchableHighlight onPress={apagarconta} underlayColor={"transparent"}>
+          <Text style={{ marginLeft: 15 }}>Apagar conta</Text>
+        </TouchableHighlight>
       </View>
+
       <View style={styles.options}>
         <Logout color="#000000" />
-        <Button
-          color="#000000"
-          title="Terminar sessão"
+        <TouchableHighlight
           onPress={terminarsessao}
           underlayColor={"transparent"}
-        />
+        >
+          <Text style={{ marginLeft: 15 }}>Terminar sessão</Text>
+        </TouchableHighlight>
       </View>
     </ScrollView>
   );
@@ -118,8 +127,8 @@ const styles = StyleSheet.create({
     marginTop: 30,
     borderRadius: 15,
     paddingLeft: 25,
-    paddingTop: 5,
-    paddingBottom: 5,
+    paddingTop: 15,
+    paddingBottom: 15,
     width: "100%",
     flexDirection: "row",
     alignItems: "center",
