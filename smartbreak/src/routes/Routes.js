@@ -20,6 +20,10 @@ import EditProfile from "../screens/profile/editprofile";
 import Stats from "../screens/stats/stats";
 import ProfileSettings from "../screens/profile/profilesettings";
 import EditPassword from "../screens/profile/editpassword";
+import NotificationsProfile from "../screens/profile/notificationsprofile";
+import SecurityProfile from "../screens/profile/secutiryprofile";
+import TermsofUseProfile from "../screens/profile/termsofuseprofile";
+import HelpCenterProfile from "../screens/profile/helpcenterprofile";
 
 //fontes
 import { useFonts } from "expo-font";
@@ -59,7 +63,7 @@ const GoalsStackNavigation = ({ navigation }) => {
               <ArrowLeft2
                 size="24"
                 color="#000000"
-                onPress={() => navigation.navigate('GoalsOverview')} //não esquecer de colocar sempre a pagina para onde queremos voltar!
+                onPress={() => navigation.navigate("GoalsOverview")} //não esquecer de colocar sempre a pagina para onde queremos voltar!
               />
             </View>
           ),
@@ -92,7 +96,7 @@ const ProfileStackNavigation = ({ navigation }) => {
               <ArrowLeft2
                 size="24"
                 color="#000000"
-                onPress={() => navigation.navigate('ProfilePage')}
+                onPress={() => navigation.navigate("ProfilePage")}
               />
             </View>
           ),
@@ -109,7 +113,7 @@ const ProfileStackNavigation = ({ navigation }) => {
               <ArrowLeft2
                 size="24"
                 color="#000000"
-                onPress={() => navigation.navigate('ProfilePage')}
+                onPress={() => navigation.navigate("ProfilePage")}
               />
             </View>
           ),
@@ -127,7 +131,75 @@ const ProfileStackNavigation = ({ navigation }) => {
               <ArrowLeft2
                 size="24"
                 color="#000000"
-                onPress={() => navigation.goBack()}
+                onPress={() => navigation.navigate("ProfileSettings")}
+              />
+            </View>
+          ),
+        }}
+      />
+      <ProfileStack.Screen
+        name="NotificationsProfile"
+        component={NotificationsProfile}
+        options={{
+          headerShown: true,
+          headerTitle: "",
+          headerLeft: () => (
+            <View style={{ paddingLeft: 20, paddingTop: 20 }}>
+              <ArrowLeft2
+                size="24"
+                color="#000000"
+                onPress={() => navigation.navigate("ProfileSettings")}
+              />
+            </View>
+          ),
+        }}
+      />
+      <ProfileStack.Screen
+        name="SecurityProfile"
+        component={SecurityProfile}
+        options={{
+          headerShown: true,
+          headerTitle: "",
+          headerLeft: () => (
+            <View style={{ paddingLeft: 20, paddingTop: 20 }}>
+              <ArrowLeft2
+                size="24"
+                color="#000000"
+                onPress={() => navigation.navigate("ProfileSettings")}
+              />
+            </View>
+          ),
+        }}
+      />
+      <ProfileStack.Screen
+        name="TermsofUseProfile"
+        component={TermsofUseProfile}
+        options={{
+          headerShown: true,
+          headerTitle: "",
+          headerLeft: () => (
+            <View style={{ paddingLeft: 20, paddingTop: 20 }}>
+              <ArrowLeft2
+                size="24"
+                color="#000000"
+                onPress={() => navigation.navigate("ProfileSettings")}
+              />
+            </View>
+          ),
+        }}
+      />
+      <ProfileStack.Screen
+        name="HelpCenterProfile"
+        component={HelpCenterProfile}
+        options={{
+          headerShown: true,
+          headerTitle: "",
+          headerLeft: () => (
+            <View style={{ paddingLeft: 20, paddingTop: 20 }}>
+              <ArrowLeft2
+                size="24"
+                color="#000000"
+                onPress={() => navigation.navigate("ProfileSettings")}
               />
             </View>
           ),
