@@ -108,7 +108,7 @@ const ProfileStackNavigation = ({ navigation }) => {
               <ArrowLeft2
                 size="24"
                 color="#000000"
-                onPress={() => navigation.goBack()}
+                onPress={() => navigation.navigate('ProfilePage')}
               />
             </View>
           ),
