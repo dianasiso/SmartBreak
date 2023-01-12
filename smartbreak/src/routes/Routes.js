@@ -35,8 +35,7 @@ const GoalsStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
 
 //navegação stack nos objetivos
-const GoalsStackNavigation = () => {
-  const navigation = useNavigation();
+const GoalsStackNavigation = ({ navigation }) => {
   return (
     <GoalsStack.Navigator
       initialRouteName="GoalsOverview"
@@ -58,7 +57,7 @@ const GoalsStackNavigation = () => {
               <ArrowLeft2
                 size="24"
                 color="#000000"
-                onPress={() => navigation.goBack()}
+                onPress={() => navigation.navigate('GoalsOverview')} //não esquecer de colocar sempre a pagina para onde queremos voltar!
               />
             </View>
           ),
@@ -69,8 +68,7 @@ const GoalsStackNavigation = () => {
 };
 
 //navegação stack no perfil
-const ProfileStackNavigation = () => {
-  const navigation = useNavigation();
+const ProfileStackNavigation = ({ navigation }) => {
   return (
     <ProfileStack.Navigator
       initialRouteName="ProfilePage"
@@ -92,7 +90,7 @@ const ProfileStackNavigation = () => {
               <ArrowLeft2
                 size="24"
                 color="#000000"
-                onPress={() => navigation.goBack()}
+                onPress={() => navigation.navigate('ProfilePage')}
               />
             </View>
           ),
