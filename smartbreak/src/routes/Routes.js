@@ -19,6 +19,7 @@ import ProfilePage from "../screens/profile/profile";
 import EditProfile from "../screens/profile/editprofile";
 import Stats from "../screens/stats/stats";
 import ProfileSettings from "../screens/profile/profilesettings";
+import EditPassword from "../screens/profile/editpassword";
 
 //fontes
 import { useFonts } from "expo-font";
@@ -102,6 +103,24 @@ const ProfileStackNavigation = () => {
       <ProfileStack.Screen
         name="ProfileSettings"
         component={ProfileSettings}
+        options={{
+          headerShown: true,
+          headerTitle: "",
+          headerLeft: () => (
+            <View style={{ paddingLeft: 20, paddingTop: 20 }}>
+              <ArrowLeft2
+                size="24"
+                color="#000000"
+                onPress={() => navigation.goBack()}
+              />
+            </View>
+          ),
+        }}
+      />
+
+      <ProfileStack.Screen
+        name="EditPassword"
+        component={EditPassword}
         options={{
           headerShown: true,
           headerTitle: "",

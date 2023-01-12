@@ -6,7 +6,7 @@ import {
   View,
   Text,
   Image,
-  Button,
+  TouchableHighlight,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import {
@@ -32,53 +32,73 @@ export default function ProfilePage() {
         <Text style={styles.name}>Ester Carvalho</Text>
         <Text>Chefe da equipa de design Universidade de Aveiro</Text>
       </View>
+
+      <View style={styles.options}>
+        <Setting2 color="#000000" />
+        <TouchableHighlight
+          onPress={() => navigation.navigate("ProfileSettings")}
+          underlayColor={"transparent"}
+        >
+          <Text style={{ marginLeft: 15 }}>Definições</Text>
+        </TouchableHighlight>
+      </View>
+
       <View style={styles.options}>
         <Edit2 color="#000000" />
-        <Button
-          color="#000000"
-          title="Editar perfil"
+        <TouchableHighlight
           onPress={() => navigation.navigate("EditProfile")}
-        />
+          underlayColor={"transparent"}
+        >
+          <Text style={{ marginLeft: 15 }}>Editar perfil</Text>
+        </TouchableHighlight>
       </View>
+
       <View style={styles.options}>
         <Category color="#000000" />
-        <Button
-          color="#000000"
-          title="Os meus equipamentos"
+        <TouchableHighlight
           onPress={() => navigation.navigate("###")}
-        />
+          underlayColor={"transparent"}
+        >
+          <Text style={{ marginLeft: 15 }}>Os meus equipamentos</Text>
+        </TouchableHighlight>
       </View>
+
       <View style={styles.options}>
         <Calendar color="#000000" />
-        <Button
-          color="#000000"
-          title="As minhas rotinas"
+        <TouchableHighlight
           onPress={() => navigation.navigate("###")}
-        />
+          underlayColor={"transparent"}
+        >
+          <Text style={{ marginLeft: 15 }}>As minhas rotinas</Text>
+        </TouchableHighlight>
       </View>
+
       <View style={styles.options}>
         <Clock color="#000000" />
-        <Button
-          color="#000000"
-          title="Histórico de pausas"
+        <TouchableHighlight
           onPress={() => navigation.navigate("###")}
-        />
+          underlayColor={"transparent"}
+        >
+          <Text style={{ marginLeft: 15 }}>Histórico de pausas</Text>
+        </TouchableHighlight>
       </View>
       <View style={styles.options}>
         <MedalStar color="#000000" />
-        <Button
-          color="#000000"
-          title="As minhas recompensas"
+        <TouchableHighlight
           onPress={() => navigation.navigate("###")}
-        />
+          underlayColor={"transparent"}
+        >
+          <Text style={{ marginLeft: 15 }}>As minhas recompensas</Text>
+        </TouchableHighlight>
       </View>
       <View style={styles.options}>
         <Setting2 color="#000000" />
-        <Button
-          color="#000000"
-          title="Definições"
+        <TouchableHighlight
           onPress={() => navigation.navigate("ProfileSettings")}
-        />
+          underlayColor={"transparent"}
+        >
+          <Text style={{ marginLeft: 15 }}>Definições</Text>
+        </TouchableHighlight>
       </View>
     </ScrollView>
   );
@@ -110,8 +130,8 @@ const styles = StyleSheet.create({
     marginTop: 30,
     borderRadius: 15,
     paddingLeft: 25,
-    paddingTop: 5,
-    paddingBottom: 5,
+    paddingTop: 15,
+    paddingBottom: 15,
     width: "100%",
     flexDirection: "row",
     alignItems: "center",
