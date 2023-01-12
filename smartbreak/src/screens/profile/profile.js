@@ -1,29 +1,86 @@
 //Mudar fonte :p
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View, Text, Image, Button } from "react-native";
+import {
+  StyleSheet,
+  ScrollView,
+  View,
+  Text,
+  Image,
+  Button,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Edit2 } from "iconsax-react-native";
+import {
+  Edit2,
+  Category,
+  Calendar,
+  Clock,
+  MedalStar,
+  Setting2,
+} from "iconsax-react-native";
 
 export default function ProfilePage() {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <StatusBar style="auto" />
-      <Image
-        source={require("../../imgs/ester.png")}
-        style={styles.profilepicture}
-      />
-      <Text style={styles.name}>Ester Carvalho</Text>
-      <Text>Chefe da equipa de design Universidade de Aveiro</Text>
+      <View style={{ alignItems: "center" }}>
+        <Image
+          source={require("../../imgs/ester.png")}
+          style={styles.profilepicture}
+        />
+        <Text style={styles.name}>Ester Carvalho</Text>
+        <Text>Chefe da equipa de design Universidade de Aveiro</Text>
+      </View>
       <View style={styles.options}>
-        <Edit2></Edit2>
+        <Edit2 color="#000000" />
         <Button
+          color="#000000"
           title="Editar perfil"
           onPress={() => navigation.navigate("EditProfile")}
         />
       </View>
-    </View>
+      <View style={styles.options}>
+        <Category color="#000000" />
+        <Button
+          color="#000000"
+          title="Os meus equipamentos"
+          onPress={() => navigation.navigate("###")}
+        />
+      </View>
+      <View style={styles.options}>
+        <Calendar color="#000000" />
+        <Button
+          color="#000000"
+          title="As minhas rotinas"
+          onPress={() => navigation.navigate("###")}
+        />
+      </View>
+      <View style={styles.options}>
+        <Clock color="#000000" />
+        <Button
+          color="#000000"
+          title="Histórico de pausas"
+          onPress={() => navigation.navigate("###")}
+        />
+      </View>
+      <View style={styles.options}>
+        <MedalStar color="#000000" />
+        <Button
+          color="#000000"
+          title="As minhas recompensas"
+          onPress={() => navigation.navigate("###")}
+        />
+      </View>
+      <View style={styles.options}>
+        <Setting2 color="#000000" />
+        <Button
+          color="#000000"
+          title="Definições"
+          onPress={() => navigation.navigate("ProfileSettings")}
+        />
+      </View>
+    </ScrollView>
   );
 }
 
@@ -31,7 +88,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
     paddingLeft: 25,
     paddingRight: 25,
   },
