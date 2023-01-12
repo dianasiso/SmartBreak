@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button, SafeAreaView, ScrollView, Pressable } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
-import  Modal from 'react-native-modal';
+import Modal from 'react-native-modal';
 
 // Icons
 import { Candle2, ArrowRight2 } from "iconsax-react-native";
@@ -24,49 +24,74 @@ export default function Goals() {
   const [value, setValue] = useState(null);
   const [focus, setFocus] = useState(false);
 
-  const renderItens = () => {
-    if (value || focus) {
-      return (
-        <Text> Equipa</Text>
-      )
-    }
-    return null;
+  const filtros = [
+    { label: 'Prioridade crescente', value: '1', selected: false },
+    { label: 'Prioridade decrescente', value: '2', selected: false },
+    { label: 'Data crescente', value: '3', selected: false },
+    { label: 'Data decrescente', value: '4', selected: false },
+    { label: 'Por cumprir', value: '5', selected: false },
+    { label: 'Cumprido', value: '6', selected: false },
+  ]
+
+  const listagem = () => {
+    return (
+      <View style={{width: '90%'}}>
+        {filtros.map(({ label, value, selected }) => {
+          return (
+            <Pressable style={{ ...styles.filtroCaixa, backgroundColor: 'white', width: '100%' }} onPress={selected=true}>
+              <Text style={{ ...styles.filtroTexto, color: 'black' }} value={value}>{label}</Text>
+            </Pressable>
+          )
+        })}
+      </View>
+    )
   }
 
-  const [modalOpen, setModalOpen] = useState(false);
+  const [filtrosValue, setFiltrosValue] = useState(null);
 
-  return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView>
-        {renderItens()}
-        <Dropdown
-          data={data}
-          style={[styles.dropdown, focus && { borderColor: 'blue' }]}
-          placeholderStyle={styles.placeholderStyle}
-          selectedTextStyle={styles.selectedTextStyle}
-          inputSearchStyle={styles.inputSearchStyle}
-          maxHeight={300}
-          search
-          labelField='label'
-          valueField='value'
-          placeholder={!focus ? 'Equipa' : '...'}
-          value={value}
-          onFocus={() => setFocus(true)}
-          onBlur={() => setFocus(false)}
-          onChange={item => {
-            setValue(item.value);
-            setFocus(false);
-          }}
-        />
-        <StatusBar style="auto" />
+const renderItens = () => {
+  if (value || focus) {
+    return (
+      <Text> Equipa</Text>
+    )
+  }
+  return null;
+}
 
-      
-       <View style={styles.filtrosArea}>
-          <View style={styles.filtroCaixa}>
-            <Text style={styles.filtroTexto}>Urgente</Text>
-          </View>
-          <View>
-            <Modal 
+const [modalOpen, setModalOpen] = useState(false);
+
+return (
+  <SafeAreaView style={styles.container}>
+    <ScrollView>
+      {renderItens()}
+      <Dropdown
+        data={data}
+        style={[styles.dropdown, focus && { borderColor: 'blue' }]}
+        placeholderStyle={styles.placeholderStyle}
+        selectedTextStyle={styles.selectedTextStyle}
+        inputSearchStyle={styles.inputSearchStyle}
+        maxHeight={300}
+        search
+        labelField='label'
+        valueField='value'
+        placeholder={!focus ? 'Equipa' : '...'}
+        value={value}
+        onFocus={() => setFocus(true)}
+        onBlur={() => setFocus(false)}
+        onChange={item => {
+          setValue(item.value);
+          setFocus(false);
+        }}
+      />
+      <StatusBar style="auto" />
+
+
+      <View style={styles.filtrosArea}>
+        <View style={styles.filtroCaixa}>
+          <Text style={styles.filtroTexto}>Urgente</Text>
+        </View>
+        <View>
+          <Modal
             animationType="fade"
             transparent={true}
             visible={modalOpen}
@@ -74,111 +99,118 @@ export default function Goals() {
               Alert.alert("Modal has been closed.");
               setModalVisible(!modalOpen);
             }}>
-              <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                  <Text>dfcgvhbjnkm</Text>
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                {listagem()}
+
+                <View style={{ ...styles.filtrosArea, marginLeft: 0 }}>
                   <Pressable onPress={() => setModalOpen(false)}>
-                    <Text>esconder</Text>
+                    <Text style={{ color: '#0051BA', fontFamily: 'GothamMedium' }}>Cancelar</Text>
+                  </Pressable>
+                  <Pressable onPress={() => setModalOpen(false)} style={{...styles.filtroCaixa, width: '50%'}}>
+                    <Text style={styles.filtroTexto}>Aplicar</Text>
                   </Pressable>
                 </View>
+
               </View>
-            </Modal>
-
-            <Pressable style={styles.filtros} underlayColor={'#FF00FF'} onPress={() => setModalOpen(true)}>
-              <Candle2 color='white' style={styles.icon}></Candle2>
-            </Pressable>
-          </View>
-        </View>
-
-
-
-        <View style={styles.objetivosCaixa}>
-          <View style={{ width: '85%' }}>
-            <Text style={{ fontFamily: 'GothamBook', fontSize: 14 }}>Diminuir o custo dos gastos de energia da empresa para menos 20%.</Text>
-            <View style={styles.parteBaixo}>
-              <View style={styles.filtroCaixa}>
-                <Text style={styles.filtroTexto}>Urgente</Text>
-              </View>
-              <Text style={{ fontFamily: 'GothamMedium', fontSize: 14 }}>31/01/23</Text>
             </View>
-          </View>
+          </Modal>
 
-          <View style={styles.seta}>
-            <ArrowRight2 color='white' style={{ width: 20, alignSelf: 'center' }}></ArrowRight2>
-          </View>
+          <Pressable style={styles.filtros} underlayColor={'#FF00FF'} onPress={() => setModalOpen(true)}>
+            <Candle2 color='white' style={styles.icon}></Candle2>
+          </Pressable>
         </View>
+      </View>
 
-        <View style={styles.objetivosCaixa}>
-          <View style={{ width: '85%' }}>
-            <Text style={{ fontFamily: 'GothamBook', fontSize: 14 }}>Reduzir número de pausas para 3 por dia.</Text>
-            <View style={styles.parteBaixo}>
-              <View style={styles.filtroCaixa}>
-                <Text style={styles.filtroTexto}>Alta prioridade</Text>
-              </View>
-              <Text style={{ fontFamily: 'GothamMedium', fontSize: 14 }}>15/05/23</Text>
+
+
+      <View style={styles.objetivosCaixa}>
+        <View style={{ width: '85%' }}>
+          <Text style={{ fontFamily: 'GothamBook', fontSize: 14 }}>Diminuir o custo dos gastos de energia da empresa para menos 20%.</Text>
+          <View style={styles.parteBaixo}>
+            <View style={styles.filtroCaixa}>
+              <Text style={styles.filtroTexto}>Urgente</Text>
             </View>
-          </View>
-
-          <View style={styles.seta}>
-            <ArrowRight2 color='white' style={{ width: 20, alignSelf: 'center' }}></ArrowRight2>
+            <Text style={{ fontFamily: 'GothamMedium', fontSize: 14 }}>31/01/23</Text>
           </View>
         </View>
 
-        <View style={styles.objetivosCaixa}>
-          <View style={{ width: '85%' }}>
-            <Text style={{ fontFamily: 'GothamBook', fontSize: 14 }}>Diminuir a temperatura do ar condicionado para menos 2 graus.</Text>
-            <View style={styles.parteBaixo}>
-              <View style={styles.filtroCaixa}>
-                <Text style={styles.filtroTexto}>Baixa prioridade</Text>
-              </View>
-              <Text style={{ fontFamily: 'GothamMedium', fontSize: 14 }}>29/03/23</Text>
+        <View style={styles.seta}>
+          <ArrowRight2 color='white' style={{ width: 20, alignSelf: 'center' }}></ArrowRight2>
+        </View>
+      </View>
+
+      <View style={styles.objetivosCaixa}>
+        <View style={{ width: '85%' }}>
+          <Text style={{ fontFamily: 'GothamBook', fontSize: 14 }}>Reduzir número de pausas para 3 por dia.</Text>
+          <View style={styles.parteBaixo}>
+            <View style={styles.filtroCaixa}>
+              <Text style={styles.filtroTexto}>Alta prioridade</Text>
             </View>
-          </View>
-
-          <View style={styles.seta}>
-            <ArrowRight2 color='white' style={{ width: 20, alignSelf: 'center' }}></ArrowRight2>
+            <Text style={{ fontFamily: 'GothamMedium', fontSize: 14 }}>15/05/23</Text>
           </View>
         </View>
 
-        <View style={styles.objetivosCaixa}>
-          <View style={{ width: '85%' }}>
-            <Text style={{ fontFamily: 'GothamBook', fontSize: 14 }}>Diminuir as vezes que se inicia a impressora para metade.</Text>
-            <View style={styles.parteBaixo}>
-              <View style={styles.filtroCaixa}>
-                <Text style={styles.filtroTexto}>Baixa prioridade</Text>
-              </View>
-              <Text style={{ fontFamily: 'GothamMedium', fontSize: 14 }}>03/08/23</Text>
+        <View style={styles.seta}>
+          <ArrowRight2 color='white' style={{ width: 20, alignSelf: 'center' }}></ArrowRight2>
+        </View>
+      </View>
+
+      <View style={styles.objetivosCaixa}>
+        <View style={{ width: '85%' }}>
+          <Text style={{ fontFamily: 'GothamBook', fontSize: 14 }}>Diminuir a temperatura do ar condicionado para menos 2 graus.</Text>
+          <View style={styles.parteBaixo}>
+            <View style={styles.filtroCaixa}>
+              <Text style={styles.filtroTexto}>Baixa prioridade</Text>
             </View>
-          </View>
-
-          <View style={styles.seta}>
-            <ArrowRight2 color='white' style={{ width: 20, alignSelf: 'center' }}></ArrowRight2>
+            <Text style={{ fontFamily: 'GothamMedium', fontSize: 14 }}>29/03/23</Text>
           </View>
         </View>
 
-        <View style={styles.objetivosCaixa}>
-          <View style={{ width: '85%' }}>
-            <Text style={{ fontFamily: 'GothamBook', fontSize: 14 }}>Diminuir as vezes que se inicia a impressora para metade.</Text>
-            <View style={styles.parteBaixo}>
-              <View style={styles.filtroCaixa}>
-                <Text style={styles.filtroTexto}>Baixa prioridade</Text>
-              </View>
-              <Text style={{ fontFamily: 'GothamMedium', fontSize: 14 }}>03/08/23</Text>
+        <View style={styles.seta}>
+          <ArrowRight2 color='white' style={{ width: 20, alignSelf: 'center' }}></ArrowRight2>
+        </View>
+      </View>
+
+      <View style={styles.objetivosCaixa}>
+        <View style={{ width: '85%' }}>
+          <Text style={{ fontFamily: 'GothamBook', fontSize: 14 }}>Diminuir as vezes que se inicia a impressora para metade.</Text>
+          <View style={styles.parteBaixo}>
+            <View style={styles.filtroCaixa}>
+              <Text style={styles.filtroTexto}>Baixa prioridade</Text>
             </View>
-          </View>
-
-          <View style={styles.seta}>
-            <ArrowRight2 color='white' style={{ width: 20, alignSelf: 'center' }}></ArrowRight2>
+            <Text style={{ fontFamily: 'GothamMedium', fontSize: 14 }}>03/08/23</Text>
           </View>
         </View>
 
-        <Button
-          title="Go to Goal1"
-        /*onPress={() => navigation.navigate('TestGoal')} */
-        />
-      </ScrollView>
-    </SafeAreaView>
-  );
+        <View style={styles.seta}>
+          <ArrowRight2 color='white' style={{ width: 20, alignSelf: 'center' }}></ArrowRight2>
+        </View>
+      </View>
+
+      <View style={styles.objetivosCaixa}>
+        <View style={{ width: '85%' }}>
+          <Text style={{ fontFamily: 'GothamBook', fontSize: 14 }}>Diminuir as vezes que se inicia a impressora para metade.</Text>
+          <View style={styles.parteBaixo}>
+            <View style={styles.filtroCaixa}>
+              <Text style={styles.filtroTexto}>Baixa prioridade</Text>
+            </View>
+            <Text style={{ fontFamily: 'GothamMedium', fontSize: 14 }}>03/08/23</Text>
+          </View>
+        </View>
+
+        <View style={styles.seta}>
+          <ArrowRight2 color='white' style={{ width: 20, alignSelf: 'center' }}></ArrowRight2>
+        </View>
+      </View>
+
+      <Button
+        title="Go to Goal1"
+      /*onPress={() => navigation.navigate('TestGoal')} */
+      />
+    </ScrollView>
+  </SafeAreaView>
+);
 }
 
 
@@ -221,6 +253,7 @@ const styles = StyleSheet.create({
     marginLeft: 25,
     marginTop: 24,
     marginBottom: 4,
+    alignItems: 'baseline'
   },
   filtros: {
     backgroundColor: '#0051BA',
@@ -238,18 +271,20 @@ const styles = StyleSheet.create({
     left: 325,
     top: 123,
     alignSelf: 'center',
-  }, 
+  },
   centeredView: {
     flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22
+    margin: 0,
   },
   modalView: {
     margin: 20,
-    backgroundColor: "white",
+    backgroundColor: "#E3ECF7",
     borderRadius: 14,
-    padding: 35,
+    padding: 25,
+    width: '80%',
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -280,12 +315,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#0051BA',
     borderRadius: 12,
     marginTop: 15,
+    padding: 4,
   },
   filtroTexto: {
     alignSelf: 'center',
     color: 'white',
     fontFamily: 'GothamBook',
-    paddingTop: 3,
   },
   seta: {
     backgroundColor: '#0051BA',
@@ -302,7 +337,7 @@ const styles = StyleSheet.create({
   },
 
 
- 
+
   button: {
     borderRadius: 20,
     padding: 10,
