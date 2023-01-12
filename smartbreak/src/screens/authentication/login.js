@@ -1,10 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import {TextInput, StyleSheet, Text, View, ScrollView, Image, Dimensions, TouchableHighlight, TouchableOpacity  } from 'react-native';
-import DropDownPicker from 'react-native-dropdown-picker';
-
-// Icons
-import { MaterialIcons } from '@expo/vector-icons'; 
 
 // Font Gotham
 import { useFonts } from 'expo-font';
@@ -16,6 +12,8 @@ export default function Login() {
         GothamBook: require('./../../fonts/GothamBook.ttf'),
     });
 
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     if (!loaded) {
         return null;  // Returns null if unable to load the font

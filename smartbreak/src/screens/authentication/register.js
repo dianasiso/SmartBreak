@@ -55,14 +55,14 @@ export default function Regiter() {
             aspect: [1,1],
             quality: 1,
         });
-        alert((await result).assets)
+        Alert.alert((await result).assets)
         if (!result.cancelled) {
             setPhoto(result.uri);
         } 
     };
 
     if (galleryPermission === false) {
-        alert("Sem permissões da galeria");
+      Alert.alert("Sem permissões da galeria");
     }
 
     const validate_email = (text) => {
@@ -87,35 +87,33 @@ export default function Regiter() {
 
     const submit = () => {
       if (email.length == 0 || (validate_email(email) == false)) {
-        alert('Preencha corretamente o campo E-mail');
+        Alert.alert('Preencha corretamente o campo E-mail');
         return false;
       } 
       if (name.length == 0 ) {
-        alert('Preencha corretamente o campo Nome');
+        Alert.alert('Preencha corretamente o campo Nome');
         return false;
       }
       if (lastName.length == 0 ) {
-        alert('Preencha corretamente o campo Apelido');
+        Alert.alert('Preencha corretamente o campo Apelido');
         return false;
       }
       if (value == null ) {
-        alert('Preencha corretamente o campo Empresa');
+        Alert.alert('Preencha corretamente o campo Empresa');
         return false;
       }
       if (password.length == 0 ) {
-        alert('Preencha corretamente o campo Palavra-passe');
+        Alert.alert('Preencha corretamente o campo Palavra-passe');
         return false;
       }
       if (confirmPassword.length == 0 ) {
-        alert('Preencha corretamente o campo Confirmar palavra-passe');
+        Alert.alert('Preencha corretamente o campo Confirmar palavra-passe');
         return false;
       } 
       if (!validate_password(password, confirmPassword)) {
         return false;
       }   
-
     }
-
     return (
         <View style={styles.container}>
             <StatusBar style="light" />
