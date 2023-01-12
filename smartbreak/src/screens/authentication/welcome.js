@@ -2,8 +2,6 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, Image, Dimensions, TouchableHighlight } from 'react-native';
 
-// Icons
-import { MaterialIcons } from '@expo/vector-icons'; 
 
 // Font Gotham
 import { useFonts } from 'expo-font';
@@ -14,8 +12,6 @@ export default function Welcome() {
         GothamMedium: require('./../../fonts/GothamMedium.ttf'),
         GothamBook: require('./../../fonts/GothamBook.ttf'),
     });
-
-    const [transitionState, setTransitionState] = useState(false)
 
     if (!loaded) {
         return null;  // Returns null if unable to load the font
