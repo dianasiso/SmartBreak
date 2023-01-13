@@ -3,12 +3,12 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Maintenance from './src/errors/maintenance';
 import Welcome from './src/screens/authentication/welcome';
-import Password from './src/screens/authentication/password';
+import Register from './src/screens/authentication/register';
 
 
 export default function App() {
   return (
-    <Password/>
+    <Register/>
   );
 }
 

@@ -1,13 +1,19 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import {TextInput, StyleSheet, Text, View, ScrollView, Image, Dimensions, TouchableHighlight, TouchableOpacity  } from 'react-native';
+import {TextInput, StyleSheet, Text, View, ScrollView, Image, Dimensions, TouchableHighlight, TouchableOpacity, Alert  } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
+import Toast from 'react-native-toast-message';
 
 // ImagePicker
 import * as ImagePicker from 'expo-image-picker';
 
 // Font Gotham
 import { useFonts } from 'expo-font';
+
+// Firebase
+import firebase from "./../../config/firebase.js"
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import 'firebase/compat/firestore';
 
 export default function Regiter() {
      // Loading Gotham font
@@ -31,6 +37,21 @@ export default function Regiter() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
+    // Firebase authentication
+    const auth = getAuth();
+    const registerFirebase = () => {
+      createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        Alert.alert("Sucesso", "Utilizador registado com sucesso")
+        // navigate.navigate("Painel", {idUser: userCredential.user.uid})
+      })
+      .catch((error) => {
+        Alert.alert("Erro", error.message);
+      })
+    }
+
+    // Firebase store data
+    const firestore = firebase.firestore().doc('/users')
 
     // photo
     const [photo, setPhoto] = useState(null);
@@ -113,6 +134,7 @@ export default function Regiter() {
       if (!validate_password(password, confirmPassword)) {
         return false;
       }   
+      registerFirebase();
     }
     return (
         <View style={styles.container}>
@@ -146,7 +168,7 @@ export default function Regiter() {
                 <TextInput  secureTextEntry={true} style={styles.inputField} onChangeText={(text) => setPassword(text)}/>
                 <Text>Confirmar palavra-passe</Text> 
                 <TextInput  secureTextEntry={true} style={styles.inputField} onChangeText={(text) => setConfirmPassword(text)}/>    
-                <TouchableHighlight onPress={() => submit()} style={styles.button}><Text style={styles.buttonText}>Registar</Text></TouchableHighlight>
+                <TouchableOpacity activeOpacity={0.8} onPress={() => submit()} style={styles.button}><Text style={styles.buttonText}>Registar</Text></TouchableOpacity>
               </ScrollView>
             </View>   
         </View>

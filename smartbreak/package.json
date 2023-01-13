@@ -17,6 +17,7 @@
     "expo-permissions": "~14.0.0",
     "expo-splash-screen": "~0.17.5",
     "expo-status-bar": "~1.4.2",
+    "firebase": "9.7.0",
     "react": "18.1.0",
     "react-native": "0.70.5",
     "react-native-carousel-view": "^0.5.1",
@@ -29,6 +30,7 @@
     "react-native-select-dropdown": "^3.2.1",
     "react-native-swipe-gestures": "^1.0.5",
     "react-native-swiper": "^1.6.0-nightly.5",
+    "react-native-toast-message": "^2.1.5",
     "react-rounded-image": "^2.0.14",
     "styled-components": "^5.3.6"
   },
