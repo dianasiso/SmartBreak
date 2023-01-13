@@ -3,44 +3,46 @@ import React from "react";
 import { useState } from "react";
 import { StyleSheet, Text, View, Pressable } from "react-native";
 import { useFonts } from "expo-font";
-import { AddCircle } from "iconsax-react-native";
+import { AddCircle, People } from "iconsax-react-native";
 
 const BatteryToggle = () => {
-  const [selected, setSelected] = useState("left");
+  const [selected, setSelected] = useState("personal");
 
   return (
-    <View style={toggleStyles.toggleView}>
-      <View style={[toggleStyles.toggleContainer, { flexDirection: "row" }]}>
-        <Pressable
-          style={[
-            toggleStyles.toggleSelectorLeft,
-            {  alignSelf: "center" },
-            selected === "left"
-              ? toggleStyles.selected
-              : toggleStyles.notSelected,
-          ]}
-          onPress={() => setSelected("left")}
-        >
-          <Text style={toggleStyles.toggleText}>Bateria pessoal</Text>
-        </Pressable>
-        <Pressable
-          style={[
-            toggleStyles.toggleSelectorRight,
-            { alignSelf: "center" },
-            selected === "right"
-              ? toggleStyles.selected
-              : toggleStyles.notSelected,
-          ]}
-          onPress={() => setSelected("right")}
-        >
-          <Text style={toggleStyles.toggleText}>Bateria da equipa</Text>
-        </Pressable>
+    <>
+      <View style={toggleStyles.toggleView}>
+        <View style={toggleStyles.toggleContainer}>
+          <Pressable
+            style={[
+              toggleStyles.toggleSelectorLeft,
+              selected === "personal"
+                ? toggleStyles.selected
+                : toggleStyles.notSelected,
+            ]}
+            onPress={() => setSelected("personal")}
+          >
+            <Text style={toggleStyles.toggleText}>Bateria pessoal</Text>
+          </Pressable>
+          <Pressable
+            style={[
+              toggleStyles.toggleSelectorRight,
+              selected === "team"
+                ? toggleStyles.selected
+                : toggleStyles.notSelected,
+            ]}
+            onPress={() => setSelected("team")}
+          >
+            <Text style={toggleStyles.toggleText}>Bateria da equipa</Text>
+          </Pressable>
+        </View>
       </View>
-    </View>
+      <Battery selected={selected} />
+      <AdicionarPausa selected={selected} />
+    </>
   );
 };
 
-const Battery = () => {
+const Battery = ({ selected }) => {
   return (
     <View style={batteryStyles.batteryView}>
       <View style={batteryStyles.batteryContainer} />
@@ -50,22 +52,40 @@ const Battery = () => {
   );
 };
 
-const AdicionarPausa = () => {
-  return (
-    <View style={adicionarPausaStyles.adicionarPausaView}>
-      <Pressable style={adicionarPausaStyles.adicionarPausaContainer}>
-        <Text style={adicionarPausaStyles.adicionarPausaText}>
-          Adicionar Pausa
-        </Text>
-        <AddCircle
-          color="white"
-          size={26}
-          variant="Bold"
-          style={adicionarPausaStyles.icon}
-        />
-      </Pressable>
-    </View>
-  );
+const AdicionarPausa = ({ selected }) => {
+  if (selected === "personal") {
+    return (
+      <View style={adicionarPausaStyles.adicionarPausaView}>
+        <Pressable style={adicionarPausaStyles.adicionarPausaContainer}>
+          <Text style={adicionarPausaStyles.adicionarPausaText}>
+            Adicionar Pausa
+          </Text>
+          <AddCircle
+            color="white"
+            size={26}
+            variant="Bold"
+            style={adicionarPausaStyles.icon}
+          />
+        </Pressable>
+      </View>
+    );
+  } else if (selected === "team") {
+    return (
+      <View style={adicionarPausaStyles.adicionarPausaView}>
+        <Pressable style={adicionarPausaStyles.adicionarPausaContainer}>
+          <Text style={adicionarPausaStyles.adicionarPausaText}>
+            Ver equipa
+          </Text>
+          <People
+            color="white"
+            size={26}
+            variant="Bold"
+            style={adicionarPausaStyles.icon}
+          />
+        </Pressable>
+      </View>
+    );
+  }
 };
 
 const Metricas = () => {
@@ -93,8 +113,6 @@ export default function Dashboard() {
   return (
     <View style={dashboardStyles.pageContainer}>
       <BatteryToggle />
-      <Battery />
-      <AdicionarPausa />
       <Metricas />
       <StatusBar style="auto" />
     </View>
@@ -157,6 +175,7 @@ const toggleStyles = StyleSheet.create({
     backgroundColor: "#E3ECF7",
     borderRadius: 8,
     justifyContent: "space-between",
+    flexDirection: "row",
   },
   toggleSelectorLeft: {
     width: 145,
@@ -165,6 +184,7 @@ const toggleStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     left: 5,
+    alignSelf: "center",
   },
   toggleSelectorRight: {
     width: 170,
@@ -173,6 +193,7 @@ const toggleStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     right: 5,
+    alignSelf: "center",
   },
   toggleText: {
     fontSize: 14,
