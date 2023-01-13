@@ -304,7 +304,7 @@ const TabRoutes = () => {
             </>
           ),
         }}
-        /* navigation={navigation}*/
+      /* navigation={navigation}*/
       />
 
       <Tab.Screen
