@@ -1,6 +1,8 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { StyleSheet, Text, View, Pressable } from "react-native";
+import { useFonts } from "expo-font";
+import { AddCircle } from "iconsax-react-native";
 
 const BatteryToggle = () => {
   return (
@@ -20,22 +22,47 @@ const Battery = () => {
   );
 };
 
-const VerEquipa = () => {
+const AdicionarPausa = () => {
   return (
-    <View>
-      <Pressable>
-        <Text>Ver equipa</Text>
+    <View style={adicionarPausaStyles.adicionarPausaView}>
+      <Pressable style={adicionarPausaStyles.adicionarPausaContainer}>
+        <Text style={adicionarPausaStyles.adicionarPausaText}>
+          Adicionar Pausa
+        </Text>
+        <AddCircle color="white" size={26} style={adicionarPausaStyles.icon} />
       </Pressable>
     </View>
   );
 };
 
+const Metricas = () => {
+  return (
+    <View style={metricasStyles.metricasContainer}>
+      <Text style={metricasStyles.metricasText}>Métricas</Text>
+      <View style={metricasStyles.metricasElement}>
+        <Text style={metricasStyles.metricasElementText}>
+          Carregar um portátil durante 2 horas.
+        </Text>
+      </View>
+    </View>
+  );
+};
+
 export default function Dashboard() {
+  const [loaded] = useFonts({
+    GothamMedium: "./../fonts/GothamMedium.ttf",
+    GothamBook: "./../fonts/GothamBook.ttf",
+  });
+  if (!loaded) {
+    return null; // Returns null if unable to load the font
+  }
+
   return (
     <View style={dashboardStyles.pageContainer}>
       <BatteryToggle />
       <Battery />
-      <VerEquipa />
+      <AdicionarPausa />
+      <Metricas />
       <StatusBar style="auto" />
     </View>
   );
@@ -44,7 +71,7 @@ export default function Dashboard() {
 const dashboardStyles = StyleSheet.create({
   pageContainer: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "white",
     paddingLeft: 25,
     paddingRight: 25,
     alignItems: "center",
@@ -94,5 +121,55 @@ const toggleStyles = StyleSheet.create({
     height: 32,
     backgroundColor: "#E3ECF7",
     borderRadius: 8,
+  },
+});
+
+const adicionarPausaStyles = StyleSheet.create({
+  adicionarPausaView: {
+    top: 60,
+  },
+  adicionarPausaContainer: {
+    backgroundColor: "#0051BA",
+    width: 340,
+    height: 51,
+    borderRadius: 17,
+    justifyContent: "flex-start",
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  adicionarPausaText: {
+    color: "white",
+    fontSize: 16,
+    fontFamily: "GothamMedium",
+    marginLeft: 18,
+  },
+  icon: {
+    alignSelf: "center",
+    marginLeft: "auto",
+    marginRight: 18,
+  },
+});
+
+const metricasStyles = StyleSheet.create({
+  metricasContainer: {
+    alignSelf: "flex-start",
+    marginLeft: 0,
+    top: 100,
+  },
+  metricasText: {
+    fontSize: 20,
+    fontFamily: "GothamMedium",
+  },
+  metricasElement: {
+    width: 340,
+    height: 65,
+    backgroundColor: "#E3ECF7",
+    borderRadius: 17,
+    marginTop: 20,
+    justifyContent: "center",
+  },
+  metricasElementText: {
+    fontSize: 15,
+    fontFamily: "GothamBook",
   },
 });
