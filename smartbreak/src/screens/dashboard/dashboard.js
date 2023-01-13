@@ -1,13 +1,41 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
+import { useState } from "react";
 import { StyleSheet, Text, View, Pressable } from "react-native";
 import { useFonts } from "expo-font";
 import { AddCircle } from "iconsax-react-native";
 
 const BatteryToggle = () => {
+  const [selected, setSelected] = useState("left");
+
   return (
     <View style={toggleStyles.toggleView}>
-      <View style={toggleStyles.toggleContainer} />
+      <View style={[toggleStyles.toggleContainer, { flexDirection: "row" }]}>
+        <Pressable
+          style={[
+            toggleStyles.toggleSelectorLeft,
+            {  alignSelf: "center" },
+            selected === "left"
+              ? toggleStyles.selected
+              : toggleStyles.notSelected,
+          ]}
+          onPress={() => setSelected("left")}
+        >
+          <Text style={toggleStyles.toggleText}>Bateria pessoal</Text>
+        </Pressable>
+        <Pressable
+          style={[
+            toggleStyles.toggleSelectorRight,
+            { alignSelf: "center" },
+            selected === "right"
+              ? toggleStyles.selected
+              : toggleStyles.notSelected,
+          ]}
+          onPress={() => setSelected("right")}
+        >
+          <Text style={toggleStyles.toggleText}>Bateria da equipa</Text>
+        </Pressable>
+      </View>
     </View>
   );
 };
@@ -29,7 +57,12 @@ const AdicionarPausa = () => {
         <Text style={adicionarPausaStyles.adicionarPausaText}>
           Adicionar Pausa
         </Text>
-        <AddCircle color="white" size={26} style={adicionarPausaStyles.icon} />
+        <AddCircle
+          color="white"
+          size={26}
+          variant="Bold"
+          style={adicionarPausaStyles.icon}
+        />
       </Pressable>
     </View>
   );
@@ -115,12 +148,41 @@ const batteryStyles = StyleSheet.create({
 const toggleStyles = StyleSheet.create({
   toggleView: {
     top: 65,
+    alignItems: "center",
+    flexDirection: "row",
   },
   toggleContainer: {
     width: 340,
-    height: 32,
+    height: 35,
     backgroundColor: "#E3ECF7",
     borderRadius: 8,
+    justifyContent: "space-between",
+  },
+  toggleSelectorLeft: {
+    width: 145,
+    height: 25,
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    left: 5,
+  },
+  toggleSelectorRight: {
+    width: 170,
+    height: 25,
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    right: 5,
+  },
+  toggleText: {
+    fontSize: 14,
+    fontFamily: "GothamBook",
+  },
+  selected: {
+    backgroundColor: "white",
+  },
+  notSelected: {
+    backgroundColor: "transparent",
   },
 });
 
