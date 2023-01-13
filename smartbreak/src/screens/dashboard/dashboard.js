@@ -3,7 +3,7 @@ import React from "react";
 import { useState } from "react";
 import { StyleSheet, Text, View, Pressable } from "react-native";
 import { useFonts } from "expo-font";
-import { AddCircle, People } from "iconsax-react-native";
+import { AddCircle, People, Clock } from "iconsax-react-native";
 
 const BatteryToggle = () => {
   const [selected, setSelected] = useState("personal");
@@ -93,8 +93,27 @@ const Metricas = () => {
     <View style={metricasStyles.metricasContainer}>
       <Text style={metricasStyles.metricasText}>Métricas</Text>
       <View style={metricasStyles.metricasElement}>
+        <View style={metricasStyles.iconContainer}>
+          <Clock color="black" size={20} variant="Bold" />
+        </View>
         <Text style={metricasStyles.metricasElementText}>
-          Carregar um portátil durante 2 horas.
+          Carregar um portátil durante 2 horas
+        </Text>
+      </View>
+      <View style={metricasStyles.metricasElement}>
+        <View style={metricasStyles.iconContainer}>
+          <Clock color="black" size={20} variant="Bold" />
+        </View>
+        <Text style={metricasStyles.metricasElementText}>
+          Carregar um portátil durante 2 horas
+        </Text>
+      </View>
+      <View style={metricasStyles.metricasElement}>
+        <View style={metricasStyles.iconContainer}>
+          <Clock color="black" size={20} variant="Bold" />
+        </View>
+        <Text style={metricasStyles.metricasElementText}>
+          Carregar um portátil durante 2 horas
         </Text>
       </View>
     </View>
@@ -249,10 +268,18 @@ const metricasStyles = StyleSheet.create({
     backgroundColor: "#E3ECF7",
     borderRadius: 17,
     marginTop: 20,
-    justifyContent: "center",
+    //justifyContent: "center",
+    flexDirection: "row",
+    alignItems: "center",
   },
   metricasElementText: {
     fontSize: 15,
     fontFamily: "GothamBook",
+    left: 47,
+    maxWidth: 261,
+    lineHeight: 20,
+  },
+  iconContainer: {
+    left: 18,
   },
 });
