@@ -63,13 +63,18 @@ export default function Goals() {
   // MOSTRAR FILTROS SELECIONADOS
 
   const mostrarFiltros = () => {
-    if (selectedIds.length === 0) {
-      return (
-        <View style={styles.filtroCaixa}>
-          <Text style={styles.filtroTexto}>Urgente</Text>
+    if (selectedIds.length !== 0) {
+      const filteredFiltros = filtros.filter(filtro => selectedIds.includes(filtro.id));
+      return filteredFiltros.map(({ id, label }) => (
+        <View style={{ ...styles.filtroCaixa, height: '75%', width: 180 }} key={id}>
+          <Text style={styles.filtroTexto}>{label}</Text>
         </View>
-      )
+      ));
 
+    } else {
+      return (
+        <View ></View>
+      )
     }
   }
 
@@ -135,7 +140,10 @@ export default function Goals() {
 
 
         <View style={styles.filtrosArea}>
-          {mostrarFiltros()}
+          <View>
+            {mostrarFiltros()}
+          </View>
+          
           <View>
             <Modal
               animationType="fade"
@@ -298,7 +306,7 @@ const styles = StyleSheet.create({
     marginLeft: 25,
     marginTop: 24,
     marginBottom: 4,
-    alignItems: 'baseline'
+    alignItems: 'center'
   },
   filtros: {
     backgroundColor: '#0051BA',
