@@ -15,8 +15,17 @@ export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    // Firebase store data
+    const firestore = firebase.firestore().collection('users_data');
+
     if (!loaded) {
         return null;  // Returns null if unable to load the font
+    }
+
+    const submit = () => {
+      firestore.get().docs.map(doc => {
+        Alert.alert(doc.data())
+      })
     }
 
     return (

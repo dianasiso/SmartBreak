@@ -1,11 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import {TextInput, StyleSheet, Text, View, ScrollView, Image, Dimensions, TouchableHighlight, TouchableOpacity, Alert  } from 'react-native';
+import {ActivityIndicator, KeyboardAvoidingView, TextInput, StyleSheet, Text, View, ScrollView, Image, Dimensions, TouchableHighlight, TouchableOpacity, Alert, Animated  } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
-import Toast from 'react-native-toast-message';
+
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
 // ImagePicker
 import * as ImagePicker from 'expo-image-picker';
+
+// Password meter
+import PassMeter from "react-native-passmeter";
 
 // Font Gotham
 import { useFonts } from 'expo-font';
@@ -13,7 +19,6 @@ import { useFonts } from 'expo-font';
 // Firebase
 import firebase from "./../../config/firebase.js"
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import 'firebase/compat/firestore';
 
 export default function Regiter() {
      // Loading Gotham font
@@ -21,6 +26,7 @@ export default function Regiter() {
         GothamMedium: require('./../../fonts/GothamMedium.ttf'),
         GothamBook: require('./../../fonts/GothamBook.ttf'),
     });
+
 
     // select items    
     const [open, setOpen] = useState(false);
@@ -36,22 +42,32 @@ export default function Regiter() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+  
+    // Firebase store data
+    const firestore = firebase.firestore().collection('users_data');
 
     // Firebase authentication
     const auth = getAuth();
     const registerFirebase = () => {
       createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        Alert.alert("Sucesso", "Utilizador registado com sucesso")
+        firestore.doc(userCredential.user.uid).set({
+          name: name,
+          lastName: lastName,
+          email: email,
+          password: password,
+          organization: value,
+        })
+        Alert.alert("Sucesso", "Utilizador registado com sucesso.")
         // navigate.navigate("Painel", {idUser: userCredential.user.uid})
       })
       .catch((error) => {
-        Alert.alert("Erro", error.message);
+        Alert.alert("Erro", "O e-mail já está em uso.");
+        setLoading(false);
       })
-    }
+    }  
 
-    // Firebase store data
-    const firestore = firebase.firestore().doc('/users')
 
     // photo
     const [photo, setPhoto] = useState(null);
@@ -67,6 +83,10 @@ export default function Regiter() {
     
     if (!loaded) {
         return null;  // Returns null if unable to load the font
+    }
+
+    const loadingScreen = () => {
+      return  <ActivityIndicator size="large" color="#0051ba" style={{flex: 1}}/>
     }
 
     const loadPhoto = async () => {
@@ -107,35 +127,45 @@ export default function Regiter() {
     }
 
     const submit = () => {
+      setLoading(true);
+
       if (email.length == 0 || (validate_email(email) == false)) {
         Alert.alert('Preencha corretamente o campo E-mail');
+        setLoading(false);
         return false;
       } 
       if (name.length == 0 ) {
         Alert.alert('Preencha corretamente o campo Nome');
+        setLoading(false);
         return false;
       }
       if (lastName.length == 0 ) {
         Alert.alert('Preencha corretamente o campo Apelido');
+        setLoading(false);
         return false;
       }
       if (value == null ) {
         Alert.alert('Preencha corretamente o campo Empresa');
+        setLoading(false);
         return false;
       }
       if (password.length == 0 ) {
         Alert.alert('Preencha corretamente o campo Palavra-passe');
+        setLoading(false);
         return false;
       }
       if (confirmPassword.length == 0 ) {
         Alert.alert('Preencha corretamente o campo Confirmar palavra-passe');
+        setLoading(false);
         return false;
       } 
       if (!validate_password(password, confirmPassword)) {
+        setLoading(false);
         return false;
       }   
       registerFirebase();
-    }
+    }    
+
     return (
         <View style={styles.container}>
             <StatusBar style="light" />
@@ -144,7 +174,12 @@ export default function Regiter() {
               <Text style={styles.textMessageBody}>Estamos contentes por teres tomado esta iniciativa. Vem fazer energy breaks.</Text>
             </ScrollView>  
             
-            <View style={styles.subContainer}>   
+            
+            <KeyboardAvoidingView 
+              behavior={Platform.OS === "ios" ? "padding" : "height"}
+              style={styles.subContainer}>   
+              {loading == true ? loadingScreen() :
+              
               <ScrollView>
                 <TouchableOpacity onPress={() => loadPhoto()} style={{paddingBottom: 30}}>
                   <Image style={styles.registerPhoto} source={photo !== null ? photo : require('./../../imgs/img_register_photo_default.png')} />  
@@ -165,12 +200,22 @@ export default function Regiter() {
                   setItems={setItems}
                 />
                 <Text>Palavra-passe</Text>
-                <TextInput  secureTextEntry={true} style={styles.inputField} onChangeText={(text) => setPassword(text)}/>
-                <Text>Confirmar palavra-passe</Text> 
+                <TextInput secureTextEntry={true} style={styles.inputFieldPass} onChangeText={(text) => setPassword(text)}/>
+                <View style={{overflow: 'hidden', width: '100%', borderRadius: 8, marginLeft: 'auto', marginRight: 'auto'}}>
+                  <PassMeter
+                    showLabels={false}
+                    password={password}
+                    maxLength={15}
+                    minLength={8}
+                    labels={[]}
+                  /> 
+                </View>
+                <Text style={{marginTop: 40}}>Confirmar palavra-passe</Text> 
                 <TextInput  secureTextEntry={true} style={styles.inputField} onChangeText={(text) => setConfirmPassword(text)}/>    
+                </ScrollView> }
                 <TouchableOpacity activeOpacity={0.8} onPress={() => submit()} style={styles.button}><Text style={styles.buttonText}>Registar</Text></TouchableOpacity>
-              </ScrollView>
-            </View>   
+              
+            </KeyboardAvoidingView>   
         </View>
     );
 }
@@ -193,6 +238,7 @@ const styles = StyleSheet.create({
     paddingRight: 25,
   },
   subContainer: {
+    flexDirection: 'column',
     backgroundColor: '#FFF',
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
@@ -220,6 +266,15 @@ const styles = StyleSheet.create({
     borderRightWidth: 0,
     borderRadius: 0,
   },
+  inputFieldPass: {
+    borderBottomColor: '#000000',
+    borderBottomWidth: 1,
+    marginBottom: 10,
+    borderTopWidth: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    borderRadius: 0,
+  },
   buttonText: {
     fontFamily: 'GothamBook',
     color: '#FFF',
@@ -232,7 +287,7 @@ const styles = StyleSheet.create({
     height: 48,
     borderRadius: 8,
     marginBottom: 40,
-    marginTop: 10,
+    marginTop: 20,
   },
   textMessageTitle: {
     fontSize: 24,
