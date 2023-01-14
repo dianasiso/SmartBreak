@@ -86,7 +86,17 @@ export default function Regiter() {
     }
 
     const loadingScreen = () => {
-      return  <ActivityIndicator size="large" color="#0051ba" style={{flex: 1}}/>
+      return  <Image source={require('./../../imgs/img_loading_v2.gif')} style={{
+        
+    height: screenWidth/3.4,
+    width: screenWidth/4,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 'auto',
+    marginBottom: 'auto',
+      }}/>
+      // return  <ActivityIndicator size="large" color="#0051ba" style={{flex: 1}}/>
+
     }
 
     const loadPhoto = async () => {
@@ -180,41 +190,43 @@ export default function Regiter() {
               style={styles.subContainer}>   
               {loading == true ? loadingScreen() :
               
-              <ScrollView>
-                <TouchableOpacity onPress={() => loadPhoto()} style={{paddingBottom: 30}}>
-                  <Image style={styles.registerPhoto} source={photo !== null ? photo : require('./../../imgs/img_register_photo_default.png')} />  
-                </TouchableOpacity>  
-                <Text>Nome</Text>
-                <TextInput style={styles.inputField} onChangeText={(text) => setName(text)} />
-                <Text>Apelido</Text>
-                <TextInput style={styles.inputField} onChangeText={(text) => setLastName(text)} />
-                <Text>Email</Text> 
-                <TextInput style={styles.inputField} onChangeText={(text) => setEmail(text)}/>   
-                <Text>Empresa</Text>
-                <DropDownPicker style={styles.inputField} onChangeText={(text) => setOrganization(text)}
-                  open={open}
-                  value={value}
-                  items={items}
-                  setOpen={setOpen}
-                  setValue={setValue}
-                  setItems={setItems}
-                />
-                <Text>Palavra-passe</Text>
-                <TextInput secureTextEntry={true} style={styles.inputFieldPass} onChangeText={(text) => setPassword(text)}/>
-                <View style={{overflow: 'hidden', width: '100%', borderRadius: 8, marginLeft: 'auto', marginRight: 'auto'}}>
-                  <PassMeter
-                    showLabels={false}
-                    password={password}
-                    maxLength={15}
-                    minLength={8}
-                    labels={[]}
-                  /> 
-                </View>
-                <Text style={{marginTop: 40}}>Confirmar palavra-passe</Text> 
-                <TextInput  secureTextEntry={true} style={styles.inputField} onChangeText={(text) => setConfirmPassword(text)}/>    
-                </ScrollView> }
-                <TouchableOpacity activeOpacity={0.8} onPress={() => submit()} style={styles.button}><Text style={styles.buttonText}>Registar</Text></TouchableOpacity>
-              
+              <View>
+                <ScrollView>
+                  <TouchableOpacity onPress={() => loadPhoto()} style={{paddingBottom: 30}}>
+                    <Image style={styles.registerPhoto} source={photo !== null ? photo : require('./../../imgs/img_register_photo_default.png')} />  
+                  </TouchableOpacity>  
+                  <Text>Nome</Text>
+                  <TextInput style={styles.inputField} onChangeText={(text) => setName(text)} />
+                  <Text>Apelido</Text>
+                  <TextInput style={styles.inputField} onChangeText={(text) => setLastName(text)} />
+                  <Text>Email</Text> 
+                  <TextInput style={styles.inputField} onChangeText={(text) => setEmail(text)}/>   
+                  <Text>Empresa</Text>
+                  <DropDownPicker style={styles.inputField} onChangeText={(text) => setOrganization(text)}
+                    open={open}
+                    value={value}
+                    items={items}
+                    setOpen={setOpen}
+                    setValue={setValue}
+                    setItems={setItems}
+                  />
+                  <Text>Palavra-passe</Text>
+                  <TextInput secureTextEntry={true} style={styles.inputFieldPass} onChangeText={(text) => setPassword(text)}/>
+                  <View style={{overflow: 'hidden', width: '100%', borderRadius: 8, marginLeft: 'auto', marginRight: 'auto'}}>
+                    <PassMeter
+                      showLabels={false}
+                      password={password}
+                      maxLength={15}
+                      minLength={8}
+                      labels={[]}
+                    /> 
+                  </View>
+                  <Text style={{marginTop: 40}}>Confirmar palavra-passe</Text> 
+                  <TextInput  secureTextEntry={true} style={styles.inputField} onChangeText={(text) => setConfirmPassword(text)}/>    
+                  <TouchableOpacity activeOpacity={0.8} onPress={() => submit()} style={styles.button}><Text style={styles.buttonText}>Registar</Text></TouchableOpacity>
+                </ScrollView> 
+              </View>
+              }
             </KeyboardAvoidingView>   
         </View>
     );
