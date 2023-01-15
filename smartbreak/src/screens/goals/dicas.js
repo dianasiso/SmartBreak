@@ -2,10 +2,12 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function Goals() {
+export default function Dicas({ navigation }) {
+
+  
   return (
     <View style={styles.container}>
-      <Text>Goals</Text>
+      <Text>exemplo de página de detail</Text>
       <StatusBar style="auto" />
     </View>
   );

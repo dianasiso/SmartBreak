@@ -1,16 +1,32 @@
-
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Maintenance from './src/errors/maintenance';
-import Welcome from './src/screens/authentication/welcome';
-import Register from './src/screens/authentication/register';
-import Login from './src/screens/authentication/login';
-import Password from './src/screens/authentication/password';
+//import { StyleSheet, Text, View } from "react-native";
+//import Maintenance from "./src/errors/maintenance";
 
 
+//navegação
+import { createStackNavigator } from "@react-navigation/stack";
+import { NavigationContainer } from "@react-navigation/native";
+
+
+import TabRoutes from "./src/routes/Routes";
+
+//funções navegação
+const Stack = createStackNavigator();
+
+
+//export da app
 export default function App() {
   return (
-    <Password/>
+
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={TabRoutes}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+
   );
 }
 
