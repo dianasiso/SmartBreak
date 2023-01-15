@@ -4,6 +4,7 @@ import { useState } from "react";
 import { StyleSheet, Text, View, Pressable } from "react-native";
 import { useFonts } from "expo-font";
 import { AddCircle, People, Clock } from "iconsax-react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const BatteryToggle = () => {
   const [selected, setSelected] = useState("personal");
@@ -53,6 +54,7 @@ const Battery = ({ selected }) => {
 };
 
 const AdicionarPausa = ({ selected }) => {
+  const navigation = useNavigation();
   if (selected === "personal") {
     return (
       <View style={adicionarPausaStyles.adicionarPausaView}>
@@ -72,7 +74,10 @@ const AdicionarPausa = ({ selected }) => {
   } else if (selected === "team") {
     return (
       <View style={adicionarPausaStyles.adicionarPausaView}>
-        <Pressable style={adicionarPausaStyles.adicionarPausaContainer}>
+        <Pressable
+          onPress={() => navigation.navigate("Team")}
+          style={adicionarPausaStyles.adicionarPausaContainer}
+        >
           <Text style={adicionarPausaStyles.adicionarPausaText}>
             Ver equipa
           </Text>

@@ -9,15 +9,19 @@ import { useNavigation } from "@react-navigation/native";
 //páginas
 //dashboard
 import Dashboard from "../screens/dashboard/dashboard";
+//subpáginas dashboard
+import Team from "../screens/dashboard/team";
+import MembersRewards from "../screens/dashboard/membersrewards";
 //ojbetivos
 import Goals from "../screens/goals/goals";
-//subpágina dos objetivos
+//subpáginas dos objetivos
 import TestGoal from "../screens/goals/testgoal";
+//estatísticas
+import Stats from "../screens/stats/stats";
 //perfil
 import ProfilePage from "../screens/profile/profile";
-//subpágina do perfil
+//subpáginas do perfil
 import EditProfile from "../screens/profile/editprofile";
-import Stats from "../screens/stats/stats";
 import ProfileSettings from "../screens/profile/profilesettings";
 import EditPassword from "../screens/profile/editpassword";
 import NotificationsProfile from "../screens/profile/notificationsprofile";
@@ -37,8 +41,61 @@ import { ArrowLeft2 } from "iconsax-react-native";
 
 //funções navegação
 const Tab = createBottomTabNavigator();
+const DashboardStack = createStackNavigator();
 const GoalsStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
+
+//navegação stack na dashboard
+const DashboardStackNavigation = ({ navigation }) => {
+  return (
+    <DashboardStack.Navigator
+      initialRouteName="Dashboard"
+      screenOptions={{ animation: "none" }}
+    >
+      <DashboardStack.Screen
+        name="Dashboard"
+        component={Dashboard}
+        options={{ headerShown: false }}
+      />
+
+      <GoalsStack.Screen
+        name="Team"
+        component={Team}
+        options={{
+          headerShown: true,
+          headerTitle: "",
+          headerLeft: () => (
+            <View style={{ paddingLeft: 20, paddingTop: 20 }}>
+              <ArrowLeft2
+                size="24"
+                color="#000000"
+                onPress={() => navigation.navigate("Dashboard")} //não esquecer de colocar sempre a pagina para onde queremos voltar!
+              />
+            </View>
+          ),
+        }}
+      />
+
+      <GoalsStack.Screen
+        name="MembersRewards"
+        component={MembersRewards}
+        options={{
+          headerShown: true,
+          headerTitle: "",
+          headerLeft: () => (
+            <View style={{ paddingLeft: 20, paddingTop: 20 }}>
+              <ArrowLeft2
+                size="24"
+                color="#000000"
+                onPress={() => navigation.navigate("Team")} //não esquecer de colocar sempre a pagina para onde queremos voltar!
+              />
+            </View>
+          ),
+        }}
+      />
+    </DashboardStack.Navigator>
+  );
+};
 
 //navegação stack nos objetivos
 const GoalsStackNavigation = ({ navigation }) => {
@@ -275,7 +332,7 @@ const TabRoutes = () => {
     >
       <Tab.Screen
         name="Dashboard"
-        component={Dashboard}
+        component={DashboardStackNavigation}
         options={{
           tabBarLabel: "Painel",
           tabBarActiveTintColor: "#0051BA",
