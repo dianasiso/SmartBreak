@@ -119,7 +119,7 @@ export default function ProfilePage() {
         <View style={styles.options}>
           <MedalStar color="#000000" />
           <TouchableHighlight
-            onPress={() => navigation.navigate("###")}
+            onPress={() => navigation.navigate("ProfileRewards")}
             underlayColor={"transparent"}
           >
             <Text
