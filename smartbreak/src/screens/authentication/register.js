@@ -59,6 +59,7 @@ export default function Register() {
           password: password.trim(),
           organization: value,
           uid: userCredential.user.uid,
+          rewards: false,
         })
         Alert.alert("Sucesso", "Utilizador registado com sucesso.")
         // navigate.navigate("Painel", {idUser: userCredential.user.uid})
