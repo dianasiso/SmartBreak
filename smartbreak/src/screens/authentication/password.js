@@ -5,6 +5,13 @@ import {Alert, TextInput, StyleSheet, Text, View, ScrollView, Image, Dimensions,
 // Font Gotham
 import { useFonts } from 'expo-font';
 
+// Firebase
+import firebase from "./../../config/firebase.js"
+import {doc, updateDoc, collection, where, query, getDocs } from "firebase/firestore"; 
+
+// Password meter
+import PassMeter from "react-native-passmeter";
+
 export default function Password() {
      // Loading Gotham font
     const [loaded] = useFonts({
@@ -18,6 +25,31 @@ export default function Password() {
 
     if (!loaded) {
         return null;  // Returns null if unable to load the font
+    }
+
+    const updateData = async () => {
+      const user = query(collection(firebase.firestore(), 'users_data'), where("email", "==", email.trim() ));
+      const querySnapshot = await getDocs(user);
+      var uid = null;
+      var emailCheck = false;
+      querySnapshot.forEach((doc) => {
+        if (typeof(doc.data()) == 'object') {
+          emailCheck = true;
+          uid = doc.data().uid;
+        } 
+      })
+
+      if (!emailCheck) {
+        Alert.alert("Email não registado!", "Por favor, registe-se primeiro na aplicação.");
+      } else {
+        //update 
+        const docRef = doc(firebase.firestore(), "users_data", uid);
+        updateDoc(docRef, {
+          password : password,
+        })
+       
+         Alert.alert("Atualizado!", "Informações atualizadas com sucesso.")
+      }
     }
 
     const validate_password = (pass, pass2) => {
@@ -47,7 +79,8 @@ export default function Password() {
         } 
         if (!validate_password(password, confirmPassword)) {
           return false;
-        }   
+        }  
+        updateData();
     }
 
     return (
@@ -61,7 +94,16 @@ export default function Password() {
             <Text style={styles.textMessageBody}>Email</Text> 
             <TextInput style={styles.inputField} onChangeText={(text) => setEmail(text)}/>      
             <Text style={styles.textMessageBody}>Nova palavra-passe</Text>
-            <TextInput  secureTextEntry={true} style={styles.inputField} onChangeText={(text) => setPassword(text)}/>
+            <TextInput  secureTextEntry={true} style={styles.inputFieldPass} onChangeText={(text) => setPassword(text)}/>
+            <View style={{overflow: 'hidden', width: '100%', borderRadius: 8, marginLeft: 'auto', marginRight: 'auto', marginBottom: 30}}>
+                    <PassMeter
+                      showLabels={false}
+                      password={password}
+                      maxLength={15}
+                      minLength={8}
+                      labels={[]}
+                    /> 
+            </View>
             <Text style={styles.textMessageBody}>Confirmar nova palavra-passe</Text> 
             <TextInput  secureTextEntry={true} style={styles.inputField} onChangeText={(text) => setConfirmPassword(text)}/>    
             <TouchableOpacity activeOpacity={0.5} onPress={() => submit()} style={styles.button}><Text style={styles.buttonText}>Redefinir palavra-passe</Text></TouchableOpacity>
@@ -102,6 +144,17 @@ inputField: {
   borderLeftWidth: 0,
   borderRightWidth: 0,
   borderRadius: 0,
+  color: '#FFF'
+},
+inputFieldPass: {
+  borderBottomColor: '#FFF',
+  borderBottomWidth: 1,
+  marginBottom: 10,
+  borderTopWidth: 0,
+  borderLeftWidth: 0,
+  borderRightWidth: 0,
+  borderRadius: 0,
+  color: '#FFF'
 },
 buttonText: {
   fontFamily: 'GothamBook',

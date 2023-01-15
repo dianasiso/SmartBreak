@@ -20,7 +20,7 @@ import { useFonts } from 'expo-font';
 import firebase from "./../../config/firebase.js"
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
-export default function Regiter() {
+export default function Register() {
      // Loading Gotham font
     const [loaded] = useFonts({
         GothamMedium: require('./../../fonts/GothamMedium.ttf'),
@@ -55,9 +55,10 @@ export default function Regiter() {
         firestore.doc(userCredential.user.uid).set({
           name: name,
           lastName: lastName,
-          email: email,
-          password: password,
+          email: email.trim(),
+          password: password.trim(),
           organization: value,
+          uid: userCredential.user.uid,
         })
         Alert.alert("Sucesso", "Utilizador registado com sucesso.")
         // navigate.navigate("Painel", {idUser: userCredential.user.uid})
@@ -87,15 +88,13 @@ export default function Regiter() {
 
     const loadingScreen = () => {
       return  <Image source={require('./../../imgs/img_loading_v2.gif')} style={{
-        
-    height: screenWidth/3.4,
-    width: screenWidth/4,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginTop: 'auto',
-    marginBottom: 'auto',
-      }}/>
-      // return  <ActivityIndicator size="large" color="#0051ba" style={{flex: 1}}/>
+                height: screenWidth/3.4,
+                width: screenWidth/4,
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                marginTop: 'auto',
+                marginBottom: 'auto',
+              }}/>
 
     }
 

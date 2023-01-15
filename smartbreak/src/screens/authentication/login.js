@@ -1,9 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect, useState } from 'react';
-import {TextInput, StyleSheet, Text, View, ScrollView, Image, Dimensions, TouchableHighlight, TouchableOpacity  } from 'react-native';
+import React, {  useState } from 'react';
+import {TextInput, StyleSheet, Text, View, ScrollView, Image, Dimensions, TouchableOpacity, Alert, KeyboardAvoidingView } from 'react-native';
 
 // Font Gotham
 import { useFonts } from 'expo-font';
+
+
+// Firebase
+import firebase from "./../../config/firebase.js"
+import { collection, where, query, getDocs } from "firebase/firestore"; 
 
 export default function Login() {
      // Loading Gotham font
@@ -13,19 +18,55 @@ export default function Login() {
     });
 
     const [email, setEmail] = useState('');
+    const [loading, setLoading] = useState(false);
     const [password, setPassword] = useState('');
-
-    // Firebase store data
-    const firestore = firebase.firestore().collection('users_data');
 
     if (!loaded) {
         return null;  // Returns null if unable to load the font
     }
 
-    const submit = () => {
-      firestore.get().docs.map(doc => {
-        Alert.alert(doc.data())
+    const submit = async () => {
+      const user = query(collection(firebase.firestore(), 'users_data'), where("email", "==", email.trim() ));
+      const querySnapshot = await getDocs(user);
+      var uid = null;
+      var emailCheck = false;
+      var passCheck = false;
+      querySnapshot.forEach((doc) => {
+        if (typeof(doc.data()) == 'object') {
+          emailCheck = true;
+        } 
       })
+
+      if (!emailCheck) {
+        Alert.alert("Email não registado!", "Por favor, registe-se primeiro na aplicação.");
+      } else {
+        const pass = query(user , where("password", "==", password))
+        const querySnapshot2 = await getDocs(pass);
+        querySnapshot2.forEach((doc) => {
+          if (typeof(doc.data()) == 'object') {
+            passCheck = true;
+            console.log(doc.data().uid)
+            uid = doc.data().uid;
+          } 
+        })
+
+        if (!passCheck) {
+          Alert.alert("Palavra passe incorreta!", "A palavra-passe não coincide com o email registado.")
+        } else {
+          // navigate.navigate("Painel", {idUser: uid})
+        }
+      }
+    }
+
+    const loadingScreen = () => {
+      return  <Image source={require('./../../imgs/img_loading_v2.gif')} style={{    
+                height: screenWidth/3.4,
+                width: screenWidth/4,
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                marginTop: 'auto',
+                marginBottom: 'auto',
+                  }}/>
     }
 
     return (
@@ -34,22 +75,29 @@ export default function Login() {
           <ScrollView style={styles.groupContainer}>
             <Text style={styles.textMessageTitle}><Text style={{fontFamily: 'GothamMedium'}}>Login</Text></Text> 
             <Text style={styles.textMessageBody}>Estamos contentes por continuares a melhorar o teu local de trabalho.</Text>
-            
-          </ScrollView>  
-
-          <View style={styles.imageLogo} >
+            <View style={styles.imageLogo} >
             <Image source={require('./../../imgs/img_login.png')} />
           </View>
-          <View style={styles.subContainer}>   
-            <ScrollView>
-              <Text>Email</Text> 
-              <TextInput style={styles.inputField} onChangeText={(text) => setEmail(text)}/>      
-              <Text>Palavra-passe</Text>
-              <TextInput  secureTextEntry={true} style={styles.inputField} onChangeText={(text) => setPassword(text)}/>
-              <Text style={styles.extra} >Esqueceu-se da palavra-passe?</Text>
-             <TouchableHighlight style={styles.button}><Text style={styles.buttonText}>Login</Text></TouchableHighlight>
-            </ScrollView>
-          </View>   
+          </ScrollView>  
+
+          
+          <KeyboardAvoidingView 
+              behavior={Platform.OS === "ios" ? "padding" : "height"}
+              keyboardVerticalOffset={screenHeight}
+              style={styles.subContainer}>   
+              {loading == true ? loadingScreen() :
+              <View>   
+                <ScrollView>
+                  <Text>Email</Text> 
+                  <TextInput style={styles.inputField} onChangeText={(text) => setEmail(text)}/>      
+                  <Text>Palavra-passe</Text>
+                  <TextInput  secureTextEntry={true} style={styles.inputField} onChangeText={(text) => setPassword(text)}/>
+                  <Text style={styles.extra} >Esqueceu-se da palavra-passe?</Text>
+                <TouchableOpacity activeOpacity={0.8} onPress={() => submit()} style={styles.button}><Text style={styles.buttonText}>Login</Text></TouchableOpacity>
+                </ScrollView>
+              </View>   
+              }
+            </KeyboardAvoidingView> 
       </View>
   );
 }
