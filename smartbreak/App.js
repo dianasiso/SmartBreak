@@ -1,9 +1,11 @@
 //import { StyleSheet, Text, View } from "react-native";
 //import Maintenance from "./src/errors/maintenance";
 
+
 //navegação
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
+
 
 import TabRoutes from "./src/routes/Routes";
 
@@ -14,6 +16,7 @@ const Stack = createStackNavigator();
 //export da app
 export default function App() {
   return (
+
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
@@ -23,6 +26,7 @@ export default function App() {
         />
       </Stack.Navigator>
     </NavigationContainer>
+
   );
 }
 

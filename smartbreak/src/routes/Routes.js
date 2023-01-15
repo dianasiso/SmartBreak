@@ -22,6 +22,9 @@ import Stats from "../screens/stats/stats";
 import ProfilePage from "../screens/profile/profile";
 //subpáginas do perfil
 import EditProfile from "../screens/profile/editprofile";
+
+import ProfileRewards from "../screens/profile/profilerewards";
+
 import ProfileSettings from "../screens/profile/profilesettings";
 import EditPassword from "../screens/profile/editpassword";
 import NotificationsProfile from "../screens/profile/notificationsprofile";
@@ -159,6 +162,25 @@ const ProfileStackNavigation = ({ navigation }) => {
           ),
         }}
       />
+
+      <ProfileStack.Screen
+        name="ProfileRewards"
+        component={ProfileRewards}
+        options={{
+          headerShown: true,
+          headerTitle: "",
+          headerLeft: () => (
+            <View style={{ paddingLeft: 20, paddingTop: 20 }}>
+              <ArrowLeft2
+                size="24"
+                color="#000000"
+                onPress={() => navigation.navigate("ProfilePage")}
+              />
+            </View>
+          ),
+        }}
+      />
+
       <ProfileStack.Screen
         name="ProfileSettings"
         component={ProfileSettings}
