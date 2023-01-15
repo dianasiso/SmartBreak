@@ -13,11 +13,13 @@ import Dashboard from "../screens/dashboard/dashboard";
 import Goals from "../screens/goals/goals";
 //subpágina dos objetivos
 import TestGoal from "../screens/goals/testgoal";
+//estatísticas
+import Stats from "../screens/stats/stats";
 //perfil
 import ProfilePage from "../screens/profile/profile";
 //subpágina do perfil
 import EditProfile from "../screens/profile/editprofile";
-import Stats from "../screens/stats/stats";
+import ProfileRewards from "../screens/profile/profilerewards";
 import ProfileSettings from "../screens/profile/profilesettings";
 import EditPassword from "../screens/profile/editpassword";
 import NotificationsProfile from "../screens/profile/notificationsprofile";
@@ -102,6 +104,25 @@ const ProfileStackNavigation = ({ navigation }) => {
           ),
         }}
       />
+
+      <ProfileStack.Screen
+        name="ProfileRewards"
+        component={ProfileRewards}
+        options={{
+          headerShown: true,
+          headerTitle: "",
+          headerLeft: () => (
+            <View style={{ paddingLeft: 20, paddingTop: 20 }}>
+              <ArrowLeft2
+                size="24"
+                color="#000000"
+                onPress={() => navigation.navigate("ProfilePage")}
+              />
+            </View>
+          ),
+        }}
+      />
+
       <ProfileStack.Screen
         name="ProfileSettings"
         component={ProfileSettings}
@@ -304,7 +325,7 @@ const TabRoutes = () => {
             </>
           ),
         }}
-      /* navigation={navigation}*/
+        /* navigation={navigation}*/
       />
 
       <Tab.Screen
