@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import {Alert, TextInput, StyleSheet, Text, View, ScrollView, Image, Dimensions, TouchableHighlight, TouchableOpacity  } from 'react-native';
+import {KeyboardAvoidingView, Alert, TextInput, StyleSheet, Text, View, ScrollView, Image, Dimensions, TouchableHighlight, TouchableOpacity  } from 'react-native';
 
 // Font Gotham
 import { useFonts } from 'expo-font';
@@ -42,12 +42,16 @@ export default function Password() {
       if (!emailCheck) {
         Alert.alert("Email não registado!", "Por favor, registe-se primeiro na aplicação.");
       } else {
-        //update 
-        const docRef = doc(firebase.firestore(), "users_data", uid);
-        updateDoc(docRef, {
+        // Update 
+        // const docRef = doc(firebase.firestore(), "users_data", uid);
+        // updateDoc(docRef, {
+        //   password : password,
+        // })
+        const docRef = firebase.firestore().collection('users_data').doc(uid);
+        docRef.update({
           password : password,
         })
-       
+
          Alert.alert("Atualizado!", "Informações atualizadas com sucesso.")
       }
     }
@@ -89,7 +93,9 @@ export default function Password() {
             <Text style={styles.textMessageTitle}><Text style={{fontFamily: 'GothamMedium'}}>Esqueceu-se da palavra-passe?</Text></Text> 
             <Text style={styles.textMessageBody}>Introduza uma nova palavra passe e de seguida volte a confirmá-la.</Text>
 
-
+        <KeyboardAvoidingView 
+              behavior={Platform.OS === "ios" ? "padding" : "height"}>
+          <View>   
           <ScrollView style={{marginTop: 80}}>            
             <Text style={styles.textMessageBody}>Email</Text> 
             <TextInput style={styles.inputField} onChangeText={(text) => setEmail(text)}/>      
@@ -108,6 +114,8 @@ export default function Password() {
             <TextInput  secureTextEntry={true} style={styles.inputField} onChangeText={(text) => setConfirmPassword(text)}/>    
             <TouchableOpacity activeOpacity={0.5} onPress={() => submit()} style={styles.button}><Text style={styles.buttonText}>Redefinir palavra-passe</Text></TouchableOpacity>
           </ScrollView>
+          </View>
+        </KeyboardAvoidingView>
       </View>   
   );
 }
