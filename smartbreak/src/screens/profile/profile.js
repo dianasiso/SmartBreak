@@ -18,6 +18,12 @@ import {
   Setting2,
 } from "iconsax-react-native";
 
+import React, {  useState } from 'react';
+
+// Firebase
+import firebase from "./../../config/firebase.js"
+import { collection, where, query, getDocs } from "firebase/firestore"; 
+
 // Font Gotham
 import { useFonts } from "expo-font";
 
@@ -27,6 +33,13 @@ export default function ProfilePage() {
     GothamMedium: "./../fonts/GothamMedium.ttf",
     GothamBook: "./../fonts/GothamBook.ttf",
   });
+
+  const [name, setName] = useState();
+  const [organization, setOrganization] = useState();
+
+  if (!loaded) {
+    return null;  // Returns null if unable to load the font
+}
 
   const navigation = useNavigation();
 
