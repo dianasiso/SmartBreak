@@ -18,11 +18,10 @@ import {
   Setting2,
 } from "iconsax-react-native";
 
-import React, {  useState } from 'react';
+import React, {  useState, useEffect, useLayoutEffect  } from 'react';
 
 // Firebase
 import firebase from "./../../config/firebase.js"
-import { collection, where, query, getDocs } from "firebase/firestore"; 
 
 // Font Gotham
 import { useFonts } from "expo-font";
@@ -36,15 +35,30 @@ export default function ProfilePage() {
 
   const [name, setName] = useState();
   const [organization, setOrganization] = useState();
+  const uid = 'Y8f9M4o03ceZrFjoWu6iOA8rm2F2'; // Posteriormente pegar da navegation
 
   if (!loaded) {
     return null;  // Returns null if unable to load the font
-}
+  }
 
   const navigation = useNavigation();
-
+  
+  // Get data from firestore
+  
+  firebase.firestore()
+  .collection("users_data")
+  .doc(uid)
+  .get()
+  .then((doc) => {
+      let getName = doc.data().name;
+      let getLastName = doc.data().lastName;
+      let getOrganization = doc.data().organization;
+      setName(getName + " " + getLastName);
+      setOrganization(getOrganization);
+      })
+ 
   return (
-    <SafeAreaProvider style={styles.container}>
+    <SafeAreaProvider style={styles.container}  >
       <StatusBar style="auto" />
       <ScrollView>
         <View style={{ alignItems: "center" }}>
@@ -52,10 +66,8 @@ export default function ProfilePage() {
             source={require("../../imgs/ester.png")}
             style={styles.profilepicture}
           />
-          <Text style={styles.name}>Ester Carvalho</Text>
-          <Text style={styles.text}>
-            Chefe da equipa de design Universidade de Aveiro
-          </Text>
+          <Text style={styles.name}>{name}</Text>
+          <Text style={styles.organization}>{organization}</Text>
         </View>
 
         <View style={styles.options}>
@@ -187,9 +199,18 @@ const styles = StyleSheet.create({
 
   name: {
     marginTop: 30,
-    marginBottom: 15,
+    marginBottom: 0,
     fontFamily: "GothamMedium",
     fontSize: 24,
+    textTransform: 'capitalize',
+  },
+
+  organization: {
+    marginTop: 10,
+    fontFamily: "GothamBook",
+    fontSize: 16,
+    lineHeight: 24,
+    textAlign: "center",
   },
 
   options: {

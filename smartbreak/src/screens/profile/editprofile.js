@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, {useState} from "react";
 import { Alert } from "react-native";
 import {
   StyleSheet,
@@ -16,11 +16,42 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 // Font Gotham
 import { useFonts } from "expo-font";
 
+
+// Firebase
+import firebase from "./../../config/firebase.js"
+
+
 export default function EditProfile({ navigation }) {
   // Loading Gotham font
   const [loaded] = useFonts({
-    GothamBook: "./../fonts/GothamBook.ttf",
+    GothamMedium: require('./../../fonts/GothamMedium.ttf'),
+    GothamBook: require('./../../fonts/GothamBook.ttf'),
   });
+
+
+  const [name, setName] = useState();
+  const [lastName, setLastName] = useState();
+  const [email, setEmail] = useState();
+  const [organization, setOrganization] = useState();
+  const [rewards, setRewards] = useState()
+  const uid = 'Y8f9M4o03ceZrFjoWu6iOA8rm2F2'; // Posteriormente pegar da navegation
+
+  if (!loaded) {
+    return null;  // Returns null if unable to load the font
+  }
+
+  // Get data from firestore
+  firebase.firestore()
+  .collection("users_data")
+  .doc(uid)
+  .get()
+  .then((doc) => {
+      setName(doc.data().name);
+      setLastName(doc.data().lastName);
+      setEmail(doc.data().email);
+      setOrganization(doc.data().organization);
+      setRewards(doc.data().rewards);
+      })
 
   const editarperfil = () => {
     Alert.alert("Atenção", "Deseja confirmar as alterações?", [
@@ -43,16 +74,13 @@ export default function EditProfile({ navigation }) {
           />
           <View style={styles.edit}>
             <Text style={styles.text}>Nome</Text>
-            <TextInput placeholder="Ester" style={styles.input} />
+            <TextInput placeholderTextColor="#000" placeholder={name} style={styles.input} />
             <Text style={styles.text}>Apelido</Text>
-            <TextInput placeholder="Carvalho" style={styles.input} />
+            <TextInput placeholderTextColor="#000" placeholder={lastName} style={styles.input} />
             <Text style={styles.text}>Email</Text>
-            <TextInput placeholder="estercarvalho@ua.pt" style={styles.input} />
+            <TextInput placeholderTextColor="#000" placeholder={email} style={styles.input}/>
             <Text style={styles.text}>Empresa</Text>
-            <TextInput
-              placeholder="Universidade de Aveiro"
-              style={styles.input}
-            />
+            <TextInput placeholderTextColor="#999" placeholder={organization} style={styles.input} editable={false}/>
             <View style={styles.rewards}>
               <Text
                 style={{
@@ -116,7 +144,7 @@ const styles = StyleSheet.create({
   },
 
   input: {
-    marginTop: 5,
+    marginTop: 0,
     borderBottomWidth: 1,
     paddingTop: 10,
     paddingBottom: 5,
@@ -133,10 +161,11 @@ const styles = StyleSheet.create({
   },
 
   options: {
-    marginTop: 30,
+    marginTop: 40,
     borderRadius: 15,
     paddingTop: 15,
     paddingBottom: 15,
+    marginBottom: 20,
     width: "100%",
     flexDirection: "row",
     justifyContent: "center",
@@ -144,7 +173,7 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    fontFamily: "GothamBook",
+    fontFamily: "GothamMedium",
     fontSize: 16,
     marginTop: 30,
     lineHeight: 24,
