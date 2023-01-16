@@ -353,6 +353,7 @@ const styles = StyleSheet.create({
     padding: 15,
     marginTop: 20,
     marginBottom: 20,
+    // height: '8%'
   },
   filtroCaixa: {
     width: 140,
