@@ -22,15 +22,17 @@ import Stats from "../screens/stats/stats";
 import ProfilePage from "../screens/profile/profile";
 //subpáginas do perfil
 import EditProfile from "../screens/profile/editprofile";
-
 import ProfileRewards from "../screens/profile/profilerewards";
-
 import ProfileSettings from "../screens/profile/profilesettings";
 import EditPassword from "../screens/profile/editpassword";
 import NotificationsProfile from "../screens/profile/notificationsprofile";
 import SecurityProfile from "../screens/profile/secutiryprofile";
 import TermsofUseProfile from "../screens/profile/termsofuseprofile";
 import HelpCenterProfile from "../screens/profile/helpcenterprofile";
+//autenticação
+import Login from "../screens/authentication/login";
+import Register from "../screens/authentication/register";
+import Welcome from "../screens/authentication/welcome";
 
 //fontes
 import { useFonts } from "expo-font";
@@ -47,6 +49,37 @@ const Tab = createBottomTabNavigator();
 const DashboardStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
 const GoalsStack = createStackNavigator();
+//autenticação
+const AuthStack = createStackNavigator();
+
+//stack que dá wrap a todas as outras stacks
+const MainStack = createStackNavigator();
+
+//nav stack de autenticacao
+const AuthStackNavigation = ({ navigation }) => {
+  return (
+    <AuthStack.Navigator
+      initialRouteName="Welcome"
+      screenOptions={{ animation: "none" }}
+    >
+      <AuthStack.Screen
+        name="Welcome"
+        component={Welcome}
+        options={{ headerShown: false }}
+      />
+      <AuthStack.Screen
+        name="Login"
+        component={Login}
+        options={{ headerShown: false }}
+      />
+      <AuthStack.Screen
+        name="Register"
+        component={Register}
+        options={{ headerShown: false }}
+      />
+    </AuthStack.Navigator>
+  );
+};
 
 //navegação stack na dashboard
 const DashboardStackNavigation = ({ navigation }) => {
@@ -420,6 +453,23 @@ const TabRoutes = () => {
         }}
       />
     </Tab.Navigator>
+  );
+};
+
+const MainStackNavigation = () => {
+  return (
+    <MainStack.Navigator>
+      <MainStack.Screen
+        name="AuthStack"
+        component={AuthStackNavigation}
+        options={{ headerShown: false }}
+      />
+      <MainStack.Screen
+        name="TabRoutes"
+        component={TabRoutes}
+        options={{ headerShown: false }}
+      />
+    </MainStack.Navigator>
   );
 };
 
