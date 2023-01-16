@@ -107,7 +107,7 @@ export default function ProfilePage() {
 
         <View style={styles.options}>
           <Clock color="#000000" onPress={() => navigation.navigate("###")} />
-          <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate("###")} underlayColor={"transparent"} >
+          <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate("HistoricoPausas")} underlayColor={"transparent"} >
             <Text style={styles.text}>  Histórico de pausas</Text>
           </TouchableOpacity>
         </View>
