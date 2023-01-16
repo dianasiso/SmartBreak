@@ -12,7 +12,7 @@ import Dashboard from "../screens/dashboard/dashboard";
 //ojbetivos
 import Goals from "../screens/goals/goals";
 //subpágina dos objetivos
-import TestGoal from "../screens/goals/testgoal";
+import Dicas from "../screens/goals/dicas";
 //perfil
 import ProfilePage from "../screens/profile/profile";
 //subpágina do perfil
@@ -53,8 +53,8 @@ const GoalsStackNavigation = ({ navigation }) => {
         options={{ headerShown: false }}
       />
       <GoalsStack.Screen
-        name="TestGoal"
-        component={TestGoal}
+        name="Dicas"
+        component={Dicas}
         options={{
           headerShown: true,
           headerTitle: "",
