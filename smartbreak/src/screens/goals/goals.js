@@ -1,8 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, SafeAreaView, ScrollView, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Button, SafeAreaView, ScrollView, Pressable , TouchableHighlight, Dimensions } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import Modal from 'react-native-modal';
+import { useNavigation } from "@react-navigation/native";
 
 // Icons
 import { Candle2, ArrowRight2 } from "iconsax-react-native";
@@ -12,6 +13,8 @@ import { useFonts } from 'expo-font';
 import { Alert } from 'react-native-web';
 
 export default function Goals() {
+
+  const navigation = useNavigation();
 
   // DROPDOWN
   const data = [
@@ -25,14 +28,6 @@ export default function Goals() {
   const [value, setValue] = useState(null);
   const [focus, setFocus] = useState(false);
 
-  const renderItens = () => {
-    if (value || focus) {
-      return (
-        <Text> Equipa</Text>
-      )
-    }
-    return null;
-  }
 
   // MODAL
 
@@ -66,7 +61,7 @@ export default function Goals() {
     if (selectedIds.length !== 0) {
       const filteredFiltros = filtros.filter(filtro => selectedIds.includes(filtro.id));
       return filteredFiltros.map(({ id, label }) => (
-        <View style={{ ...styles.filtroCaixa, height: '75%', width: 180 }} key={id}>
+        <View style={{ ...styles.filtroCaixa, width: 180 }} key={id}>
           <Text style={styles.filtroTexto}>{label}</Text>
         </View>
       ));
@@ -116,26 +111,26 @@ export default function Goals() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        {renderItens()}
-        <Dropdown
-          data={data}
-          style={[styles.dropdown, focus && { borderColor: 'blue' }]}
-          placeholderStyle={styles.placeholderStyle}
-          selectedTextStyle={styles.selectedTextStyle}
-          inputSearchStyle={styles.inputSearchStyle}
-          maxHeight={300}
-          search
-          labelField='label'
-          valueField='value'
-          placeholder={!focus ? 'Equipa' : '...'}
-          value={value}
-          onFocus={() => setFocus(true)}
-          onBlur={() => setFocus(false)}
-          onChange={item => {
-            setValue(item.value);
-            setFocus(false);
-          }}
-        />
+        <View style={{display: 'flex', alignItems: 'center'}}>
+          <Dropdown
+            data={data}
+            style={[styles.dropdown, focus]}
+            placeholderStyle={styles.placeholderStyle}
+            selectedTextStyle={styles.selectedTextStyle}
+            maxHeight={300}
+            labelField='label'
+            valueField='value'
+            placeholder={!focus ? 'Equipa' : '...'}
+            value={value}
+            onFocus={() => setFocus(true)}
+            onBlur={() => setFocus(false)}
+            onChange={item => {
+              setValue(item.value);
+              setFocus(false);
+            }}
+          />
+        </View>
+
         <StatusBar style="auto" />
 
 
@@ -143,7 +138,7 @@ export default function Goals() {
           <View>
             {mostrarFiltros()}
           </View>
-          
+
           <View>
             <Modal
               animationType="fade"
@@ -158,7 +153,7 @@ export default function Goals() {
                   {listagem()}
                   <View style={{ ...styles.filtrosArea, marginLeft: 0 }}>
                     <Pressable onPress={() => cancelar()} >
-                      <Text style={{ color: '#0051BA', fontFamily: 'GothamMedium' }}>Cancelar</Text>
+                      <Text style={{ color: '#0051BA', fontFamily: 'GothamMedium', paddingTop: 15 }}>Cancelar</Text>
                     </Pressable>
                     <Pressable onPress={() => setModalOpen(false)} style={{ ...styles.filtroCaixa, width: '50%' }}>
                       <Text style={styles.filtroTexto}>Aplicar</Text>
@@ -179,7 +174,7 @@ export default function Goals() {
 
         <View style={styles.objetivosCaixa}>
           <View style={{ width: '85%' }}>
-            <Text style={{ fontFamily: 'GothamBook', fontSize: 14 }}>Diminuir o custo dos gastos de energia da empresa para menos 20%.</Text>
+            <Text style={{ fontFamily: 'GothamBook', fontSize: 14, lineHeight: 20}}>Diminuir o custo dos gastos de energia da empresa para menos 20%.</Text>
             <View style={styles.parteBaixo}>
               <View style={styles.filtroCaixa}>
                 <Text style={styles.filtroTexto}>Urgente</Text>
@@ -188,14 +183,14 @@ export default function Goals() {
             </View>
           </View>
 
-          <View style={styles.seta}>
+          <TouchableHighlight style={styles.seta} onPress={() => navigation.navigate("Dicas")}>
             <ArrowRight2 color='white' style={{ width: 20, alignSelf: 'center' }}></ArrowRight2>
-          </View>
+          </TouchableHighlight>
         </View>
 
         <View style={styles.objetivosCaixa}>
           <View style={{ width: '85%' }}>
-            <Text style={{ fontFamily: 'GothamBook', fontSize: 14 }}>Reduzir número de pausas para 3 por dia.</Text>
+            <Text style={{ fontFamily: 'GothamBook', fontSize: 14, lineHeight: 20 }}>Reduzir número de pausas para 3 por dia.</Text>
             <View style={styles.parteBaixo}>
               <View style={styles.filtroCaixa}>
                 <Text style={styles.filtroTexto}>Alta prioridade</Text>
@@ -204,14 +199,14 @@ export default function Goals() {
             </View>
           </View>
 
-          <View style={styles.seta}>
+          <TouchableHighlight style={styles.seta} onPress={() => navigation.navigate("Dicas")}>
             <ArrowRight2 color='white' style={{ width: 20, alignSelf: 'center' }}></ArrowRight2>
-          </View>
+          </TouchableHighlight>
         </View>
 
         <View style={styles.objetivosCaixa}>
           <View style={{ width: '85%' }}>
-            <Text style={{ fontFamily: 'GothamBook', fontSize: 14 }}>Diminuir a temperatura do ar condicionado para menos 2 graus.</Text>
+            <Text style={{ fontFamily: 'GothamBook', fontSize: 14, lineHeight: 20 }}>Diminuir a temperatura do ar condicionado para menos 2 graus.</Text>
             <View style={styles.parteBaixo}>
               <View style={styles.filtroCaixa}>
                 <Text style={styles.filtroTexto}>Baixa prioridade</Text>
@@ -220,14 +215,14 @@ export default function Goals() {
             </View>
           </View>
 
-          <View style={styles.seta}>
+          <TouchableHighlight style={styles.seta} onPress={() => navigation.navigate("Dicas")}>
             <ArrowRight2 color='white' style={{ width: 20, alignSelf: 'center' }}></ArrowRight2>
-          </View>
+          </TouchableHighlight>
         </View>
 
         <View style={styles.objetivosCaixa}>
           <View style={{ width: '85%' }}>
-            <Text style={{ fontFamily: 'GothamBook', fontSize: 14 }}>Diminuir as vezes que se inicia a impressora para metade.</Text>
+            <Text style={{ fontFamily: 'GothamBook', fontSize: 14, lineHeight: 20 }}>Diminuir as vezes que se inicia a impressora para metade.</Text>
             <View style={styles.parteBaixo}>
               <View style={styles.filtroCaixa}>
                 <Text style={styles.filtroTexto}>Baixa prioridade</Text>
@@ -236,14 +231,14 @@ export default function Goals() {
             </View>
           </View>
 
-          <View style={styles.seta}>
+          <TouchableHighlight style={styles.seta} onPress={() => navigation.navigate("Dicas")}>
             <ArrowRight2 color='white' style={{ width: 20, alignSelf: 'center' }}></ArrowRight2>
-          </View>
+          </TouchableHighlight>
         </View>
 
         <View style={styles.objetivosCaixa}>
           <View style={{ width: '85%' }}>
-            <Text style={{ fontFamily: 'GothamBook', fontSize: 14 }}>Diminuir as vezes que se inicia a impressora para metade.</Text>
+            <Text style={{ fontFamily: 'GothamBook', fontSize: 14, lineHeight: 20 }}>Diminuir as vezes que se inicia a impressora para metade.</Text>
             <View style={styles.parteBaixo}>
               <View style={styles.filtroCaixa}>
                 <Text style={styles.filtroTexto}>Baixa prioridade</Text>
@@ -252,31 +247,31 @@ export default function Goals() {
             </View>
           </View>
 
-          <View style={styles.seta}>
+          <TouchableHighlight style={styles.seta} onPress={() => navigation.navigate("Dicas")}>
             <ArrowRight2 color='white' style={{ width: 20, alignSelf: 'center' }}></ArrowRight2>
-          </View>
+          </TouchableHighlight>
         </View>
-
-        <Button
-          title="Go to Goal1"
-        /*onPress={() => navigation.navigate('TestGoal')} */
-        />
       </ScrollView>
     </SafeAreaView>
   );
 }
 
+// Get screen dimensions
+const screenWidth = Dimensions.get('window').width;
+const screenHeight = Dimensions.get('window').height - 50;
 
 const styles = StyleSheet.create({
   container: {
+    width: screenWidth,
+    height: screenHeight,
     flex: 1,
     backgroundColor: '#fff',
     paddingTop: 65,
   },
   dropdown: {
+    width: '86%',
     height: 50,
     borderBottomWidth: 2,
-    borderWidth: 0.5,
     paddingHorizontal: 8,
   },
   label: {
@@ -287,15 +282,12 @@ const styles = StyleSheet.create({
     zIndex: 999,
     paddingHorizontal: 8,
     fontSize: 14,
+    borderBottom: 'black',
   },
   placeholderStyle: {
     fontSize: 16,
   },
   selectedTextStyle: {
-    fontSize: 16,
-  },
-  inputSearchStyle: {
-    height: 40,
     fontSize: 16,
   },
   filtrosArea: {
@@ -361,6 +353,7 @@ const styles = StyleSheet.create({
     padding: 15,
     marginTop: 20,
     marginBottom: 20,
+    // height: '8%'
   },
   filtroCaixa: {
     width: 140,
