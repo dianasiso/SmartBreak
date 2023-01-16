@@ -88,7 +88,7 @@ export default function Login() {
   };
 
   const handleNavigate = (uid) => {
-    console.log(uid + "o uid tá aqui");
+    //console.log(uid + "o uid tá aqui");
     let id = uid;
     navigation.navigate("TabRoutes");
     dispatch(logUser(id));
