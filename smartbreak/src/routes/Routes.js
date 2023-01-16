@@ -29,6 +29,7 @@ import NotificationsProfile from "../screens/profile/notificationsprofile";
 import SecurityProfile from "../screens/profile/secutiryprofile";
 import TermsofUseProfile from "../screens/profile/termsofuseprofile";
 import HelpCenterProfile from "../screens/profile/helpcenterprofile";
+import historicoPausas from "../screens/profile/historicoPausas";
 //autenticação
 import Login from "../screens/authentication/login";
 import Register from "../screens/authentication/register";
@@ -261,6 +262,23 @@ const ProfileStackNavigation = ({ navigation }) => {
                 size="24"
                 color="#000000"
                 onPress={() => navigation.navigate("ProfileSettings")}
+              />
+            </View>
+          ),
+        }}
+      />
+      <ProfileStack.Screen
+        name="HistoricoPausas"
+        component={historicoPausas}
+        options={{
+          headerShown: true,
+          headerTitle: "",
+          headerLeft: () => (
+            <View style={{ paddingLeft: 20, paddingTop: 20 }}>
+              <ArrowLeft2
+                size="24"
+                color="#000000"
+                onPress={() => navigation.navigate("HistoricoPausas")}
               />
             </View>
           ),

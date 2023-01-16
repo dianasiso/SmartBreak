@@ -92,7 +92,6 @@ export default function ProfilePage() {
           <Text style={styles.name}>{name}</Text>
           <Text style={styles.organization}>{organization}</Text>
         </View>
-
         <TouchableOpacity
           activeOpacity={0.8}
           style={styles.options}
