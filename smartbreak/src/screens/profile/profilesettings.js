@@ -50,8 +50,12 @@ export default function ProfileSettings({ navigation }) {
   };
 
   const handleLogout = () => {
-    dispatch(logoutUser());
-    navigation.navigate("Welcome");
+    try {
+      navigation.navigate("Welcome");
+      dispatch(logoutUser());
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const terminarsessao = () => {
