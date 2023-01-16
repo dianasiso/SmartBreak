@@ -32,8 +32,8 @@ export default function Register() {
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState(null);
     const [items, setItems] = useState([
-      {label: 'Universidade de Aveiro', value: 'ua'},
-      {label: 'Universidade de Coimbra', value: 'uc'}
+      {label: 'Universidade de Aveiro', value: 'Universidade de Aveiro'},
+      {label: 'Universidade de Coimbra', value: 'Universidade de Coimbra'}
     ]);
 
     // fields
@@ -59,6 +59,7 @@ export default function Register() {
           password: password.trim(),
           organization: value,
           uid: userCredential.user.uid,
+          rewards: false,
         })
         Alert.alert("Sucesso", "Utilizador registado com sucesso.")
         // navigate.navigate("Painel", {idUser: userCredential.user.uid})
