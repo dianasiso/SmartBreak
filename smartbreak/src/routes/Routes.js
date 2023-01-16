@@ -485,4 +485,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TabRoutes;
+export default MainStackNavigation;

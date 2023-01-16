@@ -72,6 +72,7 @@ export default function ProfilePage() {
     <SafeAreaProvider style={styles.container}  >
       <StatusBar style="auto" />
       <ScrollView
+      showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }>
@@ -84,7 +85,6 @@ export default function ProfilePage() {
           <Text style={styles.organization}>{organization}</Text>
         </View>
 
-          
         <TouchableOpacity activeOpacity={0.8} style={styles.options} onPress={() => navigation.navigate("EditProfile")} underlayColor={"transparent"} >
           <Text style={styles.text} ><Edit2 color="#000000" />    Editar perfil</Text>
         </TouchableOpacity>
@@ -153,15 +153,14 @@ const styles = StyleSheet.create({
   },
 
   options: {
-    flex: 1,
     marginTop: 20,
     marginBottom: 10,
     borderRadius: 15,
     padding: 15,
-    width: screenWidth - 50, 
+    //width: screenWidth - 50, 
     flexDirection: "row",
     alignItems: "center",
-    textAlign: 'left',
+    //textAlign: 'left',
     backgroundColor: "#E3ECF7",
     justifyContent:"space-between",
   },

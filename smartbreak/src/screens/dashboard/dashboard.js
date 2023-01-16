@@ -1,7 +1,14 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { useState } from "react";
-import { StyleSheet, Text, View, Pressable } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  SafeAreaView,
+  ScrollView,
+} from "react-native";
 import { useFonts } from "expo-font";
 import { AddCircle, People, Clock } from "iconsax-react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -135,11 +142,15 @@ export default function Dashboard() {
   }
 
   return (
-    <View style={dashboardStyles.pageContainer}>
-      <BatteryToggle />
-      <Metricas />
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={dashboardStyles.pageContainer}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View>
+          <BatteryToggle />
+          <Metricas />
+          <StatusBar style="auto" />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -156,6 +167,7 @@ const dashboardStyles = StyleSheet.create({
 const batteryStyles = StyleSheet.create({
   batteryView: {
     flexDirection: "row",
+    justifyContent: "center",
     alignItems: "center",
     marginTop: 130,
   },
@@ -183,7 +195,7 @@ const batteryStyles = StyleSheet.create({
     backgroundColor: "#0051BA",
     borderRadius: 18,
     position: "absolute",
-    left: 6,
+    left: 82,
   },
 });
 

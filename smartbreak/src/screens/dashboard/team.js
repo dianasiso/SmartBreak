@@ -15,7 +15,10 @@ export default function Team({ navigation }) {
   });
 
   return (
-    <SafeAreaProvider style={styles.container}>
+    <SafeAreaProvider
+      showsVerticalScrollIndicator={false}
+      style={styles.container}
+    >
       <ScrollView>
         <StatusBar style="auto" />
         <Text style={styles.title}>Design</Text>
@@ -24,7 +27,7 @@ export default function Team({ navigation }) {
         </Text>
         <View style={styles.membros}>
           <Image
-            source={require("../../imgs/user.png")}
+            source={require("../../imgs/img_register_photo_default.png")}
             style={styles.profilepicture}
           />
           <View>
@@ -34,13 +37,13 @@ export default function Team({ navigation }) {
           <ArrowCircleRight
             variant="Bold"
             color="#0051BA"
-            onPress={() => navigation.navigate("MembersRewards")}
+            onPress={() => navigation.navigate("MembersRewardsDashboard")}
           />
         </View>
 
         <View style={styles.membros}>
           <Image
-            source={require("../../imgs/user.png")}
+            source={require("../../imgs/img_register_photo_default.png")}
             style={styles.profilepicture}
           />
           <View>
@@ -50,13 +53,13 @@ export default function Team({ navigation }) {
           <ArrowCircleRight
             variant="Bold"
             color="#0051BA"
-            onPress={() => navigation.navigate("MembersRewards")}
+            onPress={() => navigation.navigate("MembersRewardsDashboard")}
           />
         </View>
 
         <View style={styles.membros}>
           <Image
-            source={require("../../imgs/user.png")}
+            source={require("../../imgs/img_register_photo_default.png")}
             style={styles.profilepicture}
           />
           <View>
@@ -66,7 +69,7 @@ export default function Team({ navigation }) {
           <ArrowCircleRight
             variant="Bold"
             color="#0051BA"
-            onPress={() => navigation.navigate("MembersRewards")}
+            onPress={() => navigation.navigate("MembersRewardsDashboard")}
           />
         </View>
 
@@ -82,13 +85,13 @@ export default function Team({ navigation }) {
           <ArrowCircleRight
             variant="Bold"
             color="#0051BA"
-            onPress={() => navigation.navigate("MembersRewards")}
+            onPress={() => navigation.navigate("MembersRewardsDashboard")}
           />
         </View>
 
         <View style={styles.membros}>
           <Image
-            source={require("../../imgs/user.png")}
+            source={require("../../imgs/img_register_photo_default.png")}
             style={styles.profilepicture}
           />
           <View>
@@ -98,13 +101,13 @@ export default function Team({ navigation }) {
           <ArrowCircleRight
             variant="Bold"
             color="#0051BA"
-            onPress={() => navigation.navigate("MembersRewards")}
+            onPress={() => navigation.navigate("MembersRewardsDashboard")}
           />
         </View>
 
         <View style={styles.membros}>
           <Image
-            source={require("../../imgs/user.png")}
+            source={require("../../imgs/img_register_photo_default.png")}
             style={styles.profilepicture}
           />
           <View>
@@ -114,7 +117,7 @@ export default function Team({ navigation }) {
           <ArrowCircleRight
             variant="Bold"
             color="#0051BA"
-            onPress={() => navigation.navigate("MembersRewards")}
+            onPress={() => navigation.navigate("MembersRewardsDashboard")}
           />
         </View>
       </ScrollView>

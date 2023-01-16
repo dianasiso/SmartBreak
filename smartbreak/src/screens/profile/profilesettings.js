@@ -31,7 +31,7 @@ export default function ProfileSettings({ navigation }) {
   });
 
   if (!loaded) {
-    return null;  // Returns null if unable to load the font
+    return null; // Returns null if unable to load the font
   }
 
   const apagarconta = () => {
@@ -55,7 +55,10 @@ export default function ProfileSettings({ navigation }) {
   };
 
   return (
-    <SafeAreaProvider style={styles.container}>
+    <SafeAreaProvider
+      showsVerticalScrollIndicator={false}
+      style={styles.container}
+    >
       <ScrollView>
         <StatusBar style="auto" />
         <Text style={styles.title}>Definições</Text>
@@ -134,7 +137,7 @@ export default function ProfileSettings({ navigation }) {
   );
 }
 
-const screenWidth = Dimensions.get('window').width;
+const screenWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
   container: {

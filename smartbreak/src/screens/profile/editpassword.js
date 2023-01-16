@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Alert } from "react-native";
 import {
   Dimensions,
@@ -13,7 +13,7 @@ import {
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 // Firebase
-import firebase from "./../../config/firebase.js"
+import firebase from "./../../config/firebase.js";
 
 // Font Gotham
 import { useFonts } from "expo-font";
@@ -25,27 +25,27 @@ export default function EditPassword({ navigation }) {
     GothamBook: "./../fonts/GothamBook.ttf",
   });
 
- 
   const [get, setGet] = useState(true);
   const [passwordStored, setPasswordStored] = useState();
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
   const [newPassword, setNewPassword] = useState();
-  const uid = 'Y8f9M4o03ceZrFjoWu6iOA8rm2F2'; // Posteriormente pegar da navegation
+  const uid = "Y8f9M4o03ceZrFjoWu6iOA8rm2F2"; // Posteriormente pegar da navegation
 
   if (!loaded) {
-    return null;  // Returns null if unable to load the font
+    return null; // Returns null if unable to load the font
   }
 
   // Get data from firestore
   if (get) {
-    firebase.firestore()
-  .collection("users_data")
-  .doc(uid)
-  .get()
-  .then((doc) => {
-      setPasswordStored(doc.data().password);
-      })
+    firebase
+      .firestore()
+      .collection("users_data")
+      .doc(uid)
+      .get()
+      .then((doc) => {
+        setPasswordStored(doc.data().password);
+      });
     setGet(false);
   }
 
@@ -55,71 +55,97 @@ export default function EditPassword({ navigation }) {
       return false;
     }
     return true;
-  }
-
+  };
 
   const validate = () => {
     if (passwordStored != password) {
-      Alert.alert("Falha de autenticação!", "Insira corretamente a sua palavra-passe atual.");
+      Alert.alert(
+        "Falha de autenticação!",
+        "Insira corretamente a sua palavra-passe atual."
+      );
       return false;
-    }
-    else if (newPassword != confirmPassword) {
-      Alert.alert("Erro!", "Digite corretamente a confirmação da palavra-passe.");
+    } else if (newPassword != confirmPassword) {
+      Alert.alert(
+        "Erro!",
+        "Digite corretamente a confirmação da palavra-passe."
+      );
       return false;
-    }
-    else if (password == newPassword) {
-      Alert.alert("Erro!", "As palavras-passe não podem ser iguais.")
+    } else if (password == newPassword) {
+      Alert.alert("Erro!", "As palavras-passe não podem ser iguais.");
       return false;
-    }
-    else {
+    } else {
       return validate_password(newPassword);
     }
   };
 
-
   const editarpasse = () => {
-    
     Alert.alert("Atenção", "Deseja confirmar as alterações?", [
       { text: "Cancelar" },
       {
         text: "Confirmar",
         onPress: () => {
           if (validate()) {
-            firebase.firestore().collection('users_data').doc(uid).update({
-            password: password,
-          })
-          navigation.navigate("ProfileSettings")
+            firebase.firestore().collection("users_data").doc(uid).update({
+              password: password,
+            });
+            navigation.navigate("ProfileSettings");
           }
-          
-        }
+        },
       },
     ]);
   };
 
   return (
     <SafeAreaProvider style={styles.container}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <StatusBar style="auto" />
         <Text style={styles.title}>Alterar palavra-passe</Text>
         <View style={{ alignItems: "center" }}>
           <View style={styles.edit}>
             <Text style={styles.text}>Palavra-passe atual</Text>
-            <TextInput secureTextEntry={true} placeholder="" style={styles.input} onChangeText={(text) => setPassword(text)} value={password}/>
+            <TextInput
+              secureTextEntry={true}
+              placeholder=""
+              style={styles.input}
+              onChangeText={(text) => setPassword(text)}
+              value={password}
+            />
             <Text style={styles.text}>Nova palavra-passe</Text>
-            <TextInput secureTextEntry={true} placeholder="" style={styles.input} onChangeText={(text) => setNewPassword(text)} value={newPassword}/>
+            <TextInput
+              secureTextEntry={true}
+              placeholder=""
+              style={styles.input}
+              onChangeText={(text) => setNewPassword(text)}
+              value={newPassword}
+            />
             <Text style={styles.text}>Confirmar nova palavra-passe</Text>
-            <TextInput secureTextEntry={true} placeholder="" style={styles.input} onChangeText={(text) => setConfirmPassword(text)} value={confirmPassword} />
+            <TextInput
+              secureTextEntry={true}
+              placeholder=""
+              style={styles.input}
+              onChangeText={(text) => setConfirmPassword(text)}
+              value={confirmPassword}
+            />
           </View>
-          <View >
-            <TouchableOpacity activeOpacity={0.8} onPress={() => editarpasse()} underlayColor={"transparent"} style={styles.button} >
-              <Text style={{ 
-                color: "#FFFFFF",
+          <View>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => editarpasse()}
+              underlayColor={"transparent"}
+              style={styles.button}
+            >
+              <Text
+                style={{
+                  color: "#FFFFFF",
                   fontFamily: "GothamBook",
                   fontSize: 16,
                   lineHeight: 24,
-                  textAlign: 'center',
+                  textAlign: "center",
                 }}
-              > Concluído </Text>
+              >
+                {" "}
+                Concluído{" "}
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -128,7 +154,7 @@ export default function EditPassword({ navigation }) {
   );
 }
 
-const screenWidth = Dimensions.get('window').width;
+const screenWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
   container: {
@@ -178,15 +204,14 @@ const styles = StyleSheet.create({
     lineHeight: 24,
   },
   button: {
-    alignSelf: 'stretch',
+    alignSelf: "stretch",
     marginTop: 40,
     borderRadius: 15,
     paddingTop: 15,
     paddingBottom: 15,
     marginBottom: 20,
-    justifyContent: 'center',
+    justifyContent: "center",
     backgroundColor: "#0051BA",
     width: screenWidth - 50,
   },
-
 });

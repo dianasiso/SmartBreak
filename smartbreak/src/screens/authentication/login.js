@@ -128,7 +128,7 @@ subContainer: {
   paddingLeft: 25,
   paddingRight: 25,
   paddingTop: 65,
-  height: screenHeight/2,
+  //height: screenHeight/2,
 },
 registerPhoto: {
   height: screenWidth/5,
@@ -163,7 +163,7 @@ button: {
   backgroundColor: '#0051BA',
   justifyContent: 'center',
   height: 48,
-  borderRadius: 8,
+  borderRadius: 15,
   marginBottom: 40,
   marginTop: 10,
 },
@@ -180,9 +180,10 @@ textMessageBody: {
   paddingTop: 15,
   fontFamily: 'GothamBook',
   color: '#FFFFFF',
+  lineHeight:24
 },
 imageLogo: {
   alignItems: 'center',
-  paddingTop: 65,
+  paddingTop: 28,
 }, 
 });

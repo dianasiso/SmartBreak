@@ -21,7 +21,10 @@ export default function MembersRewards({ navigation }) {
   });
 
   return (
-    <SafeAreaProvider style={styles.container}>
+    <SafeAreaProvider
+      showsVerticalScrollIndicator={false}
+      style={styles.container}
+    >
       <ScrollView>
         <StatusBar style="auto" />
         <Text style={styles.title}>Recompensas de xxx</Text>
