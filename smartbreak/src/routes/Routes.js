@@ -82,7 +82,7 @@ const AuthStackNavigation = ({ navigation }) => {
 };
 
 //navegação stack na dashboard
-const DashboardStackNavigation = ({ navigation }) => {
+const DashboardStackNavigation = ({ navigation, route }) => {
   return (
     <DashboardStack.Navigator
       initialRouteName="HomeDashboard"
@@ -90,9 +90,9 @@ const DashboardStackNavigation = ({ navigation }) => {
     >
       <DashboardStack.Screen
         name="HomeDashboard"
-        component={Dashboard}
         options={{ headerShown: false }}
-      />
+        component={Dashboard}
+      ></DashboardStack.Screen>
 
       <DashboardStack.Screen
         name="TeamDashboard"
@@ -343,7 +343,14 @@ function Icon({ name, color }) {
 }
 
 //routes da barra de navegação
-const TabRoutes = () => {
+const TabRoutes = (
+  {
+    /* route*/
+  }
+) => {
+  //const { idUser } = route.params;
+  //console.log(idUser);
+
   const [loaded] = useFonts({
     GothamMedium: require("./../fonts/GothamMedium.ttf"),
     GothamBook: require("./../fonts/GothamBook.ttf"),
@@ -416,7 +423,6 @@ const TabRoutes = () => {
             </>
           ),
         }}
-        /* navigation={navigation}*/
       />
 
       <Tab.Screen

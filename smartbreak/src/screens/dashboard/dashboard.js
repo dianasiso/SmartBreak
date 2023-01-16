@@ -12,6 +12,8 @@ import {
 import { useFonts } from "expo-font";
 import { AddCircle, People, Clock } from "iconsax-react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 const BatteryToggle = () => {
   const [selected, setSelected] = useState("personal");
@@ -133,6 +135,14 @@ const Metricas = () => {
 };
 
 export default function Dashboard() {
+  //const { idUser } = route.params.idUser;
+  //console.log(route);
+  const reduxState = useSelector((state) => state.user.userID);
+
+  useEffect(() => {
+    console.log("redux state:", reduxState);
+  }, [reduxState]);
+
   const [loaded] = useFonts({
     GothamMedium: "./../fonts/GothamMedium.ttf",
     GothamBook: "./../fonts/GothamBook.ttf",
