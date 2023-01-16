@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import {
+  Dimensions,
   StyleSheet,
   ScrollView,
   View,
@@ -28,6 +29,10 @@ export default function ProfileSettings({ navigation }) {
     GothamMedium: "./../fonts/GothamMedium.ttf",
     GothamBook: "./../fonts/GothamBook.ttf",
   });
+
+  if (!loaded) {
+    return null;  // Returns null if unable to load the font
+  }
 
   const apagarconta = () => {
     Alert.alert("Atenção", "Deseja apagar a sua conta permanentemente?", [
@@ -129,6 +134,8 @@ export default function ProfileSettings({ navigation }) {
   );
 }
 
+const screenWidth = Dimensions.get('window').width;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -144,7 +151,7 @@ const styles = StyleSheet.create({
     paddingLeft: 25,
     paddingTop: 15,
     paddingBottom: 15,
-    width: "100%",
+    width: screenWidth - 50,
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#E3ECF7",
