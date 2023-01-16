@@ -45,24 +45,24 @@ import { ArrowLeft2 } from "iconsax-react-native";
 //funções navegação
 const Tab = createBottomTabNavigator();
 const DashboardStack = createStackNavigator();
-const GoalsStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
+const GoalsStack = createStackNavigator();
 
 //navegação stack na dashboard
 const DashboardStackNavigation = ({ navigation }) => {
   return (
     <DashboardStack.Navigator
-      initialRouteName="Dashboard"
+      initialRouteName="HomeDashboard"
       screenOptions={{ animation: "none" }}
     >
       <DashboardStack.Screen
-        name="Dashboard"
+        name="HomeDashboard"
         component={Dashboard}
         options={{ headerShown: false }}
       />
 
-      <GoalsStack.Screen
-        name="Team"
+      <DashboardStack.Screen
+        name="TeamDashboard"
         component={Team}
         options={{
           headerShown: true,
@@ -72,15 +72,15 @@ const DashboardStackNavigation = ({ navigation }) => {
               <ArrowLeft2
                 size="24"
                 color="#000000"
-                onPress={() => navigation.navigate("Dashboard")} //não esquecer de colocar sempre a pagina para onde queremos voltar!
+                onPress={() => navigation.navigate("HomeDashboard")}
               />
             </View>
           ),
         }}
       />
 
-      <GoalsStack.Screen
-        name="MembersRewards"
+      <DashboardStack.Screen
+        name="MembersRewardsDashboard"
         component={MembersRewards}
         options={{
           headerShown: true,
@@ -90,7 +90,7 @@ const DashboardStackNavigation = ({ navigation }) => {
               <ArrowLeft2
                 size="24"
                 color="#000000"
-                onPress={() => navigation.navigate("Team")} //não esquecer de colocar sempre a pagina para onde queremos voltar!
+                onPress={() => navigation.navigate("TeamDashboard")}
               />
             </View>
           ),

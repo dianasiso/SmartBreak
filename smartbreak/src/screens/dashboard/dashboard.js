@@ -75,7 +75,7 @@ const AdicionarPausa = ({ selected }) => {
     return (
       <View style={adicionarPausaStyles.adicionarPausaView}>
         <Pressable
-          onPress={() => navigation.navigate("Team")}
+          onPress={() => navigation.navigate("TeamDashboard")}
           style={adicionarPausaStyles.adicionarPausaContainer}
         >
           <Text style={adicionarPausaStyles.adicionarPausaText}>
