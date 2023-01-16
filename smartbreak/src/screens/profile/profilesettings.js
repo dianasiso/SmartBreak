@@ -23,7 +23,12 @@ import {
 // Font Gotham
 import { useFonts } from "expo-font";
 
+//redux
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../../redux/user.js";
+
 export default function ProfileSettings({ navigation }) {
+  const dispatch = useDispatch();
   // Loading Gotham font
   const [loaded] = useFonts({
     GothamMedium: "./../fonts/GothamMedium.ttf",
@@ -44,12 +49,17 @@ export default function ProfileSettings({ navigation }) {
     ]);
   };
 
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    navigation.navigate("Welcome");
+  };
+
   const terminarsessao = () => {
     Alert.alert("Atenção", "Tem a certeza que deseja terminar a sessão? ", [
       { text: "Cancelar" },
       {
         text: "Confirmar",
-        onPress: () => navigation.navigate("###"),
+        onPress: () => handleLogout(),
       },
     ]);
   };
