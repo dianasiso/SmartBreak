@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useState } from "react";
 import { Alert } from "react-native";
 import {
   StyleSheet,
@@ -8,61 +8,167 @@ import {
   Text,
   Image,
   TextInput,
-  Button,
   Switch,
+  Dimensions,
+  TouchableOpacity,
 } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+
+// Font Gotham
+import { useFonts } from "expo-font";
+
+// Firebase
+import firebase from "./../../config/firebase.js";
+
+import { LogBox } from "react-native";
+LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
+LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 export default function EditProfile({ navigation }) {
+  // Loading Gotham font
+  const [loaded] = useFonts({
+    GothamMedium: require("./../../fonts/GothamMedium.ttf"),
+    GothamBook: require("./../../fonts/GothamBook.ttf"),
+  });
+
+  const [get, setGet] = useState(true);
+  const [name, setName] = useState();
+  const [lastName, setLastName] = useState();
+  const [email, setEmail] = useState();
+  const [organization, setOrganization] = useState();
+  const [rewards, setRewards] = useState();
+  const uid = "Y8f9M4o03ceZrFjoWu6iOA8rm2F2"; // Posteriormente pegar da navegation
+
+  if (!loaded) {
+    return null; // Returns null if unable to load the font
+  }
+
+  // Get data from firestore
+  if (get) {
+    firebase
+      .firestore()
+      .collection("users_data")
+      .doc(uid)
+      .get()
+      .then((doc) => {
+        setName(doc.data().name);
+        setLastName(doc.data().lastName);
+        setEmail(doc.data().email);
+        setOrganization(doc.data().organization);
+        setRewards(doc.data().rewards);
+      });
+    setGet(false);
+  }
+
   const editarperfil = () => {
     Alert.alert("Atenção", "Deseja confirmar as alterações?", [
       { text: "Cancelar" },
       {
         text: "Confirmar",
-        onPress: () => navigation.navigate("ProfilePage"),
+        onPress: () => {
+          firebase.firestore().collection("users_data").doc(uid).update({
+            name: name,
+            lastName: lastName,
+            email: email,
+            rewards: rewards,
+          });
+          navigation.navigate("ProfilePage");
+        },
       },
     ]);
   };
 
+  const toggleSwitch = () => {
+    setRewards(!rewards);
+  };
+
   return (
-    <ScrollView style={styles.container}>
-      <StatusBar style="auto" />
-      <View style={{ alignItems: "center" }}>
-        <Image
-          source={require("../../imgs/ester.png")}
-          style={styles.profilepicture}
-        />
-        <View style={styles.edit}>
-          <Text>Nome</Text>
-          <TextInput placeholder="Ester" style={styles.input} />
-          <Text style={{ marginTop: 30 }}>Apelido</Text>
-          <TextInput placeholder="Carvalho" style={styles.input} />
-          <Text style={{ marginTop: 30 }}>Email</Text>
-          <TextInput placeholder="estercarvalho@ua.pt" style={styles.input} />
-          <Text style={{ marginTop: 30 }}>Empresa</Text>
-          <TextInput
-            placeholder="Universidade de Aveiro"
-            style={styles.input}
+    <SafeAreaProvider style={styles.container}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <StatusBar style="auto" />
+        <View style={{ alignItems: "center" }}>
+          <Image
+            source={require("../../imgs/ester.png")}
+            style={styles.profilepicture}
           />
-          <View style={styles.rewards}>
-            <Text>Tornar as recompensas públicas</Text>
-            <Switch
-              trackColor={{ false: "#BBBABA", true: "#0051BA" }}
-              onValueChange={true}
+          <View style={styles.edit}>
+            <Text style={styles.text}>Nome</Text>
+            <TextInput
+              placeholderTextColor="#000"
+              placeholder={name}
+              style={styles.input}
+              onChangeText={(text) => setName(text)}
+              value={name}
             />
+            <Text style={styles.text}>Apelido</Text>
+            <TextInput
+              placeholderTextColor="#000"
+              placeholder={lastName}
+              style={styles.input}
+              onChangeText={(text) => setLastName(text)}
+              value={lastName}
+            />
+            <Text style={styles.text}>Email</Text>
+            <TextInput
+              placeholderTextColor="#000"
+              placeholder={email}
+              style={styles.input}
+              onChangeText={(text) => setEmail(text)}
+              value={email}
+            />
+            <Text style={styles.text}>Empresa</Text>
+            <TextInput
+              placeholderTextColor="#999"
+              placeholder={organization}
+              style={styles.input}
+              editable={false}
+            />
+            <View style={styles.rewards}>
+              <Text
+                style={{
+                  fontFamily: "GothamBook",
+                  fontSize: 16,
+                  lineHeight: 24,
+                }}
+              >
+                Tornar as recompensas públicas
+              </Text>
+              <Switch
+                trackColor={{ false: "#BBBABA", true: "#0051BA" }}
+                thumbColor={rewards ? "#E3ECF7" : "#0051ba"}
+                value={rewards}
+                onValueChange={toggleSwitch}
+              />
+            </View>
+          </View>
+          <View>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => editarperfil()}
+              underlayColor={"transparent"}
+              style={styles.button}
+            >
+              <Text
+                style={{
+                  color: "#FFFFFF",
+                  fontFamily: "GothamBook",
+                  fontSize: 16,
+                  lineHeight: 24,
+                  textAlign: "center",
+                }}
+              >
+                {" "}
+                Concluído{" "}
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.options}>
-          <Button
-            color="#FFFFFF"
-            title="Concluído"
-            onPress={editarperfil}
-            underlayColor={"transparent"}
-          />
-        </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaProvider>
   );
 }
+
+const screenWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
   container: {
@@ -70,6 +176,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     paddingLeft: 25,
     paddingRight: 25,
+    paddingBottom: 100,
   },
 
   profilepicture: {
@@ -87,10 +194,13 @@ const styles = StyleSheet.create({
   },
 
   input: {
-    marginTop: 5,
+    marginTop: 0,
     borderBottomWidth: 1,
-    paddingTop: 10,
+    paddingTop: 5,
     paddingBottom: 5,
+    fontFamily: "GothamBook",
+    fontSize: 16,
+    lineHeight: 16,
   },
 
   rewards: {
@@ -100,13 +210,22 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
 
-  options: {
+  button: {
+    alignSelf: "stretch",
+    marginTop: 40,
     borderRadius: 15,
-    paddingTop: 5,
-    paddingBottom: 5,
-    width: "100%",
-    alignItems: "center",
+    paddingTop: 15,
+    paddingBottom: 15,
+    marginBottom: 20,
+    justifyContent: "center",
     backgroundColor: "#0051BA",
-    marginTop: 30,
+    width: screenWidth - 50,
+  },
+
+  text: {
+    fontFamily: "GothamMedium",
+    fontSize: 16,
+    marginTop: 40,
+    lineHeight: 24,
   },
 });

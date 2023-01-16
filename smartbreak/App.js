@@ -1,11 +1,14 @@
 //import { StyleSheet, Text, View } from "react-native";
 //import Maintenance from "./src/errors/maintenance";
 
+
 //navegação
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 
-import TabRoutes from "./src/routes/Routes";
+
+//import TabRoutes from "./src/routes/Routes";
+import MainStackNavigation from "./src/routes/Routes";
 
 //funções navegação
 const Stack = createStackNavigator();
@@ -14,15 +17,17 @@ const Stack = createStackNavigator();
 //export da app
 export default function App() {
   return (
+
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
           name="Home"
-          component={TabRoutes}
+          component={MainStackNavigation}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>
+
   );
 }
 
