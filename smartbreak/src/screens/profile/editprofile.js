@@ -37,9 +37,6 @@ export default function EditProfile({ navigation }) {
   const [email, setEmail] = useState();
   const [organization, setOrganization] = useState();
   const [rewards, setRewards] = useState();
-  const [nameUpdated, setNameUpdated] = useState(name);
-  const [lastNameUpdated, setLastNameUpdated] = useState(lastName);
-  const [emailUpdated, setEmailUpdated] = useState(email);
   const uid = 'Y8f9M4o03ceZrFjoWu6iOA8rm2F2'; // Posteriormente pegar da navegation
 
   if (!loaded) {
