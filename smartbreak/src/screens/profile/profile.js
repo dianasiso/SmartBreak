@@ -84,31 +84,47 @@ export default function ProfilePage() {
           <Text style={styles.organization}>{organization}</Text>
         </View>
 
-          
-        <TouchableOpacity activeOpacity={0.8} style={styles.options} onPress={() => navigation.navigate("EditProfile")} underlayColor={"transparent"} >
-          <Text style={styles.text} ><Edit2 color="#000000" />    Editar perfil</Text>
-        </TouchableOpacity>
+        <View style={styles.options}>   
+          <Edit2 color="#000000" onPress={() => navigation.navigate("EditProfile")}/>
+          <TouchableOpacity activeOpacity={0.8}  onPress={() => navigation.navigate("EditProfile")} underlayColor={"transparent"} >
+            <Text style={styles.text} >  Editar perfil</Text>
+          </TouchableOpacity>
+        </View>
 
-        <TouchableOpacity activeOpacity={0.8} style={styles.options} onPress={() => navigation.navigate("###")} underlayColor={"transparent"} >
-          <Text style={styles.text} ><Category color="#000000" />    Os meus equipamentos</Text>
-        </TouchableOpacity>
+        <View style={styles.options} >  
+          <Category color="#000000" onPress={() => navigation.navigate("EditProfile")} />
+            <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate("###")} underlayColor={"transparent"} >
+              <Text style={styles.text} >  Os meus equipamentos</Text>
+            </TouchableOpacity>
+        </View> 
        
-        <TouchableOpacity activeOpacity={0.8} style={styles.options} onPress={() => navigation.navigate("###")} underlayColor={"transparent"} >
-          <Text style={styles.text} ><Calendar color="#000000" />    As minhas rotinas</Text>
-        </TouchableOpacity>
+       <View style={styles.options}>
+        <Calendar color="#000000" onPress={() => navigation.navigate("###")}/> 
+          <TouchableOpacity activeOpacity={0.8}  onPress={() => navigation.navigate("###")} underlayColor={"transparent"} >
+            <Text style={styles.text} >  As minhas rotinas</Text>
+          </TouchableOpacity>
+        </View>
 
-        <TouchableOpacity activeOpacity={0.8} style={styles.options} onPress={() => navigation.navigate("###")} underlayColor={"transparent"} >
-          <Text style={styles.text} ><Clock color="#000000" />    Histórico de pausas</Text>
-        </TouchableOpacity>
+        <View style={styles.options}>
+          <Clock color="#000000" onPress={() => navigation.navigate("###")} />
+          <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate("###")} underlayColor={"transparent"} >
+            <Text style={styles.text}>  Histórico de pausas</Text>
+          </TouchableOpacity>
+        </View>
 
-        <TouchableOpacity activeOpacity={0.8} style={styles.options} onPress={() => navigation.navigate("ProfileRewards")} underlayColor={"transparent"} >
-          <Text style={styles.text} ><MedalStar color="#000000" />    As minhas recompensas</Text>
-        </TouchableOpacity>
+        <View  style={styles.options}>
+        <MedalStar color="#000000" onPress={() => navigation.navigate("ProfileRewards")} /> 
+          <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate("ProfileRewards")} underlayColor={"transparent"} >
+            <Text style={styles.text} >  As minhas recompensas</Text>
+          </TouchableOpacity>
+        </View>
 
-        <TouchableOpacity activeOpacity={0.8} style={styles.options} onPress={() => navigation.navigate("ProfileSettings")} underlayColor={"transparent"} >
-          <Text style={styles.text} ><Setting2 color="#000000" />    Definições</Text>
-        </TouchableOpacity>
-
+        <View  style={styles.options}>
+          <Setting2 color="#000000" onPress={() => navigation.navigate("ProfileSettings")}  />
+          <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate("ProfileSettings")} underlayColor={"transparent"} >
+            <Text style={styles.text} >  Definições</Text>
+          </TouchableOpacity>
+        </View>
         
         
       </ScrollView>
@@ -157,13 +173,14 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 10,
     borderRadius: 15,
-    padding: 15,
+    paddingTop: 15,
+    paddingBottom: 15,
+    paddingLeft: 25,
     width: screenWidth - 50, 
     flexDirection: "row",
     alignItems: "center",
     textAlign: 'left',
     backgroundColor: "#E3ECF7",
-    justifyContent:"space-between",
   },
 
   text: {

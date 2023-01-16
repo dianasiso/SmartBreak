@@ -86,7 +86,7 @@ export default function EditPassword({ navigation }) {
         onPress: () => {
           if (validate()) {
             firebase.firestore().collection('users_data').doc(uid).update({
-            password: password,
+            password: newPassword,
           })
           navigation.navigate("ProfileSettings")
           }
