@@ -9,17 +9,20 @@ import {
   Image,
   TextInput,
   Switch,
-  TouchableHighlight,
+  Dimensions,
+  TouchableOpacity,
 } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 // Font Gotham
 import { useFonts } from "expo-font";
 
-
 // Firebase
 import firebase from "./../../config/firebase.js"
 
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
 export default function EditProfile({ navigation }) {
   // Loading Gotham font
@@ -28,12 +31,15 @@ export default function EditProfile({ navigation }) {
     GothamBook: require('./../../fonts/GothamBook.ttf'),
   });
 
-
+  const [get, setGet] = useState(true);
   const [name, setName] = useState();
   const [lastName, setLastName] = useState();
   const [email, setEmail] = useState();
   const [organization, setOrganization] = useState();
-  const [rewards, setRewards] = useState()
+  const [rewards, setRewards] = useState();
+  const [nameUpdated, setNameUpdated] = useState(name);
+  const [lastNameUpdated, setLastNameUpdated] = useState(lastName);
+  const [emailUpdated, setEmailUpdated] = useState(email);
   const uid = 'Y8f9M4o03ceZrFjoWu6iOA8rm2F2'; // Posteriormente pegar da navegation
 
   if (!loaded) {
@@ -41,7 +47,8 @@ export default function EditProfile({ navigation }) {
   }
 
   // Get data from firestore
-  firebase.firestore()
+  if (get) {
+    firebase.firestore()
   .collection("users_data")
   .doc(uid)
   .get()
@@ -52,8 +59,12 @@ export default function EditProfile({ navigation }) {
       setOrganization(doc.data().organization);
       setRewards(doc.data().rewards);
       })
+    setGet(false);
+  }
 
   const editarperfil = () => {
+    handleClickName();
+    console.log(name)
     Alert.alert("Atenção", "Deseja confirmar as alterações?", [
       { text: "Cancelar" },
       {
@@ -62,6 +73,18 @@ export default function EditProfile({ navigation }) {
       },
     ]);
   };
+
+  const toggleSwitch = () =>{
+    setRewards(!rewards);
+  } 
+
+  const handleChangeName = (event) => {
+    setNameUpdated(event.target.value);
+  }
+
+  const handleClickName = () => {
+    setName(nameUpdated);
+  } 
 
   return (
     <SafeAreaProvider style={styles.container}>
@@ -74,11 +97,11 @@ export default function EditProfile({ navigation }) {
           />
           <View style={styles.edit}>
             <Text style={styles.text}>Nome</Text>
-            <TextInput placeholderTextColor="#000" placeholder={name} style={styles.input} />
+            <TextInput placeholderTextColor="#000" placeholder={name} style={styles.input} onChange={handleChangeName}/>
             <Text style={styles.text}>Apelido</Text>
             <TextInput placeholderTextColor="#000" placeholder={lastName} style={styles.input} />
             <Text style={styles.text}>Email</Text>
-            <TextInput placeholderTextColor="#000" placeholder={email} style={styles.input}/>
+            <TextInput placeholderTextColor="#000" placeholder={email} style={styles.input}  />
             <Text style={styles.text}>Empresa</Text>
             <TextInput placeholderTextColor="#999" placeholder={organization} style={styles.input} editable={false}/>
             <View style={styles.rewards}>
@@ -93,32 +116,31 @@ export default function EditProfile({ navigation }) {
               </Text>
               <Switch
                 trackColor={{ false: "#BBBABA", true: "#0051BA" }}
-                onValueChange={true}
+                thumbColor={rewards ? '#E3ECF7' : '#0051ba'}
+                value={rewards}
+                onValueChange={toggleSwitch}
               />
             </View>
           </View>
-          <View style={styles.options}>
-            <TouchableHighlight
-              onPress={editarperfil}
-              underlayColor={"transparent"}
-            >
-              <Text
-                style={{
-                  color: "#FFFFFF",
+          <View >
+            <TouchableOpacity activeOpacity={0.8} onPress={() => editarperfil()} underlayColor={"transparent"} style={styles.button} >
+              <Text style={{ 
+                color: "#FFFFFF",
                   fontFamily: "GothamBook",
                   fontSize: 16,
                   lineHeight: 24,
+                  textAlign: 'center',
                 }}
-              >
-                Concluído
-              </Text>
-            </TouchableHighlight>
+              > Concluído </Text>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
     </SafeAreaProvider>
   );
 }
+
+const screenWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   container: {
@@ -146,11 +168,11 @@ const styles = StyleSheet.create({
   input: {
     marginTop: 0,
     borderBottomWidth: 1,
-    paddingTop: 10,
+    paddingTop: 5,
     paddingBottom: 5,
     fontFamily: "GothamBook",
     fontSize: 16,
-    lineHeight: 24,
+    lineHeight: 16,
   },
 
   rewards: {
@@ -160,22 +182,22 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
 
-  options: {
+  button: {
+    alignSelf: 'stretch',
     marginTop: 40,
     borderRadius: 15,
     paddingTop: 15,
     paddingBottom: 15,
     marginBottom: 20,
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: 'center',
     backgroundColor: "#0051BA",
+    width: screenWidth - 50,
   },
 
   text: {
     fontFamily: "GothamMedium",
     fontSize: 16,
-    marginTop: 30,
+    marginTop: 40,
     lineHeight: 24,
   },
 });
