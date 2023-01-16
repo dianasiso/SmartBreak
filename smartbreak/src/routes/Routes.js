@@ -14,8 +14,8 @@ import Team from "../screens/dashboard/team";
 import MembersRewards from "../screens/dashboard/membersrewards";
 //ojbetivos
 import Goals from "../screens/goals/goals";
-//subpáginas dos objetivos
-import TestGoal from "../screens/goals/testgoal";
+//subpágina dos objetivos
+import Dicas from "../screens/goals/dicas";
 //estatísticas
 import Stats from "../screens/stats/stats";
 //perfil
@@ -146,8 +146,8 @@ const GoalsStackNavigation = ({ navigation }) => {
         options={{ headerShown: false }}
       />
       <GoalsStack.Screen
-        name="TestGoal"
-        component={TestGoal}
+        name="Dicas"
+        component={Dicas}
         options={{
           headerShown: true,
           headerTitle: "",
