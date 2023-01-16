@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import {
+  RefreshControl,
   StyleSheet,
   ScrollView,
   View,
@@ -33,6 +34,15 @@ export default function ProfilePage() {
     GothamBook: "./../fonts/GothamBook.ttf",
   });
 
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
+
   const [name, setName] = useState();
   const [organization, setOrganization] = useState();
   const uid = 'Y8f9M4o03ceZrFjoWu6iOA8rm2F2'; // Posteriormente pegar da navegation
@@ -60,7 +70,10 @@ export default function ProfilePage() {
   return (
     <SafeAreaProvider style={styles.container}  >
       <StatusBar style="auto" />
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         <View style={{ alignItems: "center" }}>
           <Image
             source={require("../../imgs/ester.png")}

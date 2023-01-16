@@ -63,13 +63,19 @@ export default function EditProfile({ navigation }) {
   }
 
   const editarperfil = () => {
-    handleClickName();
-    console.log(name)
     Alert.alert("Atenção", "Deseja confirmar as alterações?", [
       { text: "Cancelar" },
       {
         text: "Confirmar",
-        onPress: () => navigation.navigate("ProfilePage"),
+        onPress: () => {
+          firebase.firestore().collection('users_data').doc(uid).update({
+            name: name,
+            lastName: lastName,
+            email: email,
+            rewards: rewards,
+          })
+          navigation.navigate("ProfilePage")
+        },
       },
     ]);
   };
@@ -78,14 +84,7 @@ export default function EditProfile({ navigation }) {
     setRewards(!rewards);
   } 
 
-  const handleChangeName = (event) => {
-    setNameUpdated(event.target.value);
-  }
-
-  const handleClickName = () => {
-    setName(nameUpdated);
-  } 
-
+  
   return (
     <SafeAreaProvider style={styles.container}>
       <ScrollView>
@@ -97,11 +96,11 @@ export default function EditProfile({ navigation }) {
           />
           <View style={styles.edit}>
             <Text style={styles.text}>Nome</Text>
-            <TextInput placeholderTextColor="#000" placeholder={name} style={styles.input} onChange={handleChangeName}/>
+            <TextInput placeholderTextColor="#000" placeholder={name} style={styles.input} onChangeText={(text) => setName(text)} value={name}/>
             <Text style={styles.text}>Apelido</Text>
-            <TextInput placeholderTextColor="#000" placeholder={lastName} style={styles.input} />
+            <TextInput placeholderTextColor="#000" placeholder={lastName} style={styles.input}  onChangeText={(text) => setLastName(text)} value={lastName}/>
             <Text style={styles.text}>Email</Text>
-            <TextInput placeholderTextColor="#000" placeholder={email} style={styles.input}  />
+            <TextInput placeholderTextColor="#000" placeholder={email} style={styles.input}   onChangeText={(text) => setEmail(text)} value={email}/>
             <Text style={styles.text}>Empresa</Text>
             <TextInput placeholderTextColor="#999" placeholder={organization} style={styles.input} editable={false}/>
             <View style={styles.rewards}>
