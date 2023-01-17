@@ -18,9 +18,9 @@ export default function TermsofUseProfile() {
     <SafeAreaProvider style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <StatusBar style="auto" />
-        <View style={styles.arrow}>
+        {/*<View style={styles.arrow}>
           <ArrowCircleUp variant="Bold" color="#0051BA" size="65" />
-        </View>
+  </View>*/}
         <Text style={styles.title}>Termos de utilização</Text>
         <View>
           <Text style={styles.subtitle}>
@@ -110,8 +110,10 @@ const styles = StyleSheet.create({
   },
 
   arrow: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
+    position: "absolute",
+    bottom: 10,
+    right: 10,
+    zIndex: 1,
   },
 
   title: {
