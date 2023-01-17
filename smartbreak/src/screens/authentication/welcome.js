@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     paddingLeft: 25,
     paddingRight: 25,
     paddingTop: 10,
-    paddingBottom: 300,
+    paddingBottom: 200, //ver como mudar para todos os ecrãs. esta distÂncia está feita para o telemóvel do Daniel!!
   },
   imageLogo: {
     alignItems: "center",

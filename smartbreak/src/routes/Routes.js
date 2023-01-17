@@ -71,12 +71,54 @@ const AuthStackNavigation = ({ navigation }) => {
       <AuthStack.Screen
         name="Login"
         component={Login}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: true,
+          headerTitle: "",
+          headerStyle: {
+            backgroundColor: "#0051BA",
+            shadowColor: "transparent",
+          },
+          headerLeft: () => (
+            <View
+              style={{
+                paddingLeft: 20,
+                paddingTop: 20,
+              }}
+            >
+              <ArrowLeft2
+                size="24"
+                color="#FFFFFF"
+                onPress={() => navigation.navigate("Welcome")}
+              />
+            </View>
+          ),
+        }}
       />
       <AuthStack.Screen
         name="Register"
         component={Register}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: true,
+          headerTitle: "",
+          headerStyle: {
+            backgroundColor: "#0051BA",
+            shadowColor: "transparent",
+          },
+          headerLeft: () => (
+            <View
+              style={{
+                paddingLeft: 20,
+                paddingTop: 20,
+              }}
+            >
+              <ArrowLeft2
+                size="24"
+                color="#FFFFFF"
+                onPress={() => navigation.navigate("Welcome")}
+              />
+            </View>
+          ),
+        }}
       />
     </AuthStack.Navigator>
   );
@@ -268,7 +310,7 @@ const ProfileStackNavigation = ({ navigation }) => {
         }}
       />
       <ProfileStack.Screen
-        name="HistoricoPausas"
+        name="historicoPausas"
         component={historicoPausas}
         options={{
           headerShown: true,
@@ -278,7 +320,7 @@ const ProfileStackNavigation = ({ navigation }) => {
               <ArrowLeft2
                 size="24"
                 color="#000000"
-                onPress={() => navigation.navigate("HistoricoPausas")}
+                onPress={() => navigation.navigate("PofilePge")}
               />
             </View>
           ),

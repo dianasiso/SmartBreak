@@ -157,7 +157,6 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: "GothamBook",
     fontSize: 16,
-    marginLeft: 15,
     lineHeight: 24,
   },
 
