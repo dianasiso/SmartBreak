@@ -92,52 +92,53 @@ export default function Devices({ navigation }) {
 
   const whichIcon = (text) => {
     if (text == "Printer") {
-      return (<Printer  onLongPress={(() => {console.log("ai fui pressionado")})}  color="#000000"/> )
+      return (<Printer color="#000000"/> )
     }
     if (text == "Camera") {
-      return (<Camera  onLongPress={(() => {console.log("ai fui pressionado")})}  color="#000000"/> )
+      return (<Camera color="#000000"/> )
     }
     if (text == "Headphone") {
-      return (<Headphone onLongPress={(() => {console.log("ai fui pressionado")})}  color="#000000"/> )
+      return (<Headphone color="#000000"/> )
     }
     if (text == "Mobile") {
-      return (<Mobile onLongPress={(() => {console.log("ai fui pressionado")})}  color="#000000"/> )
+      return (<Mobile color="#000000"/> )
     }
     if (text == "Keyboard") {
-      return (<Keyboard onLongPress={(() => {console.log("ai fui pressionado")})}  color="#000000"/> )
+      return (<Keyboard color="#000000"/> )
     }
     if (text == "Mouse") {
-      return (<Mouse onLongPress={(() => {console.log("ai fui pressionado")})}  color="#000000"/> )
+      return (<Mouse color="#000000"/> )
     }
     if (text == "Call") {
-      return (<Call onLongPress={(() => {console.log("ai fui pressionado")})}  color="#000000"/> )
+      return (<Call color="#000000"/> )
     }
     if (text == "Electricity") {
-      return (<Electricity  onLongPress={(() => {console.log("ai fui pressionado")})} color="#000000"/> )
+      return (<Electricity color="#000000"/> )
     }
     if (text == "MonitorMobbile") {
-      return (<MonitorMobbile  onLongPress={(() => {console.log("ai fui pressionado")})} color="#000000"/> )
+      return (<MonitorMobbile color="#000000"/> )
     }
     if (text == "Headphones") {
-      return (<Headphones  onLongPress={(() => {console.log("ai fui pressionado")})} color="#000000"/> )
+      return (<Headphones color="#000000"/> )
     }
     if (text == "Lamp") {
-      return (<Lamp  onLongPress={(() => {console.log("ai fui pressionado")})} color="#000000"/> )
+      return (<Lamp color="#000000"/> )
     }
     if (text == "TableLamp") {
-      return (<TableLamp onLongPress={(() => {console.log("ai fui pressionado")})}  color="#000000"/> )
+      return (<TableLamp color="#000000"/> )
     }
     if (text == "Video") {
-      return (<Video  onLongPress={(() => {console.log("ai fui pressionado")})} color="#000000"/> )
+      return (<Video color="#000000"/> )
     }
     if (text == "Monitor") {
-      return (<Monitor onLongPress={(() => {console.log("ai fui pressionado")})}  color="#000000"/> )
+      return (<Monitor color="#000000"/> )
     }
     if (text == 'MirroringScreen') {
-      return (<MirroringScreen onLongPress={(() => {console.log("ai fui pressionado")})}  color="#000000"/> )
+      return (<MirroringScreen color="#000000"/> )
+
     }
     if (text == 'Microphone2') {
-      return (<Microphone2  onLongPress={(() => {console.log("ai fui pressionado")})}  color="#000000"/> )
+      return (<Microphone2 color="#000000"/> )
     }
   }
 
@@ -151,7 +152,6 @@ return (
         <View style={styles.button}>
           <TouchableHighlight underlayColor={"transparent"}>
             <Text style={styles.textButton}>Adicionar equipamento</Text>
-            //TODO: ADD
           </TouchableHighlight>
           <AddCircle color="#FFF" variant="Bold" style={{alignSelf: "center", marginLeft: 'auto', marginRight: 25}} onPress={() => navigation.navigate("EditPassword")} />
         </View>
@@ -162,7 +162,7 @@ return (
         <View style={styles.options}>
           {whichIcon(devicesArray[id].type)}
           <TouchableOpacity activeOpacity={0.8}  onLongPress={(() => {console.log("ai fui pressionado")})}  underlayColor={"transparent"} >
-            <Text style={styles.text}> {devicesArray[id].name} </Text>
+            <Text style={styles.text}>  {devicesArray[id].name} </Text>
           </TouchableOpacity>
           <Switch
             style={{marginLeft: 'auto', marginRight: 25}}
@@ -183,7 +183,7 @@ return (
               console.log("dev", devicesArray[id])
               forceUpdate()
             })}
-          />
+            />
         </View>
       ))}
 
