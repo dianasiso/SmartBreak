@@ -14,21 +14,30 @@ RefreshControl,
   Switch,
   
 } from "react-native";
+import { useSelector } from "react-redux";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import {
-  Lock1,
-  Notification,
-  SecurityUser,
-  DocumentText1,
-  MessageQuestion,
-  Trash,
-  Logout,
+  Camera,
+  TableLamp,
+  Lamp,
+  Printer,
+  Microphone2,
+  Headphone,
+  Headphones,
+  Call,
+  MonitorMobbile,
+  Electricity,
+  Keyboard,
+  Mouse,
+  Mobile,
+  MirroringScreen,
+  Monitor,
+  Video,
     AddCircle
   } from "iconsax-react-native";
 
 // Firebase
 import firebase from "./../../config/firebase.js";
-import { doc, getDoc } from "firebase/firestore";
 
 // Font Gotham
 import { useFonts } from "expo-font";
@@ -40,7 +49,8 @@ export default function Devices({ navigation }) {
     GothamBook: "./../fonts/GothamBook.ttf",
   });
 
-//   const [devices, setDevices] = useState();
+  const userData = useSelector((state) => state.user.userID);
+  useEffect(() => {}, [userData]);
 
   const [refreshing, setRefreshing] = useState(false);
  
@@ -51,16 +61,16 @@ export default function Devices({ navigation }) {
     }, 2000);
   }, []);
 
-  const [devices, setDevices] = useState()
-  const [get, setGet] = useState(true);
-  const uid = 'Y8f9M4o03ceZrFjoWu6iOA8rm2F2'; // Posteriormente pegar da navegation
-  
+  const [devicesArray, setDevices] = useState()
+  const uid = userData; // Posteriormente pegar da navegation
+  const [, updateState] = useState();  
+  const forceUpdate = React.useCallback(() => updateState({}), []);
 
   useEffect(() => {
     firebase.firestore().collection("users_devices").doc(uid).get().then((doc) => {
-        console.log("From firebase: ", doc.data().devices)
+        // console.log("From firebase: ", doc.data().devices)
         setDevices([... doc.data().devices])
-        console.log("Devices:", devices)
+        // console.log("Devices:", devices)
     })
   }, []);
 
@@ -68,10 +78,68 @@ export default function Devices({ navigation }) {
     return null;  // Returns null if unable to load the font
   }
 
-  const toggleSwitch = () =>{
-    return true;
-  } 
+  const deleteDevice = () => {
+    Alert.alert("Atenção", "Deseja apagar este dispositivo permanentemente?", [
+      { text: "Cancelar" },
+      {
+        text: "Confirmar",
+        onPress: () => {
+          // TODO: delete
+        },
+      },
+    ]);
+  }
 
+  const whichIcon = (text) => {
+    if (text == "Printer") {
+      return (<Printer  onLongPress={(() => {console.log("ai fui pressionado")})}  color="#000000"/> )
+    }
+    if (text == "Camera") {
+      return (<Camera  onLongPress={(() => {console.log("ai fui pressionado")})}  color="#000000"/> )
+    }
+    if (text == "Headphone") {
+      return (<Headphone onLongPress={(() => {console.log("ai fui pressionado")})}  color="#000000"/> )
+    }
+    if (text == "Mobile") {
+      return (<Mobile onLongPress={(() => {console.log("ai fui pressionado")})}  color="#000000"/> )
+    }
+    if (text == "Keyboard") {
+      return (<Keyboard onLongPress={(() => {console.log("ai fui pressionado")})}  color="#000000"/> )
+    }
+    if (text == "Mouse") {
+      return (<Mouse onLongPress={(() => {console.log("ai fui pressionado")})}  color="#000000"/> )
+    }
+    if (text == "Call") {
+      return (<Call onLongPress={(() => {console.log("ai fui pressionado")})}  color="#000000"/> )
+    }
+    if (text == "Electricity") {
+      return (<Electricity  onLongPress={(() => {console.log("ai fui pressionado")})} color="#000000"/> )
+    }
+    if (text == "MonitorMobbile") {
+      return (<MonitorMobbile  onLongPress={(() => {console.log("ai fui pressionado")})} color="#000000"/> )
+    }
+    if (text == "Headphones") {
+      return (<Headphones  onLongPress={(() => {console.log("ai fui pressionado")})} color="#000000"/> )
+    }
+    if (text == "Lamp") {
+      return (<Lamp  onLongPress={(() => {console.log("ai fui pressionado")})} color="#000000"/> )
+    }
+    if (text == "TableLamp") {
+      return (<TableLamp onLongPress={(() => {console.log("ai fui pressionado")})}  color="#000000"/> )
+    }
+    if (text == "Video") {
+      return (<Video  onLongPress={(() => {console.log("ai fui pressionado")})} color="#000000"/> )
+    }
+    if (text == "Monitor") {
+      return (<Monitor onLongPress={(() => {console.log("ai fui pressionado")})}  color="#000000"/> )
+    }
+    if (text == 'MirroringScreen') {
+      return (<MirroringScreen onLongPress={(() => {console.log("ai fui pressionado")})}  color="#000000"/> )
+    }
+    if (text == 'Microphone2') {
+      return (<Microphone2  onLongPress={(() => {console.log("ai fui pressionado")})}  color="#000000"/> )
+    }
+  }
 
 return (
     <SafeAreaProvider style={styles.container}>
@@ -83,23 +151,39 @@ return (
         <View style={styles.button}>
           <TouchableHighlight underlayColor={"transparent"}>
             <Text style={styles.textButton}>Adicionar equipamento</Text>
+            //TODO: ADD
           </TouchableHighlight>
           <AddCircle color="#FFF" variant="Bold" style={{alignSelf: "center", marginLeft: 'auto', marginRight: 25}} onPress={() => navigation.navigate("EditPassword")} />
         </View>
       </ScrollView>
       <ScrollView style={{marginTop: 'auto'}}> 
       
-      {devices && devices.map((callbackfn, id) => (
+      {devicesArray && devicesArray.map((callbackfn, id) => (
         <View style={styles.options}>
-        <SecurityUser color="#000000"/> 
-            <Text style={styles.text}>  ...</Text>
-            <Switch
+          {whichIcon(devicesArray[id].type)}
+          <TouchableOpacity activeOpacity={0.8}  onLongPress={(() => {console.log("ai fui pressionado")})}  underlayColor={"transparent"} >
+            <Text style={styles.text}> {devicesArray[id].name} </Text>
+          </TouchableOpacity>
+          <Switch
             style={{marginLeft: 'auto', marginRight: 25}}
             trackColor={{ false: "#BBBABA", true: "#0051BA" }}
-            thumbColor={true ? '#E3ECF7' : '#0051ba'}
-            value={true}
-            onValueChange={toggleSwitch}
-            />
+            thumbColor={devicesArray[id].using ? '#E3ECF7' : '#0051ba'}
+            value={devicesArray[id].using}
+            onValueChange={(() => {
+              devicesArray[id] = {
+                energy : devicesArray[id].energy,
+                name : devicesArray[id].name,
+                id :  devicesArray[id].id, 
+                type : devicesArray[id].type,
+                using : !devicesArray[id].using,
+              };
+              firebase.firestore().collection('users_devices').doc(uid).update({
+                devices : devicesArray
+              })
+              console.log("dev", devicesArray[id])
+              forceUpdate()
+            })}
+          />
         </View>
       ))}
 
@@ -126,8 +210,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 
-  
   options: {
+    flex: 1,
     marginTop: 20,
     marginBottom: 10,
     borderRadius: 15,
@@ -136,10 +220,16 @@ const styles = StyleSheet.create({
     paddingLeft: 25,
     width: screenWidth - 50, 
     flexDirection: "row",
-    justifyContent: "flex-start",
     alignItems: "center",
     textAlign: 'left',
     backgroundColor: "#E3ECF7",
+  },
+
+  text: {
+    marginLeft: 10,
+    fontFamily: "GothamBook",
+    fontSize: 16,
+
   },
 
   button: {
