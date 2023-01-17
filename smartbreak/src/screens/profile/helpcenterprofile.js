@@ -16,7 +16,7 @@ export default function TermsofUseProfile() {
 
   return (
     <SafeAreaProvider style={styles.container}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <StatusBar style="auto" />
         <View style={styles.arrow}>
           <ArrowCircleUp variant="Bold" color="#0051BA" size="65" />
