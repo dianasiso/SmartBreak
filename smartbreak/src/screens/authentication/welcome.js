@@ -38,7 +38,7 @@ export default function Welcome() {
       <ScrollView>
         <View style={styles.imageLogo}>
           <Image
-            style={{ width: 130, height: 130 }}
+            style={{ width: 160, height: 160 }}
             source={require("./../../imgs/img_logo_white_version.png")}
           />
         </View>
@@ -91,12 +91,12 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 50,
     paddingLeft: 25,
     paddingRight: 25,
-    paddingTop: 10,
-    paddingBottom: 200, //ver como mudar para todos os ecrãs. esta distÂncia está feita para o telemóvel do Daniel!!
+    paddingTop: 20,
+    paddingBottom: 250, //ver como mudar para todos os ecrãs. esta distÂncia está feita para o telemóvel do Daniel!!
   },
   imageLogo: {
     alignItems: "center",
-    paddingTop: 50,
+    paddingTop: 80,
   },
   buttonText: {
     fontFamily: "GothamBook",
@@ -129,9 +129,9 @@ const styles = StyleSheet.create({
     color: "#001025",
   },
   textMessageTitleLogo: {
-    fontSize: 30,
+    fontSize: 40,
     textAlign: "center",
-    paddingTop: 20,
+    paddingTop: 30,
     fontFamily: "GothamBook",
     color: "#E3ECF7",
   },
