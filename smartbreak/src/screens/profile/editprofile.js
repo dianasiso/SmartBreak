@@ -46,17 +46,25 @@ export default function EditProfile({ navigation }) {
   // Get data from firestore
   if (get) {
     firebase.firestore()
-  .collection("users_data")
-  .doc(uid)
-  .get()
-  .then((doc) => {
-      setName(doc.data().name);
-      setLastName(doc.data().lastName);
-      setEmail(doc.data().email);
-      setOrganization(doc.data().organization);
-      setRewards(doc.data().rewards);
+      .collection("users_data")
+      .doc(uid)
+      .get()
+      .then((doc) => {
+          setName(doc.data().name);
+          setLastName(doc.data().lastName);
+          setEmail(doc.data().email);
+          setOrganization(doc.data().organization);
+          setRewards(doc.data().rewards);
       })
     setGet(false);
+  }
+
+  const validate_email = (text) => {
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (reg.test(text) === false) {
+      return false;
+    }
+    return true;
   }
 
   const editarperfil = () => {
@@ -65,13 +73,17 @@ export default function EditProfile({ navigation }) {
       {
         text: "Confirmar",
         onPress: () => {
-          firebase.firestore().collection('users_data').doc(uid).update({
+          if (validate_email) {
+            firebase.firestore().collection('users_data').doc(uid).update({
             name: name,
             lastName: lastName,
             email: email,
             rewards: rewards,
           })
           navigation.navigate("ProfilePage")
+          } else {
+            Alert.alert("Email inválido!", "Preencha corretamente o campo E-mail.")
+          }
         },
       },
     ]);

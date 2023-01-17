@@ -20,7 +20,7 @@ import {
   Setting2,
 } from "iconsax-react-native";
 
-import React, {  useState, useEffect, useLayoutEffect  } from 'react';
+import React, {  useState   } from 'react';
 
 // Firebase
 import firebase from "./../../config/firebase.js"
@@ -92,8 +92,8 @@ export default function ProfilePage() {
         </View>
 
         <View style={styles.options} >  
-          <Category color="#000000" onPress={() => navigation.navigate("EditProfile")} />
-            <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate("###")} underlayColor={"transparent"} >
+          <Category color="#000000" onPress={() => navigation.navigate("MyDevices")} />
+            <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate("MyDevices")} underlayColor={"transparent"} >
               <Text style={styles.text} >  Os meus equipamentos</Text>
             </TouchableOpacity>
         </View> 
@@ -161,7 +161,8 @@ const styles = StyleSheet.create({
   },
 
   organization: {
-    marginTop: 10,
+    marginTop: 5,
+    marginBottom: 30,
     fontFamily: "GothamBook",
     fontSize: 16,
     lineHeight: 24,
