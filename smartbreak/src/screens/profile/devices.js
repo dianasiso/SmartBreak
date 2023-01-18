@@ -10,7 +10,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  TouchableHighlight,
+  ToastAndroid,
   Switch,
   Pressable,
   
@@ -85,6 +85,7 @@ export default function Devices({ navigation }) {
   const uid = userData; // Posteriormente pegar da navegation
   const [, updateState] = useState();  
   const forceUpdate = React.useCallback(() => updateState({}), []);
+  const [longPress, setLongPress] = useState(false);
 
   if (!loaded) {
     return null;  // Returns null if unable to load the font
@@ -142,6 +143,25 @@ export default function Devices({ navigation }) {
     }
   }
 
+  const checkId = () => {
+    for (let i=0; i < devicesArray.length; i++) {
+      devicesArray[i] = {
+        energy : devicesArray[i].energy,
+        name : devicesArray[i].name,
+        id :  i, 
+        type : devicesArray[i].type,
+        using : devicesArray[i].using,
+      }
+    }
+
+    console.log(devicesArray)
+    
+    firebase.firestore().collection('users_devices').doc(uid).update({
+      devices : devicesArray
+    })
+  }
+
+
   const typePressed = (type, changeType, nameType) => {
     if (type) {
       changeType(false);
@@ -157,7 +177,17 @@ export default function Devices({ navigation }) {
     })
   }
 
+  const clearFields = () => {
+    setAddName("");
+    setAddEnergy(0);
+    setAddType(null);~
+    arrayTypes.forEach(function(x) {
+          x(false)
+    })
+  }
+
   const addDevice = () => {
+    checkId();
     if (addType == null) {
       Alert.alert("Atenção!", "Preencha corretamente o campo Tipo com o ícone que melhor represente o equipamento que pretende adicionar.");
       return false;
@@ -177,17 +207,13 @@ export default function Devices({ navigation }) {
       type : addType,
       using : true,
     })
-    // console.group("New device");
-    // console.log("Type: ", addType);
-    // console.log("Name: ", addName);
-    // console.log("Energy: ", addEnergy);
-    // console.log("ID", devicesArray.length)
-    // console.groupEnd();
-    console.log(devicesArray);
+    
     firebase.firestore().collection('users_devices').doc(uid).update({
       devices : devicesArray
     })
-    setModalVisible(!modalVisible)
+    ToastAndroid.show('Equipamento adicionado!', ToastAndroid.SHORT);
+    setModalVisible(!modalVisible);
+    clearFields();
   }
 
 return (
@@ -198,7 +224,6 @@ return (
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
           setModalVisible(!modalVisible);
         }}>
         <View style={styles.centeredView}>
@@ -267,7 +292,10 @@ return (
             />
             </View>
             <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: 10}}>
-              <Pressable onPress={() => setModalVisible(!modalVisible)} style={{padding: 10, marginRight: 10}}>
+              <Pressable onPress={() => {
+                setModalVisible(!modalVisible)
+                clearFields();
+                }} style={{padding: 10, marginRight: 10}}>
                 <Text style={{color: "#0051ba", fontFamily: 'GothamMedium'}}>Cancelar</Text>
               </Pressable>
               <Pressable onPress={() => addDevice()} style={styles.buttonAdd}>
@@ -281,32 +309,34 @@ return (
       
       <Pressable style={styles.button} onPress={(() => {setModalVisible(true)})} underlayColor={"transparent"}>
         <Text style={styles.textButton}>Adicionar equipamento</Text>
-        <AddCircle color="#FFF" variant="Bold" style={{alignSelf: "center", marginLeft: 'auto', marginRight: 25}} onPress={() => navigation.navigate("EditPassword")} />
+        <AddCircle color="#FFF" variant="Bold" style={{alignSelf: "center", marginLeft: 'auto', marginRight: 25}} onPress={(() => {setModalVisible(true)})} />
       </Pressable>
       </ScrollView>
       <ScrollView style={{marginTop: 20, marginBottom: 10}}> 
-      {devicesArray && devicesArray.map((callbackfn, id) => (
-        <View style={styles.options}>
-          {whichIcon(devicesArray[id].type)}
-          <TouchableOpacity activeOpacity={0.8}  onLongPress={(() => {
-            Alert.alert("Atenção", "Tem a certeza que deseja eliminar o equipamento?", [
-              { text: "Cancelar" },
-              {
-                text: "Confirmar",
-                onPress: () => {
-                  const arrTemp = devicesArray.filter((item) => item.id !== devicesArray[id].id)
-                  setDevices([... arrTemp]);
-                  firebase.firestore().collection('users_devices').doc(uid).update({
-                    devices : arrTemp
-                  })
-                  console.log("ai fui pressionado", arrTemp)
-                  
-                },
+      {devicesArray && devicesArray.length > 0 && devicesArray.map((callbackfn, id) => (
+        <Pressable style={longPress ? styles.optionsPressed : styles.options }  onLongPress={(() => {
+          setLongPress(true);
+          Alert.alert("Atenção", "Tem a certeza que deseja eliminar o equipamento?", [
+            { text: "Cancelar",
+              onPress: () => {
+                setLongPress(false)
+              }
+            },
+            { text: "Confirmar",
+              onPress: () => {
+                setLongPress(false);
+                const arrTemp = devicesArray.filter((item) => item.id !== devicesArray[id].id)
+                setDevices([... arrTemp]);
+                firebase.firestore().collection('users_devices').doc(uid).update({
+                  devices : arrTemp
+                })
+                ToastAndroid.show('Equipamento eliminado!', ToastAndroid.SHORT);
               },
-            ]);            
-            })}  underlayColor={"transparent"} >
-            <Text style={styles.text}>  {devicesArray[id].name} </Text>
-          </TouchableOpacity>
+            },
+          ]);            
+        })}>
+          {whichIcon(devicesArray[id].type)}
+          <Text style={styles.text}>  {devicesArray[id].name} </Text>
           <Switch
             style={{marginLeft: 'auto', marginRight: 25}}
             trackColor={{ false: "#BBBABA", true: "#0051BA" }}
@@ -323,11 +353,12 @@ return (
               firebase.firestore().collection('users_devices').doc(uid).update({
                 devices : devicesArray
               })
-              console.log("dev", devicesArray[id])
+              
+              ToastAndroid.show('Estado do equipamento alterado!', ToastAndroid.SHORT);
               forceUpdate()
             })}
             />
-        </View>
+          </Pressable>
       ))}
 
       </ScrollView>
@@ -367,6 +398,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
     textAlign: 'left',
     backgroundColor: "#E3ECF7",
+  },
+
+  optionsPressed: {
+    flex: 1,
+    marginTop: 20,
+    marginBottom: 10,
+    borderRadius: 15,
+    paddingTop: 15,
+    paddingBottom: 15,
+    paddingLeft: 25,
+    width: screenWidth - 50, 
+    flexDirection: "row",
+    alignItems: "center",
+    textAlign: 'left',
+    backgroundColor: "#d2dbe6",
   },
 
   text: {
