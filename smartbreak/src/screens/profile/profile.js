@@ -31,38 +31,8 @@ import { useFonts } from "expo-font";
 
 export default function ProfilePage() {
   const userData = useSelector((state) => state.user.userID);
-  useEffect(() => {}, [userData]);
-
-  //const { idUser } = route.params.idUser;
-  //console.log(route);
-  // Loading Gotham font
-  const [loaded] = useFonts({
-    GothamMedium: "./../fonts/GothamMedium.ttf",
-    GothamBook: "./../fonts/GothamBook.ttf",
-  });
-
-  const [refreshing, setRefreshing] = useState(false);
-
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  }, []);
-
-  const [name, setName] = useState();
-  const [organization, setOrganization] = useState();
-  const uid = userData; // Posteriormente pegar da navegation
-
-  if (!loaded) {
-    return null; // Returns null if unable to load the font
-  }
-
-  const navigation = useNavigation();
-
-  // Get data from firestore
-
-  firebase
+  useEffect(() => {
+    firebase
     .firestore()
     .collection("users_data")
     .doc(uid)
@@ -74,6 +44,33 @@ export default function ProfilePage() {
       setName(getName + " " + getLastName);
       setOrganization(getOrganization);
     });
+  }, [userData]);
+
+  // Loading Gotham font
+  const [loaded] = useFonts({
+    GothamMedium: "./../fonts/GothamMedium.ttf",
+    GothamBook: "./../fonts/GothamBook.ttf",
+  });
+
+  const [refreshing, setRefreshing] = useState(false);
+  const [name, setName] = useState();
+  const [organization, setOrganization] = useState();
+  const uid = userData;
+  const navigation = useNavigation();
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
+
+
+
+  if (!loaded) {
+    return null; // Returns null if unable to load the font
+  }
+
 
     return (
       <SafeAreaProvider style={styles.container}  >
