@@ -10,7 +10,7 @@ import {
   ScrollView,
 } from "react-native";
 import { useFonts } from "expo-font";
-import { AddCircle, People, Clock } from "iconsax-react-native";
+import { AddCircle, People, Clock, CloseCircle } from "iconsax-react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -63,20 +63,33 @@ const Battery = ({ selected }) => {
 };
 
 const AdicionarPausa = ({ selected }) => {
+  const [pausa, setPausa] = useState(false);
   const navigation = useNavigation();
   if (selected === "personal") {
     return (
       <View style={adicionarPausaStyles.adicionarPausaView}>
-        <Pressable style={adicionarPausaStyles.adicionarPausaContainer}>
+        <Pressable
+          onPress={()=>{setPausa(!pausa)}}
+          style={adicionarPausaStyles.adicionarPausaContainer}
+        >
           <Text style={adicionarPausaStyles.adicionarPausaText}>
-            Adicionar Pausa
+            {pausa ? "Terminar Pausa" : "Adicionar Pausa"}
           </Text>
-          <AddCircle
-            color="white"
-            size={26}
-            variant="Bold"
-            style={adicionarPausaStyles.icon}
-          />
+          {pausa ? (
+            <CloseCircle
+              color="white"
+              size={26}
+              variant="Bold"
+              style={adicionarPausaStyles.icon}
+            />
+          ) : (
+            <AddCircle
+              color="white"
+              size={26}
+              variant="Bold"
+              style={adicionarPausaStyles.icon}
+            />
+          )}
         </Pressable>
       </View>
     );
