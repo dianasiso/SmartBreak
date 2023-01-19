@@ -26,6 +26,7 @@
     "expo-splash-screen": "~0.17.5",
     "expo-status-bar": "~1.4.2",
     "firebase": "9.7.0",
+    "firebase-admin": "^11.4.1",
     "iconsax-react-native": "^0.0.8",
     "react": "18.1.0",
     "react-dom": "18.1.0",

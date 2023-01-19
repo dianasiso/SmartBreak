@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, {useState, useEffect} from "react";
 import {
+  Pressable,
   Dimensions,
   StyleSheet,
   ScrollView,
@@ -23,6 +24,12 @@ import {
 // Font Gotham
 import { useFonts } from "expo-font";
 
+// Firebase
+import firebase from "./../../config/firebase.js";
+import { getAuth, deleteUser } from "firebase/auth";
+
+import { useSelector } from "react-redux";
+
 export default function ProfileSettings({ navigation }) {
   //const dispatch = useDispatch();
   // Loading Gotham font
@@ -30,6 +37,9 @@ export default function ProfileSettings({ navigation }) {
     GothamMedium: "./../fonts/GothamMedium.ttf",
     GothamBook: "./../fonts/GothamBook.ttf",
   });
+
+  const userData = useSelector((state) => state.user.userID);
+  const uid = userData;
 
   if (!loaded) {
     return null; // Returns null if unable to load the font
@@ -40,7 +50,12 @@ export default function ProfileSettings({ navigation }) {
       { text: "Cancelar" },
       {
         text: "Confirmar",
-        onPress: () => navigation.navigate("###"),
+        onPress: (() => {
+          getAuth().currentUser.delete()
+          firebase.firestore().collection('users_data').doc(uid).delete()
+          
+          handleLogout();
+        })
       },
     ]);
   };
@@ -58,6 +73,7 @@ export default function ProfileSettings({ navigation }) {
       { text: "Cancelar" },
       {
         text: "Confirmar",
+
         onPress: () => handleLogout(),
       },
     ]);
@@ -72,54 +88,40 @@ export default function ProfileSettings({ navigation }) {
         <StatusBar style="auto" />
         <Text style={styles.title}>Definições</Text>
 
-        <View style={styles.options}>
-          <Lock1 color="#000000" onPress={() => navigation.navigate("EditPassword")} />
-          <TouchableHighlight onPress={() => navigation.navigate("EditPassword")} underlayColor={"transparent"}>
+        <Pressable style={styles.options} onPress={() => navigation.navigate("EditPassword")}>
+            <Lock1 color="#000000"  />
             <Text style={styles.text}>  Alterar palavra-passe</Text>
-          </TouchableHighlight>
-        </View>
+        </Pressable>
 
-        <View style={styles.options}>
-          <Notification color="#000000"  onPress={() => navigation.navigate("NotificationsProfile")}/>
-          <TouchableHighlight onPress={() => navigation.navigate("NotificationsProfile")} underlayColor={"transparent"} >
+        <Pressable style={styles.options} onPress={() => navigation.navigate("NotificationsProfile")}>
+            <Notification color="#000000"/>
             <Text style={styles.text}>  Notificações</Text>
-          </TouchableHighlight>
-        </View>
+        </Pressable>
 
-        <View style={styles.options}>
-          <SecurityUser color="#000000" onPress={() => navigation.navigate("SecurityProfile")} /> 
-          <TouchableHighlight onPress={() => navigation.navigate("SecurityProfile")} underlayColor={"transparent"} >
+        <Pressable style={styles.options} onPress={() => navigation.navigate("SecurityProfile")}>
+            <SecurityUser color="#000000" /> 
             <Text style={styles.text}>  Segurança</Text>
-          </TouchableHighlight>
-        </View>
+        </Pressable>
 
-        <View style={styles.options}>
-          <DocumentText1 color="#000000"  onPress={() => navigation.navigate("TermsofUseProfile")} />
-          <TouchableHighlight onPress={() => navigation.navigate("TermsofUseProfile")} underlayColor={"transparent"} >
+        <Pressable style={styles.options} onPress={() => navigation.navigate("TermsofUseProfile")}>
+            <DocumentText1 color="#000000"/>
             <Text style={styles.text}>  Termos de utilização</Text>
-          </TouchableHighlight>
-        </View>
+        </Pressable>
 
-        <View style={styles.options}>
-          <MessageQuestion color="#000000" onPress={() => navigation.navigate("HelpCenterProfile")} />
-          <TouchableHighlight onPress={() => navigation.navigate("HelpCenterProfile")} underlayColor={"transparent"} >
+        <Pressable style={styles.options} onPress={() => navigation.navigate("HelpCenterProfile")}>
+            <MessageQuestion color="#000000" />
             <Text style={styles.text}>  Centro de ajuda</Text>
-          </TouchableHighlight>
-        </View>
+        </Pressable>
 
-        <View style={styles.options}>
-          <Trash color="#000000"  onPress={apagarconta}/>
-          <TouchableHighlight onPress={apagarconta} underlayColor={"transparent"} >
+        <Pressable style={styles.options} onPress={apagarconta} >
+            <Trash color="#000000"  onPress={apagarconta}/>
             <Text style={styles.text}>  Apagar conta</Text>
-          </TouchableHighlight>
-        </View>
+        </Pressable>
 
-        <View style={styles.options}>
-          <Logout color="#000000" onPress={terminarsessao}/>
-          <TouchableHighlight onPress={terminarsessao} underlayColor={"transparent"} >
+        <Pressable style={styles.options} onPress={terminarsessao} >
+            <Logout color="#000000" onPress={terminarsessao}/>
             <Text style={styles.text}>  Terminar sessão</Text>
-          </TouchableHighlight>
-        </View>
+        </Pressable>
       </ScrollView>
     </SafeAreaProvider>
   );

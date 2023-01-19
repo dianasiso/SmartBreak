@@ -9,7 +9,6 @@ import {
   View,
   Text,
   TextInput,
-  TouchableOpacity,
   ToastAndroid,
   Switch,
   Pressable,
