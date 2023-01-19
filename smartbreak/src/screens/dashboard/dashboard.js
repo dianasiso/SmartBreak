@@ -1,10 +1,19 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { useState } from "react";
-import { StyleSheet, Text, View, Pressable } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  SafeAreaView,
+  ScrollView,
+} from "react-native";
 import { useFonts } from "expo-font";
 import { AddCircle, People, Clock } from "iconsax-react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 const BatteryToggle = () => {
   const [selected, setSelected] = useState("personal");
@@ -75,7 +84,7 @@ const AdicionarPausa = ({ selected }) => {
     return (
       <View style={adicionarPausaStyles.adicionarPausaView}>
         <Pressable
-          onPress={() => navigation.navigate("Team")}
+          onPress={() => navigation.navigate("TeamDashboard")}
           style={adicionarPausaStyles.adicionarPausaContainer}
         >
           <Text style={adicionarPausaStyles.adicionarPausaText}>
@@ -126,6 +135,14 @@ const Metricas = () => {
 };
 
 export default function Dashboard() {
+  //const { idUser } = route.params.idUser;
+  //console.log(route);
+  const reduxState = useSelector((state) => state.user.userID);
+
+  useEffect(() => {
+    console.log("redux state:", reduxState);
+  }, [reduxState]);
+
   const [loaded] = useFonts({
     GothamMedium: "./../fonts/GothamMedium.ttf",
     GothamBook: "./../fonts/GothamBook.ttf",
@@ -135,11 +152,15 @@ export default function Dashboard() {
   }
 
   return (
-    <View style={dashboardStyles.pageContainer}>
-      <BatteryToggle />
-      <Metricas />
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={dashboardStyles.pageContainer}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View>
+          <BatteryToggle />
+          <Metricas />
+          <StatusBar style="auto" />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -156,6 +177,7 @@ const dashboardStyles = StyleSheet.create({
 const batteryStyles = StyleSheet.create({
   batteryView: {
     flexDirection: "row",
+    justifyContent: "center",
     alignItems: "center",
     marginTop: 130,
   },
@@ -183,7 +205,7 @@ const batteryStyles = StyleSheet.create({
     backgroundColor: "#0051BA",
     borderRadius: 18,
     position: "absolute",
-    left: 6,
+    left: 82,
   },
 });
 

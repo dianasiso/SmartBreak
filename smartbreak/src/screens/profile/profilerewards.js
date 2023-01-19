@@ -21,7 +21,10 @@ export default function ProfileRewards() {
   });
 
   return (
-    <SafeAreaProvider style={styles.container}>
+    <SafeAreaProvider
+      showsVerticalScrollIndicator={false}
+      style={styles.container}
+    >
       <ScrollView>
         <StatusBar style="auto" />
         <Text style={styles.title}>As minhas recompensas</Text>

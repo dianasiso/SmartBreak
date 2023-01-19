@@ -14,23 +14,26 @@ import Team from "../screens/dashboard/team";
 import MembersRewards from "../screens/dashboard/membersrewards";
 //ojbetivos
 import Goals from "../screens/goals/goals";
-//subpáginas dos objetivos
-import TestGoal from "../screens/goals/testgoal";
+//subpágina dos objetivos
+import Dicas from "../screens/goals/dicas";
 //estatísticas
 import Stats from "../screens/stats/stats";
 //perfil
 import ProfilePage from "../screens/profile/profile";
 //subpáginas do perfil
 import EditProfile from "../screens/profile/editprofile";
-
 import ProfileRewards from "../screens/profile/profilerewards";
-
 import ProfileSettings from "../screens/profile/profilesettings";
 import EditPassword from "../screens/profile/editpassword";
 import NotificationsProfile from "../screens/profile/notificationsprofile";
 import SecurityProfile from "../screens/profile/secutiryprofile";
 import TermsofUseProfile from "../screens/profile/termsofuseprofile";
 import HelpCenterProfile from "../screens/profile/helpcenterprofile";
+import historicoPausas from "../screens/profile/historicoPausas";
+//autenticação
+import Login from "../screens/authentication/login";
+import Register from "../screens/authentication/register";
+import Welcome from "../screens/authentication/welcome";
 
 //fontes
 import { useFonts } from "expo-font";
@@ -45,24 +48,97 @@ import { ArrowLeft2 } from "iconsax-react-native";
 //funções navegação
 const Tab = createBottomTabNavigator();
 const DashboardStack = createStackNavigator();
-const GoalsStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
+const GoalsStack = createStackNavigator();
+//autenticação
+const AuthStack = createStackNavigator();
+
+//stack que dá wrap a todas as outras stacks
+const MainStack = createStackNavigator();
+
+//nav stack de autenticacao
+const AuthStackNavigation = ({ navigation }) => {
+  return (
+    <AuthStack.Navigator
+      initialRouteName="Welcome"
+      screenOptions={{ animation: "none" }}
+    >
+      <AuthStack.Screen
+        name="Welcome"
+        component={Welcome}
+        options={{ headerShown: false }}
+      />
+      <AuthStack.Screen
+        name="Login"
+        component={Login}
+        options={{
+          headerShown: true,
+          headerTitle: "",
+          headerStyle: {
+            backgroundColor: "#0051BA",
+            shadowColor: "transparent",
+          },
+          headerLeft: () => (
+            <View
+              style={{
+                paddingLeft: 20,
+                paddingTop: 20,
+              }}
+            >
+              <ArrowLeft2
+                size="24"
+                color="#FFFFFF"
+                onPress={() => navigation.navigate("Welcome")}
+              />
+            </View>
+          ),
+        }}
+      />
+      <AuthStack.Screen
+        name="Register"
+        component={Register}
+        options={{
+          headerShown: true,
+          headerTitle: "",
+          headerStyle: {
+            backgroundColor: "#0051BA",
+            shadowColor: "transparent",
+          },
+          headerLeft: () => (
+            <View
+              style={{
+                paddingLeft: 20,
+                paddingTop: 20,
+              }}
+            >
+              <ArrowLeft2
+                size="24"
+                color="#FFFFFF"
+                onPress={() => navigation.navigate("Welcome")}
+              />
+            </View>
+          ),
+        }}
+      />
+    </AuthStack.Navigator>
+  );
+};
 
 //navegação stack na dashboard
-const DashboardStackNavigation = ({ navigation }) => {
+const DashboardStackNavigation = ({ navigation, route }) => {
   return (
     <DashboardStack.Navigator
-      initialRouteName="Dashboard"
+      initialRouteName="HomeDashboard"
       screenOptions={{ animation: "none" }}
     >
       <DashboardStack.Screen
-        name="Dashboard"
-        component={Dashboard}
+        name="HomeDashboard"
         options={{ headerShown: false }}
-      />
+        component={Dashboard}
+      ></DashboardStack.Screen>
 
-      <GoalsStack.Screen
-        name="Team"
+      <DashboardStack.Screen
+        name="TeamDashboard"
         component={Team}
         options={{
           headerShown: true,
@@ -72,15 +148,15 @@ const DashboardStackNavigation = ({ navigation }) => {
               <ArrowLeft2
                 size="24"
                 color="#000000"
-                onPress={() => navigation.navigate("Dashboard")} //não esquecer de colocar sempre a pagina para onde queremos voltar!
+                onPress={() => navigation.navigate("HomeDashboard")}
               />
             </View>
           ),
         }}
       />
 
-      <GoalsStack.Screen
-        name="MembersRewards"
+      <DashboardStack.Screen
+        name="MembersRewardsDashboard"
         component={MembersRewards}
         options={{
           headerShown: true,
@@ -90,7 +166,7 @@ const DashboardStackNavigation = ({ navigation }) => {
               <ArrowLeft2
                 size="24"
                 color="#000000"
-                onPress={() => navigation.navigate("Team")} //não esquecer de colocar sempre a pagina para onde queremos voltar!
+                onPress={() => navigation.navigate("TeamDashboard")}
               />
             </View>
           ),
@@ -113,8 +189,8 @@ const GoalsStackNavigation = ({ navigation }) => {
         options={{ headerShown: false }}
       />
       <GoalsStack.Screen
-        name="TestGoal"
-        component={TestGoal}
+        name="Dicas"
+        component={Dicas}
         options={{
           headerShown: true,
           headerTitle: "",
@@ -234,6 +310,23 @@ const ProfileStackNavigation = ({ navigation }) => {
         }}
       />
       <ProfileStack.Screen
+        name="historicoPausas"
+        component={historicoPausas}
+        options={{
+          headerShown: true,
+          headerTitle: "",
+          headerLeft: () => (
+            <View style={{ paddingLeft: 20, paddingTop: 20 }}>
+              <ArrowLeft2
+                size="24"
+                color="#000000"
+                onPress={() => navigation.navigate("PofilePge")}
+              />
+            </View>
+          ),
+        }}
+      />
+      <ProfileStack.Screen
         name="SecurityProfile"
         component={SecurityProfile}
         options={{
@@ -310,7 +403,14 @@ function Icon({ name, color }) {
 }
 
 //routes da barra de navegação
-const TabRoutes = () => {
+const TabRoutes = (
+  {
+    /* route*/
+  }
+) => {
+  //const { idUser } = route.params;
+  //console.log(idUser);
+
   const [loaded] = useFonts({
     GothamMedium: require("./../fonts/GothamMedium.ttf"),
     GothamBook: require("./../fonts/GothamBook.ttf"),
@@ -383,7 +483,6 @@ const TabRoutes = () => {
             </>
           ),
         }}
-        /* navigation={navigation}*/
       />
 
       <Tab.Screen
@@ -423,6 +522,23 @@ const TabRoutes = () => {
   );
 };
 
+const MainStackNavigation = () => {
+  return (
+    <MainStack.Navigator>
+      <MainStack.Screen
+        name="AuthStack"
+        component={AuthStackNavigation}
+        options={{ headerShown: false }}
+      />
+      <MainStack.Screen
+        name="TabRoutes"
+        component={TabRoutes}
+        options={{ headerShown: false }}
+      />
+    </MainStack.Navigator>
+  );
+};
+
 const styles = StyleSheet.create({
   IconContainer: {},
   Indicator: {
@@ -435,4 +551,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TabRoutes;
+export default MainStackNavigation;

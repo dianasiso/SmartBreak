@@ -13,7 +13,10 @@ import { Car, Coffee, DollarCircle } from "iconsax-react-native";
 // Font Gotham
 import { useFonts } from "expo-font";
 
-export default function MembersRewards({ navigation }) {
+export default function MembersRewards({ route, navigation }) {
+  const props = route.params;
+  //console.log(props.username);
+
   // Loading Gotham font
   const [loaded] = useFonts({
     GothamMedium: "./../fonts/GothamMedium.ttf",
@@ -21,10 +24,13 @@ export default function MembersRewards({ navigation }) {
   });
 
   return (
-    <SafeAreaProvider style={styles.container}>
+    <SafeAreaProvider
+      showsVerticalScrollIndicator={false}
+      style={styles.container}
+    >
       <ScrollView>
         <StatusBar style="auto" />
-        <Text style={styles.title}>Recompensas de xxx</Text>
+        <Text style={styles.title}>Recompensas de {props.username}</Text>
 
         <View style={styles.options}>
           <Car color="#000000" />

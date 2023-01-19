@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import {
+  Dimensions,
   StyleSheet,
   ScrollView,
   View,
@@ -23,11 +24,16 @@ import {
 import { useFonts } from "expo-font";
 
 export default function ProfileSettings({ navigation }) {
+  //const dispatch = useDispatch();
   // Loading Gotham font
   const [loaded] = useFonts({
     GothamMedium: "./../fonts/GothamMedium.ttf",
     GothamBook: "./../fonts/GothamBook.ttf",
   });
+
+  if (!loaded) {
+    return null; // Returns null if unable to load the font
+  }
 
   const apagarconta = () => {
     Alert.alert("Atenção", "Deseja apagar a sua conta permanentemente?", [
@@ -39,95 +45,87 @@ export default function ProfileSettings({ navigation }) {
     ]);
   };
 
+  const handleLogout = () => {
+    try {
+      navigation.navigate("Welcome");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const terminarsessao = () => {
     Alert.alert("Atenção", "Tem a certeza que deseja terminar a sessão? ", [
       { text: "Cancelar" },
       {
         text: "Confirmar",
-        onPress: () => navigation.navigate("###"),
+        onPress: () => handleLogout(),
       },
     ]);
   };
 
   return (
-    <SafeAreaProvider style={styles.container}>
+    <SafeAreaProvider
+      showsVerticalScrollIndicator={false}
+      style={styles.container}
+    >
       <ScrollView>
         <StatusBar style="auto" />
         <Text style={styles.title}>Definições</Text>
 
         <View style={styles.options}>
-          <Lock1 color="#000000" />
-          <TouchableHighlight
-            onPress={() => navigation.navigate("EditPassword")}
-            underlayColor={"transparent"}
-          >
-            <Text style={styles.text}>Alterar palavra-passe</Text>
+          <Lock1 color="#000000" onPress={() => navigation.navigate("EditPassword")} />
+          <TouchableHighlight onPress={() => navigation.navigate("EditPassword")} underlayColor={"transparent"}>
+            <Text style={styles.text}>  Alterar palavra-passe</Text>
           </TouchableHighlight>
         </View>
 
         <View style={styles.options}>
-          <Notification color="#000000" />
-          <TouchableHighlight
-            onPress={() => navigation.navigate("NotificationsProfile")}
-            underlayColor={"transparent"}
-          >
-            <Text style={styles.text}>Notificações</Text>
+          <Notification color="#000000"  onPress={() => navigation.navigate("NotificationsProfile")}/>
+          <TouchableHighlight onPress={() => navigation.navigate("NotificationsProfile")} underlayColor={"transparent"} >
+            <Text style={styles.text}>  Notificações</Text>
           </TouchableHighlight>
         </View>
 
         <View style={styles.options}>
-          <SecurityUser color="#000000" />
-          <TouchableHighlight
-            onPress={() => navigation.navigate("SecurityProfile")}
-            underlayColor={"transparent"}
-          >
-            <Text style={styles.text}>Segurança</Text>
+          <SecurityUser color="#000000" onPress={() => navigation.navigate("SecurityProfile")} /> 
+          <TouchableHighlight onPress={() => navigation.navigate("SecurityProfile")} underlayColor={"transparent"} >
+            <Text style={styles.text}>  Segurança</Text>
           </TouchableHighlight>
         </View>
 
         <View style={styles.options}>
-          <DocumentText1 color="#000000" />
-          <TouchableHighlight
-            onPress={() => navigation.navigate("TermsofUseProfile")}
-            underlayColor={"transparent"}
-          >
-            <Text style={styles.text}>Termos de utilização</Text>
+          <DocumentText1 color="#000000"  onPress={() => navigation.navigate("TermsofUseProfile")} />
+          <TouchableHighlight onPress={() => navigation.navigate("TermsofUseProfile")} underlayColor={"transparent"} >
+            <Text style={styles.text}>  Termos de utilização</Text>
           </TouchableHighlight>
         </View>
 
         <View style={styles.options}>
-          <MessageQuestion color="#000000" />
-          <TouchableHighlight
-            onPress={() => navigation.navigate("HelpCenterProfile")}
-            underlayColor={"transparent"}
-          >
-            <Text style={styles.text}>Centro de ajuda</Text>
+          <MessageQuestion color="#000000" onPress={() => navigation.navigate("HelpCenterProfile")} />
+          <TouchableHighlight onPress={() => navigation.navigate("HelpCenterProfile")} underlayColor={"transparent"} >
+            <Text style={styles.text}>  Centro de ajuda</Text>
           </TouchableHighlight>
         </View>
 
         <View style={styles.options}>
-          <Trash color="#000000" />
-          <TouchableHighlight
-            onPress={apagarconta}
-            underlayColor={"transparent"}
-          >
-            <Text style={styles.text}>Apagar conta</Text>
+          <Trash color="#000000"  onPress={apagarconta}/>
+          <TouchableHighlight onPress={apagarconta} underlayColor={"transparent"} >
+            <Text style={styles.text}>  Apagar conta</Text>
           </TouchableHighlight>
         </View>
 
         <View style={styles.options}>
-          <Logout color="#000000" />
-          <TouchableHighlight
-            onPress={terminarsessao}
-            underlayColor={"transparent"}
-          >
-            <Text style={styles.text}>Terminar sessão</Text>
+          <Logout color="#000000" onPress={terminarsessao}/>
+          <TouchableHighlight onPress={terminarsessao} underlayColor={"transparent"} >
+            <Text style={styles.text}>  Terminar sessão</Text>
           </TouchableHighlight>
         </View>
       </ScrollView>
     </SafeAreaProvider>
   );
 }
+
+const screenWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
   container: {
@@ -138,28 +136,31 @@ const styles = StyleSheet.create({
     paddingBottom: 100,
   },
 
-  options: {
-    marginTop: 30,
-    borderRadius: 15,
-    paddingLeft: 25,
-    paddingTop: 15,
-    paddingBottom: 15,
-    width: "100%",
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#E3ECF7",
-  },
-
   title: {
     fontFamily: "GothamMedium",
     fontSize: 24,
     marginTop: 30,
+    marginBottom: 10,
+  },
+
+  options: {
+    flex: 1,
+    marginTop: 20,
+    marginBottom: 10,
+    borderRadius: 15,
+    paddingTop: 15,
+    paddingBottom: 15,
+    paddingLeft: 25,
+    width: screenWidth - 50, 
+    flexDirection: "row",
+    alignItems: "center",
+    textAlign: 'left',
+    backgroundColor: "#E3ECF7",
   },
 
   text: {
+    marginLeft: 10,
     fontFamily: "GothamBook",
     fontSize: 16,
-    marginLeft: 15,
-    lineHeight: 24,
   },
 });

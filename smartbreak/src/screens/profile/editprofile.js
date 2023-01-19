@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useState } from "react";
 import { Alert } from "react-native";
 import {
   StyleSheet,
@@ -9,32 +9,82 @@ import {
   Image,
   TextInput,
   Switch,
-  TouchableHighlight,
+  Dimensions,
+  TouchableOpacity,
 } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 // Font Gotham
 import { useFonts } from "expo-font";
 
+// Firebase
+import firebase from "./../../config/firebase.js";
+
+import { LogBox } from "react-native";
+LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
+LogBox.ignoreAllLogs(); //Ignore all log notifications
+
 export default function EditProfile({ navigation }) {
   // Loading Gotham font
   const [loaded] = useFonts({
-    GothamBook: "./../fonts/GothamBook.ttf",
+    GothamMedium: require("./../../fonts/GothamMedium.ttf"),
+    GothamBook: require("./../../fonts/GothamBook.ttf"),
   });
+
+  const [get, setGet] = useState(true);
+  const [name, setName] = useState();
+  const [lastName, setLastName] = useState();
+  const [email, setEmail] = useState();
+  const [organization, setOrganization] = useState();
+  const [rewards, setRewards] = useState();
+  const uid = "Y8f9M4o03ceZrFjoWu6iOA8rm2F2"; // Posteriormente pegar da navegation
+
+  if (!loaded) {
+    return null; // Returns null if unable to load the font
+  }
+
+  // Get data from firestore
+  if (get) {
+    firebase
+      .firestore()
+      .collection("users_data")
+      .doc(uid)
+      .get()
+      .then((doc) => {
+        setName(doc.data().name);
+        setLastName(doc.data().lastName);
+        setEmail(doc.data().email);
+        setOrganization(doc.data().organization);
+        setRewards(doc.data().rewards);
+      });
+    setGet(false);
+  }
 
   const editarperfil = () => {
     Alert.alert("Atenção", "Deseja confirmar as alterações?", [
       { text: "Cancelar" },
       {
         text: "Confirmar",
-        onPress: () => navigation.navigate("ProfilePage"),
+        onPress: () => {
+          firebase.firestore().collection("users_data").doc(uid).update({
+            name: name,
+            lastName: lastName,
+            email: email,
+            rewards: rewards,
+          });
+          navigation.navigate("ProfilePage");
+        },
       },
     ]);
   };
 
+  const toggleSwitch = () => {
+    setRewards(!rewards);
+  };
+
   return (
     <SafeAreaProvider style={styles.container}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <StatusBar style="auto" />
         <View style={{ alignItems: "center" }}>
           <Image
@@ -43,15 +93,35 @@ export default function EditProfile({ navigation }) {
           />
           <View style={styles.edit}>
             <Text style={styles.text}>Nome</Text>
-            <TextInput placeholder="Ester" style={styles.input} />
+            <TextInput
+              placeholderTextColor="#000"
+              placeholder={name}
+              style={styles.input}
+              onChangeText={(text) => setName(text)}
+              value={name}
+            />
             <Text style={styles.text}>Apelido</Text>
-            <TextInput placeholder="Carvalho" style={styles.input} />
+            <TextInput
+              placeholderTextColor="#000"
+              placeholder={lastName}
+              style={styles.input}
+              onChangeText={(text) => setLastName(text)}
+              value={lastName}
+            />
             <Text style={styles.text}>Email</Text>
-            <TextInput placeholder="estercarvalho@ua.pt" style={styles.input} />
+            <TextInput
+              placeholderTextColor="#000"
+              placeholder={email}
+              style={styles.input}
+              onChangeText={(text) => setEmail(text)}
+              value={email}
+            />
             <Text style={styles.text}>Empresa</Text>
             <TextInput
-              placeholder="Universidade de Aveiro"
+              placeholderTextColor="#999"
+              placeholder={organization}
               style={styles.input}
+              editable={false}
             />
             <View style={styles.rewards}>
               <Text
@@ -65,14 +135,18 @@ export default function EditProfile({ navigation }) {
               </Text>
               <Switch
                 trackColor={{ false: "#BBBABA", true: "#0051BA" }}
-                onValueChange={true}
+                thumbColor={rewards ? "#E3ECF7" : "#0051ba"}
+                value={rewards}
+                onValueChange={toggleSwitch}
               />
             </View>
           </View>
-          <View style={styles.options}>
-            <TouchableHighlight
-              onPress={editarperfil}
+          <View>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => editarperfil()}
               underlayColor={"transparent"}
+              style={styles.button}
             >
               <Text
                 style={{
@@ -80,17 +154,21 @@ export default function EditProfile({ navigation }) {
                   fontFamily: "GothamBook",
                   fontSize: 16,
                   lineHeight: 24,
+                  textAlign: "center",
                 }}
               >
-                Concluído
+                {" "}
+                Concluído{" "}
               </Text>
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
     </SafeAreaProvider>
   );
 }
+
+const screenWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
   container: {
@@ -116,13 +194,13 @@ const styles = StyleSheet.create({
   },
 
   input: {
-    marginTop: 5,
+    marginTop: 0,
     borderBottomWidth: 1,
-    paddingTop: 10,
+    paddingTop: 5,
     paddingBottom: 5,
     fontFamily: "GothamBook",
     fontSize: 16,
-    lineHeight: 24,
+    lineHeight: 16,
   },
 
   rewards: {
@@ -132,21 +210,22 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
 
-  options: {
-    marginTop: 30,
+  button: {
+    alignSelf: "stretch",
+    marginTop: 40,
     borderRadius: 15,
     paddingTop: 15,
     paddingBottom: 15,
-    width: "100%",
-    flexDirection: "row",
+    marginBottom: 20,
     justifyContent: "center",
     backgroundColor: "#0051BA",
+    width: screenWidth - 50,
   },
 
   text: {
-    fontFamily: "GothamBook",
+    fontFamily: "GothamMedium",
     fontSize: 16,
-    marginTop: 30,
+    marginTop: 40,
     lineHeight: 24,
   },
 });
