@@ -7,7 +7,7 @@ import {
   View,
   Text,
   Image,
-  TouchableOpacity,
+  Pressable,
 } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
@@ -88,47 +88,36 @@ export default function ProfilePage() {
             <Text style={styles.organization}>{organization}</Text>
           </View>
   
-          <View style={styles.options}>   
-            <Edit2 color="#000000" onPress={() => navigation.navigate("EditProfile")}/>
-            <TouchableOpacity activeOpacity={0.8}  onPress={() => navigation.navigate("EditProfile")} underlayColor={"transparent"} >
-              <Text style={styles.text} >  Editar perfil</Text>
-            </TouchableOpacity>
-          </View>
+            
+          <Pressable style={styles.options}  onPress={() => navigation.navigate("EditProfile")} >
+            <Edit2 color="#000000" />
+            <Text style={styles.text} >  Editar perfil</Text>
+          </Pressable>
   
-          <View style={styles.options} >  
-            <Category color="#000000" onPress={() => navigation.navigate("MyDevices")} />
-              <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate("MyDevices")} underlayColor={"transparent"} >
-                <Text style={styles.text} >  Os meus equipamentos</Text>
-              </TouchableOpacity>
-          </View> 
-         
-         <View style={styles.options}>
-          <Calendar color="#000000" onPress={() => navigation.navigate("###")}/> 
-            <TouchableOpacity activeOpacity={0.8}  onPress={() => navigation.navigate("###")} underlayColor={"transparent"} >
-              <Text style={styles.text} >  As minhas rotinas</Text>
-            </TouchableOpacity>
-          </View>
+          <Pressable style={styles.options} onPress={() => navigation.navigate("MyDevices")} >
+            <Category color="#000000" />
+            <Text style={styles.text} >  Os meus equipamentos</Text>
+          </Pressable>
+           
+          <Pressable style={styles.options}  onPress={() => navigation.navigate("MyRoutines")} >
+            <Calendar color="#000000"/> 
+            <Text style={styles.text} >  As minhas rotinas</Text>
+          </Pressable>
   
-          <View style={styles.options}>
-            <Clock color="#000000" onPress={() => navigation.navigate("###")} />
-            <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate("###")} underlayColor={"transparent"} >
-              <Text style={styles.text}>  Histórico de pausas</Text>
-            </TouchableOpacity>
-          </View>
+          <Pressable style={styles.options} onPress={() => navigation.navigate("###")} >
+            <Clock color="#000000" />
+            <Text style={styles.text}>  Histórico de pausas</Text>
+          </Pressable>
   
-          <View  style={styles.options}>
-          <MedalStar color="#000000" onPress={() => navigation.navigate("ProfileRewards")} /> 
-            <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate("ProfileRewards")} underlayColor={"transparent"} >
-              <Text style={styles.text} >  As minhas recompensas</Text>
-            </TouchableOpacity>
-          </View>
+          <Pressable style={styles.options} onPress={() => navigation.navigate("ProfileRewards")} >
+            <MedalStar color="#000000" /> 
+            <Text style={styles.text} >  As minhas recompensas</Text>
+          </Pressable>
   
-          <View  style={styles.options}>
-            <Setting2 color="#000000" onPress={() => navigation.navigate("ProfileSettings")}  />
-            <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate("ProfileSettings")} underlayColor={"transparent"} >
-              <Text style={styles.text} >  Definições</Text>
-            </TouchableOpacity>
-          </View>
+          <Pressable style={styles.options} onPress={() => navigation.navigate("ProfileSettings")} >
+            <Setting2 color="#000000" />
+            <Text style={styles.text} >  Definições</Text>
+          </Pressable>
           
           
         </ScrollView>

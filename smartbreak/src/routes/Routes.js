@@ -23,6 +23,7 @@ import ProfilePage from "../screens/profile/profile";
 //subpáginas do perfil
 import EditProfile from "../screens/profile/editprofile";
 import MyDevices from "../screens/profile/devices";
+import MyRoutines from "../screens/profile/routines";
 import ProfileRewards from "../screens/profile/profilerewards";
 import ProfileSettings from "../screens/profile/profilesettings";
 import EditPassword from "../screens/profile/editpassword";
@@ -198,9 +199,27 @@ const ProfileStackNavigation = ({ navigation }) => {
         }}
       />
 
-      <ProfileStack.Screen
+<ProfileStack.Screen
         name="MyDevices"
         component={MyDevices}
+        options={{
+          headerShown: true,
+          headerTitle: "",
+          headerLeft: () => (
+            <View style={{ paddingLeft: 20, paddingTop: 20 }}>
+              <ArrowLeft2
+                size="24"
+                color="#000000"
+                onPress={() => navigation.navigate("ProfilePage")}
+              />
+            </View>
+          ),
+        }}
+      />
+
+      <ProfileStack.Screen
+        name="MyRoutines"
+        component={MyRoutines}
         options={{
           headerShown: true,
           headerTitle: "",

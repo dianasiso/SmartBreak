@@ -152,10 +152,7 @@ export default function Devices({ navigation }) {
         type : devicesArray[i].type,
         using : devicesArray[i].using,
       }
-    }
-
-    console.log(devicesArray)
-    
+    }    
     firebase.firestore().collection('users_devices').doc(uid).update({
       devices : devicesArray
     })
