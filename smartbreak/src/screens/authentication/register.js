@@ -33,8 +33,13 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 import { useNavigation } from "@react-navigation/native";
 
+//redux
+import { useDispatch } from "react-redux";
+import { logUser } from "../../redux/user.js";
+
 export default function Register() {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   // Loading Gotham font
   const [loaded] = useFonts({
     GothamMedium: require("./../../fonts/GothamMedium.ttf"),
@@ -74,6 +79,7 @@ export default function Register() {
           uid: userCredential.user.uid,
           rewards: false,
         });
+        dispatch(logUser(userCredential.user.uid));
         Alert.alert("Sucesso", "Utilizador registado com sucesso.");
         // navigate.navigate("Painel", {idUser: userCredential.user.uid})
       })
