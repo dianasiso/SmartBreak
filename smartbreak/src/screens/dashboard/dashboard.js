@@ -33,6 +33,7 @@ const BatteryToggle = () => {
     } else {
       return (
         <View style={batteryStyles.batteryView}>
+          <View style={batteryStyles.batteryFillPausa} />
           <View style={batteryStyles.batteryContainer}>
             <Image
               source={require("../../imgs/batteryBolt.png")}
@@ -40,7 +41,7 @@ const BatteryToggle = () => {
             />
           </View>
           <View style={batteryStyles.batteryTip} />
-          <View style={batteryStyles.batteryFillPausa} />
+          
         </View>
       );
     }
@@ -216,7 +217,6 @@ const batteryStyles = StyleSheet.create({
   batteryContainer: {
     height: 100,
     width: 175,
-    backgroundColor: "white",
     borderRadius: 22,
     borderColor: "black",
     borderWidth: 2.5,
