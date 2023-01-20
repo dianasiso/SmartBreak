@@ -6,9 +6,14 @@ import { useNavigation } from "@react-navigation/native";
 // Font Gotham
 import { useFonts } from 'expo-font';
 
-export default function Tips() {
 
-  const navigation = useNavigation();
+export default function Tips({ navigation }) {
+  // Loading Gotham font
+  const [loaded] = useFonts({
+    GothamMedium: "./../fonts/GothamMedium.ttf",
+    GothamBook: "./../fonts/GothamBook.ttf",
+  });
+
 
   const objetivos = [
     'Diminuir o custo dos gastos de energia da empresa para menos 20%.',
@@ -18,6 +23,11 @@ export default function Tips() {
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  if (!loaded) {
+    return null; // Returns null if unable to load the font
+  }
+
 
   const proximo = () => {
     setCurrentIndex(currentIndex + 1);

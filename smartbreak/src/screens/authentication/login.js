@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   Alert,
   KeyboardAvoidingView,
+  Pressable,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -146,14 +147,13 @@ export default function Login() {
                 style={styles.inputField}
                 onChangeText={(text) => setPassword(text)}
               />
-              <Text style={styles.extra}>Esqueceu-se da palavra-passe?</Text>
-              <TouchableOpacity
-                activeOpacity={0.8}
+              <Pressable onPress={navigation.navigate("Password")}><Text style={styles.extra}>Esqueceu-se da palavra-passe?</Text></Pressable>
+              <Pressable
                 onPress={() => submit()}
                 style={styles.button}
               >
                 <Text style={styles.buttonText}>Entrar</Text>
-              </TouchableOpacity>
+              </Pressable>
             </ScrollView>
           </View>
         )}

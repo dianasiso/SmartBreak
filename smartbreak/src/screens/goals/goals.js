@@ -64,23 +64,6 @@ export default function Goals() {
     return null; // Returns null if unable to load the font
   }
 
-
-  // DROPDOWN
-  // const data = [
-  //   { label: 'Design', value: 'Design' },
-  //   { label: 'Frontend A', value: 'Frontend A' },
-  //   { label: 'Backend A', value: 'Backend A' },
-  //   { label: 'Marketing', value: 'Marketing' },
-  //   { label: 'Recursos Humanos', value: 'Recursos Humanos' },
-  // ];
-
-  // const [value, setValue] = useState(null);
-  // const [focus, setFocus] = useState(false);
-
-
-  // // MODAL
-
-
   // // MODAL FILTERS SELECTED
   // const [selectedIds, setSelectedIds] = useState([]);
 
@@ -280,7 +263,7 @@ export default function Goals() {
                 </View>
               </View>   
             </View>
-            <Pressable style={styles.arrow}>
+            <Pressable style={styles.arrow} >
                 <ArrowCircleRight variant='Bold' color="#0051ba" size="40" />
             </Pressable>
           </View>

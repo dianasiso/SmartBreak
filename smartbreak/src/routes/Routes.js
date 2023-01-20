@@ -35,6 +35,7 @@ import historicoPausas from "../screens/profile/historicoPausas";
 //autenticação
 import Login from "../screens/authentication/login";
 import Register from "../screens/authentication/register";
+import Password from "../screens/authentication/password";
 import Welcome from "../screens/authentication/welcome";
 
 //fontes
@@ -78,6 +79,11 @@ const AuthStackNavigation = ({ navigation }) => {
       <AuthStack.Screen
         name="Register"
         component={Register}
+        options={{ headerShown: false }}
+      />
+      <AuthStack.Screen
+        name="Password"
+        component={Password}
         options={{ headerShown: false }}
       />
     </AuthStack.Navigator>

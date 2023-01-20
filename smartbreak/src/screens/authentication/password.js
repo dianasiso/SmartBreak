@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import {KeyboardAvoidingView, Alert, TextInput, StyleSheet, Text, View, ScrollView, Image, Dimensions, TouchableHighlight, TouchableOpacity  } from 'react-native';
+import {KeyboardAvoidingView, Alert, TextInput, StyleSheet, Text, View, ScrollView, Image, Dimensions, TouchableHighlight, TouchableOpacity, Pressable  } from 'react-native';
 
 // Font Gotham
 import { useFonts } from 'expo-font';
@@ -9,10 +9,18 @@ import { useFonts } from 'expo-font';
 import firebase from "./../../config/firebase.js"
 import {doc, updateDoc, collection, where, query, getDocs } from "firebase/firestore"; 
 
+//redux
+import { useDispatch } from "react-redux";
+import { logUser } from "../../redux/user.js";
+import { useNavigation } from "@react-navigation/native";
+
 // Password meter
 import PassMeter from "react-native-passmeter";
 
 export default function Password() {
+
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
      // Loading Gotham font
     const [loaded] = useFonts({
         GothamMedium: require('./../../fonts/GothamMedium.ttf'),
@@ -85,6 +93,7 @@ export default function Password() {
           return false;
         }  
         updateData();
+        navigation.navigate("Login");
     }
 
     return (
@@ -112,7 +121,7 @@ export default function Password() {
             </View>
             <Text style={styles.textMessageBody}>Confirmar nova palavra-passe</Text> 
             <TextInput  secureTextEntry={true} style={styles.inputField} onChangeText={(text) => setConfirmPassword(text)}/>    
-            <TouchableOpacity activeOpacity={0.5} onPress={() => submit()} style={styles.button}><Text style={styles.buttonText}>Redefinir palavra-passe</Text></TouchableOpacity>
+            <Pressable onPress={() => submit()} style={styles.button}><Text style={styles.buttonText}>Redefinir palavra-passe</Text></Pressable>
           </ScrollView>
           </View>
         </KeyboardAvoidingView>

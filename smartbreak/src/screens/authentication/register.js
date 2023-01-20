@@ -14,6 +14,7 @@ import {
   TouchableOpacity,
   Alert,
   Animated,
+  Pressable,
 } from "react-native";
 import DropDownPicker from 'react-native-dropdown-picker';
 
@@ -304,13 +305,13 @@ export default function Register() {
                 style={styles.inputField}
                 onChangeText={(text) => setConfirmPassword(text)}
               />
-              <TouchableOpacity
+              <Pressable
                 activeOpacity={0.8}
                 onPress={() => submit()}
                 style={styles.button}
               >
                 <Text style={styles.buttonText}>Registar</Text>
-              </TouchableOpacity>
+              </Pressable>
             </ScrollView>
           </View>
         )}
