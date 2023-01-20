@@ -15,7 +15,7 @@ import MembersRewards from "../screens/dashboard/membersrewards";
 //ojbetivos
 import Goals from "../screens/goals/goals";
 //subpágina dos objetivos
-import Dicas from "../screens/goals/dicas";
+import Tips from "../screens/goals/tips";
 //estatísticas
 import Stats from "../screens/stats/stats";
 //perfil
@@ -149,8 +149,8 @@ const GoalsStackNavigation = ({ navigation }) => {
         options={{ headerShown: false }}
       />
       <GoalsStack.Screen
-        name="Dicas"
-        component={Dicas}
+        name="Tips"
+        component={Tips}
         options={{
           headerShown: true,
           headerTitle: "",

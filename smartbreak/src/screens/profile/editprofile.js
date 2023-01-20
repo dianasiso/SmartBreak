@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert } from "react-native";
 import {
   StyleSheet,
@@ -10,9 +10,10 @@ import {
   TextInput,
   Switch,
   Dimensions,
-  TouchableOpacity,
+  Pressable,
 } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { useSelector } from "react-redux";
 
 // Font Gotham
 import { useFonts } from "expo-font";
@@ -31,20 +32,15 @@ export default function EditProfile({ navigation }) {
     GothamBook: require("./../../fonts/GothamBook.ttf"),
   });
 
-  const [get, setGet] = useState(true);
   const [name, setName] = useState();
   const [lastName, setLastName] = useState();
   const [email, setEmail] = useState();
   const [organization, setOrganization] = useState();
   const [rewards, setRewards] = useState();
-  const uid = "Y8f9M4o03ceZrFjoWu6iOA8rm2F2"; // Posteriormente pegar da navegation
+  const userData = useSelector((state) => state.user.userID);
+  const uid = userData;  
 
-  if (!loaded) {
-    return null; // Returns null if unable to load the font
-  }
-
-  // Get data from firestore
-  if (get) {
+  useEffect(() =>{
     firebase.firestore()
       .collection("users_data")
       .doc(uid)
@@ -56,8 +52,12 @@ export default function EditProfile({ navigation }) {
           setOrganization(doc.data().organization);
           setRewards(doc.data().rewards);
       })
-    setGet(false);
+  }, [])
+
+  if (!loaded) {
+    return null; // Returns null if unable to load the font
   }
+
 
   const validate_email = (text) => {
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -153,16 +153,11 @@ export default function EditProfile({ navigation }) {
             </View>
           </View>
           <View>
-            <TouchableOpacity
-              activeOpacity={0.8}
+            <Pressable
               onPress={() => editarperfil()}
-              underlayColor={"transparent"}
               style={styles.button}
             >
-              <Text
-                style={{
-                  color: "#FFFFFF",
-                  fontFamily: "GothamBook",
+              <Text style={{color: "#FFFFFF",fontFamily: "GothamBook",
                   fontSize: 16,
                   lineHeight: 24,
                   textAlign: "center",
@@ -171,7 +166,7 @@ export default function EditProfile({ navigation }) {
                 {" "}
                 Concluído{" "}
               </Text>
-            </TouchableOpacity>
+            </Pressable>
           </View>
         </View>
       </ScrollView>

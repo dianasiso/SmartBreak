@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 // Font Gotham
 import { useFonts } from 'expo-font';
 
-export default function Dicas() {
+export default function Tips() {
 
   const navigation = useNavigation();
 

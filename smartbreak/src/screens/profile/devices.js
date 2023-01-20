@@ -51,11 +51,16 @@ export default function Devices({ navigation }) {
 
   const userData = useSelector((state) => state.user.userID);
   useEffect(() => {
-    firebase.firestore().collection("users_devices").doc(uid).get().then((doc) => {
+    try {
+      firebase.firestore().collection("users_devices").doc(uid).get().then((doc) => {
       // console.log("From firebase: ", doc.data().devices)
       setDevices([... doc.data().devices])
       // console.log("Devices:", devices)
   })
+    } catch {
+      setDevices([])
+    }
+    
   }, [userData]);
 
   // Var modal
@@ -80,7 +85,7 @@ export default function Devices({ navigation }) {
   const [addName, setAddName] = useState("");
   const [addEnergy, setAddEnergy] = useState(0);
 
-  const [devicesArray, setDevices] = useState()
+  const [devicesArray, setDevices] = useState([])
   const uid = userData; // Posteriormente pegar da navegation
   const [, updateState] = useState();  
   const forceUpdate = React.useCallback(() => updateState({}), []);
@@ -310,7 +315,7 @@ return (
       </ScrollView>
       <ScrollView style={{marginTop: 20, marginBottom: 10}}> 
       {devicesArray && devicesArray.length > 0 && devicesArray.map((callbackfn, id) => (
-        <Pressable style={longPress ? styles.optionsPressed : styles.options }  onLongPress={(() => {
+        <Pressable key={id} style={longPress ? styles.optionsPressed : styles.options }  onLongPress={(() => {
           setLongPress(true);
           Alert.alert("Atenção", "Tem a certeza que deseja eliminar o equipamento?", [
             { text: "Cancelar",

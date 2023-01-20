@@ -62,14 +62,17 @@ export default function Register() {
   const [notifications, setNotifications] = useState([true, false, false, false])
 
   // Firebase store data
-  const firestore = firebase.firestore().collection("users_data");
+  const firestoreUserData = firebase.firestore().collection("users_data");
+  const firestoreUserDevices = firebase.firestore().collection("users_devices");
+  const firestoreUserRoutines = firebase.firestore().collection("users_routines");
+
 
   // Firebase authentication
   const auth = getAuth();
   const registerFirebase = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        firestore.doc(userCredential.user.uid).set({
+        firestoreUserData.doc(userCredential.user.uid).set({
           name: name,
           lastName: lastName,
           email: email.trim(),
@@ -78,7 +81,14 @@ export default function Register() {
           uid: userCredential.user.uid,
           rewards: false,
           notifications: notifications,
+          shareData: true,
         });
+        firestoreUserRoutines.doc(userCredential.user.uid).set({
+          routines : []
+        })
+        firestoreUserDevices.doc(userCredential.user.uid).set({
+          devices : []
+        })
         Alert.alert("Sucesso", "Utilizador registado com sucesso.");
         // navigate.navigate("Painel", {idUser: userCredential.user.uid})
       })

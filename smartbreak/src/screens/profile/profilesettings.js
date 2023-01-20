@@ -53,6 +53,8 @@ export default function ProfileSettings({ navigation }) {
         onPress: (() => {
           getAuth().currentUser.delete()
           firebase.firestore().collection('users_data').doc(uid).delete()
+          firebase.firestore().collection('users_devices').doc(uid).delete()
+          firebase.firestore().collection('users_routines').doc(uid).delete()
           
           handleLogout();
         })

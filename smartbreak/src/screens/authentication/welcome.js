@@ -7,7 +7,7 @@ import {
   ScrollView,
   Image,
   Dimensions,
-  TouchableHighlight,
+  Pressable,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -48,24 +48,26 @@ export default function Welcome() {
       </ScrollView>
 
       <ScrollView style={styles.containerWelcome}>
-        <Text style={styles.textWelcomeTitle}>Bem-vindo!</Text>
-        <Text style={styles.textWelcomeText}>
-          Faz pausas no trabalho, desliga os teus equipamentos e contribui para
-          a diminuição do desperdício e excesso de energia. Converte o teu tempo
-          em lucro e lazer!
-        </Text>
-        <TouchableHighlight
-          onPress={() => navigation.navigate("Login")}
-          style={styles.buttonWelcome}
-        >
-          <Text style={styles.buttonText}>Entrar</Text>
-        </TouchableHighlight>
-        <TouchableHighlight
-          onPress={() => navigation.navigate("Register")}
-          style={styles.buttonWelcome}
-        >
-          <Text style={styles.buttonText}>Registar</Text>
-        </TouchableHighlight>
+        <View style={{marginTop: 20}}>
+          <Text style={styles.textWelcomeTitle}>Bem-vindo!</Text>
+          <Text style={styles.textWelcomeText}>
+            Faz pausas no trabalho, desliga os teus equipamentos e contribui para
+            a diminuição do desperdício e excesso de energia. Converte o teu tempo
+            em lucro e lazer!
+          </Text>
+          <Pressable
+            onPress={() => navigation.navigate("Login")}
+            style={styles.buttonWelcome}
+          >
+            <Text style={styles.buttonText}>Entrar</Text>
+          </Pressable>
+          <Pressable
+            onPress={() => navigation.navigate("Register")}
+            style={styles.buttonWelcome}
+          >
+            <Text style={styles.buttonText}>Registar</Text>
+          </Pressable>
+        </View>
       </ScrollView>
     </View>
   );
@@ -91,8 +93,8 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 50,
     paddingLeft: 25,
     paddingRight: 25,
-    paddingTop: 10,
-    paddingBottom: 300,
+    paddingBottom: 180,
+    marginBottom: 'auto',
   },
   imageLogo: {
     alignItems: "center",

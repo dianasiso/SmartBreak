@@ -8,8 +8,6 @@ import {
   ScrollView,
   View,
   Text,
-  TextInput,
-  TouchableOpacity,
   ToastAndroid,
   Switch,
   Pressable,
@@ -84,16 +82,20 @@ export default function Routines({ navigation }) {
   ]);
 
 
-  const [routinesArray, setRoutines] = useState()
+  const [routinesArray, setRoutines] = useState([])
   const uid = userData;
   const [, updateState] = useState();  
   const forceUpdate = React.useCallback(() => updateState({}), []);
   const [longPress, setLongPress] = useState(false);
 
   useEffect(() => {
-    firebase.firestore().collection("users_routines").doc(uid).get().then((doc) => {
-      setRoutines([... doc.data().routines])
-  })
+    try {
+      firebase.firestore().collection("users_routines").doc(uid).get().then((doc) => {
+          setRoutines([... doc.data().routines])
+      })
+    } catch {
+      setRoutines([])
+    }
   }, [userData]);
 
   if (!loaded) {
@@ -316,7 +318,6 @@ export default function Routines({ navigation }) {
         </View>
       </Modal>
       <ScrollView>
-      
       <Pressable style={styles.button} onPress={(() => {setModalVisible(true)})} underlayColor={"transparent"}>
         <Text style={styles.textButton}>Adicionar rotina</Text>
         <AddCircle color="#FFF" variant="Bold" style={{alignSelf: "center", marginLeft: 'auto', marginRight: 25}} onPress={(() => {setModalVisible(true)})} />
@@ -324,7 +325,7 @@ export default function Routines({ navigation }) {
       </ScrollView>
       <ScrollView style={{marginTop: 20, marginBottom: 10}}> 
       {routinesArray && routinesArray.length > 0 && routinesArray.map((callbackfn, id) => (
-        <Pressable style={longPress ? styles.optionsPressed : styles.options }  onLongPress={(() => {
+        <Pressable key={id} style={longPress ? styles.optionsPressed : styles.options }  onLongPress={(() => {
           setLongPress(true);
           Alert.alert("Atenção", "Tem a certeza que deseja eliminar a rotina?", [
             { text: "Cancelar",

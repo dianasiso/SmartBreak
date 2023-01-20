@@ -152,7 +152,7 @@ export default function Login() {
                 onPress={() => submit()}
                 style={styles.button}
               >
-                <Text style={styles.buttonText}>Login</Text>
+                <Text style={styles.buttonText}>Entrar</Text>
               </TouchableOpacity>
             </ScrollView>
           </View>

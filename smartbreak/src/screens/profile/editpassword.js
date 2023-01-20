@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Alert } from "react-native";
 import {
   Dimensions,
@@ -8,12 +8,14 @@ import {
   View,
   Text,
   TextInput,
-  TouchableOpacity,
+  Pressable,
 } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { useSelector } from "react-redux";
 
 // Firebase
 import firebase from "./../../config/firebase.js";
+
 
 // Font Gotham
 import { useFonts } from "expo-font";
@@ -25,28 +27,29 @@ export default function EditPassword({ navigation }) {
     GothamBook: "./../fonts/GothamBook.ttf",
   });
 
-  const [get, setGet] = useState(true);
   const [passwordStored, setPasswordStored] = useState();
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
   const [newPassword, setNewPassword] = useState();
-  const uid = "Y8f9M4o03ceZrFjoWu6iOA8rm2F2"; // Posteriormente pegar da navegation
+
+  const userData = useSelector((state) => state.user.userID);
+  const uid = userData;
+  
+  useEffect(() => {
+    firebase
+    .firestore()
+    .collection("users_data")
+    .doc(uid)
+    .get()
+    .then((doc) => {
+      setPasswordStored(doc.data().password);
+    });
+
+  },[])
+
 
   if (!loaded) {
     return null; // Returns null if unable to load the font
-  }
-
-  // Get data from firestore
-  if (get) {
-    firebase
-      .firestore()
-      .collection("users_data")
-      .doc(uid)
-      .get()
-      .then((doc) => {
-        setPasswordStored(doc.data().password);
-      });
-    setGet(false);
   }
 
   const validate_password = (pass) => {
@@ -128,25 +131,18 @@ export default function EditPassword({ navigation }) {
             />
           </View>
           <View>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => editarpasse()}
-              underlayColor={"transparent"}
-              style={styles.button}
-            >
-              <Text
+            <Pressable onPress={() => editarpasse()} style={styles.button}>
+              <Text 
                 style={{
                   color: "#FFFFFF",
                   fontFamily: "GothamBook",
                   fontSize: 16,
-                  lineHeight: 24,
                   textAlign: "center",
                 }}
               >
-                {" "}
-                Concluído{" "}
+                Concluído
               </Text>
-            </TouchableOpacity>
+            </Pressable>
           </View>
         </View>
       </ScrollView>
