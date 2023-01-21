@@ -11,8 +11,10 @@ import {
   Dimensions,
   TouchableOpacity,
   Alert,
+  Animated,
+  Pressable,
 } from "react-native";
-import DropDownPicker from "react-native-dropdown-picker";
+import DropDownPicker from 'react-native-dropdown-picker';
 
 import { LogBox } from "react-native";
 LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
@@ -38,8 +40,10 @@ import { useDispatch } from "react-redux";
 import { logUser } from "../../redux/user.js";
 
 export default function Register() {
+  
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  
   // Loading Gotham font
   const [loaded] = useFonts({
     GothamMedium: require("./../../fonts/GothamMedium.ttf"),
@@ -48,7 +52,7 @@ export default function Register() {
 
   // select items
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
+  const [valueOrg, setValueOrg] = useState("");
   const [items, setItems] = useState([
     { label: "Universidade de Aveiro", value: "Universidade de Aveiro" },
     { label: "Universidade de Coimbra", value: "Universidade de Coimbra" },
@@ -61,24 +65,37 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [notifications, setNotifications] = useState([true, false, false, false])
 
   // Firebase store data
-  const firestore = firebase.firestore().collection("users_data");
+  const firestoreUserData = firebase.firestore().collection("users_data");
+  const firestoreUserDevices = firebase.firestore().collection("users_devices");
+  const firestoreUserRoutines = firebase.firestore().collection("users_routines");
+
 
   // Firebase authentication
   const auth = getAuth();
   const registerFirebase = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        firestore.doc(userCredential.user.uid).set({
+        firestoreUserData.doc(userCredential.user.uid).set({
           name: name,
           lastName: lastName,
           email: email.trim(),
           password: password.trim(),
-          organization: value,
+          organization: valueOrg,
           uid: userCredential.user.uid,
           rewards: false,
+          notifications: notifications,
+          shareData: true,
         });
+        firestoreUserRoutines.doc(userCredential.user.uid).set({
+          routines : []
+        })
+        firestoreUserDevices.doc(userCredential.user.uid).set({
+          devices : []
+        })
+        
         dispatch(logUser(userCredential.user.uid));
         Alert.alert("Sucesso", "Utilizador registado com sucesso.");
         // navigate.navigate("Painel", {idUser: userCredential.user.uid})
@@ -176,7 +193,7 @@ export default function Register() {
       setLoading(false);
       return false;
     }
-    if (value == null) {
+    if (valueOrg == null) {
       Alert.alert("Preencha corretamente o campo Empresa");
       setLoading(false);
       return false;
@@ -250,16 +267,22 @@ export default function Register() {
                 onChangeText={(text) => setEmail(text)}
               />
               <Text>Empresa</Text>
-              <DropDownPicker
-                style={styles.inputField}
-                onChangeText={(text) => setOrganization(text)}
+              <DropDownPicker 
+              autoScroll={true}
                 open={open}
-                value={value}
+                value={valueOrg}
                 items={items}
                 setOpen={setOpen}
-                setValue={setValue}
+                setValue={setValueOrg}
                 setItems={setItems}
+                style={styles.inputField}
+                multiple={false}
+                showTickIcon={false}
+                closeAfterSelecting={true}
+                onChangeText={(text) => setOrganization(text)}
+               
               />
+              
               <Text>Palavra-passe</Text>
               <TextInput
                 secureTextEntry={true}
@@ -289,13 +312,13 @@ export default function Register() {
                 style={styles.inputField}
                 onChangeText={(text) => setConfirmPassword(text)}
               />
-              <TouchableOpacity
+              <Pressable
                 activeOpacity={0.8}
                 onPress={() => submit()}
                 style={styles.button}
               >
                 <Text style={styles.buttonText}>Registar</Text>
-              </TouchableOpacity>
+              </Pressable>
             </ScrollView>
           </View>
         )}

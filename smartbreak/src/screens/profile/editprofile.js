@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert } from "react-native";
 import {
   StyleSheet,
@@ -10,9 +10,10 @@ import {
   TextInput,
   Switch,
   Dimensions,
-  TouchableOpacity,
+  Pressable,
 } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { useSelector } from "react-redux";
 
 // Font Gotham
 import { useFonts } from "expo-font";
@@ -31,33 +32,39 @@ export default function EditProfile({ navigation }) {
     GothamBook: require("./../../fonts/GothamBook.ttf"),
   });
 
-  const [get, setGet] = useState(true);
   const [name, setName] = useState();
   const [lastName, setLastName] = useState();
   const [email, setEmail] = useState();
   const [organization, setOrganization] = useState();
   const [rewards, setRewards] = useState();
-  const uid = "Y8f9M4o03ceZrFjoWu6iOA8rm2F2"; // Posteriormente pegar da navegation
+  const userData = useSelector((state) => state.user.userID);
+  const uid = userData;  
+
+  useEffect(() =>{
+    firebase.firestore()
+      .collection("users_data")
+      .doc(uid)
+      .get()
+      .then((doc) => {
+          setName(doc.data().name);
+          setLastName(doc.data().lastName);
+          setEmail(doc.data().email);
+          setOrganization(doc.data().organization);
+          setRewards(doc.data().rewards);
+      })
+  }, [])
 
   if (!loaded) {
     return null; // Returns null if unable to load the font
   }
 
-  // Get data from firestore
-  if (get) {
-    firebase
-      .firestore()
-      .collection("users_data")
-      .doc(uid)
-      .get()
-      .then((doc) => {
-        setName(doc.data().name);
-        setLastName(doc.data().lastName);
-        setEmail(doc.data().email);
-        setOrganization(doc.data().organization);
-        setRewards(doc.data().rewards);
-      });
-    setGet(false);
+
+  const validate_email = (text) => {
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (reg.test(text) === false) {
+      return false;
+    }
+    return true;
   }
 
   const editarperfil = () => {
@@ -66,13 +73,17 @@ export default function EditProfile({ navigation }) {
       {
         text: "Confirmar",
         onPress: () => {
-          firebase.firestore().collection("users_data").doc(uid).update({
+          if (validate_email) {
+            firebase.firestore().collection('users_data').doc(uid).update({
             name: name,
             lastName: lastName,
             email: email,
             rewards: rewards,
-          });
-          navigation.navigate("ProfilePage");
+          })
+          navigation.navigate("ProfilePage")
+          } else {
+            Alert.alert("Email inválido!", "Preencha corretamente o campo E-mail.")
+          }
         },
       },
     ]);
@@ -142,16 +153,11 @@ export default function EditProfile({ navigation }) {
             </View>
           </View>
           <View>
-            <TouchableOpacity
-              activeOpacity={0.8}
+            <Pressable
               onPress={() => editarperfil()}
-              underlayColor={"transparent"}
               style={styles.button}
             >
-              <Text
-                style={{
-                  color: "#FFFFFF",
-                  fontFamily: "GothamBook",
+              <Text style={{color: "#FFFFFF",fontFamily: "GothamBook",
                   fontSize: 16,
                   lineHeight: 24,
                   textAlign: "center",
@@ -160,7 +166,7 @@ export default function EditProfile({ navigation }) {
                 {" "}
                 Concluído{" "}
               </Text>
-            </TouchableOpacity>
+            </Pressable>
           </View>
         </View>
       </ScrollView>

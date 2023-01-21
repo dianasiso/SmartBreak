@@ -11,11 +11,23 @@ import MainStackNavigation from "./src/routes/Routes";
 //funções navegação
 const Stack = createStackNavigator();
 
+
+// Firebase
+import firebase from "./src/config/firebase.js";
+
 import { Provider } from "react-redux";
 import store from "./src/redux/store";
 
 //export da app
 export default function App() {
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      console.log('user logged')
+    }
+ });
+  const user = firebase.auth().currentUser;
+  console.log("user logged? ", user);
+
   return (
     <Provider store={store}>
       <NavigationContainer>

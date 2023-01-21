@@ -1,8 +1,9 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
-import { StyleSheet, ScrollView, View, Text } from "react-native";
+import React, { useRef } from "react";
+import { StyleSheet, ScrollView, View, Text, Dimensions, Pressable } from "react-native";
 import { ArrowCircleUp } from "iconsax-react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { useScrollToTop } from '@react-navigation/native';
 
 // Font Gotham
 import { useFonts } from "expo-font";
@@ -14,13 +15,26 @@ export default function TermsofUseProfile() {
     GothamBook: "./../fonts/GothamBook.ttf",
   });
 
+  
+  const content = useRef();
+
+  if (!loaded) {
+    return null; // Returns null if unable to load the font
+  }
+  const onPressTouch = () => {
+    content.current?.scrollTo({
+      y: 0,
+      animated: true,
+    });
+  }
+
   return (
     <SafeAreaProvider style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <StatusBar style="auto" />
-        {/*<View style={styles.arrow}>
-          <ArrowCircleUp variant="Bold" color="#0051BA" size="65" />
-  </View>*/}
+      <StatusBar style="auto" />
+      <Pressable style={styles.arrow} onPress={onPressTouch} >
+        <ArrowCircleUp variant="Bold" color="#0051BA" size="60" />
+      </Pressable>
+      <ScrollView ref={content} showsVerticalScrollIndicator={false}>
         <Text style={styles.title}>Termos de utilização</Text>
         <View>
           <Text style={styles.subtitle}>
@@ -88,17 +102,20 @@ export default function TermsofUseProfile() {
             por aceitar ao não o novo conteúdo.
           </Text>
           <Text style={styles.subtitle}>Política de privacidade:</Text>
-          <Text style={styles.text}>
+          <Text style={styles.text2}>
             Além do presente Termo, o utilizador deverá consentir com as
             disposições contidas na respectiva Política de Privacidade a ser
             apresentada a todos os interessados dentro da interface do
-            aplicativo.
+            aplicativo.            
           </Text>
         </View>
       </ScrollView>
     </SafeAreaProvider>
   );
 }
+
+const screenWidth = Dimensions.get("window").width;
+const screenHeight = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
   container: {
@@ -110,10 +127,14 @@ const styles = StyleSheet.create({
   },
 
   arrow: {
-    position: "absolute",
-    bottom: 10,
-    right: 10,
-    zIndex: 1,
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    position: 'absolute',
+    right: 25,
+    bottom: 115,
+    zIndex: 10,
+    backgroundColor: '#FFF',
+    borderRadius: 50,
   },
 
   title: {
@@ -135,5 +156,14 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     marginTop: 10,
     color: "#444444",
+  },
+
+  text2: {
+    fontFamily: "GothamBook",
+    fontSize: 16,
+    lineHeight: 24,
+    marginTop: 10,
+    color: "#444444",
+    paddingBottom: 25,
   },
 });

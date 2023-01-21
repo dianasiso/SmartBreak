@@ -15,13 +15,15 @@ import MembersRewards from "../screens/dashboard/membersrewards";
 //ojbetivos
 import Goals from "../screens/goals/goals";
 //subpágina dos objetivos
-import Dicas from "../screens/goals/dicas";
+import Tips from "../screens/goals/tips";
 //estatísticas
 import Stats from "../screens/stats/stats";
 //perfil
 import ProfilePage from "../screens/profile/profile";
 //subpáginas do perfil
 import EditProfile from "../screens/profile/editprofile";
+import MyDevices from "../screens/profile/devices";
+import MyRoutines from "../screens/profile/routines";
 import ProfileRewards from "../screens/profile/profilerewards";
 import ProfileSettings from "../screens/profile/profilesettings";
 import EditPassword from "../screens/profile/editpassword";
@@ -33,6 +35,7 @@ import historicoPausas from "../screens/profile/historicoPausas";
 //autenticação
 import Login from "../screens/authentication/login";
 import Register from "../screens/authentication/register";
+import Password from "../screens/authentication/password";
 import Welcome from "../screens/authentication/welcome";
 
 //fontes
@@ -120,6 +123,11 @@ const AuthStackNavigation = ({ navigation }) => {
           ),
         }}
       />
+      <AuthStack.Screen
+        name="Password"
+        component={Password}
+        options={{ headerShown: false }}
+      />
     </AuthStack.Navigator>
   );
 };
@@ -189,8 +197,8 @@ const GoalsStackNavigation = ({ navigation }) => {
         options={{ headerShown: false }}
       />
       <GoalsStack.Screen
-        name="Dicas"
-        component={Dicas}
+        name="Tips"
+        component={Tips}
         options={{
           headerShown: true,
           headerTitle: "",
@@ -224,6 +232,42 @@ const ProfileStackNavigation = ({ navigation }) => {
       <ProfileStack.Screen
         name="EditProfile"
         component={EditProfile}
+        options={{
+          headerShown: true,
+          headerTitle: "",
+          headerLeft: () => (
+            <View style={{ paddingLeft: 20, paddingTop: 20 }}>
+              <ArrowLeft2
+                size="24"
+                color="#000000"
+                onPress={() => navigation.navigate("ProfilePage")}
+              />
+            </View>
+          ),
+        }}
+      />
+
+<ProfileStack.Screen
+        name="MyDevices"
+        component={MyDevices}
+        options={{
+          headerShown: true,
+          headerTitle: "",
+          headerLeft: () => (
+            <View style={{ paddingLeft: 20, paddingTop: 20 }}>
+              <ArrowLeft2
+                size="24"
+                color="#000000"
+                onPress={() => navigation.navigate("ProfilePage")}
+              />
+            </View>
+          ),
+        }}
+      />
+
+      <ProfileStack.Screen
+        name="MyRoutines"
+        component={MyRoutines}
         options={{
           headerShown: true,
           headerTitle: "",
