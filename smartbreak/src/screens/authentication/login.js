@@ -122,7 +122,10 @@ export default function Login() {
           Estamos contentes por continuares a melhorar o teu local de trabalho.
         </Text>
         <View style={styles.imageLogo}>
-          <Image source={require("./../../imgs/img_login.png")} />
+          <Image
+            style={{ width: 300, height: 200 }}
+            source={require("./../../imgs/img_login.png")}
+          />
         </View>
       </ScrollView>
 
@@ -169,7 +172,6 @@ const screenHeight = Dimensions.get("window").height - 50;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 65,
     backgroundColor: "#0051BA",
     flexDirection: "column",
   },
@@ -200,7 +202,7 @@ const styles = StyleSheet.create({
     color: "#888",
     fontSize: 12,
     textAlign: "right",
-    marginBottom: 40,
+    marginBottom: 70,
   },
   inputField: {
     borderBottomColor: "#000000",
@@ -242,6 +244,6 @@ const styles = StyleSheet.create({
   },
   imageLogo: {
     alignItems: "center",
-    paddingTop: 28,
+    paddingTop: 57,
   },
 });

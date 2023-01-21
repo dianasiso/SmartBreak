@@ -35,9 +35,14 @@ export default function Team({ navigation }) {
             <Text style={styles.text}>agostinhomartins@ua.pt</Text>
           </View>
           <ArrowCircleRight
+            style={{ position: "absolute", right: 0 }}
             variant="Bold"
             color="#0051BA"
-            onPress={() => navigation.navigate("MembersRewardsDashboard")}
+            onPress={() =>
+              navigation.navigate("MembersRewardsDashboard", {
+                username: "Agostinho",
+              })
+            }
           />
         </View>
 
@@ -51,9 +56,14 @@ export default function Team({ navigation }) {
             <Text style={styles.text}>alvesdaniel@ua.pt</Text>
           </View>
           <ArrowCircleRight
+            style={{ position: "absolute", right: 0 }}
             variant="Bold"
             color="#0051BA"
-            onPress={() => navigation.navigate("MembersRewardsDashboard")}
+            onPress={() =>
+              navigation.navigate("MembersRewardsDashboard", {
+                username: "Daniel",
+              })
+            }
           />
         </View>
 
@@ -67,9 +77,14 @@ export default function Team({ navigation }) {
             <Text style={styles.text}>diana.siso@ua.pt</Text>
           </View>
           <ArrowCircleRight
+            style={{ position: "absolute", right: 0 }}
             variant="Bold"
             color="#0051BA"
-            onPress={() => navigation.navigate("MembersRewardsDashboard")}
+            onPress={() =>
+              navigation.navigate("MembersRewardsDashboard", {
+                username: "Diana",
+              })
+            }
           />
         </View>
 
@@ -83,9 +98,14 @@ export default function Team({ navigation }) {
             <Text style={styles.text}>estercarvalho@ua.pt</Text>
           </View>
           <ArrowCircleRight
+            style={{ position: "absolute", right: 0 }}
             variant="Bold"
             color="#0051BA"
-            onPress={() => navigation.navigate("MembersRewardsDashboard")}
+            onPress={() =>
+              navigation.navigate("MembersRewardsDashboard", {
+                username: "Ester",
+              })
+            }
           />
         </View>
 
@@ -99,9 +119,14 @@ export default function Team({ navigation }) {
             <Text style={styles.text}>joanalt@ua.pt</Text>
           </View>
           <ArrowCircleRight
+            style={{ position: "absolute", right: 0 }}
             variant="Bold"
             color="#0051BA"
-            onPress={() => navigation.navigate("MembersRewardsDashboard")}
+            onPress={() =>
+              navigation.navigate("MembersRewardsDashboard", {
+                username: "Joana",
+              })
+            }
           />
         </View>
 
@@ -115,9 +140,14 @@ export default function Team({ navigation }) {
             <Text style={styles.text}>julianagouveia@ua.pt</Text>
           </View>
           <ArrowCircleRight
+            style={{ position: "absolute", right: 0 }}
             variant="Bold"
             color="#0051BA"
-            onPress={() => navigation.navigate("MembersRewardsDashboard")}
+            onPress={() =>
+              navigation.navigate("MembersRewardsDashboard", {
+                username: "Juliana",
+              })
+            }
           />
         </View>
       </ScrollView>
@@ -157,7 +187,6 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: "GothamBook",
     fontSize: 16,
-    marginLeft: 15,
     lineHeight: 24,
   },
 
