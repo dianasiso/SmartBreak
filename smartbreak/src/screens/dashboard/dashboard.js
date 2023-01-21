@@ -1,9 +1,11 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
+  RefreshControl,
+  Dimensions,
   Text,
+  Image,
   View,
   Pressable,
   SafeAreaView,
@@ -11,11 +13,13 @@ import {
   Image,
 } from "react-native";
 import { useFonts } from "expo-font";
-import { AddCircle, People, Clock, CloseCircle } from "iconsax-react-native";
+import { AddCircle, People, Clock , CloseCircle} from "iconsax-react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
-import batteryBolt from "../../imgs/batteryBolt.png";
+import DropDownPicker from 'react-native-dropdown-picker';
+
+// Firebase
+import firebase from "./../../config/firebase.js";
 
 const BatteryToggle = () => {
   const [selected, setSelected] = useState("personal");
@@ -128,10 +132,244 @@ const BatteryToggle = () => {
           </Pressable>
         </View>
       </View>
-      <Battery selected={selected} />
-      <AdicionarPausa selected={selected} />
+      <ButtonDashboard selected={selected} />
     </>
   );
+};
+
+
+const ButtonDashboard = ({ selected }) => {
+  const userData = useSelector((state) => state.user.userID);
+  const uid = userData;
+  const [pause, setPause] = useState();
+  const [battery , setBattery] = useState();
+  const [widthBattery, setWidthBattery] = useState();
+  const [heightBattery, setHeightBattery] = useState();
+  const [batteryTeams , setBatteryTeams] = useState();
+  const [widthBatteryTeams, setWidthBatteryTeams] = useState();
+  const [heightBatteryTeams, setHeightBatteryTeams] = useState();
+
+  const [dropdownValue, setDropdownValue] = useState('Equipa');
+  const [openDropdown, setOpenDropdown] = useState(false);
+  const [teams, setTeams] = useState();
+  const teamsDropdown = [];
+
+  useEffect(() => {
+    firebase
+    .firestore()
+    .collection("users_data")
+    .doc(uid)
+    .get()
+    .then((doc) => {
+      setTeams(doc.data().teams);
+      setPause(doc.data().pause);
+
+      let temp = doc.data().battery;
+      setBattery(temp);
+      // width max é 163
+      // temp -> 100 
+      // width -> 163
+      if (temp < 3) {
+        setHeightBattery(70)
+      } else if (temp < 6) {
+        setHeightBattery(76)
+      } else if (temp < 9) {
+        setHeightBattery(82)
+      } else if (temp < 12) {
+        setHeightBattery(79)
+      } else {
+        setHeightBattery(88)
+      }
+      setWidthBattery((temp*163/100));
+
+      console.log(doc.data().teams)
+
+      teams.map((item) => {
+        firebase
+        .firestore()
+        .collection("teams")
+        .doc(item)
+        .get()
+        .then((element) => {
+          let tempTeam = element.data().battery;
+          setBatteryTeams(temp);
+          // width max é 163
+          // temp -> 100 
+          // width -> 163
+          if (tempTeam < 3) {
+            setHeightBatteryTeams(70)
+          } else if (tempTeam < 6) {
+            setHeightBatteryTeams(76)
+          } else if (tempTeam < 9) {
+            setHeightBatteryTeams(82)
+          } else if (tempTeam < 12) {
+            setHeightBatteryTeams(79)
+          } else {
+            setHeightBatteryTeams(88)
+          }
+          setWidthBatteryTeams((tempTeam*163/100));
+
+
+          console.log(element.data().name)
+          teamsDropdown.push({
+            label : element.data().name,
+            value : item,
+          })
+        })
+      })
+
+      setDropdownValue(teams[0]);
+    });
+  }, [userData]);
+
+  const navigation = useNavigation();
+
+  if (selected === "personal") {
+    if (!pause) {
+      return (
+        <>
+        <View style={batteryStyles.batteryView}>
+          <View style={batteryStyles.batteryContainer} />
+          <View style={batteryStyles.batteryTip} />
+          <View style={[batteryStyles.batteryFill, {width: widthBattery, height: heightBattery}]} />
+        </View>
+        <View style={ButtonDashboardStyles.ButtonDashboardView}>
+          <Pressable onPress={() => {
+             firebase.firestore().collection('users_data').doc(uid).update({
+              pause : !pause,
+            })
+            setPause(true)
+          }} style={ButtonDashboardStyles.ButtonDashboardContainer}>
+            <Text style={ButtonDashboardStyles.ButtonDashboardText}>
+              Adicionar pausa
+            </Text>
+            <AddCircle
+              color="white"
+              size={26}
+              variant="Bold"
+              style={ButtonDashboardStyles.icon}
+            />
+          </Pressable>
+        </View>
+        </>
+      );
+    } else {
+      return (
+        <>
+        <View style={batteryStyles.batteryView}>
+          <View style={batteryStyles.batteryContainer} />
+          <View style={batteryStyles.batteryTip} />
+          <Image
+            source={require("./../../imgs/img_battery_pause.png")}
+            style={{
+              position: 'absolute',
+              zIndex: 100,
+              marginLeft: "auto",
+              marginRight: "auto",
+              marginTop: "auto",
+              marginBottom: "auto",
+            }}
+          />
+          <View style={[batteryStyles.batteryFillPause, {width: widthBattery, height: heightBattery}]} />
+        </View>
+        <View style={ButtonDashboardStyles.ButtonDashboardView}>
+          <Pressable onPress={() => {
+            firebase.firestore().collection('users_data').doc(uid).update({
+              pause : !pause,
+              battery : (battery + 3)
+            })
+            firebase.firestore().collection('teams').doc(teams[0]).update({
+              battery : (batteryTeams + 3)
+            })
+            if (battery < 3) {
+              setHeightBattery(70)
+            } else if (battery < 6) {
+              setHeightBattery(76)
+            } else if (battery < 9) {
+              setHeightBattery(82)
+            } else if (battery < 12) {
+              setHeightBattery(79)
+            } else {
+              setHeightBattery(88)
+            }
+            if (battery + 3 > 100) {
+              setBattery(0)
+              setWidthBattery(0);
+            } else {
+              setBattery((battery + 3))
+              setWidthBattery((battery*163/100));
+            }
+           
+            setPause(false)
+          }} style={ButtonDashboardStyles.ButtonDashboardContainer}>
+            <Text style={ButtonDashboardStyles.ButtonDashboardText}>
+              Terminar pausa
+            </Text>
+            <CloseCircle
+              color="white"
+              size={26}
+              variant="Bold"
+              style={ButtonDashboardStyles.icon}
+            />
+          </Pressable>
+        </View>  
+        </>
+      );
+    }
+  } else {
+    return (
+      <>
+       {/* <DropDownPicker 
+        open={openDropdown}
+        value={dropdownValue}
+        items={teams}
+        setOpen={setOpenDropdown}
+        setValue={setDropdownValue}
+        setItems={setTeams}
+        style={{
+          top: 85,
+          backgroundColor: 'transparent', 
+          borderWidth: 0,
+          borderBottomWidth: 1,
+          paddingBottom: 0,
+          fontSize: 16,
+          fontFamily: 'GothamBook'
+        }}
+        multiple={false}
+        showTickIcon={false}
+        closeAfterSelecting={true}
+        textStyle={{ fontSize: 16 }}
+        dropDownContainerStyle={{
+          backgroundColor: "#D2DBE6",
+          borderColor: '#000',
+          fontFamily: 'GothamBook',
+          fontSize: 16,
+          }}
+      />  */}
+      <View style={batteryStyles.batteryView}>
+          <View style={batteryStyles.batteryContainer} />
+          <View style={batteryStyles.batteryTip} />
+          <View style={[batteryStyles.batteryFill, {width: widthBatteryTeams, height: heightBatteryTeams}]} />
+        </View>
+      <View style={ButtonDashboardStyles.ButtonDashboardView}>
+        <Pressable
+          onPress={() => navigation.navigate("TeamDashboard")}
+          style={ButtonDashboardStyles.ButtonDashboardContainer}
+        >
+          <Text style={ButtonDashboardStyles.ButtonDashboardText}>
+            Ver equipa
+          </Text>
+          <People
+            color="white"
+            size={26}
+            variant="Bold"
+            style={ButtonDashboardStyles.icon}
+          />
+        </Pressable>
+      </View>
+      </>
+    );
+  }
 };
 
 const Metricas = () => {
@@ -140,7 +378,7 @@ const Metricas = () => {
       <Text style={metricasStyles.metricasText}>Métricas</Text>
       <View style={metricasStyles.metricasElement}>
         <View style={metricasStyles.iconContainer}>
-          <Clock color="black" size={20} variant="Bold" />
+          <Clock color="black"  />
         </View>
         <Text style={metricasStyles.metricasElementText}>
           Carregar um portátil durante 2 horas
@@ -148,7 +386,7 @@ const Metricas = () => {
       </View>
       <View style={metricasStyles.metricasElement}>
         <View style={metricasStyles.iconContainer}>
-          <Clock color="black" size={20} variant="Bold" />
+          <Clock color="black" variant="Bold" />
         </View>
         <Text style={metricasStyles.metricasElementText}>
           Carregar um portátil durante 2 horas
@@ -156,7 +394,7 @@ const Metricas = () => {
       </View>
       <View style={metricasStyles.metricasElement}>
         <View style={metricasStyles.iconContainer}>
-          <Clock color="black" size={20} variant="Bold" />
+          <Clock color="black" variant="Bold" />
         </View>
         <Text style={metricasStyles.metricasElementText}>
           Carregar um portátil durante 2 horas
@@ -170,10 +408,21 @@ export default function Dashboard() {
   //const { idUser } = route.params.idUser;
   //console.log(route);
   const reduxState = useSelector((state) => state.user.userID);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     console.log("redux state:", reduxState);
   }, [reduxState]);
+
+  
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
+
+
 
   const [loaded] = useFonts({
     GothamMedium: "./../fonts/GothamMedium.ttf",
@@ -185,23 +434,30 @@ export default function Dashboard() {
 
   return (
     <SafeAreaView style={dashboardStyles.pageContainer}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <StatusBar style="auto" />
+      <ScrollView showsVerticalScrollIndicator={false} refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }>
         <View>
           <BatteryToggle />
           <Metricas />
-          <StatusBar style="auto" />
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 }
 
+
+const screenWidth = Dimensions.get('window').width;
+
+
 const dashboardStyles = StyleSheet.create({
   pageContainer: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "#FFF",
     paddingLeft: 25,
     paddingRight: 25,
+    paddingBottom: 100,
     alignItems: "center",
   },
 });
@@ -214,7 +470,7 @@ const batteryStyles = StyleSheet.create({
     marginTop: 130,
   },
   batteryContainer: {
-    height: 100,
+    height: 100.5,
     width: 175,
     backgroundColor: "white",
     borderRadius: 22,
@@ -239,12 +495,20 @@ const batteryStyles = StyleSheet.create({
     marginLeft: 4,
   },
   batteryFill: {
-    height: 88,
-    width: 90, //máximo 163
+    // height: 88,
+    // width: 90, //máximo 163
     backgroundColor: "#0051BA",
-    borderRadius: 18,
+    borderRadius: 16,
     position: "absolute",
-    left: 82,
+    left: 93,
+  },
+  batteryFillPause: {
+    // height: 88,
+    // width: 90, //máximo 163
+    backgroundColor: "#E3ECF7",
+    borderRadius: 16,
+    position: "absolute",
+    left: 93,
   },
   batteryFillPausa: {
     height: 88,
@@ -264,7 +528,7 @@ const toggleStyles = StyleSheet.create({
     flexDirection: "row",
   },
   toggleContainer: {
-    width: 340,
+    width: screenWidth - 50,
     height: 35,
     backgroundColor: "#E3ECF7",
     borderRadius: 8,
@@ -272,21 +536,21 @@ const toggleStyles = StyleSheet.create({
     flexDirection: "row",
   },
   toggleSelectorLeft: {
-    width: 145,
+    width: (screenWidth - 50)/2 - 5,
     height: 25,
-    borderRadius: 8,
+    borderRadius: 4,
     alignItems: "center",
     justifyContent: "center",
-    left: 5,
+    marginLeft: 5,
     alignSelf: "center",
   },
   toggleSelectorRight: {
-    width: 170,
+    width: (screenWidth - 50)/2 - 5,
     height: 25,
-    borderRadius: 8,
+    borderRadius: 4,
     alignItems: "center",
     justifyContent: "center",
-    right: 5,
+    marginRight: 5,
     alignSelf: "center",
   },
   toggleText: {
@@ -301,48 +565,48 @@ const toggleStyles = StyleSheet.create({
   },
 });
 
-const adicionarPausaStyles = StyleSheet.create({
-  adicionarPausaView: {
-    top: 60,
+const ButtonDashboardStyles = StyleSheet.create({
+  ButtonDashboardView: {
+    marginTop: 60,
   },
-  adicionarPausaContainer: {
+  ButtonDashboardContainer: {
     backgroundColor: "#0051BA",
-    width: 340,
-    height: 51,
-    borderRadius: 17,
-    justifyContent: "flex-start",
+    width: screenWidth - 50,
+    borderRadius: 15,
     alignItems: "center",
     flexDirection: "row",
   },
-  adicionarPausaText: {
+  ButtonDashboardText: {
     color: "white",
     fontSize: 16,
     fontFamily: "GothamMedium",
-    marginLeft: 18,
+    textAlign: 'left',
+    padding: 15,
+    paddingLeft: 20,
   },
   icon: {
     alignSelf: "center",
     marginLeft: "auto",
-    marginRight: 18,
+    marginRight: 20,
   },
 });
 
 const metricasStyles = StyleSheet.create({
   metricasContainer: {
     alignSelf: "flex-start",
-    marginLeft: 0,
-    top: 100,
+    marginTop: 60,
   },
   metricasText: {
     fontSize: 20,
     fontFamily: "GothamMedium",
   },
   metricasElement: {
-    width: 340,
-    height: 65,
+    width: screenWidth - 50,
     backgroundColor: "#E3ECF7",
-    borderRadius: 17,
+    borderRadius: 15,
+    padding: 15,
     marginTop: 20,
+    paddingLeft: 25,
     //justifyContent: "center",
     flexDirection: "row",
     alignItems: "center",
@@ -350,11 +614,7 @@ const metricasStyles = StyleSheet.create({
   metricasElementText: {
     fontSize: 15,
     fontFamily: "GothamBook",
-    left: 47,
-    maxWidth: 261,
+    marginLeft: 10,
     lineHeight: 20,
-  },
-  iconContainer: {
-    left: 18,
   },
 });

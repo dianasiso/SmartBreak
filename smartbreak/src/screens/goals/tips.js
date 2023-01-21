@@ -16,8 +16,6 @@ export default function Tips() {
   const [docId, setDocId] = useState(useRoute().params.goalId);
   const [description, setDescription] = useState();
   const [docsId, setDocsId] = useState([]);
-  const [nextId, setNextId] = useState(0);
-  const [previousId, setPreviousId] = useState();
   
   const [, updateState] = useState();  
   const forceUpdate = React.useCallback(() => updateState({}), []);
@@ -69,8 +67,6 @@ export default function Tips() {
     return null; // Returns null if unable to load the font
   }
 
-
-
   const next = () => {
     for (var i = 0; i < docsId.length; i++) {
       if (docsId[i] == docId) {
@@ -83,13 +79,11 @@ export default function Tips() {
         }
       }
     }
-    // console.log("next id: ",  nextId);
   }
 
   const previous = () => {
     for (var i = 0; i < docsId.length; i++) {
       if (docsId[i] == docId) {
-        console.log("encontrei")
         if (i == 0) {
           setDocId(docsId[docsId.length - 1])
           newDescription()
@@ -99,7 +93,6 @@ export default function Tips() {
         }
       }
     }
-    // console.log("previous id: ", previousId)
   }
 
   return (

@@ -20,7 +20,7 @@ import {
   Setting2,
 } from "iconsax-react-native";
 
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 // Firebase
