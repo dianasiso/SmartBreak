@@ -2,9 +2,9 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, Pressable , Dimensions } from 'react-native';
 import Modal from 'react-native-modal';
-import { useNavigation } from "@react-navigation/native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import DropDownPicker from 'react-native-dropdown-picker';
+import { useNavigation } from "@react-navigation/native";
 
 // Icons
 import { Candle2, ArrowCircleRight } from "iconsax-react-native";
@@ -17,7 +17,6 @@ import { useSelector } from "react-redux";
 import firebase from "./../../config/firebase.js";
 export default function Goals() {
 
-  const navigation = useNavigation();
   const [loaded] = useFonts({
     GothamMedium: "./../fonts/GothamMedium.ttf",
     GothamBook: "./../fonts/GothamBook.ttf",
@@ -26,6 +25,7 @@ export default function Goals() {
 
   const userData = useSelector((state) => state.user.userID);
   const uid = userData;
+  const navigation = useNavigation();
   
   const [, updateState] = useState();  
   const forceUpdate = React.useCallback(() => updateState({}), []);
@@ -54,7 +54,7 @@ export default function Goals() {
         })
         setDocs(arrayTemp)
       // console.log(docs)
-  })
+      })
     } catch {
       setDocs([])
     }
@@ -247,7 +247,6 @@ export default function Goals() {
     </View>
 
     <ScrollView>
-    {/* {console.log(docs)} */}
     {docs && docs.length > 0 && docs.map((callbackfn, id) => (
         <Pressable style={styles.options } key={id}>
           <View style={{flexDirection: 'row', flex: 1, marginTop: 'auto', marginBottom: 'auto', alignItems: 'center'}}>
@@ -263,7 +262,7 @@ export default function Goals() {
                 </View>
               </View>   
             </View>
-            <Pressable style={styles.arrow} >
+            <Pressable style={styles.arrow} onPress={() => navigation.navigate("Tips", {goalId: docs[id].id})}>
                 <ArrowCircleRight variant='Bold' color="#0051ba" size="40" />
             </Pressable>
           </View>
@@ -279,6 +278,7 @@ export default function Goals() {
 // Get screen dimensions
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height - 50;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

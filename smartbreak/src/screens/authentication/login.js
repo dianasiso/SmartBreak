@@ -147,7 +147,7 @@ export default function Login() {
                 style={styles.inputField}
                 onChangeText={(text) => setPassword(text)}
               />
-              <Pressable onPress={navigation.navigate("Password")}><Text style={styles.extra}>Esqueceu-se da palavra-passe?</Text></Pressable>
+              <Pressable onPress={(() => navigation.navigate("Password"))}><Text style={styles.extra}>Esqueceu-se da palavra-passe?</Text></Pressable>
               <Pressable
                 onPress={() => submit()}
                 style={styles.button}
