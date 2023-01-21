@@ -10,6 +10,7 @@ import {
   Pressable,
   SafeAreaView,
   ScrollView,
+  Image,
 } from "react-native";
 import { useFonts } from "expo-font";
 import { AddCircle, People, Clock , CloseCircle} from "iconsax-react-native";
@@ -22,6 +23,86 @@ import firebase from "./../../config/firebase.js";
 
 const BatteryToggle = () => {
   const [selected, setSelected] = useState("personal");
+  const [pausa, setPausa] = useState(false);
+
+  const Battery = ({ selected }) => {
+    if (pausa === false) {
+      return (
+        <View style={batteryStyles.batteryView}>
+          <View style={batteryStyles.batteryContainer} />
+          <View style={batteryStyles.batteryTip} />
+          <View style={batteryStyles.batteryFill} />
+        </View>
+      );
+    } else {
+      return (
+        <View style={batteryStyles.batteryView}>
+          <View style={batteryStyles.batteryContainer}>
+            <Image
+              source={require("../../imgs/batteryBolt.png")}
+              style={batteryStyles.batteryBolt}
+            />
+          </View>
+          <View style={batteryStyles.batteryTip} />
+          <View style={batteryStyles.batteryFillPausa} />
+        </View>
+      );
+    }
+  };
+
+  const AdicionarPausa = ({ selected }) => {
+    const navigation = useNavigation();
+    if (selected === "personal") {
+      return (
+        <View style={adicionarPausaStyles.adicionarPausaView}>
+          <Pressable
+            onPress={() => {
+              setPausa(!pausa);
+            }}
+            style={adicionarPausaStyles.adicionarPausaContainer}
+          >
+            <Text style={adicionarPausaStyles.adicionarPausaText}>
+              {pausa ? "Terminar Pausa" : "Adicionar Pausa"}
+            </Text>
+            {pausa ? (
+              <CloseCircle
+                color="white"
+                size={26}
+                variant="Bold"
+                style={adicionarPausaStyles.icon}
+              />
+            ) : (
+              <AddCircle
+                color="white"
+                size={26}
+                variant="Bold"
+                style={adicionarPausaStyles.icon}
+              />
+            )}
+          </Pressable>
+        </View>
+      );
+    } else if (selected === "team") {
+      return (
+        <View style={adicionarPausaStyles.adicionarPausaView}>
+          <Pressable
+            onPress={() => navigation.navigate("TeamDashboard")}
+            style={adicionarPausaStyles.adicionarPausaContainer}
+          >
+            <Text style={adicionarPausaStyles.adicionarPausaText}>
+              Ver equipa
+            </Text>
+            <People
+              color="white"
+              size={26}
+              variant="Bold"
+              style={adicionarPausaStyles.icon}
+            />
+          </Pressable>
+        </View>
+      );
+    }
+  };
 
   return (
     <>
@@ -396,6 +477,13 @@ const batteryStyles = StyleSheet.create({
     borderColor: "black",
     borderWidth: 2.5,
   },
+  batteryBolt: {
+    position: "absolute",
+    zIndex: 1,
+    alignSelf: "center",
+    width: 94,
+    height: 94,
+  },
   batteryTip: {
     height: 30,
     width: 10,
@@ -422,6 +510,15 @@ const batteryStyles = StyleSheet.create({
     position: "absolute",
     left: 93,
   },
+  batteryFillPausa: {
+    height: 88,
+    width: 90, //máximo 163
+    backgroundColor: "#E3ECF7",
+    borderRadius: 18,
+    position: "absolute",
+    left: 82,
+  },
+ 
 });
 
 const toggleStyles = StyleSheet.create({

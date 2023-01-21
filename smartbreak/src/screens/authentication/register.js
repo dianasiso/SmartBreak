@@ -1,7 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import {
-  ActivityIndicator,
   KeyboardAvoidingView,
   TextInput,
   StyleSheet,
@@ -10,7 +9,6 @@ import {
   ScrollView,
   Image,
   Dimensions,
-  TouchableHighlight,
   TouchableOpacity,
   Alert,
   Animated,
@@ -45,7 +43,7 @@ export default function Register() {
   
   const navigation = useNavigation();
   const dispatch = useDispatch();
-
+  
   // Loading Gotham font
   const [loaded] = useFonts({
     GothamMedium: require("./../../fonts/GothamMedium.ttf"),
@@ -242,7 +240,7 @@ export default function Register() {
           loadingScreen()
         ) : (
           <View>
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
               <TouchableOpacity
                 onPress={() => loadPhoto()}
                 style={{ paddingBottom: 30 }}
@@ -339,7 +337,6 @@ const screenHeight = Dimensions.get("window").height - 50;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 65,
     backgroundColor: "#0051BA",
     flexDirection: "column",
   },
@@ -408,6 +405,7 @@ const styles = StyleSheet.create({
   },
   textMessageBody: {
     fontSize: 16,
+    lineHeight: 24,
     textAlign: "left",
     paddingTop: 15,
     fontFamily: "GothamBook",

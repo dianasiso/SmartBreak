@@ -34,6 +34,7 @@ export default function TermsofUseProfile() {
         <ArrowCircleUp variant="Bold" color="#0051BA" size="60" />
       </Pressable>
       <ScrollView ref={content} showsVerticalScrollIndicator={false}>
+
         <Text style={styles.title}>Centro de ajuda</Text>
         <View>
           <Text style={styles.subtitle}>Como usar a Smart Break</Text>
