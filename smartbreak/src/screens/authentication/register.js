@@ -90,6 +90,7 @@ export default function Register() {
           rewards: false,
           notifications: notifications,
           shareData: true,
+          pause: false,
         });
         firestoreUserRoutines.doc(userCredential.user.uid).set({
           routines : []
