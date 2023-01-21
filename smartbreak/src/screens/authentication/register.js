@@ -91,6 +91,8 @@ export default function Register() {
           notifications: notifications,
           shareData: true,
           pause: false,
+          battery: 0,
+          teams: [],
         });
         firestoreUserRoutines.doc(userCredential.user.uid).set({
           routines : []
@@ -181,7 +183,7 @@ export default function Register() {
   const submit = () => {
     setLoading(true);
 
-    if (email.length == 0 || validate_email(email) == false) {
+    if (email.length == 0 || validate_email(email.trim()) == false) {
       Alert.alert("Preencha corretamente o campo E-mail");
       setLoading(false);
       return false;
