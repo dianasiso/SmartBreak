@@ -510,12 +510,14 @@ const dashboardStyles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'left',
     marginBottom: 20,
+    lineHeight: 22,
   },
   modalText: {
     fontFamily: "GothamBook",
     fontSize: 16,
     textAlign: 'left',
     marginBottom: 20,
+    lineHeight: 22,
   },
   buttonAdd: {
     backgroundColor: '#0051ba',
@@ -568,7 +570,7 @@ const batteryStyles = StyleSheet.create({
     backgroundColor: "#0051BA",
     borderRadius: 16,
     position: "absolute",
-    left: 93,
+    left: 83,
   },
   batteryFillPause: {
     // height: 88,
@@ -576,7 +578,7 @@ const batteryStyles = StyleSheet.create({
     backgroundColor: "#E3ECF7",
     borderRadius: 16,
     position: "absolute",
-    left: 93,
+    left: 83,
   },
   batteryFillPausa: {
     height: 88,
@@ -665,7 +667,7 @@ const metricasStyles = StyleSheet.create({
   metricasText: {
     fontSize: 20,
     fontFamily: "GothamMedium",
-    marginBottom: 20,
+    marginBottom: 18,
   },
   metricasElement: {
     width: screenWidth - 50,
