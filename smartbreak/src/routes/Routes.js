@@ -14,14 +14,16 @@ import Team from "../screens/dashboard/team";
 import MembersRewards from "../screens/dashboard/membersrewards";
 //ojbetivos
 import Goals from "../screens/goals/goals";
-//subpáginas dos objetivos
-import TestGoal from "../screens/goals/testgoal";
+//subpágina dos objetivos
+import Tips from "../screens/goals/tips";
 //estatísticas
 import Stats from "../screens/stats/stats";
 //perfil
 import ProfilePage from "../screens/profile/profile";
 //subpáginas do perfil
 import EditProfile from "../screens/profile/editprofile";
+import MyDevices from "../screens/profile/devices";
+import MyRoutines from "../screens/profile/routines";
 import ProfileRewards from "../screens/profile/profilerewards";
 import ProfileSettings from "../screens/profile/profilesettings";
 import EditPassword from "../screens/profile/editpassword";
@@ -29,9 +31,11 @@ import NotificationsProfile from "../screens/profile/notificationsprofile";
 import SecurityProfile from "../screens/profile/secutiryprofile";
 import TermsofUseProfile from "../screens/profile/termsofuseprofile";
 import HelpCenterProfile from "../screens/profile/helpcenterprofile";
+import historicoPausas from "../screens/profile/historicoPausas";
 //autenticação
 import Login from "../screens/authentication/login";
 import Register from "../screens/authentication/register";
+import Password from "../screens/authentication/password";
 import Welcome from "../screens/authentication/welcome";
 
 //fontes
@@ -70,11 +74,58 @@ const AuthStackNavigation = ({ navigation }) => {
       <AuthStack.Screen
         name="Login"
         component={Login}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: true,
+          headerTitle: "",
+          headerStyle: {
+            backgroundColor: "#0051BA",
+            shadowColor: "transparent",
+          },
+          headerLeft: () => (
+            <View
+              style={{
+                paddingLeft: 20,
+                paddingTop: 20,
+              }}
+            >
+              <ArrowLeft2
+                size="24"
+                color="#FFFFFF"
+                onPress={() => navigation.navigate("Welcome")}
+              />
+            </View>
+          ),
+        }}
       />
       <AuthStack.Screen
         name="Register"
         component={Register}
+        options={{
+          headerShown: true,
+          headerTitle: "",
+          headerStyle: {
+            backgroundColor: "#0051BA",
+            shadowColor: "transparent",
+          },
+          headerLeft: () => (
+            <View
+              style={{
+                paddingLeft: 20,
+                paddingTop: 20,
+              }}
+            >
+              <ArrowLeft2
+                size="24"
+                color="#FFFFFF"
+                onPress={() => navigation.navigate("Welcome")}
+              />
+            </View>
+          ),
+        }}
+      />
+      <AuthStack.Screen
+        name="Password"
+        component={Password}
         options={{ headerShown: false }}
       />
     </AuthStack.Navigator>
@@ -82,7 +133,7 @@ const AuthStackNavigation = ({ navigation }) => {
 };
 
 //navegação stack na dashboard
-const DashboardStackNavigation = ({ navigation }) => {
+const DashboardStackNavigation = ({ navigation, route }) => {
   return (
     <DashboardStack.Navigator
       initialRouteName="HomeDashboard"
@@ -90,9 +141,9 @@ const DashboardStackNavigation = ({ navigation }) => {
     >
       <DashboardStack.Screen
         name="HomeDashboard"
-        component={Dashboard}
         options={{ headerShown: false }}
-      />
+        component={Dashboard}
+      ></DashboardStack.Screen>
 
       <DashboardStack.Screen
         name="TeamDashboard"
@@ -123,7 +174,7 @@ const DashboardStackNavigation = ({ navigation }) => {
               <ArrowLeft2
                 size="24"
                 color="#000000"
-                onPress={() => navigation.navigate("TeamDashboard")}
+                onPress={() => navigation.navigate("TeamDashboard", {teamId : null})}
               />
             </View>
           ),
@@ -146,8 +197,8 @@ const GoalsStackNavigation = ({ navigation }) => {
         options={{ headerShown: false }}
       />
       <GoalsStack.Screen
-        name="TestGoal"
-        component={TestGoal}
+        name="Tips"
+        component={Tips}
         options={{
           headerShown: true,
           headerTitle: "",
@@ -181,6 +232,42 @@ const ProfileStackNavigation = ({ navigation }) => {
       <ProfileStack.Screen
         name="EditProfile"
         component={EditProfile}
+        options={{
+          headerShown: true,
+          headerTitle: "",
+          headerLeft: () => (
+            <View style={{ paddingLeft: 20, paddingTop: 20 }}>
+              <ArrowLeft2
+                size="24"
+                color="#000000"
+                onPress={() => navigation.navigate("ProfilePage")}
+              />
+            </View>
+          ),
+        }}
+      />
+
+<ProfileStack.Screen
+        name="MyDevices"
+        component={MyDevices}
+        options={{
+          headerShown: true,
+          headerTitle: "",
+          headerLeft: () => (
+            <View style={{ paddingLeft: 20, paddingTop: 20 }}>
+              <ArrowLeft2
+                size="24"
+                color="#000000"
+                onPress={() => navigation.navigate("ProfilePage")}
+              />
+            </View>
+          ),
+        }}
+      />
+
+      <ProfileStack.Screen
+        name="MyRoutines"
+        component={MyRoutines}
         options={{
           headerShown: true,
           headerTitle: "",
@@ -267,6 +354,23 @@ const ProfileStackNavigation = ({ navigation }) => {
         }}
       />
       <ProfileStack.Screen
+        name="historicoPausas"
+        component={historicoPausas}
+        options={{
+          headerShown: true,
+          headerTitle: "",
+          headerLeft: () => (
+            <View style={{ paddingLeft: 20, paddingTop: 20 }}>
+              <ArrowLeft2
+                size="24"
+                color="#000000"
+                onPress={() => navigation.navigate("PofilePge")}
+              />
+            </View>
+          ),
+        }}
+      />
+      <ProfileStack.Screen
         name="SecurityProfile"
         component={SecurityProfile}
         options={{
@@ -330,20 +434,27 @@ const RectangleIndicator = () => {
 function Icon({ name, color }) {
   switch (name) {
     case "dashboard":
-      return <Category size="30" color={color} />;
+      return <Category size="26" color={color} />;
     case "goals":
-      return <ArchiveBook size="30" color={color} />;
+      return <ArchiveBook size="26" color={color} />;
     case "stats":
-      return <Diagram size="30" color={color} />;
+      return <Diagram size="26" color={color} />;
     case "profile":
-      return <Profile size="30" color={color} />;
+      return <Profile size="26" color={color} />;
     default:
-      return <Category size="30" color={color} />;
+      return <Category size="26" color={color} />;
   }
 }
 
 //routes da barra de navegação
-const TabRoutes = () => {
+const TabRoutes = (
+  {
+    /* route*/
+  }
+) => {
+  //const { idUser } = route.params;
+  //console.log(idUser);
+
   const [loaded] = useFonts({
     GothamMedium: require("./../fonts/GothamMedium.ttf"),
     GothamBook: require("./../fonts/GothamBook.ttf"),
@@ -416,7 +527,6 @@ const TabRoutes = () => {
             </>
           ),
         }}
-        /* navigation={navigation}*/
       />
 
       <Tab.Screen
@@ -447,7 +557,7 @@ const TabRoutes = () => {
               <View style={{ opacity: focused ? 1 : 0 }}>
                 <RectangleIndicator />
               </View>
-              <Icon name="profile" color={color} />
+              <Icon name="profile" color={color}/>
             </>
           ),
         }}
@@ -485,4 +595,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TabRoutes;
+export default MainStackNavigation;

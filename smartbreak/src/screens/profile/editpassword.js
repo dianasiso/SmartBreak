@@ -1,15 +1,21 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Alert } from "react-native";
 import {
+  Dimensions,
   StyleSheet,
   ScrollView,
   View,
   Text,
   TextInput,
-  TouchableHighlight,
+  Pressable,
 } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { useSelector } from "react-redux";
+
+// Firebase
+import firebase from "./../../config/firebase.js";
+
 
 // Font Gotham
 import { useFonts } from "expo-font";
@@ -21,46 +27,122 @@ export default function EditPassword({ navigation }) {
     GothamBook: "./../fonts/GothamBook.ttf",
   });
 
+  const [passwordStored, setPasswordStored] = useState();
+  const [password, setPassword] = useState();
+  const [confirmPassword, setConfirmPassword] = useState();
+  const [newPassword, setNewPassword] = useState();
+
+  const userData = useSelector((state) => state.user.userID);
+  const uid = userData;
+  
+  useEffect(() => {
+    firebase
+    .firestore()
+    .collection("users_data")
+    .doc(uid)
+    .get()
+    .then((doc) => {
+      setPasswordStored(doc.data().password);
+    });
+
+  },[])
+
+
+  if (!loaded) {
+    return null; // Returns null if unable to load the font
+  }
+
+  const validate_password = (pass) => {
+    if (pass.length < 8) {
+      Alert.alert("Erro!", "A palavra-passe deve ter no mínimo 8 caracteres.");
+      return false;
+    }
+    return true;
+  };
+
+  const validate = () => {
+    if (passwordStored != password) {
+      Alert.alert(
+        "Falha de autenticação!",
+        "Insira corretamente a sua palavra-passe atual."
+      );
+      return false;
+    } else if (newPassword != confirmPassword) {
+      Alert.alert(
+        "Erro!",
+        "Digite corretamente a confirmação da palavra-passe."
+      );
+      return false;
+    } else if (password == newPassword) {
+      Alert.alert("Erro!", "As palavras-passe não podem ser iguais.");
+      return false;
+    } else {
+      return validate_password(newPassword);
+    }
+  };
+
   const editarpasse = () => {
     Alert.alert("Atenção", "Deseja confirmar as alterações?", [
       { text: "Cancelar" },
       {
         text: "Confirmar",
-        onPress: () => navigation.navigate("ProfileSettings"),
+        onPress: () => {
+          if (validate()) {
+            firebase.firestore().collection("users_data").doc(uid).update({
+              password: password,
+            });
+            navigation.navigate("ProfileSettings");
+          }
+        },
       },
     ]);
   };
 
   return (
     <SafeAreaProvider style={styles.container}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <StatusBar style="auto" />
         <Text style={styles.title}>Alterar palavra-passe</Text>
         <View style={{ alignItems: "center" }}>
           <View style={styles.edit}>
             <Text style={styles.text}>Palavra-passe atual</Text>
-            <TextInput placeholder="" style={styles.input} />
+            <TextInput
+              secureTextEntry={true}
+              placeholder=""
+              style={styles.input}
+              onChangeText={(text) => setPassword(text)}
+              value={password}
+            />
             <Text style={styles.text}>Nova palavra-passe</Text>
-            <TextInput placeholder="" style={styles.input} />
+            <TextInput
+              secureTextEntry={true}
+              placeholder=""
+              style={styles.input}
+              onChangeText={(text) => setNewPassword(text)}
+              value={newPassword}
+            />
             <Text style={styles.text}>Confirmar nova palavra-passe</Text>
-            <TextInput placeholder="" style={styles.input} />
+            <TextInput
+              secureTextEntry={true}
+              placeholder=""
+              style={styles.input}
+              onChangeText={(text) => setConfirmPassword(text)}
+              value={confirmPassword}
+            />
           </View>
-          <View style={styles.options}>
-            <TouchableHighlight
-              onPress={editarpasse}
-              underlayColor={"transparent"}
-            >
-              <Text
+          <View>
+            <Pressable onPress={() => editarpasse()} style={styles.button}>
+              <Text 
                 style={{
                   color: "#FFFFFF",
                   fontFamily: "GothamBook",
                   fontSize: 16,
-                  lineHeight: 24,
+                  textAlign: "center",
                 }}
               >
                 Concluído
               </Text>
-            </TouchableHighlight>
+            </Pressable>
           </View>
         </View>
       </ScrollView>
@@ -68,13 +150,15 @@ export default function EditPassword({ navigation }) {
   );
 }
 
+const screenWidth = Dimensions.get("window").width;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
     paddingLeft: 25,
     paddingRight: 25,
-    paddingBottom: 100,
+    paddingBottom: 90,
   },
 
   edit: {
@@ -83,10 +167,13 @@ const styles = StyleSheet.create({
   },
 
   input: {
-    marginTop: 5,
+    marginTop: 0,
     borderBottomWidth: 1,
-    paddingTop: 10,
+    paddingTop: 5,
     paddingBottom: 5,
+    fontFamily: "GothamBook",
+    fontSize: 16,
+    lineHeight: 16,
   },
 
   options: {
@@ -107,9 +194,20 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    fontFamily: "GothamBook",
+    fontFamily: "GothamMedium",
     fontSize: 16,
-    marginTop: 30,
+    marginTop: 40,
     lineHeight: 24,
+  },
+  button: {
+    alignSelf: "stretch",
+    marginTop: 40,
+    borderRadius: 15,
+    paddingTop: 15,
+    paddingBottom: 15,
+    marginBottom: 20,
+    justifyContent: "center",
+    backgroundColor: "#0051BA",
+    width: screenWidth - 50,
   },
 });

@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, {useState} from "react";
 import {
   StyleSheet,
   ScrollView,
@@ -9,22 +9,42 @@ import {
 } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Car, Coffee, DollarCircle } from "iconsax-react-native";
+import { useNavigation , useRoute} from "@react-navigation/native";
 
 // Font Gotham
 import { useFonts } from "expo-font";
+import { useEffect } from "react";
 
-export default function MembersRewards({ navigation }) {
+export default function MembersRewards({ route, navigation }) {
+  const props = route.params;
+  const [teamId, setTeamId] = useState(useRoute().params.teamId);
+  //console.log(props.username);
+
   // Loading Gotham font
   const [loaded] = useFonts({
     GothamMedium: "./../fonts/GothamMedium.ttf",
     GothamBook: "./../fonts/GothamBook.ttf",
   });
 
+  useEffect(() => {
+    navigation.setParams({
+      teamId: teamId,
+    });
+  }, [])
+
+  if (!loaded) {
+    return null;  // Returns null if unable to load the font
+  }
+
+
   return (
-    <SafeAreaProvider style={styles.container}>
+    <SafeAreaProvider
+      showsVerticalScrollIndicator={false}
+      style={styles.container}
+    >
       <ScrollView>
         <StatusBar style="auto" />
-        <Text style={styles.title}>Recompensas de xxx</Text>
+        <Text style={styles.title}>Recompensas de {props.username}</Text>
 
         <View style={styles.options}>
           <Car color="#000000" />
@@ -66,7 +86,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     paddingLeft: 25,
     paddingRight: 25,
-    paddingBottom: 100,
+    paddingBottom: 90,
   },
 
   options: {

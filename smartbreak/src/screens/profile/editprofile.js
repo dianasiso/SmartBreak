@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, {useState} from "react";
+import React, { useEffect, useState } from "react";
 import { Alert } from "react-native";
 import {
   StyleSheet,
@@ -10,56 +10,61 @@ import {
   TextInput,
   Switch,
   Dimensions,
-  TouchableOpacity,
+  Pressable,
 } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { useSelector } from "react-redux";
 
 // Font Gotham
 import { useFonts } from "expo-font";
 
 // Firebase
-import firebase from "./../../config/firebase.js"
+import firebase from "./../../config/firebase.js";
 
-import { LogBox } from 'react-native';
-LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
-LogBox.ignoreAllLogs();//Ignore all log notifications
+import { LogBox } from "react-native";
+LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
+LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 export default function EditProfile({ navigation }) {
   // Loading Gotham font
   const [loaded] = useFonts({
-    GothamMedium: require('./../../fonts/GothamMedium.ttf'),
-    GothamBook: require('./../../fonts/GothamBook.ttf'),
+    GothamMedium: require("./../../fonts/GothamMedium.ttf"),
+    GothamBook: require("./../../fonts/GothamBook.ttf"),
   });
 
-  const [get, setGet] = useState(true);
   const [name, setName] = useState();
   const [lastName, setLastName] = useState();
   const [email, setEmail] = useState();
   const [organization, setOrganization] = useState();
   const [rewards, setRewards] = useState();
-  const [nameUpdated, setNameUpdated] = useState(name);
-  const [lastNameUpdated, setLastNameUpdated] = useState(lastName);
-  const [emailUpdated, setEmailUpdated] = useState(email);
-  const uid = 'Y8f9M4o03ceZrFjoWu6iOA8rm2F2'; // Posteriormente pegar da navegation
+  const userData = useSelector((state) => state.user.userID);
+  const uid = userData;  
+
+  useEffect(() =>{
+    firebase.firestore()
+      .collection("users_data")
+      .doc(uid)
+      .get()
+      .then((doc) => {
+          setName(doc.data().name);
+          setLastName(doc.data().lastName);
+          setEmail(doc.data().email);
+          setOrganization(doc.data().organization);
+          setRewards(doc.data().rewards);
+      })
+  }, [])
 
   if (!loaded) {
-    return null;  // Returns null if unable to load the font
+    return null; // Returns null if unable to load the font
   }
 
-  // Get data from firestore
-  if (get) {
-    firebase.firestore()
-  .collection("users_data")
-  .doc(uid)
-  .get()
-  .then((doc) => {
-      setName(doc.data().name);
-      setLastName(doc.data().lastName);
-      setEmail(doc.data().email);
-      setOrganization(doc.data().organization);
-      setRewards(doc.data().rewards);
-      })
-    setGet(false);
+
+  const validate_email = (text) => {
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (reg.test(text) === false) {
+      return false;
+    }
+    return true;
   }
 
   const editarperfil = () => {
@@ -68,26 +73,29 @@ export default function EditProfile({ navigation }) {
       {
         text: "Confirmar",
         onPress: () => {
-          firebase.firestore().collection('users_data').doc(uid).update({
+          if (validate_email) {
+            firebase.firestore().collection('users_data').doc(uid).update({
             name: name,
             lastName: lastName,
             email: email,
             rewards: rewards,
           })
           navigation.navigate("ProfilePage")
+          } else {
+            Alert.alert("Email inválido!", "Preencha corretamente o campo E-mail.")
+          }
         },
       },
     ]);
   };
 
-  const toggleSwitch = () =>{
+  const toggleSwitch = () => {
     setRewards(!rewards);
-  } 
+  };
 
-  
   return (
     <SafeAreaProvider style={styles.container}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <StatusBar style="auto" />
         <View style={{ alignItems: "center" }}>
           <Image
@@ -96,13 +104,36 @@ export default function EditProfile({ navigation }) {
           />
           <View style={styles.edit}>
             <Text style={styles.text}>Nome</Text>
-            <TextInput placeholderTextColor="#000" placeholder={name} style={styles.input} onChangeText={(text) => setName(text)} value={name}/>
+            <TextInput
+              placeholderTextColor="#000"
+              placeholder={name}
+              style={styles.input}
+              onChangeText={(text) => setName(text)}
+              value={name}
+            />
             <Text style={styles.text}>Apelido</Text>
-            <TextInput placeholderTextColor="#000" placeholder={lastName} style={styles.input}  onChangeText={(text) => setLastName(text)} value={lastName}/>
+            <TextInput
+              placeholderTextColor="#000"
+              placeholder={lastName}
+              style={styles.input}
+              onChangeText={(text) => setLastName(text)}
+              value={lastName}
+            />
             <Text style={styles.text}>Email</Text>
-            <TextInput placeholderTextColor="#000" placeholder={email} style={styles.input}   onChangeText={(text) => setEmail(text)} value={email}/>
+            <TextInput
+              placeholderTextColor="#000"
+              placeholder={email}
+              style={styles.input}
+              onChangeText={(text) => setEmail(text)}
+              value={email}
+            />
             <Text style={styles.text}>Empresa</Text>
-            <TextInput placeholderTextColor="#999" placeholder={organization} style={styles.input} editable={false}/>
+            <TextInput
+              placeholderTextColor="#999"
+              placeholder={organization}
+              style={styles.input}
+              editable={false}
+            />
             <View style={styles.rewards}>
               <Text
                 style={{
@@ -115,23 +146,27 @@ export default function EditProfile({ navigation }) {
               </Text>
               <Switch
                 trackColor={{ false: "#BBBABA", true: "#0051BA" }}
-                thumbColor={rewards ? '#E3ECF7' : '#0051ba'}
+                thumbColor={rewards ? "#E3ECF7" : "#0051ba"}
                 value={rewards}
                 onValueChange={toggleSwitch}
               />
             </View>
           </View>
-          <View >
-            <TouchableOpacity activeOpacity={0.8} onPress={() => editarperfil()} underlayColor={"transparent"} style={styles.button} >
-              <Text style={{ 
-                color: "#FFFFFF",
-                  fontFamily: "GothamBook",
+          <View>
+            <Pressable
+              onPress={() => editarperfil()}
+              style={styles.button}
+            >
+              <Text style={{color: "#FFFFFF",fontFamily: "GothamBook",
                   fontSize: 16,
                   lineHeight: 24,
-                  textAlign: 'center',
+                  textAlign: "center",
                 }}
-              > Concluído </Text>
-            </TouchableOpacity>
+              >
+                {" "}
+                Concluído{" "}
+              </Text>
+            </Pressable>
           </View>
         </View>
       </ScrollView>
@@ -139,7 +174,7 @@ export default function EditProfile({ navigation }) {
   );
 }
 
-const screenWidth = Dimensions.get('window').width;
+const screenWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
   container: {
@@ -147,7 +182,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     paddingLeft: 25,
     paddingRight: 25,
-    paddingBottom: 100,
+    paddingBottom: 90,
   },
 
   profilepicture: {
@@ -182,13 +217,13 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    alignSelf: 'stretch',
+    alignSelf: "stretch",
     marginTop: 40,
     borderRadius: 15,
     paddingTop: 15,
     paddingBottom: 15,
     marginBottom: 20,
-    justifyContent: 'center',
+    justifyContent: "center",
     backgroundColor: "#0051BA",
     width: screenWidth - 50,
   },
