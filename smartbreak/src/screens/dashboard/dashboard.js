@@ -274,15 +274,16 @@ const ButtonDashboard = ({ selected }) => {
           <View style={batteryStyles.batteryTip} />
           <Image
             source={require("./../../imgs/img_battery_pause.png")}
+            resizeMode={'contain'}
             style={{
               position: 'absolute',
               zIndex: 100,
-              marginLeft: "auto",
-              marginRight: "auto",
-              marginTop: "auto",
-              marginBottom: "auto",
+              width: '25%',
+              marginLeft: 'auto',
+              marginRight: 'auto',
             }}
           />
+         
           <View style={[batteryStyles.batteryFillPause, {width: widthBattery, height: heightBattery}]} />
         </View>
         <View style={ButtonDashboardStyles.ButtonDashboardView}>
@@ -569,7 +570,7 @@ const batteryStyles = StyleSheet.create({
     backgroundColor: "#0051BA",
     borderRadius: 16,
     position: "absolute",
-    left: 83,
+    left: 93,
   },
   batteryFillPause: {
     // height: 88,
@@ -577,15 +578,7 @@ const batteryStyles = StyleSheet.create({
     backgroundColor: "#E3ECF7",
     borderRadius: 16,
     position: "absolute",
-    left: 83,
-  },
-  batteryFillPausa: {
-    height: 88,
-    width: 90, //máximo 163
-    backgroundColor: "#E3ECF7",
-    borderRadius: 18,
-    position: "absolute",
-    left: 82,
+    left: 93,
   },
  
 });
