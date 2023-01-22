@@ -174,7 +174,7 @@ const DashboardStackNavigation = ({ navigation, route }) => {
               <ArrowLeft2
                 size="24"
                 color="#000000"
-                onPress={() => navigation.navigate("TeamDashboard")}
+                onPress={() => navigation.navigate("TeamDashboard", {teamId : null})}
               />
             </View>
           ),
@@ -434,15 +434,15 @@ const RectangleIndicator = () => {
 function Icon({ name, color }) {
   switch (name) {
     case "dashboard":
-      return <Category size="30" color={color} />;
+      return <Category size="26" color={color} />;
     case "goals":
-      return <ArchiveBook size="30" color={color} />;
+      return <ArchiveBook size="26" color={color} />;
     case "stats":
-      return <Diagram size="30" color={color} />;
+      return <Diagram size="26" color={color} />;
     case "profile":
-      return <Profile size="30" color={color} />;
+      return <Profile size="26" color={color} />;
     default:
-      return <Category size="30" color={color} />;
+      return <Category size="26" color={color} />;
   }
 }
 
@@ -557,7 +557,7 @@ const TabRoutes = (
               <View style={{ opacity: focused ? 1 : 0 }}>
                 <RectangleIndicator />
               </View>
-              <Icon name="profile" color={color} />
+              <Icon name="profile" color={color}/>
             </>
           ),
         }}

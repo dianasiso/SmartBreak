@@ -313,7 +313,7 @@ const ButtonDashboard = ({ selected }) => {
       </View>
       <View style={ButtonDashboardStyles.ButtonDashboardView}>
         <Pressable
-          onPress={() => navigation.navigate("TeamDashboard")}
+          onPress={() => navigation.navigate("TeamDashboard", {teamId: teams[0]})}
           style={ButtonDashboardStyles.ButtonDashboardContainer}
         >
           <Text style={ButtonDashboardStyles.ButtonDashboardText}>
@@ -363,7 +363,6 @@ const Metricas = ({ selected })  => {
         })
     });
 
-    
     setKwh((150*battery/100));
     setKwhTeams((150*batteryTeams/100));
     // let price = (50*battery/100) * 0.15;
@@ -482,10 +481,10 @@ const screenWidth = Dimensions.get('window').width;
 const dashboardStyles = StyleSheet.create({
   pageContainer: {
     flex: 1,
-    backgroundColor: "#FFF",
+    backgroundColor: "#fff",
     paddingLeft: 25,
     paddingRight: 25,
-    paddingBottom: 100,
+    paddingBottom: 90,
     alignItems: "center",
   },
   centeredView: {

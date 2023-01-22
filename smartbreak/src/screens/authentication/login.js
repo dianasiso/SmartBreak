@@ -141,7 +141,7 @@ export default function Login() {
               <Text>Email</Text>
               <TextInput
                 style={styles.inputField}
-                onChangeText={(text) => setEmail(text)}
+                onChangeText={(text) => setEmail(text.toLowerCase())}
               />
               <Text>Palavra-passe</Text>
               <TextInput

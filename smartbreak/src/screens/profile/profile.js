@@ -88,112 +88,115 @@ export default function ProfilePage() {
           <Text style={styles.organization}>{organization}</Text>
         </View>
 
-        <Pressable
-          style={styles.options}
-          onPress={() => navigation.navigate("EditProfile")}
-        >
-          <Edit2 color="#000000" />
-          <Text style={styles.text}> Editar perfil</Text>
-        </Pressable>
+    return (
+      <SafeAreaProvider style={styles.container}  >
+        <StatusBar style="auto" />
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }>
+          <View style={{ alignItems: "center" }}>
+            <Image
+              source={require("../../imgs/ester.png")}
+              style={styles.profilepicture}
+            />
+            <Text style={styles.name}>{name}</Text>
+            <Text style={styles.organization}>{organization}</Text>
+          </View>
+  
+            
+          <Pressable style={styles.options}  onPress={() => navigation.navigate("EditProfile")} >
+            <Edit2 color="#000000" />
+            <Text style={styles.text} >  Editar perfil</Text>
+          </Pressable>
+  
+          <Pressable style={styles.options} onPress={() => navigation.navigate("MyDevices")} >
+            <Category color="#000000" />
+            <Text style={styles.text} >  Os meus equipamentos</Text>
+          </Pressable>
+           
+          <Pressable style={styles.options}  onPress={() => navigation.navigate("MyRoutines")} >
+            <Calendar color="#000000"/> 
+            <Text style={styles.text} >  As minhas rotinas</Text>
+          </Pressable>
+  
+          <Pressable style={styles.options} onPress={() => navigation.navigate("###")} >
+            <Clock color="#000000" />
+            <Text style={styles.text}>  Histórico de pausas</Text>
+          </Pressable>
+  
+          <Pressable style={styles.options} onPress={() => navigation.navigate("ProfileRewards")} >
+            <MedalStar color="#000000" /> 
+            <Text style={styles.text} >  As minhas recompensas</Text>
+          </Pressable>
+  
+          <Pressable style={styles.options} onPress={() => navigation.navigate("ProfileSettings")} >
+            <Setting2 color="#000000" />
+            <Text style={styles.text} >  Definições</Text>
+          </Pressable>
+          
+          
+        </ScrollView>
+      </SafeAreaProvider>
+    );
+  }
+  
+  
+  const screenWidth = Dimensions.get('window').width;
+  
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: "#fff",
+      paddingLeft: 25,
+      paddingRight: 25,
+      paddingBottom: 90,
+    },
+  
+    profilepicture: {
+      backgroundColor: "#F5F5F5",
+      height: 170,
+      width: 170,
+      borderRadius: 100,
+      marginTop: 65,
+    },
+  
+    name: {
+      marginTop: 30,
+      marginBottom: 0,
+      fontFamily: "GothamMedium",
+      fontSize: 24,
+      textTransform: 'capitalize',
+    },
+  
+    organization: {
+      marginTop: 5,
+      marginBottom: 10,
+      fontFamily: "GothamBook",
+      fontSize: 16,
+      lineHeight: 24,
+      textAlign: "center",
+    },
+  
+    options: {
+      flex: 1,
+      marginTop: 20,
+      marginBottom: 10,
+      borderRadius: 15,
+      paddingTop: 15,
+      paddingBottom: 15,
+      paddingLeft: 25,
+      width: screenWidth - 50, 
+      flexDirection: "row",
+      alignItems: "center",
+      textAlign: 'left',
+      backgroundColor: "#E3ECF7",
+    },
+  
+    text: {
+      marginLeft: 10,
+      fontFamily: "GothamBook",
+      fontSize: 16,
+    },
+  });
 
-        <Pressable
-          style={styles.options}
-          onPress={() => navigation.navigate("MyDevices")}
-        >
-          <Category color="#000000" />
-          <Text style={styles.text}> Os meus equipamentos</Text>
-        </Pressable>
-
-        <Pressable
-          style={styles.options}
-          onPress={() => navigation.navigate("MyRoutines")}
-        >
-          <Calendar color="#000000" />
-          <Text style={styles.text}> As minhas rotinas</Text>
-        </Pressable>
-
-        <Pressable
-          style={styles.options}
-          onPress={() => navigation.navigate("###")}
-        >
-          <Clock color="#000000" />
-          <Text style={styles.text}> Histórico de pausas</Text>
-        </Pressable>
-
-        <Pressable
-          style={styles.options}
-          onPress={() => navigation.navigate("ProfileRewards")}
-        >
-          <MedalStar color="#000000" />
-          <Text style={styles.text}> As minhas recompensas</Text>
-        </Pressable>
-
-        <Pressable
-          style={styles.options}
-          onPress={() => navigation.navigate("ProfileSettings")}
-        >
-          <Setting2 color="#000000" />
-          <Text style={styles.text}> Definições</Text>
-        </Pressable>
-      </ScrollView>
-    </SafeAreaProvider>
-  );
-}
-
-const screenWidth = Dimensions.get("window").width;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    paddingLeft: 25,
-    paddingRight: 25,
-    paddingBottom: 100,
-  },
-
-  profilepicture: {
-    backgroundColor: "#F5F5F5",
-    height: 170,
-    width: 170,
-    borderRadius: 100,
-    marginTop: 65,
-  },
-
-  name: {
-    marginTop: 30,
-    marginBottom: 0,
-    fontFamily: "GothamMedium",
-    fontSize: 24,
-    textTransform: "capitalize",
-  },
-
-  organization: {
-    marginTop: 5,
-    marginBottom: 10,
-    fontFamily: "GothamBook",
-    fontSize: 16,
-    lineHeight: 24,
-    textAlign: "center",
-  },
-
-  options: {
-    flex: 1,
-    marginTop: 20,
-    marginBottom: 10,
-    borderRadius: 15,
-    paddingTop: 15,
-    paddingBottom: 15,
-    paddingLeft: 25,
-    width: screenWidth - 50,
-    flexDirection: "row",
-    alignItems: "center",
-    textAlign: "left",
-    backgroundColor: "#E3ECF7",
-  },
-
-  text: {
-    marginLeft: 10,
-    fontFamily: "GothamBook",
-    fontSize: 16,
-  },
-});
