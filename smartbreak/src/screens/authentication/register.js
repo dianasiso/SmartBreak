@@ -81,7 +81,7 @@ export default function Register() {
         firestoreUserData.doc(userCredential.user.uid).set({
           name: name,
           lastName: lastName,
-          email: email.trim(),
+          email: email.trim().toLowerCase(),
           password: password.trim(),
           organization: valueOrg,
           uid: userCredential.user.uid,

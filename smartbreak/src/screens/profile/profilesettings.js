@@ -75,8 +75,13 @@ export default function ProfileSettings({ navigation }) {
       { text: "Cancelar" },
       {
         text: "Confirmar",
-
-        onPress: () => handleLogout(),
+        
+        onPress: () => {
+          firebase.firestore().collection('users_data').doc(uid).update({
+            pause: false, 
+          })
+          handleLogout()
+        }
       },
     ]);
   };
@@ -137,7 +142,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     paddingLeft: 25,
     paddingRight: 25,
-    paddingBottom: 100,
+    paddingBottom: 90,
   },
 
   title: {
