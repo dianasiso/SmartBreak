@@ -33,17 +33,17 @@ export default function ProfilePage() {
   const userData = useSelector((state) => state.user.userID);
   useEffect(() => {
     firebase
-    .firestore()
-    .collection("users_data")
-    .doc(uid)
-    .get()
-    .then((doc) => {
-      let getName = doc.data().name;
-      let getLastName = doc.data().lastName;
-      let getOrganization = doc.data().organization;
-      setName(getName + " " + getLastName);
-      setOrganization(getOrganization);
-    });
+      .firestore()
+      .collection("users_data")
+      .doc(uid)
+      .get()
+      .then((doc) => {
+        let getName = doc.data().name;
+        let getLastName = doc.data().lastName;
+        let getOrganization = doc.data().organization;
+        setName(getName + " " + getLastName);
+        setOrganization(getOrganization);
+      });
   }, [userData]);
 
   // Loading Gotham font
@@ -65,12 +65,28 @@ export default function ProfilePage() {
     }, 2000);
   }, []);
 
-
-
   if (!loaded) {
     return null; // Returns null if unable to load the font
   }
 
+  return (
+    <SafeAreaProvider style={styles.container}>
+      <StatusBar style="auto" />
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{ height: "100%", overflow: "scroll" }}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        <View style={{ alignItems: "center" }}>
+          <Image
+            source={require("../../imgs/ester.png")}
+            style={styles.profilepicture}
+          />
+          <Text style={styles.name}>{name}</Text>
+          <Text style={styles.organization}>{organization}</Text>
+        </View>
 
     return (
       <SafeAreaProvider style={styles.container}  >
@@ -183,3 +199,4 @@ export default function ProfilePage() {
       fontSize: 16,
     },
   });
+
