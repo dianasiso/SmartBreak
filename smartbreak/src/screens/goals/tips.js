@@ -98,7 +98,10 @@ export default function Tips() {
   return (
     <SafeAreaProvider style={styles.container}  >
       <StatusBar style="auto" />
-      <ScrollView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{ height: "100%", overflow: "scroll" }}
+      >
           <Pressable style={styles.optionsTips}>
             <Text style={{ fontFamily: 'GothamMedium', fontSize: 16 , marginBottom: 10}}>Objetivo</Text>
             <Text style={styles.text} >{description}</Text>
