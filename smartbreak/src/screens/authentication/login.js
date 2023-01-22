@@ -14,6 +14,7 @@ import {
   Pressable,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 //redux
 import { useDispatch } from "react-redux";
@@ -112,7 +113,7 @@ export default function Login() {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaProvider style={styles.container}>
       <StatusBar style="light" />
       <ScrollView style={styles.groupContainer}>
         <Text style={styles.textMessageTitle}>
@@ -129,9 +130,7 @@ export default function Login() {
         </View>
       </ScrollView>
 
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        keyboardVerticalOffset={screenHeight}
+      <ScrollView
         style={styles.subContainer}
       >
         {loading == true ? (
@@ -160,8 +159,8 @@ export default function Login() {
             </ScrollView>
           </View>
         )}
-      </KeyboardAvoidingView>
-    </View>
+      </ScrollView>
+    </SafeAreaProvider>
   );
 }
 
@@ -188,6 +187,9 @@ const styles = StyleSheet.create({
     paddingLeft: 25,
     paddingRight: 25,
     paddingTop: 65,
+    position: 'absolute',
+    bottom: 0,
+    width: screenWidth,
     //height: screenHeight/2,
   },
   registerPhoto: {
@@ -202,7 +204,7 @@ const styles = StyleSheet.create({
     color: "#888",
     fontSize: 12,
     textAlign: "right",
-    marginBottom: 70,
+    marginBottom: 50,
   },
   inputField: {
     borderBottomColor: "#000000",
