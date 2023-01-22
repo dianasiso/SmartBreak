@@ -356,7 +356,11 @@ export default function Goals() {
         </View>
       </View>
 
-      <ScrollView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{ height: "100%", overflow: "scroll" }}
+      
+      >
         {docs &&
           docs.length > 0 &&
           docs.map((callbackfn, id) => (
