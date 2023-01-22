@@ -86,6 +86,9 @@ const styles = StyleSheet.create({
   containerWelcome: {
     backgroundColor: "#FFF",
     flex: 1,
+    position: 'absolute',
+    bottom: 0,
+    width: screenWidth,
     flexDirection: "column",
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
@@ -93,8 +96,8 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 50,
     paddingLeft: 25,
     paddingRight: 25,
-    paddingBottom: 180,
-    marginBottom: 'auto',
+    paddingBottom: 25,
+    marginBottom: 0,
   },
   imageLogo: {
     alignItems: "center",
