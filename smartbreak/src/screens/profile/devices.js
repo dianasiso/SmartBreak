@@ -166,6 +166,7 @@ export default function Devices({ navigation }) {
     } else {
       changeType(true);
       setAddType(nameType);
+      ToastAndroid.show('Tipo ' + nameType + ' escolhido!', ToastAndroid.SHORT);
     }
     arrayTypes.forEach(function(x) {
       if (x !== changeType) {
@@ -228,48 +229,50 @@ return (
             <Text style={styles.modalText}>Tipo</Text>
             <View style={{flexDirection: 'row', marginTop: 5}}>
               <Pressable onPress={() => typePressed(type01, setType01, 'Video')} style={type01 ? styles.modalTypeButtonPressed : styles.modalTypeButton }>
-                <Video size={18} color="#000000"/>
+                <Video size={24} color="#000000"/>
               </Pressable>
               <Pressable  onPress={() => typePressed(type02, setType02, 'Monitor')}  style={type02 ? styles.modalTypeButtonPressed : styles.modalTypeButton }>
-                <Monitor size={18} color="#000000"/>
+                <Monitor size={24} color="#000000"/>
               </Pressable>
               <Pressable  onPress={() => typePressed(type03, setType03, 'MonitorMobbile')} style={type03 ? styles.modalTypeButtonPressed : styles.modalTypeButton }>
-                <MonitorMobbile size={18} color="#000000"/>
+                <MonitorMobbile size={24} color="#000000"/>
               </Pressable>
               <Pressable  onPress={() => typePressed(type04, setType04, 'MirroringScreen')} style={type04 ? styles.modalTypeButtonPressed : styles.modalTypeButton }>
-                <MirroringScreen size={18} color="#000000"/>
+                <MirroringScreen size={24} color="#000000"/>
               </Pressable>
               <Pressable  onPress={() => typePressed(type05, setType05, 'Mobile')} style={type05 ? styles.modalTypeButtonPressed : styles.modalTypeButton }>
-                <Mobile size={18} color="#000000"/>
+                <Mobile size={24} color="#000000"/>
               </Pressable>
               <Pressable  onPress={() => typePressed(type06, setType06, 'Printer')} style={type06 ? styles.modalTypeButtonPressed : styles.modalTypeButton }>
-                <Printer size={18} color="#000000"/>
+                <Printer size={24} color="#000000"/>
               </Pressable>
+            </View>
+            <View style={{flexDirection: 'row', marginTop: 5}}>
               <Pressable  onPress={() => typePressed(type07, setType07, 'Call')} style={type07 ? styles.modalTypeButtonPressed : styles.modalTypeButton }>
-                <Call size={18} color="#000000"/>
+                <Call size={24} color="#000000"/>
+              </Pressable>
+              <Pressable  onPress={() => typePressed(type08, setType08, 'Microphone2')} style={type08 ? styles.modalTypeButtonPressed : styles.modalTypeButton }>
+                <Microphone2 size={24} color="#000000"/>
+              </Pressable>
+              <Pressable  onPress={() => typePressed(type09, setType09, 'Mouse')} style={type09 ? styles.modalTypeButtonPressed : styles.modalTypeButton }>
+                <Mouse size={24} color="#000000"/>
+              </Pressable>
+              <Pressable onPress={() => typePressed(type10, setType10, 'Keyboard')}  style={type10 ? styles.modalTypeButtonPressed : styles.modalTypeButton }>
+                <Keyboard size={24} color="#000000"/>
+              </Pressable>
+              <Pressable  onPress={() => typePressed(type11, setType11, 'Headphone')} style={type11 ? styles.modalTypeButtonPressed : styles.modalTypeButton }>
+                <Headphone size={24} color="#000000"/>
+              </Pressable>
+              <Pressable  onPress={() => typePressed(type12, setType12, 'Electricity')} style={type12 ? styles.modalTypeButtonPressed : styles.modalTypeButton }>
+                <Electricity size={24} color="#000000"/>
               </Pressable>
             </View>
             <View style={{flexDirection: 'row', marginBottom: 30}}>
-              <Pressable  onPress={() => typePressed(type08, setType08, 'Microphone2')} style={type08 ? styles.modalTypeButtonPressed : styles.modalTypeButton }>
-                <Microphone2 size={18} color="#000000"/>
-              </Pressable>
-              <Pressable  onPress={() => typePressed(type09, setType09, 'Mouse')} style={type09 ? styles.modalTypeButtonPressed : styles.modalTypeButton }>
-                <Mouse size={18} color="#000000"/>
-              </Pressable>
-              <Pressable onPress={() => typePressed(type10, setType10, 'Keyboard')}  style={type10 ? styles.modalTypeButtonPressed : styles.modalTypeButton }>
-                <Keyboard size={18} color="#000000"/>
-              </Pressable>
-              <Pressable  onPress={() => typePressed(type11, setType11, 'Headphone')} style={type11 ? styles.modalTypeButtonPressed : styles.modalTypeButton }>
-                <Headphone size={18} color="#000000"/>
-              </Pressable>
-              <Pressable  onPress={() => typePressed(type12, setType12, 'Electricity')} style={type12 ? styles.modalTypeButtonPressed : styles.modalTypeButton }>
-                <Electricity size={18} color="#000000"/>
-              </Pressable>
               <Pressable  onPress={() => typePressed(type13, setType13, 'TableLamp')} style={type13 ? styles.modalTypeButtonPressed : styles.modalTypeButton }>
-                <TableLamp size={18} color="#000000"/>
+                <TableLamp size={24} color="#000000"/>
               </Pressable>
               <Pressable  onPress={() => typePressed(type14, setType14, 'Lamp')} style={type14 ? styles.modalTypeButtonPressed : styles.modalTypeButton }>
-                <Lamp size={18} color="#000000"/>
+                <Lamp size={24} color="#000000"/>
               </Pressable>
             </View>
             <View style={{flexDirection: 'column', marginBottom: 30}}>
