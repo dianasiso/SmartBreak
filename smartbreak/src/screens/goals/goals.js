@@ -291,7 +291,7 @@ export default function Goals() {
           </View>
         </View>
       </Modal>
-      <DropDownPicker
+      {/*<DropDownPicker
         disabled={true}
         open={openDropdown}
         value={dropdownValue}
@@ -318,11 +318,13 @@ export default function Goals() {
           fontFamily: "GothamBook",
           fontSize: 16,
         }}
-      />
+      />*/}
       <View
         style={{
           flexDirection: "row",
-          marginBottom: 30,
+          paddingTop: 30,
+          paddingBottom: 30,
+
           marginTop: 30,
           alignItems: "center",
         }}
@@ -333,7 +335,13 @@ export default function Goals() {
         <View style={styles.viewPriority}><Text style={styles.textPriority}>Média Prioridade</Text></View>
         <View style={styles.viewPriority}><Text style={styles.textPriority}>Baixa Prioridade</Text></View>
       </View> */}
-        <View style={{ marginLeft: "auto", marginRight: 0 }}>
+        <View
+          style={{
+            marginLeft: "auto",
+            marginRight: 0,
+            backgroundColor: "transparent",
+          }}
+        >
           <Pressable
             onPress={() => {
               setModalVisible(true);
@@ -354,7 +362,6 @@ export default function Goals() {
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={{ height: "100%", overflow: "scroll" }}
-      
       >
         {docs &&
           docs.length > 0 &&
@@ -445,7 +452,7 @@ const styles = StyleSheet.create({
   textDescription: {
     fontFamily: "GothamBook",
     fontSize: 16,
-    lineHeight:22,
+    lineHeight: 22,
   },
 
   textDetails: {
