@@ -67,7 +67,6 @@ export default function ProfileSettings({ navigation }) {
   const handleLogout = async () => {
     try {
       await SecureStore.deleteItemAsync("uid");
-      dispatch(logoutUser(id));
       navigation.navigate("Welcome");
     } catch (err) {
       console.error(err);

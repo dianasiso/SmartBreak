@@ -14,14 +14,9 @@ import { useNavigation } from "@react-navigation/native";
 // Font Gotham
 import { useFonts } from "expo-font";
 
-//redux
-import { useDispatch } from "react-redux";
-import { logoutUser } from "../../redux/user.js";
 
 export default function Welcome() {
   const navigation = useNavigation();
-  const dispatch = useDispatch();
-  dispatch(logoutUser());
   // Loading Gotham font
   const [loaded] = useFonts({
     GothamMedium: require("./../../fonts/GothamMedium.ttf"),
@@ -75,7 +70,6 @@ export default function Welcome() {
 
 // Get screen dimensions
 const screenWidth = Dimensions.get("window").width;
-const screenHeight = Dimensions.get("window").height - 50;
 
 const styles = StyleSheet.create({
   container: {
