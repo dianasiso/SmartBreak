@@ -18,9 +18,6 @@ export default function AvailableSoon() {
     return (
         <View style={styles.container}>
             <StatusBar style="light" />
-            <View>
-              <MaterialIcons name="arrow-back-ios" size={24} color="white" />
-            </View>
             <ScrollView>
                 <Text style={styles.textMessageTitle}>Brevemente disponível</Text> 
                 <Text style={styles.textMessageBody}>Estamos a recarregar as nossas baterias para que possas ter esta funcionalidade em breve.</Text>
@@ -36,30 +33,30 @@ export default function AvailableSoon() {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 65,
     paddingLeft: 25,
     paddingRight: 25,
     flex: 1,
-    backgroundColor: '#fff'
+    backgroundColor: '#0051BA'
   },
   imageOnboarding: {
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 120,
+    marginTop: 100,
+    marginRight: 20,
   }, 
   textMessageTitle: {
-    fontSize: 45,
+    fontSize: 35,
     textAlign: 'center',
     paddingTop: 55,
     fontFamily: 'GothamMedium',
-    color: '#0051ba',
+    color: '#FFFFFF',
   },
   textMessageBody: {
-    fontSize: 20,
+    fontSize: 16,
     textAlign: 'center',
     paddingTop: 50,
     lineHeight: 22,
     fontFamily: 'GothamBook',
-    color: '#0051ba',
+    color: '#FFFFFF',
   },
 });

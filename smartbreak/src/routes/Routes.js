@@ -433,6 +433,10 @@ const ProfileStackNavigation = ({ navigation }) => {
 const RectangleIndicator = () => {
   return <View style={styles.Indicator} />;
 };
+
+const RectangleIndicatorError = () => {
+  return <View style={styles.IndicatorError} />;
+};
 //style={ { display: isLoggedIn ? 'block' : 'none' } }
 
 //função para os icones
@@ -539,16 +543,33 @@ const TabRoutes = (
         component={AvailableSoon}
         options={{
           tabBarLabel: "Estatísticas",
-          tabBarActiveTintColor: "#0051BA",
+          tabBarActiveTintColor: "#FFF",
+          headerShown: true,
+          headerTitle: "",
+          headerStyle: { backgroundColor: '#0051ba' }, 
           tabBarIcon: ({ focused, color }) => (
             <>
               <View style={{ opacity: focused ? 1 : 0 }}>
-                <RectangleIndicator />
+                <RectangleIndicatorError style={{backgroundColor: '#FFF'}}/>
               </View>
               <Icon name="stats" color={color} />
             </>
           ),
+          tabBarStyle: {
+            backgroundColor: "#0051ba",
+            borderTopColor: "transparent",
+            height: 90,
+            borderTopLeftRadius: 0,
+            borderTopRightRadius: 0,
+            borderTopColor: "#FFF",
+            borderTopWidth: 0,
+            position: "absolute",
+            elevation: 0,
+            color: '#FFF'
+          },
+          
         }}
+      
       />
 
       <Tab.Screen
@@ -593,7 +614,15 @@ const styles = StyleSheet.create({
   Indicator: {
     width: 50,
     height: 5,
-    backgroundColor: "#0051BA",
+    backgroundColor: "#0051ba",
+    borderRadius: 5,
+    //position: "absolute",
+    top: -15,
+  },
+  IndicatorError: {
+    width: 50,
+    height: 5,
+    backgroundColor: "#FFF",
     borderRadius: 5,
     //position: "absolute",
     top: -15,
