@@ -445,6 +445,7 @@ const styles = StyleSheet.create({
   textDescription: {
     fontFamily: "GothamBook",
     fontSize: 16,
+    lineHeight:22,
   },
 
   textDetails: {

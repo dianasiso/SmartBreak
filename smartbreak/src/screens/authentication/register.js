@@ -14,7 +14,7 @@ import {
   Animated,
   Pressable,
 } from "react-native";
-import DropDownPicker from 'react-native-dropdown-picker';
+import DropDownPicker from "react-native-dropdown-picker";
 
 import { LogBox } from "react-native";
 LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
@@ -40,10 +40,9 @@ import { useDispatch } from "react-redux";
 import { logUser } from "../../redux/user.js";
 
 export default function Register() {
-  
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  
+
   // Loading Gotham font
   const [loaded] = useFonts({
     GothamMedium: require("./../../fonts/GothamMedium.ttf"),
@@ -65,13 +64,19 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [notifications, setNotifications] = useState([true, false, false, false])
+  const [notifications, setNotifications] = useState([
+    true,
+    false,
+    false,
+    false,
+  ]);
 
   // Firebase store data
   const firestoreUserData = firebase.firestore().collection("users_data");
   const firestoreUserDevices = firebase.firestore().collection("users_devices");
-  const firestoreUserRoutines = firebase.firestore().collection("users_routines");
-
+  const firestoreUserRoutines = firebase
+    .firestore()
+    .collection("users_routines");
 
   // Firebase authentication
   const auth = getAuth();
@@ -93,12 +98,12 @@ export default function Register() {
           teams: [],
         });
         firestoreUserRoutines.doc(userCredential.user.uid).set({
-          routines : []
-        })
+          routines: [],
+        });
         firestoreUserDevices.doc(userCredential.user.uid).set({
-          devices : []
-        })
-        
+          devices: [],
+        });
+
         dispatch(logUser(userCredential.user.uid));
         Alert.alert("Sucesso", "Utilizador registado com sucesso.");
         // navigate.navigate("Painel", {idUser: userCredential.user.uid})
@@ -212,7 +217,7 @@ export default function Register() {
       return false;
     }
     registerFirebase();
-    navigation.navigate("TabRoutes");
+    navigation.navigate("Login");
   };
 
   return (
@@ -266,8 +271,8 @@ export default function Register() {
                 onChangeText={(text) => setEmail(text)}
               />
               <Text>Empresa</Text>
-              <DropDownPicker 
-              autoScroll={true}
+              <DropDownPicker
+                autoScroll={true}
                 open={open}
                 value={valueOrg}
                 items={items}
@@ -279,9 +284,8 @@ export default function Register() {
                 showTickIcon={false}
                 closeAfterSelecting={true}
                 onChangeText={(text) => setOrganization(text)}
-               
               />
-              
+
               <Text>Palavra-passe</Text>
               <TextInput
                 secureTextEntry={true}

@@ -50,7 +50,7 @@ import Welcome from "../screens/authentication/welcome";
 // error
 import AvailableSoon from "../errors/availableSoon";
 import Maintenance from "../errors/maintenance";
-import Error404 from "../errors/error404"; 
+import Error404 from "../errors/error404";
 
 //fontes
 import { useFonts } from "expo-font";
@@ -96,6 +96,7 @@ const AuthStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerShadowVisible: false,
           headerStyle: {
             backgroundColor: "#0051BA",
             shadowColor: "transparent",
@@ -122,6 +123,7 @@ const AuthStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerShadowVisible: false,
           headerStyle: {
             backgroundColor: "#0051BA",
             shadowColor: "transparent",
@@ -170,6 +172,7 @@ const DashboardStackNavigation = ({ navigation, route }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerShadowVisible: false,
           headerLeft: () => (
             <View style={{ paddingLeft: 20, paddingTop: 20 }}>
               <ArrowLeft2
@@ -188,6 +191,7 @@ const DashboardStackNavigation = ({ navigation, route }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerShadowVisible: false,
           headerLeft: () => (
             <View style={{ paddingLeft: 20, paddingTop: 20 }}>
               <ArrowLeft2
@@ -223,6 +227,7 @@ const GoalsStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerShadowVisible: false,
           headerLeft: () => (
             <View style={{ paddingLeft: 20, paddingTop: 20 }}>
               <ArrowLeft2
@@ -256,6 +261,7 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerShadowVisible: false,
           headerLeft: () => (
             <View style={{ paddingLeft: 20, paddingTop: 20 }}>
               <ArrowLeft2
@@ -274,6 +280,7 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerShadowVisible: false,
           headerLeft: () => (
             <View style={{ paddingLeft: 20, paddingTop: 20 }}>
               <ArrowLeft2
@@ -292,6 +299,7 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerShadowVisible: false,
           headerLeft: () => (
             <View style={{ paddingLeft: 20, paddingTop: 20 }}>
               <ArrowLeft2
@@ -310,6 +318,7 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerShadowVisible: false,
           headerLeft: () => (
             <View style={{ paddingLeft: 20, paddingTop: 20 }}>
               <ArrowLeft2
@@ -328,6 +337,7 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerShadowVisible: false,
           headerLeft: () => (
             <View style={{ paddingLeft: 20, paddingTop: 20 }}>
               <ArrowLeft2
@@ -346,6 +356,7 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerShadowVisible: false,
           headerLeft: () => (
             <View style={{ paddingLeft: 20, paddingTop: 20 }}>
               <ArrowLeft2
@@ -363,6 +374,7 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerShadowVisible: false,
           headerLeft: () => (
             <View style={{ paddingLeft: 20, paddingTop: 20 }}>
               <ArrowLeft2
@@ -380,6 +392,7 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerShadowVisible: false,
           headerLeft: () => (
             <View style={{ paddingLeft: 20, paddingTop: 20 }}>
               <ArrowLeft2
@@ -397,6 +410,7 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerShadowVisible: false,
           headerLeft: () => (
             <View style={{ paddingLeft: 20, paddingTop: 20 }}>
               <ArrowLeft2
@@ -414,6 +428,7 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerShadowVisible: false,
           headerLeft: () => (
             <View style={{ paddingLeft: 20, paddingTop: 20 }}>
               <ArrowLeft2
@@ -431,6 +446,7 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerShadowVisible: false,
           headerLeft: () => (
             <View style={{ paddingLeft: 20, paddingTop: 20 }}>
               <ArrowLeft2
@@ -561,12 +577,13 @@ const TabRoutes = (
           tabBarLabel: "Estatísticas",
           tabBarActiveTintColor: "#FFF",
           headerShown: true,
+          headerShadowVisible: false,
           headerTitle: "",
-          headerStyle: { backgroundColor: '#0051ba' }, 
+          headerStyle: { backgroundColor: "#0051ba" },
           tabBarIcon: ({ focused, color }) => (
             <>
               <View style={{ opacity: focused ? 1 : 0 }}>
-                <RectangleIndicatorError style={{backgroundColor: '#FFF'}}/>
+                <RectangleIndicatorError style={{ backgroundColor: "#FFF" }} />
               </View>
               <Icon name="stats" color={color} />
             </>
@@ -581,11 +598,9 @@ const TabRoutes = (
             borderTopWidth: 0,
             position: "absolute",
             elevation: 0,
-            color: '#FFF'
+            color: "#FFF",
           },
-          
         }}
-      
       />
 
       <Tab.Screen
