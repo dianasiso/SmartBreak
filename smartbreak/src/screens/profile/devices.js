@@ -521,6 +521,9 @@ export default function Devices({ navigation }) {
             }}
           />
         </Pressable>
+        <Text style={{ color: "grey", fontSize:14, fontFamily:"GothamBook", lineHeight:18}}>
+          Clique continuamente nos seus equipamentos se os desejar eliminar
+        </Text>
       </ScrollView>
       <ScrollView style={{ marginTop: 20, marginBottom: 10 }}>
         {devicesArray &&
