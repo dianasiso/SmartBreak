@@ -13,7 +13,15 @@ import {
   ScrollView,
 } from "react-native";
 import { useFonts } from "expo-font";
-import { MoneyRecive, Car,AddCircle, People, Clock , CloseCircle, Ticket} from "iconsax-react-native";
+import {
+  MoneyRecive,
+  Car,
+  AddCircle,
+  People,
+  Clock,
+  CloseCircle,
+  Ticket,
+} from "iconsax-react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 
@@ -24,7 +32,7 @@ const BatteryToggle = () => {
   const [selected, setSelected] = useState("personal");
   return (
     <>
-    {/* Toggle */}
+      {/* Toggle */}
       <View style={toggleStyles.toggleView}>
         <View style={toggleStyles.toggleContainer}>
           <Pressable
@@ -56,83 +64,82 @@ const BatteryToggle = () => {
       <ButtonDashboard selected={selected} />
       {/* Metricas */}
       <Text style={metricasStyles.metricasText}>Métricas</Text>
-      <ScrollView showsVerticalScrollIndicator={false} >
-        <Metricas selected={selected}/>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Metricas selected={selected} />
       </ScrollView>
     </>
   );
 };
 
-
 const ButtonDashboard = ({ selected }) => {
   const userData = useSelector((state) => state.user.userID);
   const uid = userData;
   const [pause, setPause] = useState();
-  const [battery , setBattery] = useState();
+  const [battery, setBattery] = useState();
   const [widthBattery, setWidthBattery] = useState();
   const [heightBattery, setHeightBattery] = useState();
-  const [batteryTeams , setBatteryTeams] = useState();
+  const [batteryTeams, setBatteryTeams] = useState();
   const [widthBatteryTeams, setWidthBatteryTeams] = useState();
   const [heightBatteryTeams, setHeightBatteryTeams] = useState();
-  
+
   const [modalVisible, setModalVisible] = useState(false);
 
   const [teams, setTeams] = useState();
 
   useEffect(() => {
     firebase
-    .firestore()
-    .collection("users_data")
-    .doc(uid)
-    .get()
-    .then((doc) => {
-      setTeams(doc.data().teams);
-      setPause(doc.data().pause);
+      .firestore()
+      .collection("users_data")
+      .doc(uid)
+      .get()
+      .then((doc) => {
+        setTeams(doc.data().teams);
+        setPause(doc.data().pause);
 
-      let temp = doc.data().battery;
-      setBattery(temp);
-      // width max é 163
-      // temp -> 100 
-      // width -> 163
-      if (temp < 3) {
-        setHeightBattery(70)
-      } else if (temp < 6) {
-        setHeightBattery(76)
-      } else if (temp < 9) {
-        setHeightBattery(79)
-      } else if (temp < 12) {
-        setHeightBattery(82)
-      } else {
-        setHeightBattery(88)
-      }
-      setWidthBattery((temp*163/100));
+        let temp = doc.data().battery;
+        setBattery(temp);
+        // width max é 163
+        // temp -> 100
+        // width -> 163
+        if (temp < 3) {
+          setHeightBattery(70);
+        } else if (temp < 6) {
+          setHeightBattery(76);
+        } else if (temp < 9) {
+          setHeightBattery(79);
+        } else if (temp < 12) {
+          setHeightBattery(82);
+        } else {
+          setHeightBattery(88);
+        }
+        setWidthBattery((temp * 163) / 100);
 
-      firebase
-        .firestore()
-        .collection("teams")
-        .doc(doc.data().teams[0])
-        .get()
-        .then((element) => {
-          console.log("ELEMENT: ", element.data())
-          let tempTeam = element.data().battery;
-          setBatteryTeams(tempTeam);
-          // width max é 163
-          // temp -> 100 
-          // width -> 163
-          if (tempTeam < 3) {
-            setHeightBatteryTeams(70)
-          } else if (tempTeam < 6) {
-            setHeightBatteryTeams(76)
-          } else if (tempTeam < 9) {
-            setHeightBatteryTeams(79)
-          } else if (tempTeam < 12) {
-            setHeightBatteryTeams(82)
-          } else {
-            setHeightBatteryTeams(88)
-          }
-          setWidthBatteryTeams((tempTeam*163/100));
-        })
-    });
+        firebase
+          .firestore()
+          .collection("teams")
+          .doc(doc.data().teams[0])
+          .get()
+          .then((element) => {
+            console.log("ELEMENT: ", element.data());
+            let tempTeam = element.data().battery;
+            setBatteryTeams(tempTeam);
+            // width max é 163
+            // temp -> 100
+            // width -> 163
+            if (tempTeam < 3) {
+              setHeightBatteryTeams(70);
+            } else if (tempTeam < 6) {
+              setHeightBatteryTeams(76);
+            } else if (tempTeam < 9) {
+              setHeightBatteryTeams(79);
+            } else if (tempTeam < 12) {
+              setHeightBatteryTeams(82);
+            } else {
+              setHeightBatteryTeams(88);
+            }
+            setWidthBatteryTeams((tempTeam * 163) / 100);
+          });
+      });
   }, [userData]);
 
   const navigation = useNavigation();
@@ -141,295 +148,381 @@ const ButtonDashboard = ({ selected }) => {
     if (!pause) {
       return (
         <>
-        <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}>
-        <View style={dashboardStyles.centeredView}>
-            <View style={dashboardStyles.modalView}>
-                <View style={{flexDirection: 'column', marginTop: 5}}>
-                <Text style={dashboardStyles.modalTextBold}>Tem a certeza que pretende adicionar uma pausa?</Text>
-                <Text style={dashboardStyles.modalText}>Não se esqueça de garantir que todos os equipamentos associados 
-                      à sua conta estão devidamente desligados!</Text>
-                </View>     
-                <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: 10}}>
-                  <Pressable onPress={() => { setModalVisible(!modalVisible)}} style={{padding: 10, marginRight: 10}}>
-                    <Text style={{color: "#0051ba", fontFamily: 'GothamMedium'}}>Cancelar</Text>
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              setModalVisible(!modalVisible);
+            }}
+          >
+            <View style={dashboardStyles.centeredView}>
+              <View style={dashboardStyles.modalView}>
+                <View style={{ flexDirection: "column", marginTop: 5 }}>
+                  <Text style={dashboardStyles.modalTextBold}>
+                    Tem a certeza que pretende adicionar uma pausa?
+                  </Text>
+                  <Text style={dashboardStyles.modalText}>
+                    Não se esqueça de garantir que todos os equipamentos
+                    associados à sua conta estão devidamente desligados!
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    marginTop: 10,
+                  }}
+                >
+                  <Pressable
+                    onPress={() => {
+                      setModalVisible(!modalVisible);
+                    }}
+                    style={{ padding: 10, marginRight: 10 }}
+                  >
+                    <Text
+                      style={{ color: "#0051ba", fontFamily: "GothamMedium" }}
+                    >
+                      Cancelar
+                    </Text>
                   </Pressable>
-                  <Pressable onPress={() => {
-                    firebase.firestore().collection('users_data').doc(uid).update({
-                      pause : !pause,
-                    })
-                    setPause(true)
-                    setModalVisible(!modalVisible) }} 
-                    style={dashboardStyles.buttonAdd}>
-                    <Text style={{color: "#FFF", fontFamily: 'GothamMedium'}}>Adicionar</Text>
+                  <Pressable
+                    onPress={() => {
+                      firebase
+                        .firestore()
+                        .collection("users_data")
+                        .doc(uid)
+                        .update({
+                          pause: !pause,
+                        });
+                      setPause(true);
+                      setModalVisible(!modalVisible);
+                    }}
+                    style={dashboardStyles.buttonAdd}
+                  >
+                    <Text style={{ color: "#FFF", fontFamily: "GothamMedium" }}>
+                      Adicionar
+                    </Text>
                   </Pressable>
                 </View>
+              </View>
             </View>
-        </View>
-      </Modal>
-        <View style={batteryStyles.batteryView}>
-          <View style={batteryStyles.batteryContainer} />
-          <View style={batteryStyles.batteryTip} />
-          <View style={[batteryStyles.batteryFill, {width: widthBattery, height: heightBattery}]} />
-        </View>
-        <View style={ButtonDashboardStyles.ButtonDashboardView}>
-          <Pressable onPress={() => {
-            setModalVisible(true)
-          }} style={ButtonDashboardStyles.ButtonDashboardContainer}>
-            <Text style={ButtonDashboardStyles.ButtonDashboardText}>
-              Adicionar pausa
-            </Text>
-            <AddCircle
-              color="white"
-              size={26}
-              variant="Bold"
-              style={ButtonDashboardStyles.icon}
+          </Modal>
+          <View style={batteryStyles.batteryView}>
+            <View style={batteryStyles.batteryContainer} />
+            <View style={batteryStyles.batteryTip} />
+            <View
+              style={[
+                batteryStyles.batteryFill,
+                { width: widthBattery, height: heightBattery },
+              ]}
             />
-          </Pressable>
-        </View>
+          </View>
+          <View style={ButtonDashboardStyles.ButtonDashboardView}>
+            <Pressable
+              onPress={() => {
+                setModalVisible(true);
+              }}
+              style={ButtonDashboardStyles.ButtonDashboardContainer}
+            >
+              <Text style={ButtonDashboardStyles.ButtonDashboardText}>
+                Adicionar pausa
+              </Text>
+              <AddCircle
+                color="white"
+                size={26}
+                variant="Bold"
+                style={ButtonDashboardStyles.icon}
+              />
+            </Pressable>
+          </View>
         </>
       );
     } else {
       return (
         <>
-        <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}>
-        <View style={dashboardStyles.centeredView}>
-            <View style={dashboardStyles.modalView}>
-                <View style={{flexDirection: 'column', marginTop: 5}}>
-                <Text style={dashboardStyles.modalTextBold}>Tem a certeza que pretende terminar a sua pausa? </Text>
-                <Text style={dashboardStyles.modalText}>Bom regresso ao trabalho!</Text>
-            </View>     
-                <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: 10}}>
-                  <Pressable onPress={() => { setModalVisible(!modalVisible)}} style={{padding: 10, marginRight: 10}}>
-                    <Text style={{color: "#0051ba", fontFamily: 'GothamMedium'}}>Cancelar</Text>
-                  </Pressable>
-                  <Pressable onPress={() => {
-                        firebase.firestore().collection('users_data').doc(uid).update({
-                          pause : !pause,
-                          battery : (battery + 3)
-                        })
-                        firebase.firestore().collection('teams').doc(teams[0]).update({
-                          battery : (batteryTeams + 1)
-                        })
-                        if (battery < 3) {
-                          setHeightBattery(70)
-                        } else if (battery < 6) {
-                          setHeightBattery(76)
-                        } else if (battery < 9) {
-                          setHeightBattery(82)
-                        } else if (battery < 12) {
-                          setHeightBattery(79)
-                        } else {
-                          setHeightBattery(88)
-                        }
-                        if (battery + 3 > 100) {
-                          setBattery(0)
-                          setWidthBattery(0);
-                        } else {
-                          setBattery((battery + 3))
-                          setWidthBattery((battery*163/100));
-                        }
-                        if (batteryTeams < 3) {
-                          setHeightBatteryTeams(70)
-                        } else if (batteryTeams < 6) {
-                          setHeightBatteryTeams(76)
-                        } else if (batteryTeams < 9) {
-                          setHeightBatteryTeams(82)
-                        } else if (batteryTeams < 12) {
-                          setHeightBatteryTeams(79)
-                        } else {
-                          setHeightBatteryTeams(88)
-                        }
-                        if (batteryTeams + 3 > 100) {
-                          setBatteryTeams(0)
-                          setWidthBatteryTeams(0);
-                        } else {
-                          setBatteryTeams((batteryTeams + 3))
-                          setWidthBatteryTeams((batteryTeams*163/100));
-                        }
-                       
-                        setPause(false)
-                        
-                        setModalVisible(!modalVisible)
-                      }} style={dashboardStyles.buttonAdd}>
-                        <Text style={{color: "#FFF", fontFamily: 'GothamMedium'}}>Terminar</Text>
-                      </Pressable>
-                </View>
-            </View>
-        </View>
-      </Modal>
-        <View style={batteryStyles.batteryView}>
-          <View style={batteryStyles.batteryContainer} />
-          <View style={batteryStyles.batteryTip} />
-          <Image
-            source={require("./../../imgs/img_battery_pause.png")}
-            resizeMode={'contain'}
-            style={{
-              position: 'absolute',
-              zIndex: 100,
-              width: '25%',
-              marginLeft: 'auto',
-              marginRight: 'auto',
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              setModalVisible(!modalVisible);
             }}
-          />
-         
-          <View style={[batteryStyles.batteryFillPause, {width: widthBattery, height: heightBattery}]} />
-        </View>
-        <View style={ButtonDashboardStyles.ButtonDashboardView}>
-          <Pressable onPress={() => {
-            setModalVisible(true)
-          }} style={ButtonDashboardStyles.ButtonDashboardContainer}>
-            <Text style={ButtonDashboardStyles.ButtonDashboardText}>
-              Terminar pausa
-            </Text>
-            <CloseCircle
-              color="white"
-              size={26}
-              variant="Bold"
-              style={ButtonDashboardStyles.icon}
+          >
+            <View style={dashboardStyles.centeredView}>
+              <View style={dashboardStyles.modalView}>
+                <View style={{ flexDirection: "column", marginTop: 5 }}>
+                  <Text style={dashboardStyles.modalTextBold}>
+                    Tem a certeza que pretende terminar a sua pausa?{" "}
+                  </Text>
+                  <Text style={dashboardStyles.modalText}>
+                    Bom regresso ao trabalho!
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    marginTop: 10,
+                  }}
+                >
+                  <Pressable
+                    onPress={() => {
+                      setModalVisible(!modalVisible);
+                    }}
+                    style={{ padding: 10, marginRight: 10 }}
+                  >
+                    <Text
+                      style={{ color: "#0051ba", fontFamily: "GothamMedium" }}
+                    >
+                      Cancelar
+                    </Text>
+                  </Pressable>
+                  <Pressable
+                    onPress={() => {
+                      firebase
+                        .firestore()
+                        .collection("users_data")
+                        .doc(uid)
+                        .update({
+                          pause: !pause,
+                          battery: battery + 3,
+                        });
+                      firebase
+                        .firestore()
+                        .collection("teams")
+                        .doc(teams[0])
+                        .update({
+                          battery: batteryTeams + 1,
+                        });
+                      if (battery < 3) {
+                        setHeightBattery(70);
+                      } else if (battery < 6) {
+                        setHeightBattery(76);
+                      } else if (battery < 9) {
+                        setHeightBattery(82);
+                      } else if (battery < 12) {
+                        setHeightBattery(79);
+                      } else {
+                        setHeightBattery(88);
+                      }
+                      if (battery + 3 > 100) {
+                        setBattery(0);
+                        setWidthBattery(0);
+                      } else {
+                        setBattery(battery + 3);
+                        setWidthBattery((battery * 163) / 100);
+                      }
+                      if (batteryTeams < 3) {
+                        setHeightBatteryTeams(70);
+                      } else if (batteryTeams < 6) {
+                        setHeightBatteryTeams(76);
+                      } else if (batteryTeams < 9) {
+                        setHeightBatteryTeams(82);
+                      } else if (batteryTeams < 12) {
+                        setHeightBatteryTeams(79);
+                      } else {
+                        setHeightBatteryTeams(88);
+                      }
+                      if (batteryTeams + 3 > 100) {
+                        setBatteryTeams(0);
+                        setWidthBatteryTeams(0);
+                      } else {
+                        setBatteryTeams(batteryTeams + 3);
+                        setWidthBatteryTeams((batteryTeams * 163) / 100);
+                      }
+
+                      setPause(false);
+
+                      setModalVisible(!modalVisible);
+                    }}
+                    style={dashboardStyles.buttonAdd}
+                  >
+                    <Text style={{ color: "#FFF", fontFamily: "GothamMedium" }}>
+                      Terminar
+                    </Text>
+                  </Pressable>
+                </View>
+              </View>
+            </View>
+          </Modal>
+          <View style={batteryStyles.batteryView}>
+            <View style={batteryStyles.batteryContainer} />
+            <View style={batteryStyles.batteryTip} />
+            <Image
+              source={require("./../../imgs/img_battery_pause.png")}
+              resizeMode={"contain"}
+              style={{
+                position: "absolute",
+                zIndex: 100,
+                width: "25%",
+                marginLeft: "auto",
+                marginRight: "auto",
+              }}
             />
-          </Pressable>
-        </View>  
+
+            <View
+              style={[
+                batteryStyles.batteryFillPause,
+                { width: widthBattery, height: heightBattery },
+              ]}
+            />
+          </View>
+          <View style={ButtonDashboardStyles.ButtonDashboardView}>
+            <Pressable
+              onPress={() => {
+                setModalVisible(true);
+              }}
+              style={ButtonDashboardStyles.ButtonDashboardContainer}
+            >
+              <Text style={ButtonDashboardStyles.ButtonDashboardText}>
+                Terminar pausa
+              </Text>
+              <CloseCircle
+                color="white"
+                size={26}
+                variant="Bold"
+                style={ButtonDashboardStyles.icon}
+              />
+            </Pressable>
+          </View>
         </>
       );
     }
   } else {
     return (
       <>
-      <View style={batteryStyles.batteryView}>
+        <View style={batteryStyles.batteryView}>
           <View style={batteryStyles.batteryContainer} />
           <View style={batteryStyles.batteryTip} />
-          <View style={[batteryStyles.batteryFill, {width: widthBatteryTeams, height: heightBatteryTeams}]} />
-      </View>
-      <View style={ButtonDashboardStyles.ButtonDashboardView}>
-        <Pressable
-          onPress={() => navigation.navigate("TeamDashboard", {teamId: teams[0]})}
-          style={ButtonDashboardStyles.ButtonDashboardContainer}
-        >
-          <Text style={ButtonDashboardStyles.ButtonDashboardText}>
-            Ver equipa
-          </Text>
-          <People
-            color="white"
-            size={26}
-            variant="Bold"
-            style={ButtonDashboardStyles.icon}
+          <View
+            style={[
+              batteryStyles.batteryFill,
+              { width: widthBatteryTeams, height: heightBatteryTeams },
+            ]}
           />
-        </Pressable>
-      </View>
+        </View>
+        <View style={ButtonDashboardStyles.ButtonDashboardView}>
+          <Pressable
+            onPress={() =>
+              navigation.navigate("TeamDashboard", { teamId: teams[0] })
+            }
+            style={ButtonDashboardStyles.ButtonDashboardContainer}
+          >
+            <Text style={ButtonDashboardStyles.ButtonDashboardText}>
+              Ver equipa
+            </Text>
+            <People
+              color="white"
+              size={26}
+              variant="Bold"
+              style={ButtonDashboardStyles.icon}
+            />
+          </Pressable>
+        </View>
       </>
     );
   }
 };
 
-const Metricas = ({ selected })  => {
+const Metricas = ({ selected }) => {
   const userData = useSelector((state) => state.user.userID);
   const uid = userData;
-  const [battery , setBattery] = useState();
+  const [battery, setBattery] = useState();
   const [teams, setTeams] = useState();
-  const [batteryTeams , setBatteryTeams] = useState();
+  const [batteryTeams, setBatteryTeams] = useState();
   const [kwh, setKwh] = useState();
   const [kwhTeams, setKwhTeams] = useState();
 
-  
   useEffect(() => {
     firebase
-    .firestore()
-    .collection("users_data")
-    .doc(uid)
-    .get()
-    .then((doc) => {
-      setTeams(doc.data().teams);
-      setBattery(doc.data().battery);
- 
+      .firestore()
+      .collection("users_data")
+      .doc(uid)
+      .onSnapshot((doc) => {
+        setTeams(doc.data().teams);
+        setBattery(doc.data().battery);
 
-      firebase
-        .firestore()
-        .collection("teams")
-        .doc(doc.data().teams[0])
-        .get()
-        .then((element) => {
-          setBatteryTeams(element.data().battery);
-        })
-    });
-
-    setKwh((150*battery/100));
-    setKwhTeams((150*batteryTeams/100));
-    // let price = (50*battery/100) * 0.15;
-    // console.log("Poupaste ", price, " euros");
-    
+        firebase
+          .firestore()
+          .collection("teams")
+          .doc(doc.data().teams[0])
+          .onSnapshot((element) => {
+            setBatteryTeams(element.data().battery);
+            setKwh((150 * battery) / 100);
+            setKwhTeams((150 * batteryTeams) / 100);
+          });
+      });
   }, [userData]);
-
 
   const metrics = (value) => {
     // 0.15eur -> 1kwh
     let price = value * 0.15;
     console.log("Poupaste ", price.toFixed(2), " euros");
-  }
-
+  };
 
   return (
-      <>     
+    <>
       <View style={metricasStyles.metricasElement}>
-          <MoneyRecive color="black"  />
-          {selected == 'personal' ? 
+        <MoneyRecive color="black" />
+        {selected == "personal" ? (
           <Text style={metricasStyles.metricasElementText}>
-            Poupaste {(150*battery/100 * 0.15).toFixed(2)} euros.
+            Poupaste {(((150 * battery) / 100) * 0.15).toFixed(2)} euros.
           </Text>
-          :
+        ) : (
           <Text style={metricasStyles.metricasElementText}>
-            Pouparam {(150*batteryTeams/100 * 0.15).toFixed(2)} euros.
+            Pouparam {(((150 * batteryTeams) / 100) * 0.15).toFixed(2)} euros.
           </Text>
-          }
-        </View>
-        <View style={metricasStyles.metricasElement}>
-          <Car color="black"  />
-          {selected == 'personal' ? 
-            <Text style={metricasStyles.metricasElementText}>
-              Consegues colocar {(150*battery/100 * 0.15/1.6).toFixed(2)} litros de combustível.
-            </Text>
-            :
-            <Text style={metricasStyles.metricasElementText}>
-              Conseguem colocar {(150*batteryTeams/100 * 0.15/1.6).toFixed(2)} litros de combustível.
-            </Text>
-          }
-        </View>
-        <View style={metricasStyles.metricasElement}>
-          <Clock color="black"  />
-          {selected == 'personal' ? 
-            <Text style={metricasStyles.metricasElementText}>
-              A energia que poupaste equivale a carregar um portátil por {(150*battery/100 * 0.15*24/0.23).toFixed(0)} horas.
-            </Text>
-            :
-            <Text style={metricasStyles.metricasElementText}>
-               A energia que pouparam equivale a carregar um portátil por {(150*batteryTeams/100 * 0.15*24/0.23).toFixed(0)} horas.
-            </Text>
-          }
-        </View>
-        <View style={metricasStyles.metricasElement}>
-          <Ticket color="black"  />
-          {selected == 'personal' ? 
-            <Text style={metricasStyles.metricasElementText}>
-              O dinheiro que poupaste equivale a {(150*battery/100 * 0.15*60/125).toFixed(2)} refeições.
-            </Text>
-            :
-            <Text style={metricasStyles.metricasElementText}>
-              O dinheiro que pouparam equivale a {(150*batteryTeams/100 * 0.15*60/125).toFixed(2)} refeições.
-            </Text>
-          }
-        </View>
-        </>
+        )}
+      </View>
+      <View style={metricasStyles.metricasElement}>
+        <Car color="black" />
+        {selected == "personal" ? (
+          <Text style={metricasStyles.metricasElementText}>
+            Consegues colocar{" "}
+            {((((150 * battery) / 100) * 0.15) / 1.6).toFixed(2)} litros de
+            combustível.
+          </Text>
+        ) : (
+          <Text style={metricasStyles.metricasElementText}>
+            Conseguem colocar{" "}
+            {((((150 * batteryTeams) / 100) * 0.15) / 1.6).toFixed(2)} litros de
+            combustível.
+          </Text>
+        )}
+      </View>
+      <View style={metricasStyles.metricasElement}>
+        <Clock color="black" />
+        {selected == "personal" ? (
+          <Text style={metricasStyles.metricasElementText}>
+            A energia que poupaste equivale a carregar um portátil por{" "}
+            {((((150 * battery) / 100) * 0.15 * 24) / 0.23).toFixed(0)} horas.
+          </Text>
+        ) : (
+          <Text style={metricasStyles.metricasElementText}>
+            A energia que pouparam equivale a carregar um portátil por{" "}
+            {((((150 * batteryTeams) / 100) * 0.15 * 24) / 0.23).toFixed(0)}{" "}
+            horas.
+          </Text>
+        )}
+      </View>
+      <View style={metricasStyles.metricasElement}>
+        <Ticket color="black" />
+        {selected == "personal" ? (
+          <Text style={metricasStyles.metricasElementText}>
+            O dinheiro que poupaste equivale a{" "}
+            {((((150 * battery) / 100) * 0.15 * 60) / 125).toFixed(2)}{" "}
+            refeições.
+          </Text>
+        ) : (
+          <Text style={metricasStyles.metricasElementText}>
+            O dinheiro que pouparam equivale a{" "}
+            {((((150 * batteryTeams) / 100) * 0.15 * 60) / 125).toFixed(2)}{" "}
+            refeições.
+          </Text>
+        )}
+      </View>
+    </>
   );
 };
 
@@ -439,19 +532,16 @@ export default function Dashboard() {
   const reduxState = useSelector((state) => state.user.userID);
   const [refreshing, setRefreshing] = useState(false);
 
-
   useEffect(() => {
     console.log("redux state:", reduxState);
   }, [reduxState]);
 
-  
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {
       setRefreshing(false);
     }, 2000);
   }, []);
-
 
   const [loaded] = useFonts({
     GothamMedium: "./../fonts/GothamMedium.ttf",
@@ -461,9 +551,11 @@ export default function Dashboard() {
   return (
     <SafeAreaView style={dashboardStyles.pageContainer}>
       <StatusBar style="auto" />
-      <View refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }>
+      <View
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
         <View>
           <BatteryToggle />
         </View>
@@ -472,9 +564,7 @@ export default function Dashboard() {
   );
 }
 
-
-const screenWidth = Dimensions.get('window').width;
-
+const screenWidth = Dimensions.get("window").width;
 
 const dashboardStyles = StyleSheet.create({
   pageContainer: {
@@ -487,46 +577,45 @@ const dashboardStyles = StyleSheet.create({
   },
   centeredView: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
     paddingLeft: 25,
     paddingRight: 25,
   },
   modalView: {
-    backgroundColor: '#E3ECF7',
+    backgroundColor: "#E3ECF7",
     borderRadius: 15,
     padding: 25,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowRadius: 5,
     shadowOpacity: 0.5,
     elevation: 10,
-  }, 
+  },
   modalTextBold: {
     fontFamily: "GothamMedium",
     fontSize: 16,
-    textAlign: 'left',
+    textAlign: "left",
     marginBottom: 20,
     lineHeight: 22,
   },
   modalText: {
     fontFamily: "GothamBook",
     fontSize: 16,
-    textAlign: 'left',
+    textAlign: "left",
     marginBottom: 20,
     lineHeight: 22,
   },
   buttonAdd: {
-    backgroundColor: '#0051ba',
-    paddingTop: 10,  
-    paddingBottom: 10,  
-    paddingLeft: 20, 
-    paddingRight: 20, 
-    borderRadius: 8, 
-    alignItems: 'center', 
-    marginLeft: 10 
+    backgroundColor: "#0051ba",
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+    borderRadius: 8,
+    alignItems: "center",
+    marginLeft: 10,
   },
-
 });
 
 const batteryStyles = StyleSheet.create({
@@ -567,7 +656,7 @@ const batteryStyles = StyleSheet.create({
     backgroundColor: "#0051BA",
     borderRadius: 16,
     position: "absolute",
-    left: 93,
+    left: screenWidth / 2 - 112,
   },
   batteryFillPause: {
     // height: 88,
@@ -575,9 +664,8 @@ const batteryStyles = StyleSheet.create({
     backgroundColor: "#E3ECF7",
     borderRadius: 16,
     position: "absolute",
-    left: 93,
+    left: screenWidth / 2 - 112,
   },
- 
 });
 
 const toggleStyles = StyleSheet.create({
@@ -595,7 +683,7 @@ const toggleStyles = StyleSheet.create({
     flexDirection: "row",
   },
   toggleSelectorLeft: {
-    width: (screenWidth - 50)/2 - 5,
+    width: (screenWidth - 50) / 2 - 5,
     height: 25,
     borderRadius: 4,
     alignItems: "center",
@@ -604,7 +692,7 @@ const toggleStyles = StyleSheet.create({
     alignSelf: "center",
   },
   toggleSelectorRight: {
-    width: (screenWidth - 50)/2 - 5,
+    width: (screenWidth - 50) / 2 - 5,
     height: 25,
     borderRadius: 4,
     alignItems: "center",
@@ -640,7 +728,7 @@ const ButtonDashboardStyles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     fontFamily: "GothamMedium",
-    textAlign: 'left',
+    textAlign: "left",
     padding: 15,
     paddingLeft: 20,
   },
@@ -652,7 +740,6 @@ const ButtonDashboardStyles = StyleSheet.create({
 });
 
 const metricasStyles = StyleSheet.create({
-
   metricasText: {
     fontSize: 20,
     fontFamily: "GothamMedium",
