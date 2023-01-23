@@ -46,6 +46,7 @@ import Login from "../screens/authentication/login";
 import Register from "../screens/authentication/register";
 import Password from "../screens/authentication/password";
 import Welcome from "../screens/authentication/welcome";
+import Onboarding from "../onboarding/screens";
 
 // error
 import AvailableSoon from "../errors/availableSoon";
@@ -143,6 +144,11 @@ const AuthStackNavigation = ({ navigation }) => {
             </View>
           ),
         }}
+      />
+      <AuthStack.Screen
+        name="Onboarding"
+        component={Onboarding}
+        options={{ headerShown: false }}
       />
       <AuthStack.Screen
         name="Password"
