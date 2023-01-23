@@ -37,18 +37,17 @@ export default function App() {
   });
 
   return (
-    // <Provider store={store}>
-    //   <NavigationContainer>
-    //     <Stack.Navigator>
-    //       <Stack.Screen
-    //         name="Home"
-    //         component={MainStackNavigation}
-    //         options={{ headerShown: false }}
-    //       />
-    //     </Stack.Navigator>
-    //   </NavigationContainer>
-    // </Provider>
-    <AvailableSoon/>
+    <Provider store={store}>
+       <NavigationContainer>
+         <Stack.Navigator>
+           <Stack.Screen
+             name="Home"
+             component={MainStackNavigation}
+             options={{ headerShown: false }}
+           />
+         </Stack.Navigator>
+       </NavigationContainer>
+    </Provider>
   );
 }
 

@@ -38,6 +38,11 @@ import Register from "../screens/authentication/register";
 import Password from "../screens/authentication/password";
 import Welcome from "../screens/authentication/welcome";
 
+// error
+import AvailableSoon from "../errors/availableSoon";
+import Maintenance from "../errors/maintenance";
+import Error404 from "../errors/error404"; 
+
 //fontes
 import { useFonts } from "expo-font";
 
@@ -531,7 +536,7 @@ const TabRoutes = (
 
       <Tab.Screen
         name="Stats"
-        component={Stats}
+        component={AvailableSoon}
         options={{
           tabBarLabel: "Estatísticas",
           tabBarActiveTintColor: "#0051BA",

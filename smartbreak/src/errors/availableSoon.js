@@ -25,7 +25,7 @@ export default function AvailableSoon() {
                 <Text style={styles.textMessageTitle}>Brevemente disponível</Text> 
                 <Text style={styles.textMessageBody}>Estamos a recarregar as nossas baterias para que possas ter esta funcionalidade em breve.</Text>
                 <View style={styles.imageOnboarding}>
-                    <Image source={require('./../imgs/img_maintenance.png')} />
+                    <Image source={require('./../imgs/img_available_soon.png')} style={{width: 116, height: 180}} />
                 </View>
                 <Text style={styles.textMessageBody}>Podes espreitar mais tarde.</Text>
             </ScrollView>
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     paddingLeft: 25,
     paddingRight: 25,
     flex: 1,
-    backgroundColor: '#0051BA'
+    backgroundColor: '#fff'
   },
   imageOnboarding: {
     justifyContent: 'center',
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingTop: 55,
     fontFamily: 'GothamMedium',
-    color: '#FFFFFF',
+    color: '#0051ba',
   },
   textMessageBody: {
     fontSize: 20,
@@ -60,6 +60,6 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     lineHeight: 22,
     fontFamily: 'GothamBook',
-    color: '#FFFFFF',
+    color: '#0051ba',
   },
 });
