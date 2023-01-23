@@ -25,6 +25,9 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 
+//screenOrientation
+import * as ScreenOrientation from "expo-screen-orientation";
+
 // Firebase
 import firebase from "./../../config/firebase.js";
 
@@ -535,6 +538,13 @@ export default function Dashboard() {
   useEffect(() => {
     console.log("redux state:", reduxState);
   }, [reduxState]);
+
+  useEffect(() => {
+    ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
+    return () => {
+      ScreenOrientation.unlockAsync();
+    };
+  }, []);
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
