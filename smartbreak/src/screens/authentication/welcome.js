@@ -45,9 +45,8 @@ export default function Welcome() {
         <View style={{marginTop: 20}}>
           <Text style={styles.textWelcomeTitle}>Bem-vindo!</Text>
           <Text style={styles.textWelcomeText}>
-            Faz pausas no trabalho, desliga os teus equipamentos e contribui para
-            a diminuição do desperdício e excesso de energia. Converte o teu tempo
-            em lucro e lazer!
+            Faz pausas no trabalho, desliga os teus equipamentos, e contribui para
+            a redução do desperdício energético. Aumenta a tua produtividade e eficiência energética!
           </Text>
           <Pressable
             onPress={() => navigation.navigate("Login")}
