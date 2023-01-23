@@ -120,9 +120,9 @@ const ButtonDashboard = ({ selected }) => {
 
         if (doc.data().teams.length == 0) {
         
-          setHeightBattery(0)
-          setWidthBattery(0)
-          setBatteryTeams(0)
+          setHeightBatteryTeams(0)
+          setWidthBatteryTeams(0)
+          setBatteryTeamsTeams(0)
 
         } else {
         firebase
