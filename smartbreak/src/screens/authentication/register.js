@@ -91,6 +91,7 @@ export default function Register() {
           pause: false,
           battery: 0,
           teams: [],
+          admin: false,
         });
         firestoreUserRoutines.doc(userCredential.user.uid).set({
           routines : []
