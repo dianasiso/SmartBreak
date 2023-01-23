@@ -63,10 +63,6 @@ export default function Tips() {
     
   }, [])
 
-  if (!loaded) {
-    return null; // Returns null if unable to load the font
-  }
-
   const next = () => {
     for (var i = 0; i < docsId.length; i++) {
       if (docsId[i] == docId) {

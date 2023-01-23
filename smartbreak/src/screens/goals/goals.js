@@ -73,11 +73,6 @@ export default function Goals() {
       setDocs([]);
     }
   }, []);
-
-  if (!loaded) {
-    return null; // Returns null if unable to load the font
-  }
-
   // // MODAL FILTERS SELECTED
   // const [selectedIds, setSelectedIds] = useState([]);
 

@@ -91,10 +91,6 @@ export default function Devices({ navigation }) {
   const forceUpdate = React.useCallback(() => updateState({}), []);
   const [longPress, setLongPress] = useState(false);
 
-  if (!loaded) {
-    return null;  // Returns null if unable to load the font
-  }
-
   const whichIcon = (text) => {
     if (text == "Printer") {
       return (<Printer color="#000000"/> )

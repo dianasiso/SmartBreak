@@ -48,10 +48,6 @@ export default function EditPassword({ navigation }) {
   },[])
 
 
-  if (!loaded) {
-    return null; // Returns null if unable to load the font
-  }
-
   const validate_password = (pass) => {
     if (pass.length < 8) {
       Alert.alert("Erro!", "A palavra-passe deve ter no mínimo 8 caracteres.");

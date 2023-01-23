@@ -18,9 +18,6 @@ export default function TermsofUseProfile() {
   
   const content = useRef();
 
-  if (!loaded) {
-    return null; // Returns null if unable to load the font
-  }
   const onPressTouch = () => {
     content.current?.scrollTo({
       y: 0,

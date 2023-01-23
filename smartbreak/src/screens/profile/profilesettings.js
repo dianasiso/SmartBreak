@@ -41,9 +41,6 @@ export default function ProfileSettings({ navigation }) {
   const userData = useSelector((state) => state.user.userID);
   const uid = userData;
 
-  if (!loaded) {
-    return null; // Returns null if unable to load the font
-  }
 
   const apagarconta = () => {
     Alert.alert("Atenção", "Deseja apagar a sua conta permanentemente?", [

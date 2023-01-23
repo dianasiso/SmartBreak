@@ -28,9 +28,6 @@ export default function Welcome() {
     GothamBook: require("./../../fonts/GothamBook.ttf"),
   });
 
-  if (!loaded) {
-    return null; // Returns null if unable to load the font
-  }
 
   return (
     <View style={styles.container}>

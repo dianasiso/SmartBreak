@@ -65,10 +65,6 @@ export default function ProfilePage() {
     }, 2000);
   }, []);
 
-  if (!loaded) {
-    return null; // Returns null if unable to load the font
-  }
-  
   return (
       <SafeAreaProvider style={styles.container}  >
         <StatusBar style="auto" />
@@ -104,7 +100,7 @@ export default function ProfilePage() {
             <Text style={styles.text} >  As minhas rotinas</Text>
           </Pressable>
   
-          <Pressable style={styles.options} onPress={() => navigation.navigate("###")} >
+          <Pressable style={styles.options} onPress={() => navigation.navigate("historicoPausas")} >
             <Clock color="#000000" />
             <Text style={styles.text}>  Histórico de pausas</Text>
           </Pressable>

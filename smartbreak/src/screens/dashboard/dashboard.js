@@ -457,9 +457,6 @@ export default function Dashboard() {
     GothamMedium: "./../fonts/GothamMedium.ttf",
     GothamBook: "./../fonts/GothamBook.ttf",
   });
-  if (!loaded) {
-    return null; // Returns null if unable to load the font
-  }
 
   return (
     <SafeAreaView style={dashboardStyles.pageContainer}>

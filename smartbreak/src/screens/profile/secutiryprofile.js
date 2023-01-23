@@ -39,11 +39,6 @@ export default function NotificationsProfile({ navigation }) {
 
   },[])
 
-  if (!loaded) {
-    return null; // Returns null if unable to load the font
-  }
-
-
   return (
     <SafeAreaProvider
       showsVerticalScrollIndicator={false}
