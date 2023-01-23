@@ -178,51 +178,53 @@ export default function Devices({ navigation }) {
     /*
     create a switch that gives nameType custom names 
     */
+    const [nameType2, setNameType2] = useState("");
+
     switch (nameType) {
       case "Printer":
-        nameType = "Impressora";
+        setNameType2("Impressora");
         break;
       case "Camera":
-        nameType = "Câmera";
+        setNameType2("Câmera");
         break;
       case "Headphone":
-        nameType = "Fones de Ouvido";
+        setNameType2("Fones de Ouvido");
         break;
       case "Mobile":
-        nameType = "Telemóvel";
+        setNameType2("Telemóvel");
         break;
       case "Keyboard":
-        nameType = "Teclado";
+        setNameType2("Teclado");
         break;
       case "Mouse":
-        nameType = "Rato";
+        setNameType2("Rato");
         break;
       case "Call":
-        nameType = "Telefone";
+        setNameType2("Telefone");
         break;
       case "Electricity":
-        nameType = "Tomada";
+        setNameType2("Tomada");
         break;
       case "MonitorMobbile":
-        nameType = "Ecrã Móvel";
+        setNameType2("Ecrã Móvel");
         break;
       case "Lamp":
-        nameType = "Lâmpada";
+        setNameType2("Lâmpada");
         break;
       case "TableLamp":
-        nameType = "Lâmpada de Mesa";
+        setNameType2("Lâmpada de Mesa");
         break;
       case "Video":
-        nameType = "Vídeo";
+        setNameType2("Vídeo");
         break;
       case "Monitor":
-        nameType = "Monitor";
+        setNameType2("Monitor");
         break;
       case "MirroringScreen":
-        nameType = "Ecrã Espelhado";
+        setNameType2("Ecrã Espelhado");
         break;
       case "Microphone2":
-        nameType = "Microfone";
+        setNameType2("Microfone");
         break;
       default:
         nameType;
