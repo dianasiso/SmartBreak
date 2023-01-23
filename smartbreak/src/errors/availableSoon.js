@@ -8,7 +8,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 // Font Gotham
 import { useFonts } from 'expo-font';
 
-export default function Error404() {
+export default function AvailableSoon() {
      // Loading Gotham font
     const [loaded] = useFonts({
         GothamMedium: require('./../fonts/GothamMedium.ttf'),
@@ -18,16 +18,13 @@ export default function Error404() {
     return (
         <View style={styles.container}>
             <StatusBar style="light" />
-            <View>
-              <MaterialIcons name="arrow-back-ios" size={24} color="white" />
-            </View>
             <ScrollView>
-                <Text style={styles.textMessageTitle}>Erro</Text> 
-                <Text style={styles.textMessageBody}>Sobrecarga na bateria!</Text>
+                <Text style={styles.textMessageTitle}>Brevemente disponível</Text> 
+                <Text style={styles.textMessageBody}>Estamos a recarregar as nossas baterias para que possas ter esta funcionalidade em breve.</Text>
                 <View style={styles.imageOnboarding}>
-                    <Image source={require('./../imgs/img_error_404.png')} />
+                    <Image source={require('./../imgs/img_available_soon.png')} style={{width: 116, height: 180}} />
                 </View>
-                <Text style={styles.textMessageBody}>Esta página não existe.</Text>
+                <Text style={styles.textMessageBody}>Podes espreitar mais tarde.</Text>
             </ScrollView>
         </View>
     );
@@ -36,7 +33,6 @@ export default function Error404() {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 65,
     paddingLeft: 25,
     paddingRight: 25,
     flex: 1,
@@ -45,17 +41,18 @@ const styles = StyleSheet.create({
   imageOnboarding: {
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 120,
+    marginTop: 100,
+    marginRight: 20,
   }, 
   textMessageTitle: {
-    fontSize: 45,
+    fontSize: 35,
     textAlign: 'center',
     paddingTop: 55,
     fontFamily: 'GothamMedium',
     color: '#FFFFFF',
   },
   textMessageBody: {
-    fontSize: 20,
+    fontSize: 16,
     textAlign: 'center',
     paddingTop: 50,
     lineHeight: 22,

@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -18,14 +18,13 @@ import { useFonts } from "expo-font";
 export default function Welcome() {
   const navigation = useNavigation();
   // Loading Gotham font
+
+  
   const [loaded] = useFonts({
     GothamMedium: require("./../../fonts/GothamMedium.ttf"),
     GothamBook: require("./../../fonts/GothamBook.ttf"),
   });
 
-  if (!loaded) {
-    return null; // Returns null if unable to load the font
-  }
 
   return (
     <View style={styles.container}>

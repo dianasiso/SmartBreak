@@ -121,10 +121,6 @@ export default function Register() {
     })();
   }, []);
 
-  if (!loaded) {
-    return null; // Returns null if unable to load the font
-  }
-
   const loadingScreen = () => {
     return (
       <Image

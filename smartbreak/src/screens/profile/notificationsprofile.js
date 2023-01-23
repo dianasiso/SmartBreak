@@ -39,10 +39,6 @@ export default function NotificationsProfile({ navigation }) {
   })
   }, [userData]);
 
-  if (!loaded) {
-    return null;  // Returns null if unable to load the font
-  }
-
 
   return (
     <SafeAreaProvider

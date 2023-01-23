@@ -45,9 +45,6 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState("");
 
-  if (!loaded) {
-    return null; // Returns null if unable to load the font
-  }
 
   const submit = async () => {
     const user = query(

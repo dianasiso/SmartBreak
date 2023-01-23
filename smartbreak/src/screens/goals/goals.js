@@ -73,11 +73,6 @@ export default function Goals() {
       setDocs([]);
     }
   }, []);
-
-  if (!loaded) {
-    return null; // Returns null if unable to load the font
-  }
-
   // // MODAL FILTERS SELECTED
   // const [selectedIds, setSelectedIds] = useState([]);
 
@@ -356,7 +351,11 @@ export default function Goals() {
         </View>
       </View>
 
-      <ScrollView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{ height: "100%", overflow: "scroll" }}
+      
+      >
         {docs &&
           docs.length > 0 &&
           docs.map((callbackfn, id) => (

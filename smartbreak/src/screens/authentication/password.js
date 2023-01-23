@@ -31,10 +31,6 @@ export default function Password() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
-    if (!loaded) {
-        return null;  // Returns null if unable to load the font
-    }
-
     const updateData = async () => {
       const user = query(collection(firebase.firestore(), 'users_data'), where("email", "==", email.trim() ));
       const querySnapshot = await getDocs(user);

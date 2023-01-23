@@ -54,11 +54,6 @@ export default function EditProfile({ navigation }) {
       })
   }, [])
 
-  if (!loaded) {
-    return null; // Returns null if unable to load the font
-  }
-
-
   const validate_email = (text) => {
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (reg.test(text) === false) {

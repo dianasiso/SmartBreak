@@ -98,10 +98,6 @@ export default function Routines({ navigation }) {
     }
   }, [userData]);
 
-  if (!loaded) {
-    return null;  // Returns null if unable to load the font
-  }
-
   const checkId = () => {
     for (let i=0; i < routinesArray.length; i++) {
         routinesArray[i] = {
