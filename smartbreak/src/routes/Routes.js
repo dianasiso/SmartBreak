@@ -7,19 +7,26 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { useNavigation } from "@react-navigation/native";
 
 //páginas
+
 //dashboard
 import Dashboard from "../screens/dashboard/dashboard";
+
 //subpáginas dashboard
 import Team from "../screens/dashboard/team";
 import MembersRewards from "../screens/dashboard/membersrewards";
+
 //ojbetivos
 import Goals from "../screens/goals/goals";
+
 //subpágina dos objetivos
 import Tips from "../screens/goals/tips";
+
 //estatísticas
 import Stats from "../screens/stats/stats";
+
 //perfil
 import ProfilePage from "../screens/profile/profile";
+
 //subpáginas do perfil
 import EditProfile from "../screens/profile/editprofile";
 import MyDevices from "../screens/profile/devices";
@@ -32,7 +39,9 @@ import SecurityProfile from "../screens/profile/secutiryprofile";
 import TermsofUseProfile from "../screens/profile/termsofuseprofile";
 import HelpCenterProfile from "../screens/profile/helpcenterprofile";
 import historicoPausas from "../screens/profile/historicoPausas";
+
 //autenticação
+import SplashScreen from "../screens/authentication/splashscreen";
 import Login from "../screens/authentication/login";
 import Register from "../screens/authentication/register";
 import Password from "../screens/authentication/password";
@@ -63,9 +72,14 @@ const MainStack = createStackNavigator();
 const AuthStackNavigation = ({ navigation }) => {
   return (
     <AuthStack.Navigator
-      initialRouteName="Welcome"
+      initialRouteName="SplashScreen"
       screenOptions={{ animation: "none" }}
     >
+      <AuthStack.Screen
+        name="SplashScreen"
+        component={SplashScreen}
+        options={{ headerShown: false }}
+      />
       <AuthStack.Screen
         name="Welcome"
         component={Welcome}
@@ -174,7 +188,9 @@ const DashboardStackNavigation = ({ navigation, route }) => {
               <ArrowLeft2
                 size="24"
                 color="#000000"
-                onPress={() => navigation.navigate("TeamDashboard", {teamId : null})}
+                onPress={() =>
+                  navigation.navigate("TeamDashboard", { teamId: null })
+                }
               />
             </View>
           ),
@@ -247,7 +263,7 @@ const ProfileStackNavigation = ({ navigation }) => {
         }}
       />
 
-<ProfileStack.Screen
+      <ProfileStack.Screen
         name="MyDevices"
         component={MyDevices}
         options={{
@@ -557,7 +573,7 @@ const TabRoutes = (
               <View style={{ opacity: focused ? 1 : 0 }}>
                 <RectangleIndicator />
               </View>
-              <Icon name="profile" color={color}/>
+              <Icon name="profile" color={color} />
             </>
           ),
         }}
