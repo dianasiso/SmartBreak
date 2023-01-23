@@ -126,7 +126,7 @@ export default function ProfilePage() {
       backgroundColor: "#fff",
       paddingLeft: 25,
       paddingRight: 25,
-      paddingBottom: 90,
+      paddingTop: 100,
     },
   
     profilepicture: {

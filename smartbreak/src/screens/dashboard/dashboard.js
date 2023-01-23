@@ -7,6 +7,7 @@ import {
   Text,
   Image,
   View,
+  ToastAndroid,
   Pressable,
   SafeAreaView,
   Modal,
@@ -77,13 +78,13 @@ const BatteryToggle = () => {
 const ButtonDashboard = ({ selected }) => {
   const userData = useSelector((state) => state.user.userID);
   const uid = userData;
-  const [pause, setPause] = useState();
-  const [battery, setBattery] = useState();
-  const [widthBattery, setWidthBattery] = useState();
-  const [heightBattery, setHeightBattery] = useState();
-  const [batteryTeams, setBatteryTeams] = useState();
-  const [widthBatteryTeams, setWidthBatteryTeams] = useState();
-  const [heightBatteryTeams, setHeightBatteryTeams] = useState();
+  const [pause, setPause] = useState(false);
+  const [battery, setBattery] = useState(0);
+  const [widthBattery, setWidthBattery] = useState(0);
+  const [heightBattery, setHeightBattery] = useState(0);
+  const [batteryTeams, setBatteryTeams] = useState([]);
+  const [widthBatteryTeams, setWidthBatteryTeams] = useState(0);
+  const [heightBatteryTeams, setHeightBatteryTeams] = useState(0);
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -117,6 +118,13 @@ const ButtonDashboard = ({ selected }) => {
         }
         setWidthBattery((temp * 163) / 100);
 
+        if (doc.data().teams.length == 0) {
+        
+          setHeightBattery(0)
+          setWidthBattery(0)
+          setBatteryTeams(0)
+
+        } else {
         firebase
           .firestore()
           .collection("teams")
@@ -142,6 +150,7 @@ const ButtonDashboard = ({ selected }) => {
             }
             setWidthBatteryTeams((tempTeam * 163) / 100);
           });
+        }
       });
   }, [userData]);
 
@@ -406,6 +415,7 @@ const ButtonDashboard = ({ selected }) => {
           />
         </View>
         <View style={ButtonDashboardStyles.ButtonDashboardView}>
+          {teams[0] ? 
           <Pressable
             onPress={() =>
               navigation.navigate("TeamDashboard", { teamId: teams[0] })
@@ -422,6 +432,28 @@ const ButtonDashboard = ({ selected }) => {
               style={ButtonDashboardStyles.icon}
             />
           </Pressable>
+          :
+          <Pressable
+            onPress={() => 
+              ToastAndroid.show(
+                "Não está em nenhuma equipa!",
+                ToastAndroid.SHORT
+              )
+            }
+            style={[ButtonDashboardStyles.ButtonDashboardContainer, {backgroundColor: "#777"}]}
+          >
+            <Text style={ButtonDashboardStyles.ButtonDashboardText}>
+              Ver equipa
+            </Text>
+            <People
+              color="white"
+              size={26}
+              variant="Bold"
+              style={ButtonDashboardStyles.icon}
+            />
+          </Pressable>
+          }
+          
         </View>
       </>
     );
@@ -431,11 +463,11 @@ const ButtonDashboard = ({ selected }) => {
 const Metricas = ({ selected }) => {
   const userData = useSelector((state) => state.user.userID);
   const uid = userData;
-  const [battery, setBattery] = useState();
-  const [teams, setTeams] = useState();
-  const [batteryTeams, setBatteryTeams] = useState();
-  const [kwh, setKwh] = useState();
-  const [kwhTeams, setKwhTeams] = useState();
+  const [battery, setBattery] = useState(0);
+  const [teams, setTeams] = useState([]);
+  const [batteryTeams, setBatteryTeams] = useState(0);
+  const [kwh, setKwh] = useState(0);
+  const [kwhTeams, setKwhTeams] = useState(0);
 
   useEffect(() => {
     firebase
@@ -446,7 +478,8 @@ const Metricas = ({ selected }) => {
         setTeams(doc.data().teams);
         setBattery(doc.data().battery);
 
-        firebase
+        if (doc.data().teams.length != 0) {
+          firebase
           .firestore()
           .collection("teams")
           .doc(doc.data().teams[0])
@@ -455,6 +488,8 @@ const Metricas = ({ selected }) => {
             setKwh((150 * battery) / 100);
             setKwhTeams((150 * batteryTeams) / 100);
           });
+        } 
+        
       });
   }, [userData]);
 
