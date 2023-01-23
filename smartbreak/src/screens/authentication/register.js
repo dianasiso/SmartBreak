@@ -281,6 +281,7 @@ export default function Register() {
                 setValue={setValueOrg}
                 setItems={setItems}
                 style={styles.inputField}
+                placeholder="" 
                 multiple={false}
                 showTickIcon={false}
                 closeAfterSelecting={true}
