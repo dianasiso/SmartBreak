@@ -1,5 +1,5 @@
 //import { StyleSheet, Text, View } from "react-native";
-//import Maintenance from "./src/errors/maintenance";
+import AvailableSoon from "./src/errors/availableSoon";
 
 //navegação
 import { createStackNavigator } from "@react-navigation/stack";
@@ -10,6 +10,9 @@ import MainStackNavigation from "./src/routes/Routes";
 
 //funções navegação
 const Stack = createStackNavigator();
+
+// Font Gotham
+import { useFonts } from "expo-font";
 
 
 // Firebase
@@ -28,18 +31,24 @@ export default function App() {
   const user = firebase.auth().currentUser;
   console.log("user logged? ", user);
 
+  const [loaded] = useFonts({
+    GothamMedium: require("./src/fonts/GothamMedium.ttf"),
+    GothamBook: require("./src/fonts/GothamBook.ttf"),
+  });
+
   return (
-    <Provider store={store}>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Home"
-            component={MainStackNavigation}
-            options={{ headerShown: false }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </Provider>
+    // <Provider store={store}>
+    //   <NavigationContainer>
+    //     <Stack.Navigator>
+    //       <Stack.Screen
+    //         name="Home"
+    //         component={MainStackNavigation}
+    //         options={{ headerShown: false }}
+    //       />
+    //     </Stack.Navigator>
+    //   </NavigationContainer>
+    // </Provider>
+    <AvailableSoon/>
   );
 }
 

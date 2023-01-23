@@ -364,7 +364,7 @@ const ProfileStackNavigation = ({ navigation }) => {
               <ArrowLeft2
                 size="24"
                 color="#000000"
-                onPress={() => navigation.navigate("PofilePge")}
+                onPress={() => navigation.navigate("ProfilePage")}
               />
             </View>
           ),

@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -23,6 +23,8 @@ export default function Welcome() {
   const dispatch = useDispatch();
   dispatch(logoutUser());
   // Loading Gotham font
+
+  
   const [loaded] = useFonts({
     GothamMedium: require("./../../fonts/GothamMedium.ttf"),
     GothamBook: require("./../../fonts/GothamBook.ttf"),
