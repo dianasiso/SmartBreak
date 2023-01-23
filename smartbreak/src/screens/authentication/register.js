@@ -10,6 +10,7 @@ import {
   Dimensions,
   TouchableOpacity,
   Alert,
+  Image,
   Animated,
   Pressable,
 } from "react-native";
