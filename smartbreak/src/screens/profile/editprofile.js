@@ -38,21 +38,22 @@ export default function EditProfile({ navigation }) {
   const [organization, setOrganization] = useState();
   const [rewards, setRewards] = useState();
   const userData = useSelector((state) => state.user.userID);
-  const uid = userData;  
+  const uid = userData;
 
-  useEffect(() =>{
-    firebase.firestore()
+  useEffect(() => {
+    firebase
+      .firestore()
       .collection("users_data")
       .doc(uid)
       .get()
       .then((doc) => {
-          setName(doc.data().name);
-          setLastName(doc.data().lastName);
-          setEmail(doc.data().email);
-          setOrganization(doc.data().organization);
-          setRewards(doc.data().rewards);
-      })
-  }, [])
+        setName(doc.data().name);
+        setLastName(doc.data().lastName);
+        setEmail(doc.data().email);
+        setOrganization(doc.data().organization);
+        setRewards(doc.data().rewards);
+      });
+  }, []);
 
   const validate_email = (text) => {
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -60,24 +61,30 @@ export default function EditProfile({ navigation }) {
       return false;
     }
     return true;
-  }
+  };
 
   const editarperfil = () => {
+    let updatedUserData = {};
     Alert.alert("Atenção", "Deseja confirmar as alterações?", [
       { text: "Cancelar" },
       {
         text: "Confirmar",
         onPress: () => {
           if (validate_email) {
-            firebase.firestore().collection('users_data').doc(uid).update({
-            name: name,
-            lastName: lastName,
-            email: email,
-            rewards: rewards,
-          })
-          navigation.navigate("ProfilePage")
+            firebase.firestore().collection("users_data").doc(uid).update({
+              name: name,
+              lastName: lastName,
+              email: email,
+              rewards: rewards,
+            });
+            navigation.navigate("ProfilePage", {
+              updatedUserData: { name, lastName, email, rewards },
+            });
           } else {
-            Alert.alert("Email inválido!", "Preencha corretamente o campo E-mail.")
+            Alert.alert(
+              "Email inválido!",
+              "Preencha corretamente o campo E-mail."
+            );
           }
         },
       },
@@ -148,11 +155,11 @@ export default function EditProfile({ navigation }) {
             </View>
           </View>
           <View>
-            <Pressable
-              onPress={() => editarperfil()}
-              style={styles.button}
-            >
-              <Text style={{color: "#FFFFFF",fontFamily: "GothamBook",
+            <Pressable onPress={() => editarperfil()} style={styles.button}>
+              <Text
+                style={{
+                  color: "#FFFFFF",
+                  fontFamily: "GothamBook",
                   fontSize: 16,
                   lineHeight: 24,
                   textAlign: "center",

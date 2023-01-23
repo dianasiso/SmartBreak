@@ -37,10 +37,7 @@ const Info = ({value}) => {
 
   return (
     <>
-    <Image
-      source={require("../../imgs/img_register_photo_default.png")}
-      style={styles.profilepicture}
-    />
+    
     <View>
       <Text style={styles.subtitulo}>{userName}</Text>
       <Text style={styles.text}>{userEmail}</Text>

@@ -7,10 +7,10 @@ import {
   Text,
   View,
   ScrollView,
-  Image,
   Dimensions,
   TouchableOpacity,
   Alert,
+  Image,
   Animated,
   Pressable,
 } from "react-native";
@@ -19,9 +19,6 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { LogBox } from "react-native";
 LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
-
-// ImagePicker
-import * as ImagePicker from "expo-image-picker";
 
 // Password meter
 import PassMeter from "react-native-passmeter";
@@ -115,18 +112,6 @@ export default function Register() {
       });
   };
 
-  // photo
-  const [photo, setPhoto] = useState(null);
-  const [galleryPermission, setGalleryPermission] = useState(null);
-
-  useEffect(() => {
-    (async () => {
-      const permission =
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
-      setGalleryPermission(permission.status === "granted");
-    })();
-  }, []);
-
   const loadingScreen = () => {
     return (
       <Image
@@ -143,22 +128,6 @@ export default function Register() {
     );
   };
 
-  const loadPhoto = async () => {
-    let result = ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-    });
-    Alert.alert((await result).assets);
-    if (!result.cancelled) {
-      setPhoto(result.uri);
-    }
-  };
-
-  if (galleryPermission === false) {
-    Alert.alert("Sem permissões da galeria");
-  }
 
   const validate_email = (text) => {
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -243,19 +212,6 @@ export default function Register() {
         ) : (
           <View>
             <ScrollView showsVerticalScrollIndicator={false}>
-              <TouchableOpacity
-                onPress={() => loadPhoto()}
-                style={{ paddingBottom: 30 }}
-              >
-                <Image
-                  style={styles.registerPhoto}
-                  source={
-                    photo !== null
-                      ? photo
-                      : require("./../../imgs/img_register_photo_default.png")
-                  }
-                />
-              </TouchableOpacity>
               <Text>Nome</Text>
               <TextInput
                 style={styles.inputField}

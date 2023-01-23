@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
     color: "#888",
     fontSize: 12,
     textAlign: "right",
-    marginBottom: 50,
+    marginBottom: 30,
   },
   inputField: {
     borderBottomColor: "#000000",

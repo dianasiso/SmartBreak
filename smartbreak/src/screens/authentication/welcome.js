@@ -55,7 +55,7 @@ export default function Welcome() {
             <Text style={styles.buttonText}>Entrar</Text>
           </Pressable>
           <Pressable
-            onPress={() => navigation.navigate("Register")}
+            onPress={() => navigation.navigate("Onboarding")}
             style={styles.buttonWelcome}
           >
             <Text style={styles.buttonText}>Registar</Text>

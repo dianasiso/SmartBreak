@@ -178,54 +178,55 @@ export default function Devices({ navigation }) {
     /*
     create a switch that gives nameType custom names 
     */
+    let nameType2 = ""
     switch (nameType) {
       case "Printer":
-        nameType = "Impressora";
+        nameType2 = "Impressora";
         break;
       case "Camera":
-        nameType = "Câmera";
+        nameType2 = "Câmera";
         break;
       case "Headphone":
-        nameType = "Fones de Ouvido";
+        nameType2 = "Fones de Ouvido";
         break;
       case "Mobile":
-        nameType = "Telemóvel";
+        nameType2 = "Telemóvel";
         break;
       case "Keyboard":
-        nameType = "Teclado";
+        nameType2 = "Teclado";
         break;
       case "Mouse":
-        nameType = "Rato";
+        nameType2 = "Rato";
         break;
       case "Call":
-        nameType = "Telefone";
+        nameType2 = "Telefone";
         break;
       case "Electricity":
-        nameType = "Tomada";
+        nameType2 = "Tomada";
         break;
       case "MonitorMobbile":
-        nameType = "Ecrã Móvel";
+        nameType2 = "Ecrã Móvel";
         break;
       case "Lamp":
-        nameType = "Lâmpada";
+        nameType2 = "Lâmpada";
         break;
       case "TableLamp":
-        nameType = "Lâmpada de Mesa";
+        nameType2 = "Lâmpada de Mesa";
         break;
       case "Video":
-        nameType = "Vídeo";
+        nameType2 = "Vídeo";
         break;
       case "Monitor":
-        nameType = "Monitor";
+        nameType2 = "Monitor";
         break;
       case "MirroringScreen":
-        nameType = "Ecrã Espelhado";
+        nameType2 = "Ecrã Espelhado";
         break;
       case "Microphone2":
-        nameType = "Microfone";
+        nameType2 = "Microfone";
         break;
       default:
-        nameType;
+        nameType2;
         break;
     }
 
