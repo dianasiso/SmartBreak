@@ -27,6 +27,9 @@ import { useFonts } from "expo-font";
 import firebase from "./../../config/firebase.js";
 import { collection, where, query, getDocs } from "firebase/firestore";
 
+//secure store para guardar a sessao
+import * as SecureStore from "expo-secure-store";
+
 export default function Login() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -81,6 +84,7 @@ export default function Login() {
         );
       } else {
         // navigate.navigate("Painel", {idUser: uid})
+        await SecureStore.setItemAsync("uid", uid);
         handleNavigate(uid);
       }
     }
@@ -127,9 +131,7 @@ export default function Login() {
         </View>
       </ScrollView>
 
-      <ScrollView
-        style={styles.subContainer}
-      >
+      <ScrollView style={styles.subContainer}>
         {loading == true ? (
           loadingScreen()
         ) : (
@@ -146,11 +148,10 @@ export default function Login() {
                 style={styles.inputField}
                 onChangeText={(text) => setPassword(text)}
               />
-              <Pressable onPress={(() => navigation.navigate("Password"))}><Text style={styles.extra}>Esqueceu-se da palavra-passe?</Text></Pressable>
-              <Pressable
-                onPress={() => submit()}
-                style={styles.button}
-              >
+              <Pressable onPress={() => navigation.navigate("Password")}>
+                <Text style={styles.extra}>Esqueceu-se da palavra-passe?</Text>
+              </Pressable>
+              <Pressable onPress={() => submit()} style={styles.button}>
                 <Text style={styles.buttonText}>Entrar</Text>
               </Pressable>
             </ScrollView>
@@ -184,7 +185,7 @@ const styles = StyleSheet.create({
     paddingLeft: 25,
     paddingRight: 25,
     paddingTop: 65,
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     width: screenWidth,
     //height: screenHeight/2,

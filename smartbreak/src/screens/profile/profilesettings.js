@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import {
   Pressable,
   Dimensions,
@@ -28,10 +28,12 @@ import { useFonts } from "expo-font";
 import firebase from "./../../config/firebase.js";
 import { getAuth, deleteUser } from "firebase/auth";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../../redux/user.js";
+import * as SecureStore from "expo-secure-store";
 
 export default function ProfileSettings({ navigation }) {
-  //const dispatch = useDispatch();
+  const dispatch = useDispatch();
   // Loading Gotham font
   const [loaded] = useFonts({
     GothamMedium: "./../fonts/GothamMedium.ttf",
@@ -47,20 +49,21 @@ export default function ProfileSettings({ navigation }) {
       { text: "Cancelar" },
       {
         text: "Confirmar",
-        onPress: (() => {
-          getAuth().currentUser.delete()
-          firebase.firestore().collection('users_data').doc(uid).delete()
-          firebase.firestore().collection('users_devices').doc(uid).delete()
-          firebase.firestore().collection('users_routines').doc(uid).delete()
-          
+        onPress: () => {
+          getAuth().currentUser.delete();
+          firebase.firestore().collection("users_data").doc(uid).delete();
+          firebase.firestore().collection("users_devices").doc(uid).delete();
+          firebase.firestore().collection("users_routines").doc(uid).delete();
+
           handleLogout();
-        })
+        },
       },
     ]);
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     try {
+      await SecureStore.deleteItemAsync("uid");
       navigation.navigate("Welcome");
     } catch (err) {
       console.error(err);
@@ -68,17 +71,20 @@ export default function ProfileSettings({ navigation }) {
   };
 
   const terminarsessao = () => {
+    if (!uid) {
+      console.error("UID is undefined");
+      return;
+    }
     Alert.alert("Atenção", "Tem a certeza que deseja terminar a sessão? ", [
       { text: "Cancelar" },
       {
         text: "Confirmar",
-        
         onPress: () => {
-          firebase.firestore().collection('users_data').doc(uid).update({
-            pause: false, 
-          })
-          handleLogout()
-        }
+          firebase.firestore().collection("users_data").doc(uid).update({
+            pause: false,
+          });
+          handleLogout();
+        },
       },
     ]);
   };
@@ -92,39 +98,54 @@ export default function ProfileSettings({ navigation }) {
         <StatusBar style="auto" />
         <Text style={styles.title}>Definições</Text>
 
-        <Pressable style={styles.options} onPress={() => navigation.navigate("EditPassword")}>
-            <Lock1 color="#000000"  />
-            <Text style={styles.text}>  Alterar palavra-passe</Text>
+        <Pressable
+          style={styles.options}
+          onPress={() => navigation.navigate("EditPassword")}
+        >
+          <Lock1 color="#000000" />
+          <Text style={styles.text}> Alterar palavra-passe</Text>
         </Pressable>
 
-        <Pressable style={styles.options} onPress={() => navigation.navigate("NotificationsProfile")}>
-            <Notification color="#000000"/>
-            <Text style={styles.text}>  Notificações</Text>
+        <Pressable
+          style={styles.options}
+          onPress={() => navigation.navigate("NotificationsProfile")}
+        >
+          <Notification color="#000000" />
+          <Text style={styles.text}> Notificações</Text>
         </Pressable>
 
-        <Pressable style={styles.options} onPress={() => navigation.navigate("SecurityProfile")}>
-            <SecurityUser color="#000000" /> 
-            <Text style={styles.text}>  Segurança</Text>
+        <Pressable
+          style={styles.options}
+          onPress={() => navigation.navigate("SecurityProfile")}
+        >
+          <SecurityUser color="#000000" />
+          <Text style={styles.text}> Segurança</Text>
         </Pressable>
 
-        <Pressable style={styles.options} onPress={() => navigation.navigate("TermsofUseProfile")}>
-            <DocumentText1 color="#000000"/>
-            <Text style={styles.text}>  Termos de utilização</Text>
+        <Pressable
+          style={styles.options}
+          onPress={() => navigation.navigate("TermsofUseProfile")}
+        >
+          <DocumentText1 color="#000000" />
+          <Text style={styles.text}> Termos de utilização</Text>
         </Pressable>
 
-        <Pressable style={styles.options} onPress={() => navigation.navigate("HelpCenterProfile")}>
-            <MessageQuestion color="#000000" />
-            <Text style={styles.text}>  Centro de ajuda</Text>
+        <Pressable
+          style={styles.options}
+          onPress={() => navigation.navigate("HelpCenterProfile")}
+        >
+          <MessageQuestion color="#000000" />
+          <Text style={styles.text}> Centro de ajuda</Text>
         </Pressable>
 
-        <Pressable style={styles.options} onPress={apagarconta} >
-            <Trash color="#000000"  onPress={apagarconta}/>
-            <Text style={styles.text}>  Apagar conta</Text>
+        <Pressable style={styles.options} onPress={apagarconta}>
+          <Trash color="#000000" onPress={apagarconta} />
+          <Text style={styles.text}> Apagar conta</Text>
         </Pressable>
 
-        <Pressable style={styles.options} onPress={terminarsessao} >
-            <Logout color="#000000" onPress={terminarsessao}/>
-            <Text style={styles.text}>  Terminar sessão</Text>
+        <Pressable style={styles.options} onPress={terminarsessao}>
+          <Logout color="#000000" onPress={terminarsessao} />
+          <Text style={styles.text}> Terminar sessão</Text>
         </Pressable>
       </ScrollView>
     </SafeAreaProvider>
@@ -157,10 +178,10 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     paddingBottom: 15,
     paddingLeft: 25,
-    width: screenWidth - 50, 
+    width: screenWidth - 50,
     flexDirection: "row",
     alignItems: "center",
-    textAlign: 'left',
+    textAlign: "left",
     backgroundColor: "#E3ECF7",
   },
 

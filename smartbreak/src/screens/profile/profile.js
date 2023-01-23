@@ -83,7 +83,6 @@ export default function ProfilePage() {
           <Text style={styles.name}>{name}</Text>
           <Text style={styles.organization}>{organization}</Text>
         </View>
-  
             
           <Pressable style={styles.options}  onPress={() => navigation.navigate("EditProfile")} >
             <Edit2 color="#000000" />
