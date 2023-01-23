@@ -107,7 +107,8 @@ const ButtonDashboard = ({ selected }) => {
       }
       setWidthBattery((temp*163/100));
 
-      firebase
+      if (doc.data().teams.length > 0) {
+        firebase
         .firestore()
         .collection("teams")
         .doc(doc.data().teams[0])
@@ -132,6 +133,14 @@ const ButtonDashboard = ({ selected }) => {
           }
           setWidthBatteryTeams((tempTeam*163/100));
         })
+      } else {
+        setBatteryTeams(0)
+        setHeightBattery(0)
+        setWidthBattery(0)
+      }
+        
+      
+     
     });
   }, [userData]);
 
