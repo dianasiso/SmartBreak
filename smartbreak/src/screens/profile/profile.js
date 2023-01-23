@@ -76,10 +76,7 @@ export default function ProfilePage() {
         }
       >
         <View style={{ alignItems: "center" }}>
-          <Image
-            source={require("../../imgs/ester.png")}
-            style={styles.profilepicture}
-          />
+         
           <Text style={styles.name}>{name}</Text>
           <Text style={styles.organization}>{organization}</Text>
         </View>
