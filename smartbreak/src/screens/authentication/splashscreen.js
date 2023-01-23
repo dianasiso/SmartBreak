@@ -32,7 +32,7 @@ export default function SplashScreen({ navigation }) {
       if (!value) {
         setTimeout(() => {
           navigation.navigate("Welcome");
-        }, 1700); // delay for 1.7 seconds before navigating
+        }, 3500); // delay for 1.7 seconds before navigating
       } else {
         handleNavigate(value);
       }
@@ -45,19 +45,16 @@ export default function SplashScreen({ navigation }) {
     GothamMedium: require("./../../fonts/GothamMedium.ttf"),
     GothamBook: require("./../../fonts/GothamBook.ttf"),
   });
-  if (!loaded) {
-    return null; // Returns null if unable to load the font
-  }
-
+ 
   return (
     <View style={styles.container}>
       <StatusBar hidden />
       <View style={styles.splashImage}>
         <Image
-          source={require("./../../imgs/img_logo_white_version.png")}
+          source={require("./../../imgs/gif_battery_white_v2.gif")}
           style={{
-            width: width * 0.2,
-            height: width * 0.2,
+            width: width * 0.5,
+            height: width * 0.5,
             resizeMode: "contain",
           }}
         />
@@ -80,8 +77,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: "50%",
     left: "50%",
-    marginTop: -(width * 0.2) / 2,
-    marginLeft: -(width * 0.2) / 2,
+    marginTop: -(width * 0.5) / 2,
+    marginLeft: -(width * 0.5) / 2,
     alignSelf: "center",
   },
 });
