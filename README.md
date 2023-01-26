@@ -12,7 +12,7 @@ Smart Break is a digital platform that operates in a tracker format, where a com
 For this project, we used React Native, with Expo extension, for frontend developement and Firebase for backend developement.
 
 ## How to run
-In APK folder you can find a ready-to-download version of our mobile application. However, this version only works on Android devices, so if you want to view our application and you don't have a compatible device, you'll need to run it on your computer.
+In [this link](https://drive.google.com/file/d/1VPGCKRJEZ6hOJLH5WnHgc6wCk3eYz8pI/view) you can find a ready-to-download version of our mobile application. However, this version only works on Android devices, so if you want to view our application and you don't have a compatible device, you'll need to run it on your computer.
 If that's the case, first make sure you have Expo installed on your computer and the Expo app installed on your phone. After downloading the repository and verifying that it has all the dependencies associated with the project (using the npm install or yarn command), just open your terminal and run the command "expo start".
 Decide if you want to run the project on your mobile phone within the Expo application (recommended option) or on an emulator (we do not recommend it, as it limits the functionalities you can access).
 
