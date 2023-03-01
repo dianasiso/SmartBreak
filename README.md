@@ -28,5 +28,5 @@ Decide if you want to run the project on your mobile phone within the Expo appli
 
 ## Brand
 
-[Instagram Page](https://www.instagram.com/smartbreak.ua/)
+[Instagram](https://www.instagram.com/smartbreak.ua/)
 
