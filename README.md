@@ -9,9 +9,9 @@ Smart Break is a digital platform that operates in a tracker format, where a com
 
 ## Technology stack
 
-[![Stack](https://skills.thijs.gg/icons?i=react,redux,firebase)](https://skills.thijs.gg)
+[![Stack](https://skills.thijs.gg/icons?i=react,redux,firebase,figma)](https://skills.thijs.gg)
 
-For this project, we used React Native, with Redux and Expo extension, for frontend developement and Firebase for backend developement.
+For this project, we used React Native, with Redux and Expo extension, for frontend developement and Firebase for backend developement. We also developed all prototypes using Figma.
 
 
 ## How to run
