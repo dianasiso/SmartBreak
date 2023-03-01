@@ -1,5 +1,5 @@
 # SmartBreak
-In the context of the Challenge Based Learning (CBL) articulated in the Master of Communication and Web Technologies, during the 2022/2023 school year, the development of a digital platform aimed at reducing energy waste and the impact on the ecological footprint was proposed, in partnership with the German company BOSCH.
+In the context of the Challenge Based Learning (CBL) articulated in the Master of Communication and Web Technologies, during the 2022/2023 school year, the development of a digital platform aimed at reducing energy waste and the impact on the ecological footprint was proposed, in partnership with the German company [BOSCH](https://www.bosch.pt/a-nossa-empresa/bosch-em-portugal/aveiro/).
 
 It was graded **18 out of 20**
 
