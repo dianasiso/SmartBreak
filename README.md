@@ -33,3 +33,8 @@ Decide if you want to run the project on your mobile phone within the Expo appli
 
 [Instagram](https://www.instagram.com/smartbreak.ua/)
 
+## University and Degree
+
+[University of Aveiro](https://www.ua.pt/en/)
+[Master in Communication and Web Technologies](https://www.ua.pt/en/curso/508)
+
