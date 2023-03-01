@@ -10,7 +10,7 @@ Smart Break is a digital platform that operates in a tracker format, where a com
 ## Technology stack
 
 For this project, we used React Native, with Redux and Expo extension, for frontend developement and Firebase for backend developement.
-(https://skills.thijs.gg/icons?i=react,firebase,redux,)(https://skills.thijs.gg)
+[!(https://skills.thijs.gg/icons?i=react,firebase,redux,)(https://skills.thijs.gg)]
 
 ## How to run
 In [this link](https://drive.google.com/file/d/1VPGCKRJEZ6hOJLH5WnHgc6wCk3eYz8pI/view) you can find a ready-to-download version of our mobile application. However, this version only works on Android devices, so if you want to view our application and you don't have a compatible device, you'll need to run it on your computer.
