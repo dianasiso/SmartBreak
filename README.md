@@ -26,3 +26,7 @@ Decide if you want to run the project on your mobile phone within the Expo appli
 
 [Juliana Gouveia](https://github.com/beelze-b0ss)
 
+## Brand
+
+[Instagram Page](https://www.instagram.com/smartbreak.ua/)
+
