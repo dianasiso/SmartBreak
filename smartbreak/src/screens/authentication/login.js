@@ -1,18 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import {
-  TextInput,
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  Image,
-  Dimensions,
-  TouchableOpacity,
-  Alert,
-  KeyboardAvoidingView,
-  Pressable,
-} from "react-native";
+import {TextInput, StyleSheet, Text, View, ScrollView, Image, Dimensions, Alert, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 

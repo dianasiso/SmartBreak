@@ -1,71 +1,82 @@
+
+import {  Dimensions } from "react-native";
+
 // ---- MAIN COLORS PALETE ----
-const mainBlue = "#07407B";
-const lightBlue = "#7591AE";
-const thirdBlue = "#B5C6D7";
-const mainOrange = "#F57738";
-const lightOrange = "#EBAC8D";
-const thirdOrange = "#FCD6C3";
-const lightBackgroundColor = "#FEFEFE";
-const darkerColor = "#333333";
-const greyColor = "#555555";
+export const mainBlue = "#07407B";
+export const lightBlue = "#7591AE";
+export const thirdBlue = "#B5C6D7";
+export const mainOrange = "#F57738";
+export const lightOrange = "#EBAC8D";
+export const thirdOrange = "#FCD6C3";
+export const lightBackgroundColor = "#FEFEFE";
+export const darkerColor = "#333333";
+export const greyColor = "#555555";
 
 // ---- GOALS COLORS ----
-const lowPriorityColor = "#07407B";
-const mediumPriorityColor = "#F57738";
-const highPriorityColor = "#F55038";
+export const lowPriorityColor = "#07407B";
+export const mediumPriorityColor = "#F57738";
+export const highPriorityColor = "#F55038";
 
 // ---- FONT SIZES ----
-const dashboardChargeSize = 40; //gotham medium 40
-const dashboardGoalsSize = 32; //gotham medium 32
-const pageTitleSize = 24; //gotham medium 24
-const pageSubtitleSize = 18; //gotham medium 18
-const pageTextSize = 16; //gotham book 16
-const pageSmallTextSize = 14; //gotham book 14
+export const dashboardChargeSize = 40; //gotham medium 40
+export const welcomeLogoText = 40; //gotham medium 40
+export const dashboardGoalsSize = 32; //gotham medium 32
+export const pageTitleSize = 24; //gotham medium 24
+export const pageSubtitleSize = 18; //gotham medium 18
+export const pageTextSize = 16; //gotham book 16
+export const pageSmallTextSize = 14; //gotham book 14
 
 // ---- TABBAR ELEMENTS ----
-const navbarTextSize = 12; //gotham book 12
-const selectedColor = "#07407B"; //icon selected
-const unselectedColor = "#333333"; //icon unselected
+export const navbarTextSize = 12; //gotham book 12
+export const selectedColor = "#07407B"; //icon selected
+export const unselectedColor = "#333333"; //icon unselected
 
 // ---- ICONS ELEMENTS ----
-const iconWidth = 20;
-const iconColor = "#333333";
-const metricsIconContainerIndividualColor = "#B5C6D7";
-const metricsIconContainerTeamColor = "#FCD6C3";
-const rewardIconContainerColor = "#FCD6C3";
+export const iconWidth = 20;
+export const iconColor = "#333333";
+export const metricsIconContainerIndividualColor = "#B5C6D7";
+export const metricsIconContainerTeamColor = "#FCD6C3";
+export const rewardIconContainerColor = "#FCD6C3";
 
 // ---- TOGGLES -----
 // -- Dashboard --
-const selectedToggleBackground = "#FFFFFF";
-const selectedToggleTextColorIndividual = "#07407B";
-const selectedToggleTextColorDepartamental = "#F57738";
-const unselectedToggleBackgroundColorIndividual = "#B5C6D7";
-const unselectedToggleBackgroundColorDepartamental = "#FCD6C3";
-const unselectedToggleTextColor = "#333333";
+export const selectedToggleBackground = "#FFFFFF";
+export const selectedToggleTextColorIndividual = "#07407B";
+export const selectedToggleTextColorDepartamental = "#F57738";
+export const unselectedToggleBackgroundColorIndividual = "#B5C6D7";
+export const unselectedToggleBackgroundColorDepartamental = "#FCD6C3";
+export const unselectedToggleTextColor = "#333333";
 
 // -- Switch --
-const switchOnColor = "#07407B";
-const switchOffColor = "#8E8E8E";
-const switchIndicatorColor = "#FFFFFF";
+export const switchOnColor = "#07407B";
+export const switchOffColor = "#8E8E8E";
+export const switchIndicatorColor = "#FFFFFF";
 
 // ---- BUTTONS ELEMENTS ----
-const primaryButtonBackground = "#07407B";
-const primaryButtonBorderColor = "#07407B";
-const primaryButtonTextColor = "#FFF";
-const secondaryButtonBackground = "transparent";
-const secondaryButtonBorderColor = "#F57738";
-const secondaryButtonTextColor = "#F57738";
-const normalButtonSize = 16;
-const smallButtonSize = 14;
+export const primaryButtonBackground = "#07407B";
+export const primaryButtonBorderColor = "#07407B";
+export const primaryButtonTextColor = "#FFFFFF";
+export const secondaryButtonBackground = "transparent";
+export const secondaryButtonBorderColor = "#F57738";
+export const secondaryButtonTextColor = "#F57738";
+export const normalButtonSize = 16;
+export const smallButtonSize = 14;
+export const heightButton = 48;
 
 // ---- BACKGROUND PADDING -----
-const backgroundPaddingTop = 65;
-const backgroundPaddingLateral = 25;
+export const backgroundPaddingTop = 65;
+export const backgroundPaddingLateral = 25;
+export const cardPadding = 25;
 
 // ---- TEXT PADDING ----
-const textPadding = 15;
-const iconPadding = 15;
+export const textPadding = 15;
+export const iconPadding = 15;
 
 // ---- BORDER RADIUS ----
-const normalButtonRadius = 15;
-const smallButtonRadius = 8;
+export const normalButtonRadius = 15;
+export const smallButtonRadius = 8;
+export const largeCardRadius = 25;
+
+// ---- DIMENSIONS ----
+export const screenWidth = Dimensions.get("window").width;
+export const screenHeight = Dimensions.get("window").height;
