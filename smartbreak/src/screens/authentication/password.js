@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import {KeyboardAvoidingView, Alert, TextInput, StyleSheet, Text, View, ScrollView, Image, Dimensions, TouchableHighlight, TouchableOpacity, Pressable  } from 'react-native';
+import {KeyboardAvoidingView, Alert, TextInput, Text, View, ScrollView, Pressable  } from 'react-native';
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 // Font Gotham
 import { useFonts } from 'expo-font';
@@ -16,6 +17,12 @@ import { useNavigation } from "@react-navigation/native";
 
 // Password meter
 import PassMeter from "react-native-passmeter";
+
+// CSS
+import { styles } from "./../../styles/css.js";
+
+// Variables
+import * as CONST from "./../../styles/variables.js";
 
 export default function Password() {
 
@@ -93,112 +100,65 @@ export default function Password() {
     }
 
     return (
-      <View style={styles.container}>
-          <StatusBar style="light" />
-            <Text style={styles.textMessageTitle}><Text style={{fontFamily: 'GothamMedium'}}>Esqueceu-se da palavra-passe?</Text></Text> 
-            <Text style={styles.textMessageBody}>Introduza uma nova palavra passe e de seguida volte a confirmá-la.</Text>
-
-        <KeyboardAvoidingView 
-              behavior={Platform.OS === "ios" ? "padding" : "height"}>
-          <View>   
-          <ScrollView style={{marginTop: 80}}>            
-            <Text style={styles.textMessageBody}>Email</Text> 
-            <TextInput style={styles.inputField} onChangeText={(text) => setEmail(text)}/>      
-            <Text style={styles.textMessageBody}>Nova palavra-passe</Text>
-            <TextInput  secureTextEntry={true} style={styles.inputFieldPass} onChangeText={(text) => setPassword(text)}/>
-            <View style={{overflow: 'hidden', width: '100%', borderRadius: 8, marginLeft: 'auto', marginRight: 'auto', marginBottom: 30}}>
-                    <PassMeter
-                      showLabels={false}
-                      password={password}
-                      maxLength={15}
-                      minLength={8}
-                      labels={[]}
-                    /> 
-            </View>
-            <Text style={styles.textMessageBody}>Confirmar nova palavra-passe</Text> 
-            <TextInput  secureTextEntry={true} style={styles.inputField} onChangeText={(text) => setConfirmPassword(text)}/>    
-            <Pressable onPress={() => submit()} style={styles.button}><Text style={styles.buttonText}>Redefinir palavra-passe</Text></Pressable>
-          </ScrollView>
+      <SafeAreaProvider style={styles.container}>
+        <StatusBar style="light" />
+          <Text 
+            accessible={true}
+            accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Esqueceu-se da palavra-passe?"
+            style={styles.titleTextWhite}>Esqueceu-se da palavra-passe?</Text> 
+          <Text 
+            accessible={true}
+            accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Introduza uma nova palavra passe e de seguida volte a confirmá-la."
+            style={styles.normalTextWhite}>Introduza uma nova palavra passe e de seguida volte a confirmá-la.</Text>
+  
+        <ScrollView style={{marginTop: CONST.backgroundPaddingTop}}>            
+          <Text
+            accessible={true}
+            accessibilityLabel="Texto na cor branca num fundo azul escuro escrito E-mail." 
+            style={styles.inputLabelWhite}>E-mail</Text> 
+          <TextInput 
+            accessible={true}
+            accessibilityLabel="Campo para introdução do E-mail." 
+            style={styles.inputFieldWhite} 
+            onChangeText={(text) => setEmail(text)}/>  
+          <Text 
+            accessible={true}
+            accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Nova palavra-passe." 
+            style={styles.inputLabelWhite}>Nova palavra-passe</Text>
+          <TextInput  
+            secureTextEntry={true} 
+            style={styles.inputFieldWhite} 
+            accessible={true}
+            accessibilityLabel="Campo para introdução da Nova palavra-passe." 
+            onChangeText={(text) => setPassword(text)}/>
+          <View style={styles.passwordProgressBar}>
+            <PassMeter
+              showLabels={false}
+              password={password}
+              maxLength={15}
+              minLength={8}
+              labels={[]}
+            /> 
           </View>
-        </KeyboardAvoidingView>
-      </View>   
+          <Text 
+            accessible={true}
+            accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Confirmar nova palavra-passe." 
+            style={styles.inputLabelWhite}>Confirmar nova palavra-passe</Text> 
+          <TextInput  
+            accessible={true}
+            accessibilityLabel="Campo para introdução da Confirmação da nova palavra-passe." 
+            secureTextEntry={true} 
+            style={styles.inputFieldWhite} 
+            onChangeText={(text) => setConfirmPassword(text)}/>   
+        </ScrollView>
+        <Pressable
+          accessible={true}
+          accessibilityLabel="Botão da cor branca num fundo azul escuro com o objetivo de efetuar a redefinição da palavra-passe. Tem escrito na cor azul escuro Redefinir palavra-passe."
+          
+          onPress={() => submit()} style={[styles.buttonWhite, {marginBottom: CONST.backgroundPaddingLateral}]}>
+          <Text style={styles.buttonWhiteText}>Redefinir palavra-passe</Text>
+        </Pressable>
+      </SafeAreaProvider>   
   );
 }
 
-// Get screen dimensions
-const screenWidth = Dimensions.get('window').width;
-const screenHeight = Dimensions.get('window').height - 50;
-
-const styles = StyleSheet.create({
-container: {
-  flex: 1,
-  paddingTop: 65,
-  backgroundColor: '#0051BA',
-  flexDirection: "column",
-  paddingLeft: 25,
-  paddingRight: 25,
-},
-subContainer: {
-  backgroundColor: '#FFF',
-  borderBottomLeftRadius: 0,
-  borderBottomRightRadius: 0,
-  borderTopRightRadius: 50,
-  borderTopLeftRadius: 50,
-  paddingLeft: 25,
-  paddingRight: 25,
-  paddingTop: 65,
-  height: screenHeight/2,
-},
-inputField: {
-  borderBottomColor: '#FFF',
-  borderBottomWidth: 1,
-  marginBottom: 40,
-  borderTopWidth: 0,
-  borderLeftWidth: 0,
-  borderRightWidth: 0,
-  borderRadius: 0,
-  color: '#FFF'
-},
-inputFieldPass: {
-  borderBottomColor: '#FFF',
-  borderBottomWidth: 1,
-  marginBottom: 10,
-  borderTopWidth: 0,
-  borderLeftWidth: 0,
-  borderRightWidth: 0,
-  borderRadius: 0,
-  color: '#FFF'
-},
-buttonText: {
-  fontFamily: 'GothamBook',
-  color: '#0051BA',
-  fontSize: 18,
-  textAlign: 'center',
-},
-button: {
-  backgroundColor: '#FFF',
-  justifyContent: 'center',
-  height: 48,
-  borderRadius: 8,
-  marginBottom: 40,
-  marginTop: 10,
-},
-textMessageTitle: {
-  fontSize: 24,
-  textAlign: 'left',
-  paddingTop: 40,
-  fontFamily: 'GothamBook',
-  color: '#FFFFFF',
-},
-textMessageBody: {
-  fontSize: 16,
-  textAlign: 'left',
-  paddingTop: 15,
-  fontFamily: 'GothamBook',
-  color: '#FFFFFF',
-},
-imageLogo: {
-  alignItems: 'center',
-  paddingTop: 65,
-}, 
-});

@@ -6,7 +6,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useNavigation } from "@react-navigation/native";
 
-//páginas
+
+// Variables
+import * as CONST from "./../styles/variables.js";
 
 //dashboard
 import Dashboard from "../screens/dashboard/dashboard";
@@ -99,7 +101,7 @@ const AuthStackNavigation = ({ navigation }) => {
           headerTitle: "",
           headerShadowVisible: false,
           headerStyle: {
-            backgroundColor: "#0051BA",
+            backgroundColor: CONST.mainBlue,
             shadowColor: "transparent",
           },
           headerLeft: () => (
@@ -118,6 +120,7 @@ const AuthStackNavigation = ({ navigation }) => {
           ),
         }}
       />
+      
       <AuthStack.Screen
         name="Register"
         component={Register}
@@ -153,8 +156,31 @@ const AuthStackNavigation = ({ navigation }) => {
       <AuthStack.Screen
         name="Password"
         component={Password}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: true,
+          headerTitle: "",
+          headerShadowVisible: false,
+          headerStyle: {
+            backgroundColor: CONST.mainBlue,
+            shadowColor: "transparent",
+          },
+          headerLeft: () => (
+            <View
+              style={{
+                paddingLeft: 20,
+                paddingTop: 20,
+              }}
+            >
+              <ArrowLeft2
+                size="24"
+                color="#FFFFFF"
+                onPress={() => navigation.navigate("Login")}
+              />
+            </View>
+          ),
+        }}
       />
+
     </AuthStack.Navigator>
   );
 };
@@ -651,7 +677,7 @@ const styles = StyleSheet.create({
   Indicator: {
     width: 50,
     height: 5,
-    backgroundColor: "#0051ba",
+    backgroundColor: CONST.mainBlue,
     borderRadius: 5,
     //position: "absolute",
     top: -15,

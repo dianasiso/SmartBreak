@@ -11,6 +11,7 @@ export const thirdOrange = "#FCD6C3";
 export const lightBackgroundColor = "#FEFEFE";
 export const darkerColor = "#333333";
 export const greyColor = "#555555";
+export const whiteText = "#FFFFFF";
 
 // ---- GOALS COLORS ----
 export const lowPriorityColor = "#07407B";
@@ -64,13 +65,17 @@ export const smallButtonSize = 14;
 export const heightButton = 48;
 
 // ---- BACKGROUND PADDING -----
-export const backgroundPaddingTop = 65;
+export const backgroundPaddingTop = 40;
 export const backgroundPaddingLateral = 25;
 export const cardPadding = 25;
 
 // ---- TEXT PADDING ----
 export const textPadding = 15;
 export const iconPadding = 15;
+export const inputPadding = 5;
+
+// ---- MARGINS ----
+export const inputMargin = 40;
 
 // ---- BORDER RADIUS ----
 export const normalButtonRadius = 15;

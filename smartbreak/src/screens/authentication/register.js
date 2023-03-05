@@ -36,6 +36,11 @@ import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import { logUser } from "../../redux/user.js";
 
+
+// CSS
+import { styles } from "./../../styles/css.js";
+
+
 export default function Register() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -288,85 +293,82 @@ export default function Register() {
   );
 }
 
-// Get screen dimensions
-const screenWidth = Dimensions.get("window").width;
-const screenHeight = Dimensions.get("window").height - 50;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#0051BA",
-    flexDirection: "column",
-  },
-  groupContainer: {
-    paddingLeft: 25,
-    paddingRight: 25,
-  },
-  subContainer: {
-    flexDirection: "column",
-    backgroundColor: "#FFF",
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0,
-    borderTopRightRadius: 50,
-    borderTopLeftRadius: 50,
-    paddingLeft: 25,
-    paddingRight: 25,
-    paddingTop: 40,
-    height: (4 * screenHeight) / 5,
-  },
-  registerPhoto: {
-    height: screenWidth / 5,
-    width: screenWidth / 5,
-    marginLeft: "auto",
-    marginRight: "auto",
-    borderRadius: screenWidth / 10,
-    flex: 1 / 2,
-  },
-  inputField: {
-    borderBottomColor: "#000000",
-    borderBottomWidth: 1,
-    marginBottom: 40,
-    borderTopWidth: 0,
-    borderLeftWidth: 0,
-    borderRightWidth: 0,
-    borderRadius: 0,
-  },
-  inputFieldPass: {
-    borderBottomColor: "#000000",
-    borderBottomWidth: 1,
-    marginBottom: 10,
-    borderTopWidth: 0,
-    borderLeftWidth: 0,
-    borderRightWidth: 0,
-    borderRadius: 0,
-  },
-  buttonText: {
-    fontFamily: "GothamBook",
-    color: "#FFF",
-    fontSize: 18,
-    textAlign: "center",
-  },
-  button: {
-    backgroundColor: "#0051BA",
-    justifyContent: "center",
-    height: 48,
-    borderRadius: 15,
-    marginBottom: 40,
-    marginTop: 20,
-  },
-  textMessageTitle: {
-    fontSize: 24,
-    textAlign: "left",
-    paddingTop: 40,
-    fontFamily: "GothamBook",
-    color: "#FFFFFF",
-  },
-  textMessageBody: {
-    fontSize: 16,
-    lineHeight: 24,
-    textAlign: "left",
-    paddingTop: 15,
-    fontFamily: "GothamBook",
-    color: "#FFFFFF",
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: "#0051BA",
+//     flexDirection: "column",
+//   },
+//   groupContainer: {
+//     paddingLeft: 25,
+//     paddingRight: 25,
+//   },
+//   subContainer: {
+//     flexDirection: "column",
+//     backgroundColor: "#FFF",
+//     borderBottomLeftRadius: 0,
+//     borderBottomRightRadius: 0,
+//     borderTopRightRadius: 50,
+//     borderTopLeftRadius: 50,
+//     paddingLeft: 25,
+//     paddingRight: 25,
+//     paddingTop: 40,
+//     height: (4 * screenHeight) / 5,
+//   },
+//   registerPhoto: {
+//     height: screenWidth / 5,
+//     width: screenWidth / 5,
+//     marginLeft: "auto",
+//     marginRight: "auto",
+//     borderRadius: screenWidth / 10,
+//     flex: 1 / 2,
+//   },
+//   inputField: {
+//     borderBottomColor: "#000000",
+//     borderBottomWidth: 1,
+//     marginBottom: 40,
+//     borderTopWidth: 0,
+//     borderLeftWidth: 0,
+//     borderRightWidth: 0,
+//     borderRadius: 0,
+//   },
+//   inputFieldPass: {
+//     borderBottomColor: "#000000",
+//     borderBottomWidth: 1,
+//     marginBottom: 10,
+//     borderTopWidth: 0,
+//     borderLeftWidth: 0,
+//     borderRightWidth: 0,
+//     borderRadius: 0,
+//   },
+//   buttonText: {
+//     fontFamily: "GothamBook",
+//     color: "#FFF",
+//     fontSize: 18,
+//     textAlign: "center",
+//   },
+//   button: {
+//     backgroundColor: "#0051BA",
+//     justifyContent: "center",
+//     height: 48,
+//     borderRadius: 15,
+//     marginBottom: 40,
+//     marginTop: 20,
+//   },
+//   textMessageTitle: {
+//     fontSize: 24,
+//     textAlign: "left",
+//     paddingTop: 40,
+//     fontFamily: "GothamBook",
+//     color: "#FFFFFF",
+//   },
+//   textMessageBody: {
+//     fontSize: 16,
+//     lineHeight: 24,
+//     textAlign: "left",
+//     paddingTop: 15,
+//     fontFamily: "GothamBook",
+//     color: "#FFFFFF",
+//   },
+// });
