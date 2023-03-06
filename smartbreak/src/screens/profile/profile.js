@@ -29,6 +29,9 @@ import firebase from "./../../config/firebase.js";
 // Font Gotham
 import { useFonts } from "expo-font";
 
+// CSS
+import { styles } from "./../../styles/css.js";
+
 export default function ProfilePage({ navigation, route }) {
   const userData = useSelector((state) => state.user.userID);
   useEffect(() => {
@@ -56,7 +59,6 @@ export default function ProfilePage({ navigation, route }) {
   const [name, setName] = useState();
   const [organization, setOrganization] = useState();
   const uid = userData;
-  
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -66,66 +68,68 @@ export default function ProfilePage({ navigation, route }) {
   }, []);
 
   return (
-    <SafeAreaProvider style={styles.container}>
+    <SafeAreaProvider style={styles.mainContainerLight}>
       <StatusBar style="auto" />
       <ScrollView
         showsVerticalScrollIndicator={false}
-        style={{ height: "100%", overflow: "scroll" }}
+        style={styles.containerLight}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        <View style={{ alignItems: "center" }}>
-          <Text style={styles.name}>{name}</Text>
-          <Text style={styles.organization}>{organization}</Text>
+        <View style={styles.profileInfo}>
+          <Image style={styles.profileImage} source={require("../../imgs/img_register_photo_default.png")} />
+          <Text style={styles.profileName}>{name}</Text>
+          <Text style={styles.profileOrganization}>{organization}</Text>
         </View>
 
         <Pressable
-          style={styles.options}
+          style={styles.profileOptions}
           onPress={() => navigation.navigate("EditProfile")}
         >
-          <Edit2 color="#000000" />
-          <Text style={styles.text}> Editar perfil</Text>
+          <Edit2 variant="Bold" style={styles.profileIcon} />
+          <Text style={styles.profileOptionsText}> Editar perfil</Text>
         </Pressable>
-
+        <View style={styles.divider} />
         <Pressable
-          style={styles.options}
+          style={styles.profileOptions}
           onPress={() => navigation.navigate("MyDevices")}
         >
-          <Category color="#000000" />
-          <Text style={styles.text}> Os meus equipamentos</Text>
+          <Category variant="Bold" style={styles.profileIcon} />
+          <Text style={styles.profileOptionsText}> Os meus equipamentos</Text>
         </Pressable>
+        <View style={styles.divider} />
 
         <Pressable
-          style={styles.options}
+          style={styles.profileOptions}
           onPress={() => navigation.navigate("MyRoutines")}
         >
-          <Calendar color="#000000" />
-          <Text style={styles.text}> As minhas rotinas</Text>
+          <Calendar variant="Bold" style={styles.profileIcon} />
+          <Text style={styles.profileOptionsText}> As minhas rotinas</Text>
         </Pressable>
-
+        <View style={styles.divider} />
         <Pressable
-          style={styles.options}
+          style={styles.profileOptions}
           onPress={() => navigation.navigate("historicoPausas")}
         >
-          <Clock color="#000000" />
-          <Text style={styles.text}> Histórico de pausas</Text>
+          <Clock variant="Bold" style={styles.profileIcon} />
+          <Text style={styles.profileOptionsText}> Histórico de pausas</Text>
         </Pressable>
-
+        <View style={styles.divider} />
         <Pressable
-          style={styles.options}
+          style={styles.profileOptions}
           onPress={() => navigation.navigate("ProfileRewards")}
         >
-          <MedalStar color="#000000" />
-          <Text style={styles.text}> As minhas recompensas</Text>
+          <MedalStar variant="Bold" style={styles.profileIcon} />
+          <Text style={styles.profileOptionsText}> As minhas recompensas</Text>
         </Pressable>
-
+        <View style={styles.divider} />
         <Pressable
-          style={styles.options}
+          style={styles.profileOptions}
           onPress={() => navigation.navigate("ProfileSettings")}
         >
-          <Setting2 color="#000000" />
-          <Text style={styles.text}> Definições</Text>
+          <Setting2 variant="Bold" style={styles.profileIcon} />
+          <Text style={styles.profileOptionsText}> Definições</Text>
         </Pressable>
       </ScrollView>
     </SafeAreaProvider>
@@ -134,6 +138,7 @@ export default function ProfilePage({ navigation, route }) {
 
 const screenWidth = Dimensions.get("window").width;
 
+/*
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -189,3 +194,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+*/

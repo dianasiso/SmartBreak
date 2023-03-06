@@ -1,5 +1,4 @@
-
-import {  Dimensions } from "react-native";
+import { Dimensions } from "react-native";
 
 // ---- MAIN COLORS PALETE ----
 export const mainBlue = "#07407B";
@@ -22,10 +21,11 @@ export const highPriorityColor = "#F55038";
 export const dashboardChargeSize = 40; //gotham medium 40
 export const welcomeLogoText = 40; //gotham medium 40
 export const dashboardGoalsSize = 32; //gotham medium 32
-export const pageTitleSize = 24; //gotham medium 24
+export const pageTitleSize = 24; //gotham medium 24 tambem usada no nome do perfil
 export const pageSubtitleSize = 18; //gotham medium 18
 export const pageTextSize = 16; //gotham book 16
 export const pageSmallTextSize = 14; //gotham book 14
+export const profileRoleTextSize = 16; //gotham book 20
 
 // ---- TABBAR ELEMENTS ----
 export const navbarTextSize = 12; //gotham book 12
