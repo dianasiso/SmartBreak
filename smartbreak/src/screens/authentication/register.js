@@ -1,27 +1,20 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import {
-  KeyboardAvoidingView,
   TextInput,
-  StyleSheet,
   Text,
   View,
   ScrollView,
-  Image,
-  Dimensions,
-  TouchableOpacity,
   Alert,
-  Animated,
+  Image,
   Pressable,
 } from "react-native";
-import DropDownPicker from 'react-native-dropdown-picker';
+import DropDownPicker from "react-native-dropdown-picker";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import { LogBox } from "react-native";
-LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
-LogBox.ignoreAllLogs(); //Ignore all log notifications
-
-// ImagePicker
-import * as ImagePicker from "expo-image-picker";
+// import { LogBox } from "react-native";
+// LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
+// LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 // Password meter
 import PassMeter from "react-native-passmeter";
@@ -39,16 +32,16 @@ import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import { logUser } from "../../redux/user.js";
 
+// Variables
+import * as CONST from "./../../styles/variables.js";
+
+// CSS
+import { styles } from "./../../styles/css.js";
+
+
 export default function Register() {
-  
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  
-  // Loading Gotham font
-  const [loaded] = useFonts({
-    GothamMedium: require("./../../fonts/GothamMedium.ttf"),
-    GothamBook: require("./../../fonts/GothamBook.ttf"),
-  });
 
   // select items
   const [open, setOpen] = useState(false);
@@ -65,13 +58,19 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [notifications, setNotifications] = useState([true, false, false, false])
+  const [notifications, setNotifications] = useState([
+    true,
+    false,
+    false,
+    false,
+  ]);
 
   // Firebase store data
   const firestoreUserData = firebase.firestore().collection("users_data");
   const firestoreUserDevices = firebase.firestore().collection("users_devices");
-  const firestoreUserRoutines = firebase.firestore().collection("users_routines");
-
+  const firestoreUserRoutines = firebase
+    .firestore()
+    .collection("users_routines");
 
   // Firebase authentication
   const auth = getAuth();
@@ -91,14 +90,15 @@ export default function Register() {
           pause: false,
           battery: 0,
           teams: [],
+          admin: false,
         });
         firestoreUserRoutines.doc(userCredential.user.uid).set({
-          routines : []
-        })
+          routines: [],
+        });
         firestoreUserDevices.doc(userCredential.user.uid).set({
-          devices : []
-        })
-        
+          devices: [],
+        });
+
         dispatch(logUser(userCredential.user.uid));
         Alert.alert("Sucesso", "Utilizador registado com sucesso.");
         // navigate.navigate("Painel", {idUser: userCredential.user.uid})
@@ -108,18 +108,6 @@ export default function Register() {
         setLoading(false);
       });
   };
-
-  // photo
-  const [photo, setPhoto] = useState(null);
-  const [galleryPermission, setGalleryPermission] = useState(null);
-
-  useEffect(() => {
-    (async () => {
-      const permission =
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
-      setGalleryPermission(permission.status === "granted");
-    })();
-  }, []);
 
   const loadingScreen = () => {
     return (
@@ -137,22 +125,6 @@ export default function Register() {
     );
   };
 
-  const loadPhoto = async () => {
-    let result = ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-    });
-    Alert.alert((await result).assets);
-    if (!result.cancelled) {
-      setPhoto(result.uri);
-    }
-  };
-
-  if (galleryPermission === false) {
-    Alert.alert("Sem permissões da galeria");
-  }
 
   const validate_email = (text) => {
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -212,199 +184,199 @@ export default function Register() {
       return false;
     }
     registerFirebase();
-    navigation.navigate("TabRoutes");
+    navigation.navigate("Login");
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaProvider style={styles.mainContainer}>
       <StatusBar style="light" />
-      <ScrollView style={styles.groupContainer}>
-        <Text style={styles.textMessageTitle}>
-          <Text style={{ fontFamily: "GothamMedium" }}>Regista-te</Text>
-        </Text>
-        <Text style={styles.textMessageBody}>
-          Estamos contentes por teres tomado esta iniciativa. Vem fazer energy
-          breaks.
-        </Text>
+      <ScrollView style={styles.container}>
+      <Text 
+        accessible={true}
+        accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Regista-te."
+        style={styles.titleTextWhite}>Regista-te</Text> 
+      <Text 
+        accessible={true}
+        accessibilityLabel="Texto na cor branca num fundo azul escuro escrito  Estamos contentes por teres tomado esta iniciativa. Vem fazer energy breaks."
+        style={styles.normalTextWhite}>Estamos contentes por teres tomado esta iniciativa. Vem fazer energy breaks.</Text>
       </ScrollView>
 
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.subContainer}
-      >
-        {loading == true ? (
-          loadingScreen()
+      {loading == true ? (
+        loadingScreen()
         ) : (
-          <View>
-            <ScrollView showsVerticalScrollIndicator={false}>
-              <TouchableOpacity
-                onPress={() => loadPhoto()}
-                style={{ paddingBottom: 30 }}
-              >
-                <Image
-                  style={styles.registerPhoto}
-                  source={
-                    photo !== null
-                      ? photo
-                      : require("./../../imgs/img_register_photo_default.png")
-                  }
-                />
-              </TouchableOpacity>
-              <Text>Nome</Text>
-              <TextInput
-                style={styles.inputField}
-                onChangeText={(text) => setName(text)}
-              />
-              <Text>Apelido</Text>
-              <TextInput
-                style={styles.inputField}
-                onChangeText={(text) => setLastName(text)}
-              />
-              <Text>Email</Text>
-              <TextInput
-                style={styles.inputField}
-                onChangeText={(text) => setEmail(text)}
-              />
-              <Text>Empresa</Text>
-              <DropDownPicker 
+        <View style={styles.subContainer}>
+          <ScrollView 
+            showsVerticalScrollIndicator={false}
+            style={{paddingBottom: CONST.cardPadding}}>
+            <Text
+              accessible={true}
+              accessibilityLabel="Texto na cor preta num fundo branco escrito Nome." 
+              style={styles.inputLabel}>Nome</Text>
+            <TextInput
+              accessible={true}
+              accessibilityLabel="Campo para introdução do Nome." 
+              style={styles.inputField}
+              onChangeText={(text) => setName(text)}/>
+          
+            <Text
+              accessible={true}
+              accessibilityLabel="Texto na cor preta num fundo branco escrito Sobrenome." 
+              style={styles.inputLabel}>Sobrenome</Text>
+            <TextInput
+              accessible={true}
+              accessibilityLabel="Campo para introdução do Sobrenome." 
+              style={styles.inputField}
+              onChangeText={(text) => setLastName(text)}/>
+
+            <Text
+              accessible={true}
+              accessibilityLabel="Texto na cor preta num fundo branco escrito E-mail." 
+              style={styles.inputLabel}>E-mail</Text>
+            <TextInput
+              accessible={true}
+              accessibilityLabel="Campo para introdução do E-mail." 
+              style={styles.inputField}
+              onChangeText={(text) => setEmail(text.toLowerCase())}/>
+
+            <Text
+              accessible={true}
+              accessibilityLabel="Texto na cor preta num fundo branco escrito Empresa." 
+              style={styles.inputLabel}>Empresa</Text>
+
+            {/* TODO: ADD ACESSIBILIDADE NO DROPDOWNPICKER */}
+            <DropDownPicker
               autoScroll={true}
-                open={open}
-                value={valueOrg}
-                items={items}
-                setOpen={setOpen}
-                setValue={setValueOrg}
-                setItems={setItems}
-                style={styles.inputField}
-                multiple={false}
-                showTickIcon={false}
-                closeAfterSelecting={true}
-                onChangeText={(text) => setOrganization(text)}
-               
-              />
-              
-              <Text>Palavra-passe</Text>
-              <TextInput
-                secureTextEntry={true}
-                style={styles.inputFieldPass}
-                onChangeText={(text) => setPassword(text)}
-              />
-              <View
-                style={{
-                  overflow: "hidden",
-                  width: "100%",
-                  borderRadius: 8,
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                }}
-              >
-                <PassMeter
-                  showLabels={false}
-                  password={password}
-                  maxLength={15}
-                  minLength={8}
-                  labels={[]}
-                />
-              </View>
-              <Text style={{ marginTop: 40 }}>Confirmar palavra-passe</Text>
-              <TextInput
-                secureTextEntry={true}
-                style={styles.inputField}
-                onChangeText={(text) => setConfirmPassword(text)}
-              />
-              <Pressable
-                activeOpacity={0.8}
-                onPress={() => submit()}
-                style={styles.button}
-              >
-                <Text style={styles.buttonText}>Registar</Text>
-              </Pressable>
-            </ScrollView>
-          </View>
-        )}
-      </KeyboardAvoidingView>
-    </View>
+              open={open}
+              value={valueOrg}
+              items={items}
+              setOpen={setOpen}
+              setValue={setValueOrg}
+              setItems={setItems}
+              style={styles.inputField}
+              placeholder="" 
+              multiple={false}
+              showTickIcon={false}
+              closeAfterSelecting={true}
+              onChangeText={(text) => setOrganization(text)}/>
+
+            <Text accessible={true}
+              accessibilityLabel="Texto na cor preta num fundo branco escrito Palavra-passe." 
+              style={styles.inputLabel}>Palavra-passe</Text>
+            <TextInput
+              secureTextEntry={true}
+              style={styles.inputField}
+              accessible={true}
+              accessibilityLabel="Campo para introdução da Palavra-passe." 
+              onChangeText={(text) => setPassword(text)}/>
+            <View style={styles.passwordProgressBar}>
+              <PassMeter
+                showLabels={false}
+                password={password}
+                maxLength={15}
+                minLength={8}
+                labels={[]}/> 
+            </View>
+            <Text 
+              accessible={true}
+              accessibilityLabel="Texto na cor preta num fundo branco escrito Confirmar nova palavra-passe." 
+              style={styles.inputLabel}>Confirmar nova palavra-passe</Text> 
+            <TextInput  
+              accessible={true}
+              accessibilityLabel="Campo para introdução da Confirmação da nova palavra-passe." 
+              secureTextEntry={true} 
+              style={styles.inputField} 
+              onChangeText={(text) => setConfirmPassword(text)}/>   
+          </ScrollView>
+
+          <Pressable 
+            accessible={true}
+            accessibilityLabel="Botão da cor azul escura num fundo branco com o objetivo de efetuar o Login. Tem escrito na cor branca a palavra Entrar."
+            onPress={() => submit()} style={styles.primaryButton}>
+            <Text style={styles.primaryButtonText}>Registar</Text>
+          </Pressable>
+
+        </View>
+      )}
+    </SafeAreaProvider>
   );
 }
 
-// Get screen dimensions
-const screenWidth = Dimensions.get("window").width;
-const screenHeight = Dimensions.get("window").height - 50;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#0051BA",
-    flexDirection: "column",
-  },
-  groupContainer: {
-    paddingLeft: 25,
-    paddingRight: 25,
-  },
-  subContainer: {
-    flexDirection: "column",
-    backgroundColor: "#FFF",
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0,
-    borderTopRightRadius: 50,
-    borderTopLeftRadius: 50,
-    paddingLeft: 25,
-    paddingRight: 25,
-    paddingTop: 40,
-    height: (4 * screenHeight) / 5,
-  },
-  registerPhoto: {
-    height: screenWidth / 5,
-    width: screenWidth / 5,
-    marginLeft: "auto",
-    marginRight: "auto",
-    borderRadius: screenWidth / 10,
-    flex: 1 / 2,
-  },
-  inputField: {
-    borderBottomColor: "#000000",
-    borderBottomWidth: 1,
-    marginBottom: 40,
-    borderTopWidth: 0,
-    borderLeftWidth: 0,
-    borderRightWidth: 0,
-    borderRadius: 0,
-  },
-  inputFieldPass: {
-    borderBottomColor: "#000000",
-    borderBottomWidth: 1,
-    marginBottom: 10,
-    borderTopWidth: 0,
-    borderLeftWidth: 0,
-    borderRightWidth: 0,
-    borderRadius: 0,
-  },
-  buttonText: {
-    fontFamily: "GothamBook",
-    color: "#FFF",
-    fontSize: 18,
-    textAlign: "center",
-  },
-  button: {
-    backgroundColor: "#0051BA",
-    justifyContent: "center",
-    height: 48,
-    borderRadius: 15,
-    marginBottom: 40,
-    marginTop: 20,
-  },
-  textMessageTitle: {
-    fontSize: 24,
-    textAlign: "left",
-    paddingTop: 40,
-    fontFamily: "GothamBook",
-    color: "#FFFFFF",
-  },
-  textMessageBody: {
-    fontSize: 16,
-    lineHeight: 24,
-    textAlign: "left",
-    paddingTop: 15,
-    fontFamily: "GothamBook",
-    color: "#FFFFFF",
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: "#0051BA",
+//     flexDirection: "column",
+//   },
+//   groupContainer: {
+//     paddingLeft: 25,
+//     paddingRight: 25,
+//   },
+//   subContainer: {
+//     flexDirection: "column",
+//     backgroundColor: "#FFF",
+//     borderBottomLeftRadius: 0,
+//     borderBottomRightRadius: 0,
+//     borderTopRightRadius: 50,
+//     borderTopLeftRadius: 50,
+//     paddingLeft: 25,
+//     paddingRight: 25,
+//     paddingTop: 40,
+//     height: (4 * screenHeight) / 5,
+//   },
+//   registerPhoto: {
+//     height: screenWidth / 5,
+//     width: screenWidth / 5,
+//     marginLeft: "auto",
+//     marginRight: "auto",
+//     borderRadius: screenWidth / 10,
+//     flex: 1 / 2,
+//   },
+//   inputField: {
+//     borderBottomColor: "#000000",
+//     borderBottomWidth: 1,
+//     marginBottom: 40,
+//     borderTopWidth: 0,
+//     borderLeftWidth: 0,
+//     borderRightWidth: 0,
+//     borderRadius: 0,
+//   },
+//   inputFieldPass: {
+//     borderBottomColor: "#000000",
+//     borderBottomWidth: 1,
+//     marginBottom: 10,
+//     borderTopWidth: 0,
+//     borderLeftWidth: 0,
+//     borderRightWidth: 0,
+//     borderRadius: 0,
+//   },
+//   buttonText: {
+//     fontFamily: "GothamBook",
+//     color: "#FFF",
+//     fontSize: 18,
+//     textAlign: "center",
+//   },
+//   button: {
+//     backgroundColor: "#0051BA",
+//     justifyContent: "center",
+//     height: 48,
+//     borderRadius: 15,
+//     marginBottom: 40,
+//     marginTop: 20,
+//   },
+//   textMessageTitle: {
+//     fontSize: 24,
+//     textAlign: "left",
+//     paddingTop: 40,
+//     fontFamily: "GothamBook",
+//     color: "#FFFFFF",
+//   },
+//   textMessageBody: {
+//     fontSize: 16,
+//     lineHeight: 24,
+//     textAlign: "left",
+//     paddingTop: 15,
+//     fontFamily: "GothamBook",
+//     color: "#FFFFFF",
+//   },
+// });

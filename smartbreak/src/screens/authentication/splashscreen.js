@@ -9,6 +9,9 @@ import {
   Dimensions,
 } from "react-native";
 
+//screenOrientation
+import * as ScreenOrientation from "expo-screen-orientation";
+
 // Font Gotham
 import { useFonts } from "expo-font";
 
@@ -32,12 +35,19 @@ export default function SplashScreen({ navigation }) {
       if (!value) {
         setTimeout(() => {
           navigation.navigate("Welcome");
-        }, 3500); // delay for 1.7 seconds before navigating
+        }, 3500); // delay for 3.5 seconds before navigating
       } else {
         handleNavigate(value);
       }
     }, []);
   });
+
+  useEffect(() => {
+    ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
+    return () => {
+      ScreenOrientation.unlockAsync();
+    };
+  }, []);
 
   //console.log(uid);
   // Loading Gotham font
@@ -45,10 +55,10 @@ export default function SplashScreen({ navigation }) {
     GothamMedium: require("./../../fonts/GothamMedium.ttf"),
     GothamBook: require("./../../fonts/GothamBook.ttf"),
   });
- 
+
   return (
     <View style={styles.container}>
-      <StatusBar hidden />
+      <StatusBar />
       <View style={styles.splashImage}>
         <Image
           source={require("./../../imgs/gif_battery_white_v2.gif")}

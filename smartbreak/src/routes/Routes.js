@@ -6,7 +6,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useNavigation } from "@react-navigation/native";
 
-//páginas
+
+// Variables
+import * as CONST from "./../styles/variables.js";
 
 //dashboard
 import Dashboard from "../screens/dashboard/dashboard";
@@ -46,11 +48,12 @@ import Login from "../screens/authentication/login";
 import Register from "../screens/authentication/register";
 import Password from "../screens/authentication/password";
 import Welcome from "../screens/authentication/welcome";
+import Onboarding from "../onboarding/screens";
 
 // error
 import AvailableSoon from "../errors/availableSoon";
 import Maintenance from "../errors/maintenance";
-import Error404 from "../errors/error404"; 
+import Error404 from "../errors/error404";
 
 //fontes
 import { useFonts } from "expo-font";
@@ -96,8 +99,9 @@ const AuthStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerShadowVisible: false,
           headerStyle: {
-            backgroundColor: "#0051BA",
+            backgroundColor: CONST.mainBlue,
             shadowColor: "transparent",
           },
           headerLeft: () => (
@@ -116,14 +120,16 @@ const AuthStackNavigation = ({ navigation }) => {
           ),
         }}
       />
+      
       <AuthStack.Screen
         name="Register"
         component={Register}
         options={{
           headerShown: true,
           headerTitle: "",
+          headerShadowVisible: false,
           headerStyle: {
-            backgroundColor: "#0051BA",
+            backgroundColor: CONST.mainBlue,
             shadowColor: "transparent",
           },
           headerLeft: () => (
@@ -143,10 +149,38 @@ const AuthStackNavigation = ({ navigation }) => {
         }}
       />
       <AuthStack.Screen
-        name="Password"
-        component={Password}
+        name="Onboarding"
+        component={Onboarding}
         options={{ headerShown: false }}
       />
+      <AuthStack.Screen
+        name="Password"
+        component={Password}
+        options={{
+          headerShown: true,
+          headerTitle: "",
+          headerShadowVisible: false,
+          headerStyle: {
+            backgroundColor: CONST.mainBlue,
+            shadowColor: "transparent",
+          },
+          headerLeft: () => (
+            <View
+              style={{
+                paddingLeft: 20,
+                paddingTop: 20,
+              }}
+            >
+              <ArrowLeft2
+                size="24"
+                color="#FFFFFF"
+                onPress={() => navigation.navigate("Login")}
+              />
+            </View>
+          ),
+        }}
+      />
+
     </AuthStack.Navigator>
   );
 };
@@ -170,6 +204,7 @@ const DashboardStackNavigation = ({ navigation, route }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerShadowVisible: false,
           headerLeft: () => (
             <View style={{ paddingLeft: 20, paddingTop: 20 }}>
               <ArrowLeft2
@@ -188,6 +223,7 @@ const DashboardStackNavigation = ({ navigation, route }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerShadowVisible: false,
           headerLeft: () => (
             <View style={{ paddingLeft: 20, paddingTop: 20 }}>
               <ArrowLeft2
@@ -223,6 +259,7 @@ const GoalsStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerShadowVisible: false,
           headerLeft: () => (
             <View style={{ paddingLeft: 20, paddingTop: 20 }}>
               <ArrowLeft2
@@ -256,6 +293,7 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerShadowVisible: false,
           headerLeft: () => (
             <View style={{ paddingLeft: 20, paddingTop: 20 }}>
               <ArrowLeft2
@@ -274,6 +312,7 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerShadowVisible: false,
           headerLeft: () => (
             <View style={{ paddingLeft: 20, paddingTop: 20 }}>
               <ArrowLeft2
@@ -292,6 +331,7 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerShadowVisible: false,
           headerLeft: () => (
             <View style={{ paddingLeft: 20, paddingTop: 20 }}>
               <ArrowLeft2
@@ -310,6 +350,7 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerShadowVisible: false,
           headerLeft: () => (
             <View style={{ paddingLeft: 20, paddingTop: 20 }}>
               <ArrowLeft2
@@ -328,6 +369,7 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerShadowVisible: false,
           headerLeft: () => (
             <View style={{ paddingLeft: 20, paddingTop: 20 }}>
               <ArrowLeft2
@@ -346,6 +388,7 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerShadowVisible: false,
           headerLeft: () => (
             <View style={{ paddingLeft: 20, paddingTop: 20 }}>
               <ArrowLeft2
@@ -363,6 +406,7 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerShadowVisible: false,
           headerLeft: () => (
             <View style={{ paddingLeft: 20, paddingTop: 20 }}>
               <ArrowLeft2
@@ -380,6 +424,7 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerShadowVisible: false,
           headerLeft: () => (
             <View style={{ paddingLeft: 20, paddingTop: 20 }}>
               <ArrowLeft2
@@ -397,6 +442,7 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerShadowVisible: false,
           headerLeft: () => (
             <View style={{ paddingLeft: 20, paddingTop: 20 }}>
               <ArrowLeft2
@@ -414,6 +460,7 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerShadowVisible: false,
           headerLeft: () => (
             <View style={{ paddingLeft: 20, paddingTop: 20 }}>
               <ArrowLeft2
@@ -431,6 +478,7 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerShadowVisible: false,
           headerLeft: () => (
             <View style={{ paddingLeft: 20, paddingTop: 20 }}>
               <ArrowLeft2
@@ -509,7 +557,7 @@ const TabRoutes = (
           height: 90,
           borderTopLeftRadius: 0,
           borderTopRightRadius: 0,
-          borderTopColor: "#0051BA",
+          borderTopColor: CONST.mainBlue,
           borderTopWidth: 0,
           position: "absolute",
           elevation: 0,
@@ -526,7 +574,7 @@ const TabRoutes = (
         component={DashboardStackNavigation}
         options={{
           tabBarLabel: "Painel",
-          tabBarActiveTintColor: "#0051BA",
+          tabBarActiveTintColor: CONST.mainBlue,
           tabBarIcon: ({ focused, color }) => (
             <>
               <View style={{ opacity: focused ? 1 : 0 }}>
@@ -542,7 +590,7 @@ const TabRoutes = (
         component={GoalsStackNavigation}
         options={{
           tabBarLabel: "Objetivos",
-          tabBarActiveTintColor: "#0051BA",
+          tabBarActiveTintColor: CONST.mainBlue,
           tabBarIcon: ({ focused, color }) => (
             <>
               <View style={{ opacity: focused ? 1 : 0 }}>
@@ -561,18 +609,19 @@ const TabRoutes = (
           tabBarLabel: "Estatísticas",
           tabBarActiveTintColor: "#FFF",
           headerShown: true,
+          headerShadowVisible: false,
           headerTitle: "",
-          headerStyle: { backgroundColor: '#0051ba' }, 
+          headerStyle: { backgroundColor: CONST.mainBlue },
           tabBarIcon: ({ focused, color }) => (
             <>
               <View style={{ opacity: focused ? 1 : 0 }}>
-                <RectangleIndicatorError style={{backgroundColor: '#FFF'}}/>
+                <RectangleIndicatorError style={{ backgroundColor: "#FFF" }} />
               </View>
               <Icon name="stats" color={color} />
             </>
           ),
           tabBarStyle: {
-            backgroundColor: "#0051ba",
+            backgroundColor: CONST.mainBlue,
             borderTopColor: "transparent",
             height: 90,
             borderTopLeftRadius: 0,
@@ -581,11 +630,9 @@ const TabRoutes = (
             borderTopWidth: 0,
             position: "absolute",
             elevation: 0,
-            color: '#FFF'
+            color: "#FFF",
           },
-          
         }}
-      
       />
 
       <Tab.Screen
@@ -593,7 +640,7 @@ const TabRoutes = (
         component={ProfileStackNavigation}
         options={{
           tabBarLabel: "Perfil",
-          tabBarActiveTintColor: "#0051BA",
+          tabBarActiveTintColor: CONST.mainBlue,
           tabBarIcon: ({ focused, color }) => (
             <>
               <View style={{ opacity: focused ? 1 : 0 }}>
@@ -630,7 +677,7 @@ const styles = StyleSheet.create({
   Indicator: {
     width: 50,
     height: 5,
-    backgroundColor: "#0051ba",
+    backgroundColor: CONST.mainBlue,
     borderRadius: 5,
     //position: "absolute",
     top: -15,
