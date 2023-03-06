@@ -1,15 +1,17 @@
 import { StyleSheet } from "react-native";
 
 
-// Variables
+// IMPORT VARIABLES FROM VARIABLES.JS FILE
 import * as CONST from "./variables.js";
 
 
 export const styles = StyleSheet.create({
+    // ---- GENERAL -----
     mainContainer: {
         flex: 1,
         paddingTop: CONST.backgroundPaddingTop,
         backgroundColor: CONST.mainBlue,
+        width: CONST.screenWidth,
     },
     container: {
         flex: 1,
@@ -18,10 +20,10 @@ export const styles = StyleSheet.create({
         paddingRight: CONST.backgroundPaddingLateral,
         paddingTop: CONST.backgroundPaddingTop,
         backgroundColor: CONST.mainBlue,
+        width: CONST.screenWidth,
     },
     subContainer: {
         backgroundColor: CONST.lightBackgroundColor,
-        flex: 1,
         position: 'absolute',
         bottom: 0,
         width: CONST.screenWidth,
@@ -34,6 +36,7 @@ export const styles = StyleSheet.create({
         paddingRight: CONST.cardPadding,
         paddingBottom: CONST.cardPadding + 10,
         paddingTop: CONST.cardPadding + 10,
+        maxHeight: CONST.screenHeight/3*2,
     },
     primaryButtonText: {
         fontFamily: "GothamMedium",
@@ -152,7 +155,7 @@ export const styles = StyleSheet.create({
         color: CONST.whiteText,
     },
 
-    // --- WELCOME AND LOGIN PAGES ----
+    // --- WELCOME, ONBOARDING AND LOGIN PAGES ----
     imageLogo: {
       alignItems: "center",
       marginTop: CONST.backgroundPaddingTop * 2,
@@ -179,5 +182,36 @@ export const styles = StyleSheet.create({
         marginTop: - CONST.inputMargin/2,
     },
     
+    // ---- ONBOARDING ----
+    skipBox : {
+        paddingLeft: CONST.backgroundPaddingLateral,
+        paddingRight: CONST.backgroundPaddingLateral,
+        backgroundColor: CONST.mainBlue,
+        paddingTop: CONST.backgroundPaddingTop * 1.5,
+        paddingBottom: CONST.backgroundPaddingTop,
+    },
+    skipText: {
+        textAlign: 'right',
+        fontFamily: "GothamBook",
+        color: CONST.whiteText,
+        fontSize: CONST.pageSmallTextSize,
+    },
+    navigator: {
+       flexDirection: 'row',
+       bottom: CONST.backgroundPaddingTop * 1.5,
+       backgroundColor: "transparent",
+       paddingLeft: CONST.backgroundPaddingLateral,
+       paddingRight: CONST.backgroundPaddingLateral,
+       position: 'absolute',
+       left: CONST.screenWidth/2 - CONST.backgroundPaddingLateral*2,
+    },
+    firstImage: {
+        position: 'absolute',
+        bottom: 0,
+        top: undefined,
+        right: 0,
+        left: undefined,
+    },
+
   });
   

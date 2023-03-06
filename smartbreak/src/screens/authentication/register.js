@@ -1,24 +1,20 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import {
-  KeyboardAvoidingView,
   TextInput,
-  StyleSheet,
   Text,
   View,
   ScrollView,
-  Dimensions,
-  TouchableOpacity,
   Alert,
   Image,
-  Animated,
   Pressable,
 } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import { LogBox } from "react-native";
-LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
-LogBox.ignoreAllLogs(); //Ignore all log notifications
+// import { LogBox } from "react-native";
+// LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
+// LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 // Password meter
 import PassMeter from "react-native-passmeter";
@@ -36,6 +32,8 @@ import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import { logUser } from "../../redux/user.js";
 
+// Variables
+import * as CONST from "./../../styles/variables.js";
 
 // CSS
 import { styles } from "./../../styles/css.js";
@@ -44,12 +42,6 @@ import { styles } from "./../../styles/css.js";
 export default function Register() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-
-  // Loading Gotham font
-  const [loaded] = useFonts({
-    GothamMedium: require("./../../fonts/GothamMedium.ttf"),
-    GothamBook: require("./../../fonts/GothamBook.ttf"),
-  });
 
   // select items
   const [open, setOpen] = useState(false);
@@ -196,100 +188,116 @@ export default function Register() {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaProvider style={styles.mainContainer}>
       <StatusBar style="light" />
-      <ScrollView style={styles.groupContainer}>
-        <Text style={styles.textMessageTitle}>
-          <Text style={{ fontFamily: "GothamMedium" }}>Regista-te</Text>
-        </Text>
-        <Text style={styles.textMessageBody}>
-          Estamos contentes por teres tomado esta iniciativa. Vem fazer energy
-          breaks.
-        </Text>
+      <ScrollView style={styles.container}>
+      <Text 
+        accessible={true}
+        accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Regista-te."
+        style={styles.titleTextWhite}>Regista-te</Text> 
+      <Text 
+        accessible={true}
+        accessibilityLabel="Texto na cor branca num fundo azul escuro escrito  Estamos contentes por teres tomado esta iniciativa. Vem fazer energy breaks."
+        style={styles.normalTextWhite}>Estamos contentes por teres tomado esta iniciativa. Vem fazer energy breaks.</Text>
       </ScrollView>
 
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.subContainer}
-      >
-        {loading == true ? (
-          loadingScreen()
+      {loading == true ? (
+        loadingScreen()
         ) : (
-          <View>
-            <ScrollView showsVerticalScrollIndicator={false}>
-              <Text>Nome</Text>
-              <TextInput
-                style={styles.inputField}
-                onChangeText={(text) => setName(text)}
-              />
-              <Text>Apelido</Text>
-              <TextInput
-                style={styles.inputField}
-                onChangeText={(text) => setLastName(text)}
-              />
-              <Text>Email</Text>
-              <TextInput
-                style={styles.inputField}
-                onChangeText={(text) => setEmail(text)}
-              />
-              <Text>Empresa</Text>
-              <DropDownPicker
-                autoScroll={true}
-                open={open}
-                value={valueOrg}
-                items={items}
-                setOpen={setOpen}
-                setValue={setValueOrg}
-                setItems={setItems}
-                style={styles.inputField}
-                placeholder="" 
-                multiple={false}
-                showTickIcon={false}
-                closeAfterSelecting={true}
-                onChangeText={(text) => setOrganization(text)}
-              />
+        <View style={styles.subContainer}>
+          <ScrollView 
+            showsVerticalScrollIndicator={false}
+            style={{paddingBottom: CONST.cardPadding}}>
+            <Text
+              accessible={true}
+              accessibilityLabel="Texto na cor preta num fundo branco escrito Nome." 
+              style={styles.inputLabel}>Nome</Text>
+            <TextInput
+              accessible={true}
+              accessibilityLabel="Campo para introdução do Nome." 
+              style={styles.inputField}
+              onChangeText={(text) => setName(text)}/>
+          
+            <Text
+              accessible={true}
+              accessibilityLabel="Texto na cor preta num fundo branco escrito Sobrenome." 
+              style={styles.inputLabel}>Sobrenome</Text>
+            <TextInput
+              accessible={true}
+              accessibilityLabel="Campo para introdução do Sobrenome." 
+              style={styles.inputField}
+              onChangeText={(text) => setLastName(text)}/>
 
-              <Text>Palavra-passe</Text>
-              <TextInput
-                secureTextEntry={true}
-                style={styles.inputFieldPass}
-                onChangeText={(text) => setPassword(text)}
-              />
-              <View
-                style={{
-                  overflow: "hidden",
-                  width: "100%",
-                  borderRadius: 8,
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                }}
-              >
-                <PassMeter
-                  showLabels={false}
-                  password={password}
-                  maxLength={15}
-                  minLength={8}
-                  labels={[]}
-                />
-              </View>
-              <Text style={{ marginTop: 40 }}>Confirmar palavra-passe</Text>
-              <TextInput
-                secureTextEntry={true}
-                style={styles.inputField}
-                onChangeText={(text) => setConfirmPassword(text)}
-              />
-              <Pressable
-                activeOpacity={0.8}
-                onPress={() => submit()}
-                style={styles.button}
-              >
-                <Text style={styles.buttonText}>Registar</Text>
-              </Pressable>
-            </ScrollView>
-          </View>
-        )}
-      </KeyboardAvoidingView>
-    </View>
+            <Text
+              accessible={true}
+              accessibilityLabel="Texto na cor preta num fundo branco escrito E-mail." 
+              style={styles.inputLabel}>E-mail</Text>
+            <TextInput
+              accessible={true}
+              accessibilityLabel="Campo para introdução do E-mail." 
+              style={styles.inputField}
+              onChangeText={(text) => setEmail(text.toLowerCase())}/>
+
+            <Text
+              accessible={true}
+              accessibilityLabel="Texto na cor preta num fundo branco escrito Empresa." 
+              style={styles.inputLabel}>Empresa</Text>
+
+            {/* TODO: ADD ACESSIBILIDADE NO DROPDOWNPICKER */}
+            <DropDownPicker
+              autoScroll={true}
+              open={open}
+              value={valueOrg}
+              items={items}
+              setOpen={setOpen}
+              setValue={setValueOrg}
+              setItems={setItems}
+              style={styles.inputField}
+              placeholder="" 
+              multiple={false}
+              showTickIcon={false}
+              closeAfterSelecting={true}
+              onChangeText={(text) => setOrganization(text)}/>
+
+            <Text accessible={true}
+              accessibilityLabel="Texto na cor preta num fundo branco escrito Palavra-passe." 
+              style={styles.inputLabel}>Palavra-passe</Text>
+            <TextInput
+              secureTextEntry={true}
+              style={styles.inputField}
+              accessible={true}
+              accessibilityLabel="Campo para introdução da Palavra-passe." 
+              onChangeText={(text) => setPassword(text)}/>
+            <View style={styles.passwordProgressBar}>
+              <PassMeter
+                showLabels={false}
+                password={password}
+                maxLength={15}
+                minLength={8}
+                labels={[]}/> 
+            </View>
+            <Text 
+              accessible={true}
+              accessibilityLabel="Texto na cor preta num fundo branco escrito Confirmar nova palavra-passe." 
+              style={styles.inputLabel}>Confirmar nova palavra-passe</Text> 
+            <TextInput  
+              accessible={true}
+              accessibilityLabel="Campo para introdução da Confirmação da nova palavra-passe." 
+              secureTextEntry={true} 
+              style={styles.inputField} 
+              onChangeText={(text) => setConfirmPassword(text)}/>   
+          </ScrollView>
+
+          <Pressable 
+            accessible={true}
+            accessibilityLabel="Botão da cor azul escura num fundo branco com o objetivo de efetuar o Login. Tem escrito na cor branca a palavra Entrar."
+            onPress={() => submit()} style={styles.primaryButton}>
+            <Text style={styles.primaryButtonText}>Registar</Text>
+          </Pressable>
+
+        </View>
+      )}
+    </SafeAreaProvider>
   );
 }
 

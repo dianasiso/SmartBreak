@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import {KeyboardAvoidingView, Alert, TextInput, Text, View, ScrollView, Pressable  } from 'react-native';
+import {Alert, TextInput, Text, View, ScrollView, Pressable  } from 'react-native';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 // Font Gotham

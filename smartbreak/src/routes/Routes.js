@@ -129,7 +129,7 @@ const AuthStackNavigation = ({ navigation }) => {
           headerTitle: "",
           headerShadowVisible: false,
           headerStyle: {
-            backgroundColor: "#0051BA",
+            backgroundColor: CONST.mainBlue,
             shadowColor: "transparent",
           },
           headerLeft: () => (
@@ -557,7 +557,7 @@ const TabRoutes = (
           height: 90,
           borderTopLeftRadius: 0,
           borderTopRightRadius: 0,
-          borderTopColor: "#0051BA",
+          borderTopColor: CONST.mainBlue,
           borderTopWidth: 0,
           position: "absolute",
           elevation: 0,
@@ -574,7 +574,7 @@ const TabRoutes = (
         component={DashboardStackNavigation}
         options={{
           tabBarLabel: "Painel",
-          tabBarActiveTintColor: "#0051BA",
+          tabBarActiveTintColor: CONST.mainBlue,
           tabBarIcon: ({ focused, color }) => (
             <>
               <View style={{ opacity: focused ? 1 : 0 }}>
@@ -590,7 +590,7 @@ const TabRoutes = (
         component={GoalsStackNavigation}
         options={{
           tabBarLabel: "Objetivos",
-          tabBarActiveTintColor: "#0051BA",
+          tabBarActiveTintColor: CONST.mainBlue,
           tabBarIcon: ({ focused, color }) => (
             <>
               <View style={{ opacity: focused ? 1 : 0 }}>
@@ -611,7 +611,7 @@ const TabRoutes = (
           headerShown: true,
           headerShadowVisible: false,
           headerTitle: "",
-          headerStyle: { backgroundColor: "#0051ba" },
+          headerStyle: { backgroundColor: CONST.mainBlue },
           tabBarIcon: ({ focused, color }) => (
             <>
               <View style={{ opacity: focused ? 1 : 0 }}>
@@ -621,7 +621,7 @@ const TabRoutes = (
             </>
           ),
           tabBarStyle: {
-            backgroundColor: "#0051ba",
+            backgroundColor: CONST.mainBlue,
             borderTopColor: "transparent",
             height: 90,
             borderTopLeftRadius: 0,
@@ -640,7 +640,7 @@ const TabRoutes = (
         component={ProfileStackNavigation}
         options={{
           tabBarLabel: "Perfil",
-          tabBarActiveTintColor: "#0051BA",
+          tabBarActiveTintColor: CONST.mainBlue,
           tabBarIcon: ({ focused, color }) => (
             <>
               <View style={{ opacity: focused ? 1 : 0 }}>
