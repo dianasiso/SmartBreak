@@ -152,6 +152,7 @@ const ButtonDashboard = ({ selected }) => {
           });
         }
       });
+
   }, [userData]);
 
   const navigation = useNavigation();
