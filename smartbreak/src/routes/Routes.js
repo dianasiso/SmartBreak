@@ -6,9 +6,11 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useNavigation } from "@react-navigation/native";
 
-
 // Variables
 import * as CONST from "./../styles/variables.js";
+
+// CSS
+import { styles } from "../styles/css.js";
 
 //dashboard
 import Dashboard from "../screens/dashboard/dashboard";
@@ -105,22 +107,17 @@ const AuthStackNavigation = ({ navigation }) => {
             shadowColor: "transparent",
           },
           headerLeft: () => (
-            <View
-              style={{
-                paddingLeft: 20,
-                paddingTop: 20,
-              }}
-            >
+            <View style={styles.returnTopButton}>
               <ArrowLeft2
                 size="24"
-                color="#FFFFFF"
+                color="#F5F5F5"
                 onPress={() => navigation.navigate("Welcome")}
               />
             </View>
           ),
         }}
       />
-      
+
       <AuthStack.Screen
         name="Register"
         component={Register}
@@ -133,15 +130,10 @@ const AuthStackNavigation = ({ navigation }) => {
             shadowColor: "transparent",
           },
           headerLeft: () => (
-            <View
-              style={{
-                paddingLeft: 20,
-                paddingTop: 20,
-              }}
-            >
+            <View style={styles.returnTopButton}>
               <ArrowLeft2
                 size="24"
-                color="#FFFFFF"
+                color="#F5F5F5"
                 onPress={() => navigation.navigate("Welcome")}
               />
             </View>
@@ -165,22 +157,16 @@ const AuthStackNavigation = ({ navigation }) => {
             shadowColor: "transparent",
           },
           headerLeft: () => (
-            <View
-              style={{
-                paddingLeft: 20,
-                paddingTop: 20,
-              }}
-            >
+            <View style={styles.returnTopButton}>
               <ArrowLeft2
                 size="24"
-                color="#FFFFFF"
+                color="#F5F5F5"
                 onPress={() => navigation.navigate("Login")}
               />
             </View>
           ),
         }}
       />
-
     </AuthStack.Navigator>
   );
 };
@@ -206,10 +192,10 @@ const DashboardStackNavigation = ({ navigation, route }) => {
           headerTitle: "",
           headerShadowVisible: false,
           headerLeft: () => (
-            <View style={{ paddingLeft: 20, paddingTop: 20 }}>
+            <View style={styles.returnTopButton}>
               <ArrowLeft2
                 size="24"
-                color="#000000"
+                color="#333333"
                 onPress={() => navigation.navigate("HomeDashboard")}
               />
             </View>
@@ -225,10 +211,10 @@ const DashboardStackNavigation = ({ navigation, route }) => {
           headerTitle: "",
           headerShadowVisible: false,
           headerLeft: () => (
-            <View style={{ paddingLeft: 20, paddingTop: 20 }}>
+            <View style={styles.returnTopButton}>
               <ArrowLeft2
                 size="24"
-                color="#000000"
+                color="#333333"
                 onPress={() =>
                   navigation.navigate("TeamDashboard", { teamId: null })
                 }
@@ -261,10 +247,10 @@ const GoalsStackNavigation = ({ navigation }) => {
           headerTitle: "",
           headerShadowVisible: false,
           headerLeft: () => (
-            <View style={{ paddingLeft: 20, paddingTop: 20 }}>
+            <View style={styles.returnTopButton}>
               <ArrowLeft2
                 size="24"
-                color="#000000"
+                color="#333333"
                 onPress={() => navigation.navigate("GoalsOverview")} //não esquecer de colocar sempre a pagina para onde queremos voltar!
               />
             </View>
@@ -295,10 +281,10 @@ const ProfileStackNavigation = ({ navigation }) => {
           headerTitle: "",
           headerShadowVisible: false,
           headerLeft: () => (
-            <View style={{ paddingLeft: 20, paddingTop: 20 }}>
+            <View style={styles.returnTopButton}>
               <ArrowLeft2
                 size="24"
-                color="#000000"
+                color="#333333"
                 onPress={() => navigation.navigate("ProfilePage")}
               />
             </View>
@@ -314,10 +300,10 @@ const ProfileStackNavigation = ({ navigation }) => {
           headerTitle: "",
           headerShadowVisible: false,
           headerLeft: () => (
-            <View style={{ paddingLeft: 20, paddingTop: 20 }}>
+            <View style={styles.returnTopButton}>
               <ArrowLeft2
                 size="24"
-                color="#000000"
+                color="#333333"
                 onPress={() => navigation.navigate("ProfilePage")}
               />
             </View>
@@ -333,10 +319,10 @@ const ProfileStackNavigation = ({ navigation }) => {
           headerTitle: "",
           headerShadowVisible: false,
           headerLeft: () => (
-            <View style={{ paddingLeft: 20, paddingTop: 20 }}>
+            <View style={styles.returnTopButton}>
               <ArrowLeft2
                 size="24"
-                color="#000000"
+                color="#333333"
                 onPress={() => navigation.navigate("ProfilePage")}
               />
             </View>
@@ -352,10 +338,10 @@ const ProfileStackNavigation = ({ navigation }) => {
           headerTitle: "",
           headerShadowVisible: false,
           headerLeft: () => (
-            <View style={{ paddingLeft: 20, paddingTop: 20 }}>
+            <View style={styles.returnTopButton}>
               <ArrowLeft2
                 size="24"
-                color="#000000"
+                color="#333333"
                 onPress={() => navigation.navigate("ProfilePage")}
               />
             </View>
@@ -371,10 +357,10 @@ const ProfileStackNavigation = ({ navigation }) => {
           headerTitle: "",
           headerShadowVisible: false,
           headerLeft: () => (
-            <View style={{ paddingLeft: 20, paddingTop: 20 }}>
+            <View style={styles.returnTopButton}>
               <ArrowLeft2
                 size="24"
-                color="#000000"
+                color="#333333"
                 onPress={() => navigation.navigate("ProfilePage")}
               />
             </View>
@@ -390,10 +376,10 @@ const ProfileStackNavigation = ({ navigation }) => {
           headerTitle: "",
           headerShadowVisible: false,
           headerLeft: () => (
-            <View style={{ paddingLeft: 20, paddingTop: 20 }}>
+            <View style={styles.returnTopButton}>
               <ArrowLeft2
                 size="24"
-                color="#000000"
+                color="#333333"
                 onPress={() => navigation.navigate("ProfileSettings")}
               />
             </View>
@@ -408,10 +394,10 @@ const ProfileStackNavigation = ({ navigation }) => {
           headerTitle: "",
           headerShadowVisible: false,
           headerLeft: () => (
-            <View style={{ paddingLeft: 20, paddingTop: 20 }}>
+            <View style={styles.returnTopButton}>
               <ArrowLeft2
                 size="24"
-                color="#000000"
+                color="#333333"
                 onPress={() => navigation.navigate("ProfileSettings")}
               />
             </View>
@@ -426,10 +412,10 @@ const ProfileStackNavigation = ({ navigation }) => {
           headerTitle: "",
           headerShadowVisible: false,
           headerLeft: () => (
-            <View style={{ paddingLeft: 20, paddingTop: 20 }}>
+            <View style={styles.returnTopButton}>
               <ArrowLeft2
                 size="24"
-                color="#000000"
+                color="#333333"
                 onPress={() => navigation.navigate("ProfilePage")}
               />
             </View>
@@ -444,10 +430,10 @@ const ProfileStackNavigation = ({ navigation }) => {
           headerTitle: "",
           headerShadowVisible: false,
           headerLeft: () => (
-            <View style={{ paddingLeft: 20, paddingTop: 20 }}>
+            <View style={styles.returnTopButton}>
               <ArrowLeft2
                 size="24"
-                color="#000000"
+                color="#333333"
                 onPress={() => navigation.navigate("ProfileSettings")}
               />
             </View>
@@ -462,10 +448,10 @@ const ProfileStackNavigation = ({ navigation }) => {
           headerTitle: "",
           headerShadowVisible: false,
           headerLeft: () => (
-            <View style={{ paddingLeft: 20, paddingTop: 20 }}>
+            <View style={styles.returnTopButton}>
               <ArrowLeft2
                 size="24"
-                color="#000000"
+                color="#333333"
                 onPress={() => navigation.navigate("ProfileSettings")}
               />
             </View>
@@ -480,10 +466,10 @@ const ProfileStackNavigation = ({ navigation }) => {
           headerTitle: "",
           headerShadowVisible: false,
           headerLeft: () => (
-            <View style={{ paddingLeft: 20, paddingTop: 20 }}>
+            <View style={styles.returnTopButton}>
               <ArrowLeft2
                 size="24"
-                color="#000000"
+                color="#333333"
                 onPress={() => navigation.navigate("ProfileSettings")}
               />
             </View>
@@ -607,7 +593,7 @@ const TabRoutes = (
         component={AvailableSoon}
         options={{
           tabBarLabel: "Estatísticas",
-          tabBarActiveTintColor: "#FFF",
+          tabBarActiveTintColor: "#F5F5F5",
           headerShown: true,
           headerShadowVisible: false,
           headerTitle: "",
@@ -615,7 +601,7 @@ const TabRoutes = (
           tabBarIcon: ({ focused, color }) => (
             <>
               <View style={{ opacity: focused ? 1 : 0 }}>
-                <RectangleIndicatorError style={{ backgroundColor: "#FFF" }} />
+                <RectangleIndicatorError style={{ backgroundColor: "#F5F5F5" }} />
               </View>
               <Icon name="stats" color={color} />
             </>
@@ -626,11 +612,11 @@ const TabRoutes = (
             height: 90,
             borderTopLeftRadius: 0,
             borderTopRightRadius: 0,
-            borderTopColor: "#FFF",
+            borderTopColor: "#F5F5F5",
             borderTopWidth: 0,
             position: "absolute",
             elevation: 0,
-            color: "#FFF",
+            color: "#F5F5F5",
           },
         }}
       />
@@ -672,6 +658,7 @@ const MainStackNavigation = () => {
   );
 };
 
+/*
 const styles = StyleSheet.create({
   IconContainer: {},
   Indicator: {
@@ -690,6 +677,6 @@ const styles = StyleSheet.create({
     //position: "absolute",
     top: -15,
   },
-});
+});*/
 
 export default MainStackNavigation;

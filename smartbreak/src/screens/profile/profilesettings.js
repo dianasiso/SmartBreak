@@ -32,6 +32,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../redux/user.js";
 import * as SecureStore from "expo-secure-store";
 
+// CSS
+import { styles } from "./../../styles/css.js";
+
 export default function ProfileSettings({ navigation }) {
   const dispatch = useDispatch();
   // Loading Gotham font
@@ -42,7 +45,6 @@ export default function ProfileSettings({ navigation }) {
 
   const userData = useSelector((state) => state.user.userID);
   const uid = userData;
-
 
   const apagarconta = () => {
     Alert.alert("Atenção", "Deseja apagar a sua conta permanentemente?", [
@@ -92,60 +94,87 @@ export default function ProfileSettings({ navigation }) {
   return (
     <SafeAreaProvider
       showsVerticalScrollIndicator={false}
-      style={styles.container}
+      style={styles.containerLight}
     >
       <ScrollView>
         <StatusBar style="auto" />
-        <Text style={styles.title}>Definições</Text>
+        <Text style={styles.titleText}>Definições</Text>
 
         <Pressable
-          style={styles.options}
+          style={styles.profileOptions}
           onPress={() => navigation.navigate("EditPassword")}
         >
-          <Lock1 color="#000000" />
-          <Text style={styles.text}> Alterar palavra-passe</Text>
+          <Lock1 variant="Bold" style={styles.profileIcon} />
+          <Text style={styles.profileOptionsText}> Alterar palavra-passe</Text>
         </Pressable>
-
+        <View style={styles.divider} />
         <Pressable
-          style={styles.options}
+          style={styles.profileOptions}
           onPress={() => navigation.navigate("NotificationsProfile")}
         >
-          <Notification color="#000000" />
-          <Text style={styles.text}> Notificações</Text>
+          <Notification variant="Bold" style={styles.profileIcon} />
+          <Text style={styles.profileOptionsText}> Notificações</Text>
         </Pressable>
-
+        <View style={styles.divider} />
         <Pressable
-          style={styles.options}
+          style={styles.profileOptions}
           onPress={() => navigation.navigate("SecurityProfile")}
         >
-          <SecurityUser color="#000000" />
-          <Text style={styles.text}> Segurança</Text>
+          <SecurityUser variant="Bold" style={styles.profileIcon} />
+          <Text style={styles.profileOptionsText}> Segurança</Text>
         </Pressable>
-
+        <View style={styles.divider} />
         <Pressable
-          style={styles.options}
+          style={styles.profileOptions}
           onPress={() => navigation.navigate("TermsofUseProfile")}
         >
-          <DocumentText1 color="#000000" />
-          <Text style={styles.text}> Termos de utilização</Text>
+          <DocumentText1 variant="Bold" style={styles.profileIcon} />
+          <Text style={styles.profileOptionsText}> Termos de utilização</Text>
         </Pressable>
-
+        <View style={styles.divider} />
         <Pressable
-          style={styles.options}
+          style={styles.profileOptions}
           onPress={() => navigation.navigate("HelpCenterProfile")}
         >
-          <MessageQuestion color="#000000" />
-          <Text style={styles.text}> Centro de ajuda</Text>
+          <MessageQuestion variant="Bold" style={styles.profileIcon} />
+          <Text style={styles.profileOptionsText}> Centro de ajuda</Text>
         </Pressable>
-
-        <Pressable style={styles.options} onPress={apagarconta}>
-          <Trash color="#000000" onPress={apagarconta} />
-          <Text style={styles.text}> Apagar conta</Text>
+        <View style={styles.divider} />
+        <Pressable
+          style={styles.profileOptions}
+          onPress={() => navigation.navigate("HelpCenterProfile")}
+        >
+          <MessageQuestion variant="Bold" style={styles.profileIcon} />
+          <Text style={styles.profileOptionsText}> Acessibilidade</Text>
+          {/*
+          !!!!!!!!!!!!!
+          !!!!!!!!!!!!!
+          !!!!!!!!!!!!!
+          !!!!!!!!!!!!!
+          FALTA ICONE PARA ACESSIBILIDADE E LINKAR A PAGINA DE ACESSIBILIDADE
+          !!!!!!!!!!!!!
+          !!!!!!!!!!!!!
+          !!!!!!!!!!!!!
+          !!!!!!!!!!!!!
+          */}
         </Pressable>
-
-        <Pressable style={styles.options} onPress={terminarsessao}>
-          <Logout color="#000000" onPress={terminarsessao} />
-          <Text style={styles.text}> Terminar sessão</Text>
+        <View style={styles.divider} />
+        <Pressable style={styles.profileOptions} onPress={apagarconta}>
+          <Trash
+            variant="Bold"
+            style={styles.profileIcon}
+            onPress={apagarconta}
+          />
+          <Text style={styles.profileOptionsText}> Apagar conta</Text>
+        </Pressable>
+        <View style={styles.divider} />
+        <Pressable style={styles.profileOptions} onPress={terminarsessao}>
+          <Logout
+            variant="Bold"
+            style={styles.profileIcon}
+            onPress={terminarsessao}
+          />
+          <Text style={styles.profileOptionsText}> Terminar sessão</Text>
         </Pressable>
       </ScrollView>
     </SafeAreaProvider>
@@ -154,6 +183,7 @@ export default function ProfileSettings({ navigation }) {
 
 const screenWidth = Dimensions.get("window").width;
 
+/*
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -191,3 +221,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+*/
