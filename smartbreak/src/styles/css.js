@@ -35,6 +35,21 @@ export const styles = StyleSheet.create({
     backgroundColor: CONST.lightBackgroundColor,
     width: CONST.screenWidth,
   },
+  dashboardContainer: {
+    position: "absolute",
+    top: 0,
+    width: CONST.screenWidth,
+    flexDirection: "column",
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: CONST.largeCardRadius,
+    borderBottomLeftRadius: CONST.largeCardRadius,
+    paddingLeft: CONST.cardPadding,
+    paddingRight: CONST.cardPadding,
+    paddingBottom: CONST.cardPadding + 10,
+    paddingTop: CONST.backgroundPaddingTop + CONST.backgroundPaddingLateral,
+    maxHeight: 440, //adicionei maxheight e já dá
+  },
   subContainer: {
     backgroundColor: CONST.lightBackgroundColor,
     position: "absolute",
@@ -124,8 +139,6 @@ export const styles = StyleSheet.create({
   },
   normalTextWhite: {
     fontSize: CONST.pageTextSize,
-    paddingTop: 15,
-    paddingBottom: 40,
     fontFamily: "GothamBook",
     lineHeight: CONST.pageTextSize + 5,
     color: CONST.whiteText,
@@ -204,14 +217,13 @@ export const styles = StyleSheet.create({
     marginRight: CONST.boxPadding,
   },
 
-  //main navigation//
+  // ---- MAIN NAVIGATION ----
   IconContainer: {},
   Indicator: {
     width: 50,
     height: 3,
     backgroundColor: CONST.mainBlue,
     borderRadius: 5,
-    //position: "absolute",
     top: -15,
   },
   IndicatorError: {
@@ -219,9 +231,9 @@ export const styles = StyleSheet.create({
     height: 3,
     backgroundColor: "#FFF",
     borderRadius: 5,
-    //position: "absolute",
     top: -15,
   },
+
   // --- RETURN TOP BUTTON ON STACK NAV --- //
   returnTopButton: {
     paddingLeft: 20,
@@ -295,6 +307,250 @@ export const styles = StyleSheet.create({
     right: 0,
     left: undefined,
   },
+
+  // ---- DASHBOARD ---- //
+
+  addPauseButtonContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
+
+  addPauseButton: {
+    backgroundColor: CONST.thirdBlue,
+    color: CONST.darkerColor,
+    borderBottomLeftRadius: 0,
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: CONST.normalButtonRadius,
+    borderBottomRightRadius: CONST.normalButtonRadius,
+    marginLeft: -CONST.heightButton / 2,
+    height: CONST.heightButton,
+    paddingLeft: CONST.iconPadding, //TODO: COLCOAR - 10
+    paddingRight: CONST.iconPadding + 10,
+    justifyContent: "center",
+  },
+
+  addPauseButtonText: {
+    color: CONST.darkerColor,
+    fontSize: CONST.pageTextSize,
+    fontFamily: "GothamMedium",
+    textAlign: "left",
+    paddingLeft: CONST.heightButton / 2,
+  },
+
+  pauseCircle: {
+    backgroundColor: CONST.whiteText,
+    height: CONST.heightButton,
+    width: CONST.heightButton,
+    borderRadius: CONST.heightButton / 2,
+    alignItems: "center",
+    zIndex: 100,
+    justifyContent: "center",
+  },
+
+  verEquipaButtonContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
+
+  verEquipaButton: {
+    backgroundColor: CONST.thirdOrange,
+    color: CONST.darkerColor,
+    borderBottomLeftRadius: 0,
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: CONST.normalButtonRadius,
+    borderBottomRightRadius: CONST.normalButtonRadius,
+    marginLeft: -CONST.heightButton / 2,
+    height: CONST.heightButton,
+    paddingLeft: CONST.iconPadding, //TODO: COLCOAR - 10
+    paddingRight: CONST.iconPadding + 10,
+    justifyContent: "center",
+  },
+
+  //////ESTILOS LIXO
+
+  pageContainer: {
+    flex: 1,
+    backgroundColor: "#fff",
+    paddingLeft: 25,
+    paddingRight: 25,
+    paddingBottom: 90,
+    alignItems: "center",
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    paddingLeft: 25,
+    paddingRight: 25,
+  },
+  modalView: {
+    backgroundColor: "#E3ECF7",
+    borderRadius: 15,
+    padding: 25,
+    shadowColor: "#000",
+    shadowRadius: 5,
+    shadowOpacity: 0.5,
+    elevation: 10,
+  },
+  modalTextBold: {
+    fontFamily: "GothamMedium",
+    fontSize: 16,
+    textAlign: "left",
+    marginBottom: 20,
+    lineHeight: 22,
+  },
+  modalText: {
+    fontFamily: "GothamBook",
+    fontSize: 16,
+    textAlign: "left",
+    marginBottom: 20,
+    lineHeight: 22,
+  },
+  buttonAdd: {
+    backgroundColor: "#0051ba",
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+    borderRadius: 8,
+    alignItems: "center",
+    marginLeft: 10,
+  },
+
+  batteryView: {
+    //display: "none",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 0,
+    //backgroundColor: "red",
+  },
+  batteryContainer: {
+    height: 171,
+    width: 85,
+    borderRadius: 18,
+    borderColor: CONST.whiteText,
+    borderWidth: 1,
+  },
+  batteryBolt: {
+    position: "absolute",
+    zIndex: 1,
+    alignSelf: "center",
+    width: 94,
+    height: 94,
+  },
+  batteryTip: {
+    height: 2.38,
+    width: 23.78,
+    marginBottom: 2,
+    backgroundColor: CONST.whiteText,
+    borderTopLeftRadius: 107.03,
+    borderTopRightRadius: 107.03,
+    borderBottomRightRadius: 0,
+    borderBottomLeftRadius: 0,
+    borderColor: CONST.whiteText,
+    //borderWidth: 2.5,
+    //marginLeft: 4,
+  },
+  batteryFill: {
+    // height: 88,
+    // width: 90, //máximo 163
+    backgroundColor: CONST.whiteText,
+    borderRadius: 16,
+    position: "absolute",
+    left: CONST.screenWidth / 2 - 112,
+    transform: [{ rotate: '90deg'}]
+  },
+  batteryFillPause: {
+    // height: 88,
+    // width: 90, //máximo 163
+    backgroundColor: "#E3ECF7",
+    borderRadius: 16,
+    position: "absolute",
+    left: CONST.screenWidth / 2 - 112,
+  },
+  /*
+  toggleView: {
+    top: 65,
+    alignItems: "center",
+    flexDirection: "row",
+  },*/
+  toggleContainer: {
+    width: CONST.screenWidth - 50,
+    height: CONST.heightButton,
+    borderRadius: CONST.normalButtonRadius,
+    justifyContent: "space-between",
+    flexDirection: "row",
+  },
+  toggleSelector: {
+    width: (CONST.screenWidth - CONST.backgroundPaddingLateral * 2) / 2,
+    height: CONST.heightButton,
+    borderRadius: CONST.normalButtonRadius,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  ButtonDashboardView: {
+    marginTop: 60,
+    marginBottom: 60,
+  },
+  ButtonDashboardContainer: {
+    backgroundColor: "#0051BA",
+    width: CONST.screenWidth - 50,
+    borderRadius: 15,
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  ButtonDashboardText: {
+    color: CONST.whiteText,
+    fontSize: 16,
+    fontFamily: "GothamMedium",
+    textAlign: "left",
+    padding: 15,
+    paddingLeft: 20,
+  },
+  icon: {
+    alignSelf: "center",
+    marginLeft: "auto",
+    marginRight: 20,
+  },
+
+  metricasText: {
+    fontSize: 20,
+    fontFamily: "GothamMedium",
+    marginBottom: 18,
+  },
+  metricasElement: {
+    width: CONST.screenWidth - 50,
+    //backgroundColor: "#E3ECF7",
+    borderRadius: 15,
+   
+    marginTop: 20,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  metricasCircle: {
+    backgroundColor: CONST.thirdBlue,
+    height: CONST.heightButton,
+    width: CONST.heightButton,
+    borderRadius: CONST.heightButton / 2,
+    alignItems: "center",
+    zIndex: 100,
+    justifyContent: "center",
+  },
+  metricasElementText: {
+    fontSize: CONST.pageSmallTextSize,
+    color: CONST.darkerColor,
+    fontFamily: "GothamBook",
+    paddingLeft: 15,
+    paddingRight: 25,
+    lineHeight: 20,
+  },
+
+  /////LIXO/////
 
   // ---- PROFILE ---- //
 
