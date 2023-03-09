@@ -40,8 +40,8 @@ const Battery = ({ selected }) => {
   if (pausa === false) {
     return (
       <View style={styles.batteryView}>
-        <View style={styles.batteryContainer} />
         <View style={styles.batteryTip} />
+        <View style={styles.batteryContainer} />
         <View style={styles.batteryFill} />
       </View>
     );
@@ -205,8 +205,9 @@ const BatteryContainer = ({ selected }) => {
             </View>
           </Modal>
           <View style={styles.batteryView}>
-            <View style={styles.batteryContainer} />
             <View style={styles.batteryTip} />
+            <View style={styles.batteryContainer} />
+
             <View
               style={[
                 styles.batteryFill,
@@ -393,21 +394,18 @@ const BatteryContainer = ({ selected }) => {
             ]}
           />
         </View>
-        <View style={styles.ButtonDashboardView}>
+        <View style={styles.verEquipaButtonContainer}>
+          <View style={styles.pauseCircle}>
+            <People color="#F57738" size={26} variant="Bold" />
+          </View>
           {teams[0] ? (
             <Pressable
               onPress={() =>
                 navigation.navigate("TeamDashboard", { teamId: teams[0] })
               }
-              style={styles.ButtonDashboardContainer}
+              style={styles.verEquipaButton}
             >
-              <Text style={styles.ButtonDashboardText}>Ver equipa</Text>
-              <People
-                color="white"
-                size={26}
-                variant="Bold"
-                style={styles.icon}
-              />
+              <Text style={styles.addPauseButtonText}>Ver equipa</Text>
             </Pressable>
           ) : (
             <Pressable
@@ -478,7 +476,10 @@ const Metricas = ({ selected }) => {
   return (
     <>
       <View style={styles.metricasElement}>
-        <MoneyRecive color="black" />
+        <View style={styles.metricasCircle}>
+          <MoneyRecive color="black" />
+        </View>
+
         {selected == "personal" ? (
           <Text style={styles.metricasElementText}>
             Poupaste {(((150 * battery) / 100) * 0.15).toFixed(2)} euros.
@@ -490,7 +491,9 @@ const Metricas = ({ selected }) => {
         )}
       </View>
       <View style={styles.metricasElement}>
-        <Car color="black" />
+        <View style={styles.metricasCircle}>
+          <Car color="black" />
+        </View>
         {selected == "personal" ? (
           <Text style={styles.metricasElementText}>
             Consegues colocar{" "}
@@ -506,7 +509,9 @@ const Metricas = ({ selected }) => {
         )}
       </View>
       <View style={styles.metricasElement}>
-        <Clock color="black" />
+        <View style={styles.metricasCircle}>
+          <Clock color="black" />
+        </View>
         {selected == "personal" ? (
           <Text style={styles.metricasElementText}>
             A energia que poupaste equivale a carregar um portátil por{" "}
@@ -521,7 +526,9 @@ const Metricas = ({ selected }) => {
         )}
       </View>
       <View style={styles.metricasElement}>
-        <Ticket color="black" />
+        <View style={styles.metricasCircle}>
+          <Ticket color="black" />
+        </View>
         {selected == "personal" ? (
           <Text style={styles.metricasElementText}>
             O dinheiro que poupaste equivale a{" "}

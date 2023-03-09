@@ -48,7 +48,7 @@ export const styles = StyleSheet.create({
     paddingRight: CONST.cardPadding,
     paddingBottom: CONST.cardPadding + 10,
     paddingTop: CONST.backgroundPaddingTop + CONST.backgroundPaddingLateral,
-    maxHeight: 'auto',
+    maxHeight: 440, //adicionei maxheight e já dá
   },
   subContainer: {
     backgroundColor: CONST.lightBackgroundColor,
@@ -195,7 +195,7 @@ export const styles = StyleSheet.create({
     borderRadius: 5,
     top: -15,
   },
-  
+
   // --- RETURN TOP BUTTON ON STACK NAV --- //
   returnTopButton: {
     paddingLeft: 20,
@@ -264,7 +264,7 @@ export const styles = StyleSheet.create({
   addPauseButtonContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: 'flex-start'
+    justifyContent: "flex-start",
   },
 
   addPauseButton: {
@@ -285,7 +285,7 @@ export const styles = StyleSheet.create({
     color: CONST.darkerColor,
     fontSize: CONST.pageTextSize,
     fontFamily: "GothamMedium",
-    textAlign: 'left',
+    textAlign: "left",
     paddingLeft: CONST.heightButton / 2,
   },
 
@@ -296,6 +296,26 @@ export const styles = StyleSheet.create({
     borderRadius: CONST.heightButton / 2,
     alignItems: "center",
     zIndex: 100,
+    justifyContent: "center",
+  },
+
+  verEquipaButtonContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
+
+  verEquipaButton: {
+    backgroundColor: CONST.thirdOrange,
+    color: CONST.darkerColor,
+    borderBottomLeftRadius: 0,
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: CONST.normalButtonRadius,
+    borderBottomRightRadius: CONST.normalButtonRadius,
+    marginLeft: -CONST.heightButton / 2,
+    height: CONST.heightButton,
+    paddingLeft: CONST.iconPadding, //TODO: COLCOAR - 10
+    paddingRight: CONST.iconPadding + 10,
     justifyContent: "center",
   },
 
@@ -352,18 +372,19 @@ export const styles = StyleSheet.create({
   },
 
   batteryView: {
-    flexDirection: "row",
+    //display: "none",
+    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 130,
-    backgroundColor: 'red',
+    marginTop: 0,
+    //backgroundColor: "red",
   },
   batteryContainer: {
-    height: 100.5,
-    width: 175,
-    borderRadius: 22,
-    borderColor: "black",
-    borderWidth: 2.5,
+    height: 171,
+    width: 85,
+    borderRadius: 18,
+    borderColor: CONST.whiteText,
+    borderWidth: 1,
   },
   batteryBolt: {
     position: "absolute",
@@ -373,22 +394,26 @@ export const styles = StyleSheet.create({
     height: 94,
   },
   batteryTip: {
-    height: 30,
-    width: 10,
-    backgroundColor: "black",
-    borderTopRightRadius: 5,
-    borderBottomRightRadius: 5,
-    borderColor: "black",
-    borderWidth: 2.5,
-    marginLeft: 4,
+    height: 2.38,
+    width: 23.78,
+    marginBottom: 2,
+    backgroundColor: CONST.whiteText,
+    borderTopLeftRadius: 107.03,
+    borderTopRightRadius: 107.03,
+    borderBottomRightRadius: 0,
+    borderBottomLeftRadius: 0,
+    borderColor: CONST.whiteText,
+    //borderWidth: 2.5,
+    //marginLeft: 4,
   },
   batteryFill: {
     // height: 88,
     // width: 90, //máximo 163
-    backgroundColor: "#0051BA",
+    backgroundColor: CONST.whiteText,
     borderRadius: 16,
     position: "absolute",
     left: CONST.screenWidth / 2 - 112,
+    transform: [{ rotate: '90deg'}]
   },
   batteryFillPause: {
     // height: 88,
@@ -398,7 +423,7 @@ export const styles = StyleSheet.create({
     position: "absolute",
     left: CONST.screenWidth / 2 - 112,
   },
-/*
+  /*
   toggleView: {
     top: 65,
     alignItems: "center",
@@ -412,8 +437,8 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
   },
   toggleSelector: {
-    width: (CONST.screenWidth - CONST.backgroundPaddingLateral*2) / 2,
-    height: CONST.heightButton,   
+    width: (CONST.screenWidth - CONST.backgroundPaddingLateral * 2) / 2,
+    height: CONST.heightButton,
     borderRadius: CONST.normalButtonRadius,
     alignItems: "center",
     justifyContent: "center",
@@ -431,7 +456,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
   },
   ButtonDashboardText: {
-    color: "white",
+    color: CONST.whiteText,
     fontSize: 16,
     fontFamily: "GothamMedium",
     textAlign: "left",
@@ -451,15 +476,25 @@ export const styles = StyleSheet.create({
   },
   metricasElement: {
     width: CONST.screenWidth - 50,
-    backgroundColor: "#E3ECF7",
+    //backgroundColor: "#E3ECF7",
     borderRadius: 15,
-    padding: 15,
+   
     marginTop: 20,
     flexDirection: "row",
     alignItems: "center",
   },
+  metricasCircle: {
+    backgroundColor: CONST.thirdBlue,
+    height: CONST.heightButton,
+    width: CONST.heightButton,
+    borderRadius: CONST.heightButton / 2,
+    alignItems: "center",
+    zIndex: 100,
+    justifyContent: "center",
+  },
   metricasElementText: {
-    fontSize: 15,
+    fontSize: CONST.pageSmallTextSize,
+    color: CONST.darkerColor,
     fontFamily: "GothamBook",
     paddingLeft: 15,
     paddingRight: 25,
