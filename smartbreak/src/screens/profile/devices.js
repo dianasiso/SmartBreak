@@ -525,7 +525,7 @@ export default function Devices({ navigation }) {
           />
         </Pressable>
         
-        <Text style={[styles.smallText, {opacity: 0.5}]}>
+        <Text style={[styles.smallText, {opacity: 0.5 , paddingTop: CONST.boxPadding}]}>
           Clique continuamente nos seus equipamentos se os desejar eliminar.
         </Text>
       </ScrollView>

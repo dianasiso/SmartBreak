@@ -86,7 +86,7 @@ export const styles = StyleSheet.create({
   },
   primaryButton: {
     backgroundColor: CONST.primaryButtonBackground,
-    justifyContent: "center", 
+    justifyContent: "center",
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
@@ -132,7 +132,6 @@ export const styles = StyleSheet.create({
   },
   smallText: {
     fontSize: CONST.pageSmallTextSize,
-    paddingTop: 15,
     fontFamily: "GothamBook",
     lineHeight: CONST.pageTextSize + 5,
     color: CONST.darkerColor,
@@ -272,9 +271,9 @@ export const styles = StyleSheet.create({
     justifyContent: "flex-end",
     position: 'absolute',
     right: CONST.backgroundPaddingLateral,
-    bottom: CONST.backgroundPaddingTop*3,
+    bottom: CONST.backgroundPaddingTop * 3,
     zIndex: 10,
-    backgroundColor:  CONST.lightBackgroundColor,
+    backgroundColor: CONST.lightBackgroundColor,
     borderRadius: 50,
   },
   // ---- ONBOARDING ----
@@ -462,7 +461,7 @@ export const styles = StyleSheet.create({
     borderRadius: 16,
     position: "absolute",
     left: CONST.screenWidth / 2 - 112,
-    transform: [{ rotate: '90deg'}]
+    transform: [{ rotate: '90deg' }]
   },
   batteryFillPause: {
     // height: 88,
@@ -527,7 +526,7 @@ export const styles = StyleSheet.create({
     width: CONST.screenWidth - 50,
     //backgroundColor: "#E3ECF7",
     borderRadius: 15,
-   
+
     marginTop: 20,
     flexDirection: "row",
     alignItems: "center",
@@ -554,7 +553,7 @@ export const styles = StyleSheet.create({
 
   // ---- PROFILE ---- //
 
- 
+
   profileInfo: {
     alignItems: "center",
     marginBottom: CONST.inputMargin,
@@ -577,16 +576,45 @@ export const styles = StyleSheet.create({
     color: CONST.darkerColor,
     fontFamily: "GothamBook",
   },
-  
+
   profileOptionsText: {
     fontSize: CONST.pageTextSize,
     color: CONST.darkerColor,
     fontFamily: "GothamBook",
   },
+
   editprofileRewards: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 20,
+    marginBottom: CONST.boxPadding,
   },
+
+  pauseBoxMain: {
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowColor: 'rgba(0, 0, 0, 0.1)',
+    shadowOpacity: 1,
+    shadowRadius: 10,
+    borderRadius: CONST.normalButtonRadius,
+    marginTop: CONST.boxMargin,
+    marginBottom: CONST.boxMargin + 10,
+  },
+  pauseBoxTop: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: CONST.mainBlue,
+    padding: CONST.boxPadding,
+    borderTopLeftRadius: CONST.normalButtonRadius,
+    borderTopRightRadius: CONST.normalButtonRadius,
+  },
+  pauseBoxBottom: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: CONST.boxPadding,
+  }
 });

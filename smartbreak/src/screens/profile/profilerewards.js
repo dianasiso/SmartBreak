@@ -34,25 +34,35 @@ export default function ProfileRewards() {
     >
       <ScrollView>
         <StatusBar style="auto" />
-        <Text style={[styles.titleText, { paddingBottom: CONST.textPadding }]}>As minhas recompensas</Text>
+        <Text style={styles.titleText}>As minhas recompensas</Text>
 
-        <Pressable style={[styles.boxOptions, {borderBottomColor: 'transparent'}]}>
-          <View style={styles.iconBackground}>
-            <Car variant="Bold"/>
+        <View style={styles.metricasElement}>
+          <View style={styles.metricasCircle}>
+            <Car color={CONST.darkerColor} />
           </View>
-          
-          <Text style={styles.normalText}>1 dia de férias em setembro</Text>
-        </Pressable>
+          <Text style={styles.metricasElementText}>
+            1 dia de férias em setembro
+          </Text>
+        </View>
 
-        <Pressable style={styles.options}>
-          <Coffee color={CONST.darkerColor} />
-          <Text style={styles.text}>10 cafés grátis no bar</Text>
-        </Pressable>
+        <View style={styles.metricasElement}>
+          <View style={styles.metricasCircle}>
+            <Coffee color={CONST.darkerColor} />
+          </View>
+          <Text style={styles.metricasElementText}>
+            10 cafés grátis no bar
+          </Text>
+        </View>
 
-        <Pressable style={styles.options}>
-          <DollarCircle color={CONST.darkerColor} />
-          <Text style={styles.text}>Vale 15€ em refeições</Text>
-        </Pressable>
+        <View style={styles.metricasElement}>
+          <View style={styles.metricasCircle}>
+            <DollarCircle color={CONST.darkerColor} />
+          </View>
+          <Text style={styles.metricasElementText}>
+            Vale 15€ em refeições
+          </Text>
+        </View>
+
       </ScrollView>
     </SafeAreaProvider>
   );
