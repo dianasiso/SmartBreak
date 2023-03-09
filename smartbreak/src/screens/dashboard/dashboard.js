@@ -29,8 +29,89 @@ import { useSelector } from "react-redux";
 //screenOrientation
 import * as ScreenOrientation from "expo-screen-orientation";
 
+
 // Firebase
 import firebase from "./../../config/firebase.js";
+  const Battery = ({ selected }) => {
+    if (pausa === false) {
+      return (
+        <View style={batteryStyles.batteryView}>
+          <View style={batteryStyles.batteryContainer} />
+          <View style={batteryStyles.batteryTip} />
+          <View style={batteryStyles.batteryFill} />
+        </View>
+      );
+    } else {
+      return (
+        <View style={batteryStyles.batteryView}>
+          <View style={batteryStyles.batteryFillPausa} />
+          <View style={batteryStyles.batteryContainer}>
+            <Image
+              source={require("../../imgs/batteryBolt.png")}
+              style={batteryStyles.batteryBolt}
+            />
+          </View>
+          <View style={batteryStyles.batteryTip} />
+          
+        </View>
+      );
+    }
+  };
+
+  const AdicionarPausa = ({ selected }) => {
+    const navigation = useNavigation();
+    if (selected === "personal") {
+      return (
+        <View style={adicionarPausaStyles.adicionarPausaView}>
+          <Pressable
+            onPress={() => {
+              setPausa(!pausa);
+            }}
+            style={adicionarPausaStyles.adicionarPausaContainer}
+          >
+            <Text style={adicionarPausaStyles.adicionarPausaText}>
+              {pausa ? "Terminar Pausa" : "Adicionar Pausa"}
+            </Text>
+            {pausa ? (
+              <CloseCircle
+                color="white"
+                size={26}
+                variant="Bold"
+                style={adicionarPausaStyles.icon}
+              />
+            ) : (
+              <AddCircle
+                color="white"
+                size={26}
+                variant="Bold"
+                style={adicionarPausaStyles.icon}
+              />
+            )}
+          </Pressable>
+        </View>
+      );
+    } else if (selected === "team") {
+      return (
+        <View style={adicionarPausaStyles.adicionarPausaView}>
+          <Pressable
+            onPress={() => navigation.navigate("TeamDashboard")}
+            style={adicionarPausaStyles.adicionarPausaContainer}
+          >
+            <Text style={adicionarPausaStyles.adicionarPausaText}>
+              Ver equipa
+            </Text>
+            <People
+              color="white"
+              size={26}
+              variant="Bold"
+              style={adicionarPausaStyles.icon}
+            />
+          </Pressable>
+        </View>
+      );
+    }
+  };
+
 
 const BatteryToggle = () => {
   const [selected, setSelected] = useState("personal");
@@ -674,7 +755,6 @@ const batteryStyles = StyleSheet.create({
   batteryContainer: {
     height: 100.5,
     width: 175,
-    backgroundColor: "white",
     borderRadius: 22,
     borderColor: "black",
     borderWidth: 2.5,

@@ -11,6 +11,7 @@ export const lightBackgroundColor = "#FEFEFE";
 export const darkerColor = "#333333";
 export const greyColor = "#555555";
 export const whiteText = "#FFFFFF";
+export const dividerColor = "#D9D9D9";
 
 // ---- GOALS COLORS ----
 export const lowPriorityColor = "#07407B";
@@ -25,7 +26,6 @@ export const pageTitleSize = 24; //gotham medium 24 tambem usada no nome do perf
 export const pageSubtitleSize = 18; //gotham medium 18
 export const pageTextSize = 16; //gotham book 16
 export const pageSmallTextSize = 14; //gotham book 14
-export const profileRoleTextSize = 16; //gotham book 20
 
 // ---- TABBAR ELEMENTS ----
 export const navbarTextSize = 12; //gotham book 12
@@ -50,7 +50,7 @@ export const unselectedToggleTextColor = "#333333";
 
 // -- Switch --
 export const switchOnColor = "#07407B";
-export const switchOffColor = "#8E8E8E";
+export const switchOffColor = "#DDDDDD";
 export const switchIndicatorColor = "#FFFFFF";
 
 // ---- BUTTONS ELEMENTS ----
@@ -69,13 +69,16 @@ export const backgroundPaddingTop = 40;
 export const backgroundPaddingLateral = 25;
 export const cardPadding = 25;
 
-// ---- TEXT PADDING ----
-export const textPadding = 15;
-export const iconPadding = 15;
+// ---- PADDING ----
+export const textPadding = 25;
+export const iconPadding = 25;
 export const inputPadding = 5;
+export const boxPadding = 15;
 
 // ---- MARGINS ----
 export const inputMargin = 40;
+export const boxMargin = 10;
+export const dividerMargin = 10;
 
 // ---- BORDER RADIUS ----
 export const normalButtonRadius = 15;

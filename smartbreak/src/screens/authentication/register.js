@@ -12,10 +12,6 @@ import {
 import DropDownPicker from "react-native-dropdown-picker";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-// import { LogBox } from "react-native";
-// LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
-// LogBox.ignoreAllLogs(); //Ignore all log notifications
-
 // Password meter
 import PassMeter from "react-native-passmeter";
 
@@ -39,9 +35,17 @@ import * as CONST from "./../../styles/variables.js";
 import { styles } from "./../../styles/css.js";
 
 
+// ---------- CODE ----------
+
+
 export default function Register() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+
+  const [loaded] = useFonts({
+    GothamMedium: require("./../../fonts/GothamMedium.ttf"),
+    GothamBook: require("./../../fonts/GothamBook.ttf"),
+  });
 
   // select items
   const [open, setOpen] = useState(false);
@@ -188,9 +192,9 @@ export default function Register() {
   };
 
   return (
-    <SafeAreaProvider style={styles.mainContainer}>
+    <SafeAreaProvider style={styles.container}>
       <StatusBar style="light" />
-      <ScrollView style={styles.container}>
+      <ScrollView >
       <Text 
         accessible={true}
         accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Regista-te."

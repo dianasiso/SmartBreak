@@ -41,6 +41,13 @@ import firebase from "./../../config/firebase.js";
 // Font Gotham
 import { useFonts } from "expo-font";
 
+// Variables
+import * as CONST from "./../../styles/variables.js";
+
+// CSS
+import { styles } from "./../../styles/css.js";
+
+
 export default function Devices({ navigation }) {
   // Loading Gotham font
   const [loaded] = useFonts({
@@ -110,52 +117,52 @@ export default function Devices({ navigation }) {
 
   const whichIcon = (text) => {
     if (text == "Printer") {
-      return <Printer color="#000000" />;
+      return <Printer color="#333" variant="Bold" style={styles.boxIcon} />;
     }
     if (text == "Camera") {
-      return <Camera color="#000000" />;
+      return <Camera color="#333" variant="Bold" style={styles.boxIcon} />;
     }
     if (text == "Headphone") {
-      return <Headphone color="#000000" />;
+      return <Headphone color="#333" variant="Bold" style={styles.boxIcon} />;
     }
     if (text == "Mobile") {
-      return <Mobile color="#000000" />;
+      return <Mobile color="#333" variant="Bold" style={styles.boxIcon} />;
     }
     if (text == "Keyboard") {
-      return <Keyboard color="#000000" />;
+      return <Keyboard color="#333" variant="Bold" style={styles.boxIcon} />;
     }
     if (text == "Mouse") {
-      return <Mouse color="#000000" />;
+      return <Mouse color="#333" variant="Bold" style={styles.boxIcon} />;
     }
     if (text == "Call") {
-      return <Call color="#000000" />;
+      return <Call color="#333" variant="Bold" style={styles.boxIcon} />;
     }
     if (text == "Electricity") {
-      return <Electricity color="#000000" />;
+      return <Electricity color="#333" variant="Bold" style={styles.boxIcon} />;
     }
     if (text == "MonitorMobbile") {
-      return <MonitorMobbile color="#000000" />;
+      return <MonitorMobbile color="#333" variant="Bold" style={styles.boxIcon} />;
     }
     if (text == "Headphones") {
-      return <Headphones color="#000000" />;
+      return <Headphones color="#333" variant="Bold" style={styles.boxIcon} />;
     }
     if (text == "Lamp") {
-      return <Lamp color="#000000" />;
+      return <Lamp color="#333" variant="Bold" style={styles.boxIcon} />;
     }
     if (text == "TableLamp") {
-      return <TableLamp color="#000000" />;
+      return <TableLamp color="#333" variant="Bold" style={styles.boxIcon} />;
     }
     if (text == "Video") {
-      return <Video color="#000000" />;
+      return <Video color="#333" variant="Bold" style={styles.boxIcon} />;
     }
     if (text == "Monitor") {
-      return <Monitor color="#000000" />;
+      return <Monitor color="#333" variant="Bold" style={styles.boxIcon} />;
     }
     if (text == "MirroringScreen") {
-      return <MirroringScreen color="#000000" />;
+      return <MirroringScreen color="#333" variant="Bold" style={styles.boxIcon} />;
     }
     if (text == "Microphone2") {
-      return <Microphone2 color="#000000" />;
+      return <Microphone2 color="#333" variant="Bold" style={styles.boxIcon} />;
     }
   };
 
@@ -297,7 +304,7 @@ export default function Devices({ navigation }) {
   };
 
   return (
-    <SafeAreaProvider style={styles.container}>
+    <SafeAreaProvider style={styles.containerLight}>
       <StatusBar style="auto" />
       <Modal
         animationType="fade"
@@ -505,25 +512,21 @@ export default function Devices({ navigation }) {
         </View>
       </Modal>
       <ScrollView>
-        <Pressable
-          style={styles.button}
-          onPress={() => {
-            setModalVisible(true);
-          }}
-          underlayColor={"transparent"}
-        >
-          <Text style={styles.textButton}>Adicionar equipamento</Text>
+      <Pressable
+          style={styles.primaryButton}
+          onPress={() => { setModalVisible(true); }}
+          underlayColor={"transparent"} >
+          <Text style={[styles.primaryButtonText, {paddingLeft: CONST.textPadding}]}>Adicionar equipamento</Text>
           <AddCircle
             color="#FFF"
             variant="Bold"
-            style={{ alignSelf: "center", marginLeft: "auto", marginRight: 25 }}
-            onPress={() => {
-              setModalVisible(true);
-            }}
+            style={{marginLeft: "auto", marginRight: CONST.iconPadding}}
+            onPress={() => { setModalVisible(true);}}
           />
         </Pressable>
-        <Text style={{ color: "grey", fontSize:14, fontFamily:"GothamBook", lineHeight:18}}>
-          Clique continuamente nos seus equipamentos se os desejar eliminar
+        
+        <Text style={[styles.smallText, {opacity: 0.5}]}>
+          Clique continuamente nos seus equipamentos se os desejar eliminar.
         </Text>
       </ScrollView>
       <ScrollView style={{ marginTop: 20, marginBottom: 10 }}>
@@ -532,7 +535,7 @@ export default function Devices({ navigation }) {
           devicesArray.map((callbackfn, id) => (
             <Pressable
               key={id}
-              style={longPress ? styles.optionsPressed : styles.options}
+              style={longPress ? styles.boxOptionsPressed : styles.boxOptions}
               onLongPress={() => {
                 setLongPress(true);
                 Alert.alert(
@@ -571,11 +574,11 @@ export default function Devices({ navigation }) {
               }}
             >
               {whichIcon(devicesArray[id].type)}
-              <Text style={styles.text}> {devicesArray[id].name} </Text>
+              <Text style={styles.normalText}> {devicesArray[id].name} </Text>
               <Switch
-                style={{ marginLeft: "auto", marginRight: 25 }}
-                trackColor={{ false: "#BBBABA", true: "#0051BA" }}
-                thumbColor={devicesArray[id].using ? "#FFF" : "#0051ba"}
+                style={{ marginLeft: "auto", marginRight: CONST.iconPadding }}
+                trackColor={{ false: CONST.switchOffColor, true: CONST.switchOnColor }}
+                thumbColor={devicesArray[id].using ? CONST.switchIndicatorColor : CONST.mainBlue}
                 value={devicesArray[id].using}
                 onValueChange={() => {
                   devicesArray[id] = {
@@ -607,142 +610,142 @@ export default function Devices({ navigation }) {
   );
 }
 
-const screenWidth = Dimensions.get("window").width;
-const screenHeight = Dimensions.get("window").height;
+// const screenWidth = Dimensions.get("window").width;
+// const screenHeight = Dimensions.get("window").height;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    paddingLeft: 25,
-    paddingRight: 25,
-    paddingBottom: 90,
-  },
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: "#fff",
+//     paddingLeft: 25,
+//     paddingRight: 25,
+//     paddingBottom: 90,
+//   },
 
-  title: {
-    fontFamily: "GothamMedium",
-    fontSize: 24,
-    marginTop: 30,
-    marginBottom: 10,
-  },
+//   title: {
+//     fontFamily: "GothamMedium",
+//     fontSize: 24,
+//     marginTop: 30,
+//     marginBottom: 10,
+//   },
 
-  options: {
-    flex: 1,
-    marginTop: 20,
-    marginBottom: 10,
-    borderRadius: 15,
-    paddingTop: 15,
-    paddingBottom: 15,
-    paddingLeft: 25,
-    width: screenWidth - 50,
-    flexDirection: "row",
-    alignItems: "center",
-    textAlign: "left",
-    backgroundColor: "#E3ECF7",
-  },
+//   options: {
+//     flex: 1,
+//     marginTop: 20,
+//     marginBottom: 10,
+//     borderRadius: 15,
+//     paddingTop: 15,
+//     paddingBottom: 15,
+//     paddingLeft: 25,
+//     width: screenWidth - 50,
+//     flexDirection: "row",
+//     alignItems: "center",
+//     textAlign: "left",
+//     backgroundColor: "#E3ECF7",
+//   },
 
-  optionsPressed: {
-    flex: 1,
-    marginTop: 20,
-    marginBottom: 10,
-    borderRadius: 15,
-    paddingTop: 15,
-    paddingBottom: 15,
-    paddingLeft: 25,
-    width: screenWidth - 50,
-    flexDirection: "row",
-    alignItems: "center",
-    textAlign: "left",
-    backgroundColor: "#d2dbe6",
-  },
+//   optionsPressed: {
+//     flex: 1,
+//     marginTop: 20,
+//     marginBottom: 10,
+//     borderRadius: 15,
+//     paddingTop: 15,
+//     paddingBottom: 15,
+//     paddingLeft: 25,
+//     width: screenWidth - 50,
+//     flexDirection: "row",
+//     alignItems: "center",
+//     textAlign: "left",
+//     backgroundColor: "#d2dbe6",
+//   },
 
-  text: {
-    marginLeft: 10,
-    fontFamily: "GothamBook",
-    fontSize: 16,
-  },
+//   text: {
+//     marginLeft: 10,
+//     fontFamily: "GothamBook",
+//     fontSize: 16,
+//   },
 
-  button: {
-    flex: 1,
-    marginTop: 30,
-    marginBottom: 10,
-    borderRadius: 15,
-    paddingTop: 15,
-    paddingBottom: 15,
-    paddingLeft: 20,
-    width: screenWidth - 50,
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    textAlign: "left",
-    backgroundColor: "#0051ba",
-  },
+//   button: {
+//     flex: 1,
+//     marginTop: 30,
+//     marginBottom: 10,
+//     borderRadius: 15,
+//     paddingTop: 15,
+//     paddingBottom: 15,
+//     paddingLeft: 20,
+//     width: screenWidth - 50,
+//     alignItems: "center",
+//     flexDirection: "row",
+//     justifyContent: "flex-start",
+//     textAlign: "left",
+//     backgroundColor: "#0051ba",
+//   },
 
-  textButton: {
-    marginLeft: 10,
-    fontFamily: "GothamBook",
-    fontSize: 16,
-    color: "#FFF",
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  modalView: {
-    backgroundColor: "#E3ECF7",
-    borderRadius: 15,
-    padding: 25,
-    shadowColor: "#000",
-    shadowRadius: 5,
-    shadowOpacity: 0.5,
-    elevation: 10,
-  },
-  modalText: {
-    fontFamily: "GothamMedium",
-    fontSize: 16,
-    textAlign: "left",
-    marginBottom: 0,
-  },
-  modalTypeButton: {
-    backgroundColor: "transparent",
-    borderColor: "transparent",
-    borderWidth: 1,
-    borderRadius: 8,
-    padding: 8,
-    margin: 2,
-    textAlign: "center",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  modalTypeButtonPressed: {
-    backgroundColor: "transparent",
-    borderColor: "#000",
-    borderWidth: 1,
-    borderRadius: 8,
-    padding: 8,
-    margin: 2,
-    textAlign: "center",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  modalInput: {
-    marginTop: 0,
-    borderBottomWidth: 1,
-    paddingTop: 5,
-    paddingBottom: 5,
-    fontFamily: "GothamBook",
-    fontSize: 16,
-  },
-  buttonAdd: {
-    backgroundColor: "#0051ba",
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 20,
-    paddingRight: 20,
-    borderRadius: 8,
-    alignItems: "center",
-    marginLeft: 10,
-  },
-});
+//   textButton: {
+//     marginLeft: 10,
+//     fontFamily: "GothamBook",
+//     fontSize: 16,
+//     color: "#FFF",
+//   },
+//   centeredView: {
+//     flex: 1,
+//     justifyContent: "center",
+//     alignItems: "center",
+//     backgroundColor: "rgba(0, 0, 0, 0.5)",
+//   },
+//   modalView: {
+//     backgroundColor: "#E3ECF7",
+//     borderRadius: 15,
+//     padding: 25,
+//     shadowColor: "#000",
+//     shadowRadius: 5,
+//     shadowOpacity: 0.5,
+//     elevation: 10,
+//   },
+//   modalText: {
+//     fontFamily: "GothamMedium",
+//     fontSize: 16,
+//     textAlign: "left",
+//     marginBottom: 0,
+//   },
+//   modalTypeButton: {
+//     backgroundColor: "transparent",
+//     borderColor: "transparent",
+//     borderWidth: 1,
+//     borderRadius: 8,
+//     padding: 8,
+//     margin: 2,
+//     textAlign: "center",
+//     alignItems: "center",
+//     justifyContent: "center",
+//   },
+//   modalTypeButtonPressed: {
+//     backgroundColor: "transparent",
+//     borderColor: "#000",
+//     borderWidth: 1,
+//     borderRadius: 8,
+//     padding: 8,
+//     margin: 2,
+//     textAlign: "center",
+//     alignItems: "center",
+//     justifyContent: "center",
+//   },
+//   modalInput: {
+//     marginTop: 0,
+//     borderBottomWidth: 1,
+//     paddingTop: 5,
+//     paddingBottom: 5,
+//     fontFamily: "GothamBook",
+//     fontSize: 16,
+//   },
+//   buttonAdd: {
+//     backgroundColor: "#0051ba",
+//     paddingTop: 10,
+//     paddingBottom: 10,
+//     paddingLeft: 20,
+//     paddingRight: 20,
+//     borderRadius: 8,
+//     alignItems: "center",
+//     marginLeft: 10,
+//   },
+// });

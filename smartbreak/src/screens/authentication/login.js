@@ -15,10 +15,12 @@ import { useFonts } from "expo-font";
 import firebase from "./../../config/firebase.js";
 import { collection, where, query, getDocs } from "firebase/firestore";
 
+
+
 //secure store para guardar a sessao
 import * as SecureStore from "expo-secure-store";
 
-// CSS
+// STYLES -- CSS
 import { styles } from "./../../styles/css.js";
 
 

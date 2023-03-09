@@ -19,6 +19,13 @@ import firebase from "./../../config/firebase.js";
 // Font Gotham
 import { useFonts } from "expo-font";
 
+
+// CSS
+import { styles } from "./../../styles/css.js";
+// Variables
+import * as CONST from "./../../styles/variables.js";
+
+
 export default function NotificationsProfile({ navigation }) {
   // Loading Gotham font
   const [loaded] = useFonts({
@@ -43,18 +50,17 @@ export default function NotificationsProfile({ navigation }) {
   return (
     <SafeAreaProvider
       showsVerticalScrollIndicator={false}
-      style={styles.container}
+      style={styles.containerLight}
     >
       <ScrollView>
         <StatusBar style="auto" />
-        <Text style={styles.title}>Notificações</Text>
-        <View style={{ alignItems: "center" }}>
-          <View style={styles.options}>
-              <Text style={styles.text}>Supender tudo</Text>
+        <Text style={styles.titleText}>Notificações {"\n"}</Text>
+          <View style={styles.boxOptions}>
+              <Text style={styles.normalText}>Supender tudo</Text>
               <Switch
-                style={{marginLeft: 'auto', marginRight: 25}}
-                trackColor={{ false: "#BBBABA", true: "#0051BA" }}
-                thumbColor={notificationsArray[0] ? '#FFF' : '#0051ba'}
+               style={{ marginLeft: "auto", marginRight: CONST.iconPadding }}
+               trackColor={{ false: CONST.switchOffColor, true: CONST.switchOnColor }}
+               thumbColor={notificationsArray[0] ?  CONST.switchIndicatorColor : CONST.mainBlue}
                 value={notificationsArray[0]}
                 onValueChange={(() => {
                   if (notificationsArray[0]) {
@@ -77,13 +83,13 @@ export default function NotificationsProfile({ navigation }) {
             />
           </View>
 
-          <View style={styles.options}>
-              <Text style={styles.text}>Recomendações de pausas</Text>
+          <View style={styles.boxOptions}>
+              <Text style={styles.normalText}>Recomendações de pausas</Text>
               <Switch
-                style={{marginLeft: 'auto', marginRight: 25}}
-                trackColor={{ false: "#BBBABA", true: "#0051BA" }}
-                thumbColor={notificationsArray[1] ? '#FFF' : '#0051ba'}
-                value={notificationsArray[1]}
+                style={{ marginLeft: "auto", marginRight: CONST.iconPadding }}
+                trackColor={{ false: CONST.switchOffColor, true: CONST.switchOnColor }}
+                thumbColor={notificationsArray[1] ?  CONST.switchIndicatorColor : CONST.mainBlue}
+                 value={notificationsArray[1]}
                 onValueChange={(() => {
                   if (notificationsArray[1]) {
                     firebase.firestore().collection('users_data').doc(uid).update({
@@ -105,12 +111,12 @@ export default function NotificationsProfile({ navigation }) {
               />
           </View>
 
-          <View style={styles.options}>
-              <Text style={styles.text}>Dicas diárias</Text>
+          <View style={styles.boxOptions}>
+              <Text style={styles.normalText}>Dicas diárias</Text>
               <Switch
-                style={{marginLeft: 'auto', marginRight: 25}}
-                trackColor={{ false: "#BBBABA", true: "#0051BA" }}
-                thumbColor={notificationsArray[2] ? '#FFF' : '#0051ba'}
+                style={{ marginLeft: "auto", marginRight: CONST.iconPadding }}
+                trackColor={{ false: CONST.switchOffColor, true: CONST.switchOnColor }}
+                thumbColor={notificationsArray[2] ?  CONST.switchIndicatorColor : CONST.mainBlue}
                 value={notificationsArray[2]}
                 onValueChange={(() => {
                   if (notificationsArray[2]) {
@@ -133,13 +139,13 @@ export default function NotificationsProfile({ navigation }) {
               />
           </View>
 
-          <View style={styles.options}>
-              <Text style={styles.text}>Novos objetivos</Text>
+          <View style={styles.boxOptions}>
+              <Text style={styles.normalText}>Novos objetivos</Text>
               <Switch
-                style={{marginLeft: 'auto', marginRight: 25}}
-                trackColor={{ false: "#BBBABA", true: "#0051BA" }}
-                thumbColor={notificationsArray[3] ? '#FFF' : '#0051ba'}
-                value={notificationsArray[3]}
+                style={{ marginLeft: "auto", marginRight: CONST.iconPadding }}
+                trackColor={{ false: CONST.switchOffColor, true: CONST.switchOnColor }}
+                thumbColor={notificationsArray[3] ?  CONST.switchIndicatorColor : CONST.mainBlue}
+                 value={notificationsArray[3]}
                 onValueChange={(() => {
                   if (notificationsArray[3]) {
                     firebase.firestore().collection('users_data').doc(uid).update({
@@ -160,55 +166,54 @@ export default function NotificationsProfile({ navigation }) {
                 })}
               />
           </View>
-        </View>
       </ScrollView>
     </SafeAreaProvider>
   );
 }
 
-const screenWidth = Dimensions.get('window').width;
-const screenHeight = Dimensions.get('window').height;
+// const screenWidth = Dimensions.get('window').width;
+// const screenHeight = Dimensions.get('window').height;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    paddingLeft: 25,
-    paddingRight: 25,
-    paddingBottom: 90,
-  },
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: "#fff",
+//     paddingLeft: 25,
+//     paddingRight: 25,
+//     paddingBottom: 90,
+//   },
 
-  options: {
-    flex: 1,
-    marginTop: 20,
-    marginBottom: 10,
-    borderRadius: 15,
-    paddingTop: 15,
-    paddingBottom: 15,
-    paddingLeft: 25,
-    width: screenWidth - 50, 
-    flexDirection: "row",
-    alignItems: "center",
-    textAlign: 'left',
-    backgroundColor: "#E3ECF7",
-  },
-  rewards: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginTop: 30,
-  },
+//   options: {
+//     flex: 1,
+//     marginTop: 20,
+//     marginBottom: 10,
+//     borderRadius: 15,
+//     paddingTop: 15,
+//     paddingBottom: 15,
+//     paddingLeft: 25,
+//     width: screenWidth - 50, 
+//     flexDirection: "row",
+//     alignItems: "center",
+//     textAlign: 'left',
+//     backgroundColor: "#E3ECF7",
+//   },
+//   rewards: {
+//     flexDirection: "row",
+//     alignItems: "center",
+//     justifyContent: "space-between",
+//     marginTop: 30,
+//   },
 
-  title: {
-    fontFamily: "GothamMedium",
-    fontSize: 24,
-    marginTop: 30,
-  },
+//   title: {
+//     fontFamily: "GothamMedium",
+//     fontSize: 24,
+//     marginTop: 30,
+//   },
 
-  text: {
-    fontFamily: "GothamBook",
-    fontSize: 16,
-    marginLeft: 15,
-    lineHeight: 24,
-  },
-});
+//   text: {
+//     fontFamily: "GothamBook",
+//     fontSize: 16,
+//     marginLeft: 15,
+//     lineHeight: 24,
+//   },
+// });
