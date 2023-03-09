@@ -1,8 +1,9 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
-import { StyleSheet, ScrollView, View, Text } from "react-native";
+import React, { useRef } from "react";
+import { StyleSheet, ScrollView, View, Text, Dimensions, Pressable } from "react-native";
 import { ArrowCircleUp } from "iconsax-react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { useScrollToTop } from '@react-navigation/native';
 
 // Font Gotham
 import { useFonts } from "expo-font";
@@ -14,13 +15,23 @@ export default function TermsofUseProfile() {
     GothamBook: "./../fonts/GothamBook.ttf",
   });
 
+  const content = useRef();
+
+  const onPressTouch = () => {
+    content.current?.scrollTo({
+      y: 0,
+      animated: true,
+    });
+  }
+
   return (
     <SafeAreaProvider style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <StatusBar style="auto" />
-        {/*<View style={styles.arrow}>
-          <ArrowCircleUp variant="Bold" color="#0051BA" size="65" />
-  </View>*/}
+      <StatusBar style="auto" />
+      <Pressable style={styles.arrow} onPress={onPressTouch} >
+        <ArrowCircleUp variant="Bold" color="#0051BA" size="60" />
+      </Pressable>
+      <ScrollView ref={content} showsVerticalScrollIndicator={false}>
+
         <Text style={styles.title}>Centro de ajuda</Text>
         <View>
           <Text style={styles.subtitle}>Como usar a Smart Break</Text>
@@ -65,7 +76,7 @@ export default function TermsofUseProfile() {
             a contribuir para a diminuição do desperdício e excesso de energia.
             Em caso de dúvidas, contacta-nos através de suporte@smarkbreak.pt.
           </Text>
-          <Text style={styles.text}>
+          <Text style={styles.text2}>
             Smart Break. Converte o teu tempo em lucro e lazer.
           </Text>
         </View>
@@ -74,20 +85,25 @@ export default function TermsofUseProfile() {
   );
 }
 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
     paddingLeft: 25,
     paddingRight: 25,
-    paddingBottom: 100,
+    paddingBottom: 90,
   },
 
   arrow: {
-    position: "absolute",
-    bottom: 10,
-    right: 10,
-    zIndex: 1,
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    position: 'absolute',
+    right: 25,
+    bottom: 115,
+    zIndex: 10,
+    backgroundColor: '#FFF',
+    borderRadius: 50,
   },
 
   title: {
@@ -109,5 +125,14 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     marginTop: 10,
     color: "#444444",
+  },
+
+  text2: {
+    fontFamily: "GothamBook",
+    fontSize: 16,
+    lineHeight: 24,
+    marginTop: 10,
+    color: "#444444",
+    paddingBottom: 25,
   },
 });

@@ -1,18 +1,8 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import {
-  TextInput,
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  Image,
-  Dimensions,
-  TouchableOpacity,
-  Alert,
-  KeyboardAvoidingView,
-} from "react-native";
+import {TextInput, Text, View, ScrollView, Image, Alert, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 //redux
 import { useDispatch } from "react-redux";
@@ -24,6 +14,15 @@ import { useFonts } from "expo-font";
 // Firebase
 import firebase from "./../../config/firebase.js";
 import { collection, where, query, getDocs } from "firebase/firestore";
+
+
+
+//secure store para guardar a sessao
+import * as SecureStore from "expo-secure-store";
+
+// STYLES -- CSS
+import { styles } from "./../../styles/css.js";
+
 
 export default function Login() {
   const navigation = useNavigation();
@@ -40,9 +39,6 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState("");
 
-  if (!loaded) {
-    return null; // Returns null if unable to load the font
-  }
 
   const submit = async () => {
     const user = query(
@@ -82,6 +78,7 @@ export default function Login() {
         );
       } else {
         // navigate.navigate("Painel", {idUser: uid})
+        await SecureStore.setItemAsync("uid", uid);
         handleNavigate(uid);
       }
     }
@@ -111,139 +108,70 @@ export default function Login() {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaProvider style={styles.container}>
       <StatusBar style="light" />
-      <ScrollView style={styles.groupContainer}>
-        <Text style={styles.textMessageTitle}>
-          <Text style={{ fontFamily: "GothamMedium" }}>Login</Text>
-        </Text>
-        <Text style={styles.textMessageBody}>
-          Estamos contentes por continuares a melhorar o teu local de trabalho.
-        </Text>
+        <Text 
+          accessible={true}
+          accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Login!"
+          style={styles.titleTextWhite}>Login</Text>
+        <Text
+          accessible={true}
+          accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Estamos contentes por continuares a melhorar o teu local de trabalho."
+          style={styles.normalTextWhite}>Estamos contentes por continuares a melhorar o teu local de trabalho.</Text>
         <View style={styles.imageLogo}>
           <Image
+            accessible={true}
+            accessibilityLabel="Imagem com três pessoas num fundo azul escuro. A primeira está virada para o lado direito e veste um casaco verde, a
+            segunda está sentada à frente com um casaco laranja e também virada para o lado direito e a terceira está do lado direito, virada para o lado
+            esquerdo e com um casaco vermelho." 
             style={{ width: 300, height: 200 }}
             source={require("./../../imgs/img_login.png")}
-          />
+            />
         </View>
-      </ScrollView>
 
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        keyboardVerticalOffset={screenHeight}
-        style={styles.subContainer}
-      >
+      <ScrollView style={styles.subContainer}>
         {loading == true ? (
           loadingScreen()
         ) : (
           <View>
             <ScrollView>
-              <Text>Email</Text>
+              <Text
+                accessible={true}
+                accessibilityLabel="Texto na cor preta num fundo branco escrito E-mail." 
+                style={styles.inputLabel}>E-mail</Text>
               <TextInput
+                accessible={true}
+                accessibilityLabel="Campo para introdução do E-mail." 
                 style={styles.inputField}
-                onChangeText={(text) => setEmail(text)}
+                onChangeText={(text) => setEmail(text.toLowerCase())}
               />
-              <Text>Palavra-passe</Text>
+              <Text accessible={true}
+                accessibilityLabel="Texto na cor preta num fundo branco escrito Palavra-passe." 
+                style={styles.inputLabel}>Palavra-passe</Text>
               <TextInput
                 secureTextEntry={true}
                 style={styles.inputField}
+                accessible={true}
+                accessibilityLabel="Campo para introdução da Palavra-passe." 
                 onChangeText={(text) => setPassword(text)}
               />
-              <Text style={styles.extra}>Esqueceu-se da palavra-passe?</Text>
-              <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={() => submit()}
-                style={styles.button}
-              >
-                <Text style={styles.buttonText}>Login</Text>
-              </TouchableOpacity>
+              <Pressable 
+                accessible={true}
+                accessibilityLabel="Texto na cor cinza num fundo branco escrito Esqueceu.se da palavra-passe?." 
+                onPress={() => navigation.navigate("Password")}>
+                <Text style={styles.forgotPasswordText}>Esqueceu-se da palavra-passe?</Text>
+              </Pressable>
+              <Pressable 
+                accessible={true}
+                accessibilityLabel="Botão da cor azul escura num fundo branco com o objetivo de efetuar o Login. Tem escrito na cor branca a palavra Entrar."
+                onPress={() => submit()} style={styles.primaryButton}>
+                <Text style={styles.primaryButtonText}>Entrar</Text>
+              </Pressable>
             </ScrollView>
           </View>
         )}
-      </KeyboardAvoidingView>
-    </View>
+      </ScrollView>
+    </SafeAreaProvider>
   );
 }
 
-// Get screen dimensions
-const screenWidth = Dimensions.get("window").width;
-const screenHeight = Dimensions.get("window").height - 50;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#0051BA",
-    flexDirection: "column",
-  },
-  groupContainer: {
-    paddingLeft: 25,
-    paddingRight: 25,
-  },
-  subContainer: {
-    backgroundColor: "#FFF",
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0,
-    borderTopRightRadius: 50,
-    borderTopLeftRadius: 50,
-    paddingLeft: 25,
-    paddingRight: 25,
-    paddingTop: 65,
-    //height: screenHeight/2,
-  },
-  registerPhoto: {
-    height: screenWidth / 5,
-    width: screenWidth / 5,
-    marginLeft: "auto",
-    marginRight: "auto",
-    borderRadius: screenWidth / 10,
-    flex: 1 / 2,
-  },
-  extra: {
-    color: "#888",
-    fontSize: 12,
-    textAlign: "right",
-    marginBottom: 70,
-  },
-  inputField: {
-    borderBottomColor: "#000000",
-    borderBottomWidth: 1,
-    marginBottom: 40,
-    borderTopWidth: 0,
-    borderLeftWidth: 0,
-    borderRightWidth: 0,
-    borderRadius: 0,
-  },
-  buttonText: {
-    fontFamily: "GothamBook",
-    color: "#FFF",
-    fontSize: 18,
-    textAlign: "center",
-  },
-  button: {
-    backgroundColor: "#0051BA",
-    justifyContent: "center",
-    height: 48,
-    borderRadius: 15,
-    marginBottom: 40,
-    marginTop: 10,
-  },
-  textMessageTitle: {
-    fontSize: 24,
-    textAlign: "left",
-    paddingTop: 40,
-    fontFamily: "GothamBook",
-    color: "#FFFFFF",
-  },
-  textMessageBody: {
-    fontSize: 16,
-    textAlign: "left",
-    paddingTop: 15,
-    fontFamily: "GothamBook",
-    color: "#FFFFFF",
-    lineHeight: 24,
-  },
-  imageLogo: {
-    alignItems: "center",
-    paddingTop: 57,
-  },
-});

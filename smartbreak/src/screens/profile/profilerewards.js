@@ -6,6 +6,7 @@ import {
   View,
   Text,
   TouchableHighlight,
+  Pressable,
 } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Car, Coffee, DollarCircle } from "iconsax-react-native";
@@ -29,35 +30,20 @@ export default function ProfileRewards() {
         <StatusBar style="auto" />
         <Text style={styles.title}>As minhas recompensas</Text>
 
-        <View style={styles.options}>
+        <Pressable style={styles.options}>
           <Car color="#000000" />
-          <TouchableHighlight
-            onPress={() => navigation.navigate("EditPassword")}
-            underlayColor={"transparent"}
-          >
-            <Text style={styles.text}>1 dia de férias em setembro</Text>
-          </TouchableHighlight>
-        </View>
+          <Text style={styles.text}>1 dia de férias em setembro</Text>
+        </Pressable>
 
-        <View style={styles.options}>
+        <Pressable style={styles.options}>
           <Coffee color="#000000" />
-          <TouchableHighlight
-            onPress={() => navigation.navigate("NotificationsProfile")}
-            underlayColor={"transparent"}
-          >
-            <Text style={styles.text}>10 cafés grátis no bar</Text>
-          </TouchableHighlight>
-        </View>
+          <Text style={styles.text}>10 cafés grátis no bar</Text>
+        </Pressable>
 
-        <View style={styles.options}>
+        <Pressable style={styles.options}>
           <DollarCircle color="#000000" />
-          <TouchableHighlight
-            onPress={() => navigation.navigate("SecurityProfile")}
-            underlayColor={"transparent"}
-          >
-            <Text style={styles.text}>Vale 15€ em refeições</Text>
-          </TouchableHighlight>
-        </View>
+          <Text style={styles.text}>Vale 15€ em refeições</Text>
+        </Pressable>
       </ScrollView>
     </SafeAreaProvider>
   );
@@ -69,7 +55,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     paddingLeft: 25,
     paddingRight: 25,
-    paddingBottom: 100,
+    paddingBottom: 90,
   },
 
   options: {
