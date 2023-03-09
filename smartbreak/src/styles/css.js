@@ -263,6 +263,7 @@ export const styles = StyleSheet.create({
   profileImage: {
     width: 100,
     height: 100,
+    borderRadius: 50,
   },
   profileName: {
     marginTop: 20,
@@ -296,5 +297,11 @@ export const styles = StyleSheet.create({
     fontSize: CONST.profileRoleTextSize,
     color: CONST.darkerColor,
     fontFamily: "GothamBook",
+  },
+  editprofileRewards: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 5,
   },
 });
