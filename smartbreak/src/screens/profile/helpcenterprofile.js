@@ -35,8 +35,9 @@ export default function TermsofUseProfile() {
       <Pressable style={styles.arrow} onPress={onPressTouch} >
         <ArrowCircleUp variant="Bold" color={CONST.mainBlue} size="50" />
       </Pressable>
-      <Text style={styles.titleText}>Centro de ajuda</Text>
+     
       <ScrollView ref={content} showsVerticalScrollIndicator={false}>
+      <Text style={styles.titleText}>Centro de ajuda</Text>
         <Text style={[styles.normalText, {fontFamily: 'GothamMedium',marginTop: CONST.textPadding}]}>Como usar a Smart Break{"\n"}</Text>
           <Text style={styles.normalText}>
             Esta página serve como guia para o uso da Smart Break!

@@ -37,8 +37,9 @@ export default function TermsofUseProfile() {
       <Pressable style={styles.arrow} onPress={onPressTouch} >
         <ArrowCircleUp variant="Bold" color={CONST.mainBlue} size="50" />
       </Pressable>
-        <Text style={styles.titleText}>Termos de utilização</Text>
         <ScrollView ref={content} showsVerticalScrollIndicator={false}>
+        <Text style={styles.titleText}>Termos de utilização</Text>
+        
           <Text style={[styles.normalText, {fontFamily: 'GothamMedium',marginTop: CONST.textPadding}]}>
             Termos e condições gerais de uso do aplicativo Smart Break.
           </Text>
