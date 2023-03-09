@@ -8,6 +8,8 @@ import { useFonts } from "expo-font";
 
 // CSS
 import { styles } from "./../../styles/css.js";
+// Variables
+import * as CONST from "./../../styles/variables.js";
 
 export default function Welcome() {
   const navigation = useNavigation();
@@ -47,7 +49,7 @@ export default function Welcome() {
             accessible={true}
             accessibilityLabel="Texto na cor preta num fundo branco escrito Faz pausas no trabalho, desliga os teus equipamentos, e contribui para
             a redução do desperdício energético. Aumenta a tua produtividade e eficiência energética!"
-            style={styles.normalText}>
+            style={[styles.normalText, {paddingTop: CONST.boxPadding, paddingBottom: CONST.inputMargin}]}>
             Faz pausas no trabalho, desliga os teus equipamentos, e contribui para
             a redução do desperdício energético. Aumenta a tua produtividade e eficiência energética!
           </Text>
