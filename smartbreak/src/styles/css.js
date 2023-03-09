@@ -86,7 +86,10 @@ export const styles = StyleSheet.create({
   },
   primaryButton: {
     backgroundColor: CONST.primaryButtonBackground,
-    justifyContent: "center",
+    justifyContent: "center", 
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
     height: CONST.heightButton,
     borderRadius: CONST.normalButtonRadius,
     margin: 5,
@@ -123,6 +126,13 @@ export const styles = StyleSheet.create({
   },
   normalText: {
     fontSize: CONST.pageTextSize,
+    fontFamily: "GothamBook",
+    lineHeight: CONST.pageTextSize + 5,
+    color: CONST.darkerColor,
+  },
+  smallText: {
+    fontSize: CONST.pageSmallTextSize,
+    paddingTop: 15,
     fontFamily: "GothamBook",
     lineHeight: CONST.pageTextSize + 5,
     color: CONST.darkerColor,
@@ -178,6 +188,34 @@ export const styles = StyleSheet.create({
     marginBottom: CONST.inputMargin,
     color: CONST.whiteText,
   },
+  boxOptions: {
+    paddingLeft: CONST.boxMargin,
+    paddingRight: CONST.boxMargin,
+    paddingTop: CONST.boxPadding,
+    paddingBottom: CONST.boxPadding,
+    flex: 1,
+    borderBottomWidth: 1,
+    borderBottomColor: CONST.dividerColor,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  boxOptionsPressed: {
+    marginBottom: CONST.boxMargin,
+    paddingLeft: CONST.boxMargin,
+    paddingRight: CONST.boxMargin,
+    paddingTop: CONST.boxPadding,
+    paddingBottom: CONST.boxPadding,
+    borderBottomWidth: 1,
+    borderBottomColor: CONST.dividerColor,
+    opacity: 0.5,
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  boxIcon: {
+    color: CONST.darkerColor,
+    marginRight: CONST.boxPadding,
+  },
 
   // ---- MAIN NAVIGATION ----
   IconContainer: {},
@@ -228,6 +266,17 @@ export const styles = StyleSheet.create({
     marginTop: -CONST.inputMargin / 2,
   },
 
+  // ---- PROFILE SETTINGS: ARROW BACK TO TOP ----
+  arrow: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    position: 'absolute',
+    right: CONST.backgroundPaddingLateral,
+    bottom: CONST.backgroundPaddingTop*3,
+    zIndex: 10,
+    backgroundColor:  CONST.lightBackgroundColor,
+    borderRadius: 50,
+  },
   // ---- ONBOARDING ----
   skipBox: {
     paddingLeft: CONST.backgroundPaddingLateral,
@@ -505,50 +554,39 @@ export const styles = StyleSheet.create({
 
   // ---- PROFILE ---- //
 
-  divider: {
-    borderBottomColor: "#D9D9D9",
-    borderBottomWidth: 1,
-    marginVertical: 10,
-  },
+ 
   profileInfo: {
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: CONST.inputMargin,
   },
   profileImage: {
     width: 100,
     height: 100,
+    borderRadius: CONST.circleRadius,
   },
   profileName: {
-    marginTop: 20,
+    marginTop: CONST.textPadding,
     fontSize: CONST.pageTitleSize,
     textTransform: "capitalize",
     fontFamily: "GothamMedium",
     color: CONST.darkerColor,
   },
   profileOrganization: {
-    marginTop: 10,
-    marginBottom: 10,
-    fontSize: CONST.profileRoleTextSize,
+    marginTop: CONST.boxMargin,
+    fontSize: CONST.pageTextSize,
     color: CONST.darkerColor,
     fontFamily: "GothamBook",
   },
-  profileIcon: {
+  
+  profileOptionsText: {
+    fontSize: CONST.pageTextSize,
     color: CONST.darkerColor,
-    marginRight: 12,
+    fontFamily: "GothamBook",
   },
-  profileOptions: {
-    marginBottom: 10,
-    paddingTop: 15,
-    fontSize: CONST.profileRoleTextSize,
-    width: CONST.screenWidth - 50,
-    flex: 1,
+  editprofileRewards: {
     flexDirection: "row",
     alignItems: "center",
-    textAlign: "left",
-  },
-  profileOptionsText: {
-    fontSize: CONST.profileRoleTextSize,
-    color: CONST.darkerColor,
-    fontFamily: "GothamBook",
+    justifyContent: "space-between",
+    marginBottom: 20,
   },
 });

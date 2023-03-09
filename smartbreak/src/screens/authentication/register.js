@@ -42,6 +42,11 @@ export default function Register() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
+  const [loaded] = useFonts({
+    GothamMedium: require("./../../fonts/GothamMedium.ttf"),
+    GothamBook: require("./../../fonts/GothamBook.ttf"),
+  });
+
   // select items
   const [open, setOpen] = useState(false);
   const [valueOrg, setValueOrg] = useState("");
