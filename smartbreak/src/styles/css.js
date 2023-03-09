@@ -306,7 +306,7 @@ export const styles = StyleSheet.create({
   profileImage: {
     width: 100,
     height: 100,
-    borderRadius: 50,
+    borderRadius: CONST.circleRadius,
   },
   profileName: {
     marginTop: CONST.textPadding,
@@ -331,6 +331,6 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginTop: 5,
+    marginBottom: 20,
   },
 });

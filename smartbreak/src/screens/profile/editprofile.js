@@ -113,11 +113,11 @@ export default function EditProfile({ navigation }) {
   return (
     <SafeAreaProvider
       showsVerticalScrollIndicator={false}
-      style={styles.containerLight}
+      style={styles.mainContainerLight}
     >
       <StatusBar style="auto" />
       <ScrollView
-        sstyle={styles.container}
+        style={[styles.containerLight, {paddingTop: 0}]}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
@@ -174,8 +174,9 @@ export default function EditProfile({ navigation }) {
           <TextInput
             accessible={true}
             accessibilityLabel="Campo para introdução do E-mail."
-            style={styles.inputField}
+            style={[styles.inputField, {opacity:0.5, marginBottom: 20}]}
             placeholder={organization}
+            placeholderTextColor={CONST.darkerColor}
             editable={false}
           />
 
@@ -184,23 +185,17 @@ export default function EditProfile({ navigation }) {
               Tornar as recompensas públicas
             </Text>
             <Switch
-              trackColor={{ false: "#BBBABA", true: "#0051BA" }}
-              thumbColor={rewards ? "#E3ECF7" : "#0051ba"}
+              trackColor={{ false: CONST.switchOffColor, true: CONST.switchOnColor }}
+              thumbColor={rewards ? CONST.switchIndicatorColor : CONST.mainBlue}
               value={rewards}
               onValueChange={toggleSwitch}
             />
           </View>
         </View>
         <View>
-          <Pressable onPress={() => editarperfil()} style={styles.button}>
+          <Pressable onPress={() => editarperfil()} style={styles.primaryButton}>
             <Text
-              style={{
-                color: "#FFFFFF",
-                fontFamily: "GothamBook",
-                fontSize: 16,
-                lineHeight: 24,
-                textAlign: "center",
-              }}
+              style={styles.primaryButtonText}
             >
               {" "}
               Concluído{" "}
@@ -211,66 +206,3 @@ export default function EditProfile({ navigation }) {
     </SafeAreaProvider>
   );
 }
-
-const screenWidth = Dimensions.get("window").width;
-/*
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    paddingLeft: 25,
-    paddingRight: 25,
-    paddingBottom: 90,
-  },
-
-  profilepicture: {
-    backgroundColor: "#F5F5F5",
-    //mudar os tamanhos para percentagens para funcionar bem em todos os ecrãs
-    height: 110,
-    width: 110,
-    borderRadius: 100,
-    marginTop: 40,
-  },
-
-  edit: {
-    marginTop: 30,
-    width: "100%",
-  },
-
-  input: {
-    marginTop: 0,
-    borderBottomWidth: 1,
-    paddingTop: 5,
-    paddingBottom: 5,
-    fontFamily: "GothamBook",
-    fontSize: 16,
-    lineHeight: 16,
-  },
-
-  rewards: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginTop: 30,
-  },
-
-  button: {
-    alignSelf: "stretch",
-    marginTop: 40,
-    borderRadius: 15,
-    paddingTop: 15,
-    paddingBottom: 15,
-    marginBottom: 20,
-    justifyContent: "center",
-    backgroundColor: "#0051BA",
-    width: screenWidth - 50,
-  },
-
-  text: {
-    fontFamily: "GothamMedium",
-    fontSize: 16,
-    marginTop: 40,
-    lineHeight: 24,
-  },
-});
-*/
