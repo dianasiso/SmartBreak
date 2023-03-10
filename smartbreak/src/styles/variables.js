@@ -21,6 +21,7 @@ export const highPriorityColor = "#F55038";
 // ---- FONT SIZES ----
 export const dashboardChargeSize = 40; //gotham medium 40
 export const welcomeLogoText = 40; //gotham medium 40
+export const errorTitleText = 35; // gotham medium usada nos títulos das páginas de erro
 export const dashboardGoalsSize = 32; //gotham medium 32
 export const pageTitleSize = 24; //gotham medium 24 tambem usada no nome do perfil
 export const pageSubtitleSize = 18; //gotham medium 18

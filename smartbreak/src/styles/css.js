@@ -86,7 +86,7 @@ export const styles = StyleSheet.create({
   },
   primaryButton: {
     backgroundColor: CONST.primaryButtonBackground,
-    justifyContent: "center", 
+    justifyContent: "center",
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
@@ -270,11 +270,11 @@ export const styles = StyleSheet.create({
   arrow: {
     flexDirection: "row",
     justifyContent: "flex-end",
-    position: 'absolute',
+    position: "absolute",
     right: CONST.backgroundPaddingLateral,
-    bottom: CONST.backgroundPaddingTop*3,
+    bottom: CONST.backgroundPaddingTop * 3,
     zIndex: 10,
-    backgroundColor:  CONST.lightBackgroundColor,
+    backgroundColor: CONST.lightBackgroundColor,
     borderRadius: 50,
   },
   // ---- ONBOARDING ----
@@ -559,8 +559,6 @@ export const styles = StyleSheet.create({
   /////LIXO/////
 
   // ---- PROFILE ---- //
-
- 
   profileInfo: {
     alignItems: "center",
     marginBottom: CONST.inputMargin,
@@ -583,12 +581,30 @@ export const styles = StyleSheet.create({
     color: CONST.darkerColor,
     fontFamily: "GothamBook",
   },
-  
+
   profileOptionsText: {
     fontSize: CONST.pageTextSize,
     color: CONST.darkerColor,
     fontFamily: "GothamBook",
   },
+
+  // ---- ERROR PAGES ---- //
+  errorTitleText: {
+    fontSize: CONST.errorTitleText,
+    fontFamily: "GothamMedium",
+    color: CONST.whiteText,
+    paddingTop: CONST.backgroundPaddingTop,
+    textAlign: "center",
+  },
+
+  errorNormalText: {
+    fontSize: CONST.pageSubtitleSize,
+    fontFamily: "GothamBook",
+    lineHeight: CONST.pageTextSize + 5,
+    color: CONST.whiteText,
+    textAlign: "center",
+    paddingTop: CONST.backgroundPaddingTop,
+=======
   editprofileRewards: {
     flexDirection: "row",
     alignItems: "center",
