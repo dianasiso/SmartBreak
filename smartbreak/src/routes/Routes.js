@@ -597,17 +597,19 @@ const TabRoutes = (
           headerShown: true,
           headerShadowVisible: false,
           headerTitle: "",
-          headerStyle: { backgroundColor: CONST.mainBlue },
+          headerStyle: { backgroundColor: CONST.mainOrange },
           tabBarIcon: ({ focused, color }) => (
             <>
               <View style={{ opacity: focused ? 1 : 0 }}>
-                <RectangleIndicatorError style={{ backgroundColor: "#F5F5F5" }} />
+                <RectangleIndicatorError
+                  style={{ backgroundColor: "#F5F5F5" }}
+                />
               </View>
               <Icon name="stats" color={color} />
             </>
           ),
           tabBarStyle: {
-            backgroundColor: CONST.mainBlue,
+            backgroundColor: CONST.mainOrange,
             borderTopColor: "transparent",
             height: 90,
             borderTopLeftRadius: 0,

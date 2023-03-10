@@ -2,6 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import { Alert } from "react-native";
 import {
+  RefreshControl,
   StyleSheet,
   ScrollView,
   View,
@@ -20,6 +21,12 @@ import { useFonts } from "expo-font";
 
 // Firebase
 import firebase from "./../../config/firebase.js";
+
+// CSS
+import { styles } from "./../../styles/css.js";
+
+// Variables
+import * as CONST from "./../../styles/variables.js";
 
 import { LogBox } from "react-native";
 LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
@@ -90,150 +97,112 @@ export default function EditProfile({ navigation }) {
       },
     ]);
   };
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
 
   const toggleSwitch = () => {
     setRewards(!rewards);
   };
 
   return (
-    <SafeAreaProvider style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <StatusBar style="auto" />
-        <View style={{ alignItems: "center" }}>
+    <SafeAreaProvider
+      showsVerticalScrollIndicator={false}
+      style={styles.mainContainerLight}
+    >
+      <StatusBar style="auto" />
+      <ScrollView
+        style={[styles.containerLight, {paddingTop: 0}]}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+
+        <View style={styles.profileInfo}>
           <Image
             source={require("../../imgs/ester.png")}
-            style={styles.profilepicture}
+            style={styles.profileImage}
           />
-          <View style={styles.edit}>
-            <Text style={styles.text}>Nome</Text>
-            <TextInput
-              placeholderTextColor="#000"
-              placeholder={name}
-              style={styles.input}
-              onChangeText={(text) => setName(text)}
-              value={name}
+        </View>
+
+        <View>
+          <Text
+            accessible={true}
+            accessibilityLabel="Texto na cor preta num fundo branco escrito Nome."
+            style={styles.inputLabel}>Nome</Text>
+          <TextInput
+            accessible={true}
+            accessibilityLabel="Campo para introdução do Nome."
+            style={styles.inputField}
+            onChangeText={(text) => setName(text)}
+            value={name}
+          />
+
+          <Text
+            accessible={true}
+            accessibilityLabel="Texto na cor preta num fundo branco escrito Sobrenome."
+            style={styles.inputLabel}>Sobrenome</Text>
+          <TextInput
+            accessible={true}
+            accessibilityLabel="Campo para introdução do Sobrenome."
+            style={styles.inputField}
+            onChangeText={(text) => setLastName(text)}
+            value={lastName}
+          />
+
+          <Text
+            accessible={true}
+            accessibilityLabel="Texto na cor preta num fundo branco escrito E-mail."
+            style={styles.inputLabel}>Email</Text>
+          <TextInput
+            accessible={true}
+            accessibilityLabel="Campo para introdução do E-mail."
+            style={styles.inputField}
+            onChangeText={(text) => setEmail(text.toLowerCase())}
+            value={email}
+          />
+
+          <Text
+            accessible={true}
+            accessibilityLabel="Texto na cor preta num fundo branco escrito Empresa."
+            style={styles.inputLabel}>Empresa</Text>
+          <TextInput
+            accessible={true}
+            accessibilityLabel="Campo para introdução do E-mail."
+            style={[styles.inputField, {opacity:0.5, marginBottom: 20}]}
+            placeholder={organization}
+            placeholderTextColor={CONST.darkerColor}
+            editable={false}
+          />
+
+          <View style={styles.editprofileRewards} >
+            <Text style={styles.normalText}>
+              Tornar as recompensas públicas
+            </Text>
+            <Switch
+              trackColor={{ false: CONST.switchOffColor, true: CONST.switchOnColor }}
+              thumbColor={rewards ? CONST.switchIndicatorColor : CONST.mainBlue}
+              value={rewards}
+              onValueChange={toggleSwitch}
             />
-            <Text style={styles.text}>Apelido</Text>
-            <TextInput
-              placeholderTextColor="#000"
-              placeholder={lastName}
-              style={styles.input}
-              onChangeText={(text) => setLastName(text)}
-              value={lastName}
-            />
-            <Text style={styles.text}>Email</Text>
-            <TextInput
-              placeholderTextColor="#000"
-              placeholder={email}
-              style={styles.input}
-              onChangeText={(text) => setEmail(text)}
-              value={email}
-            />
-            <Text style={styles.text}>Empresa</Text>
-            <TextInput
-              placeholderTextColor="#999"
-              placeholder={organization}
-              style={styles.input}
-              editable={false}
-            />
-            <View style={styles.rewards}>
-              <Text
-                style={{
-                  fontFamily: "GothamBook",
-                  fontSize: 16,
-                  lineHeight: 24,
-                }}
-              >
-                Tornar as recompensas públicas
-              </Text>
-              <Switch
-                trackColor={{ false: "#BBBABA", true: "#0051BA" }}
-                thumbColor={rewards ? "#E3ECF7" : "#0051ba"}
-                value={rewards}
-                onValueChange={toggleSwitch}
-              />
-            </View>
           </View>
-          <View>
-            <Pressable onPress={() => editarperfil()} style={styles.button}>
-              <Text
-                style={{
-                  color: "#FFFFFF",
-                  fontFamily: "GothamBook",
-                  fontSize: 16,
-                  lineHeight: 24,
-                  textAlign: "center",
-                }}
-              >
-                {" "}
-                Concluído{" "}
-              </Text>
-            </Pressable>
-          </View>
+        </View>
+        <View>
+          <Pressable onPress={() => editarperfil()} style={styles.primaryButton}>
+            <Text
+              style={styles.primaryButtonText}
+            >
+              {" "}
+              Concluído{" "}
+            </Text>
+          </Pressable>
         </View>
       </ScrollView>
     </SafeAreaProvider>
   );
 }
-
-const screenWidth = Dimensions.get("window").width;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    paddingLeft: 25,
-    paddingRight: 25,
-    paddingBottom: 90,
-  },
-
-  profilepicture: {
-    backgroundColor: "#F5F5F5",
-    //mudar os tamanhos para percentagens para funcionar bem em todos os ecrãs
-    height: 110,
-    width: 110,
-    borderRadius: 100,
-    marginTop: 40,
-  },
-
-  edit: {
-    marginTop: 30,
-    width: "100%",
-  },
-
-  input: {
-    marginTop: 0,
-    borderBottomWidth: 1,
-    paddingTop: 5,
-    paddingBottom: 5,
-    fontFamily: "GothamBook",
-    fontSize: 16,
-    lineHeight: 16,
-  },
-
-  rewards: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginTop: 30,
-  },
-
-  button: {
-    alignSelf: "stretch",
-    marginTop: 40,
-    borderRadius: 15,
-    paddingTop: 15,
-    paddingBottom: 15,
-    marginBottom: 20,
-    justifyContent: "center",
-    backgroundColor: "#0051BA",
-    width: screenWidth - 50,
-  },
-
-  text: {
-    fontFamily: "GothamMedium",
-    fontSize: 16,
-    marginTop: 40,
-    lineHeight: 24,
-  },
-});
