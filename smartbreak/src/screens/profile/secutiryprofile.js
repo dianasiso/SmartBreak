@@ -18,6 +18,13 @@ import firebase from "./../../config/firebase.js";
 // Font Gotham
 import { useFonts } from "expo-font";
 
+// CSS
+import { styles } from "./../../styles/css.js";
+// Variables
+import * as CONST from "./../../styles/variables.js";
+
+
+
 export default function NotificationsProfile({ navigation }) {
   // Loading Gotham font
   const [loaded] = useFonts({
@@ -42,28 +49,29 @@ export default function NotificationsProfile({ navigation }) {
   return (
     <SafeAreaProvider
       showsVerticalScrollIndicator={false}
-      style={styles.container}
+      style={styles.containerLight}
     >
       <ScrollView>
         <StatusBar style="auto" />
-        <Text style={styles.title}>Segurança</Text>
-        <View style={{ alignItems: "center" }}>
-          <Text style={styles.text}>
-            O utilizador, ao aceitar os Termos e Política de Privacidade,
+        <Text style={styles.titleText}>Segurança</Text>
+          <Text style={styles.normalText}>
+          {"\n"}O utilizador, ao aceitar os Termos e Política de Privacidade,
             autoriza expressamente a aplicação a coletar, usar, armazenar,
             tratar, ceder ou utilizar as informações derivadas do uso da
             aplicação, incluindo todas as informações preenchidas pelo
             utilizador no momento em que realizar ou atualizar o seu cadastro,
             além de outras expressamente descritas na Política de Privacidade
             que deverá ser autorizada pelo utilizador.
+            {"\n"}
+            {"\n"}
           </Text>
         
-          <View style={styles.options}>
-            <Text style={styles.textOptions}>Partilha de dados</Text>
+          <View style={styles.boxOptions}>
+            <Text style={styles.normalText}>Partilha de dados</Text>
             <Switch
-              style={{marginLeft: 'auto', marginRight: 25}}
-              trackColor={{ false: "#BBBABA", true: "#0051BA" }}
-              thumbColor={shareData ? "#E3ECF7" : "#0051ba"}
+              style={{ marginLeft: "auto", marginRight: CONST.iconPadding }}
+              trackColor={{ false: CONST.switchOffColor, true: CONST.switchOnColor }}
+              thumbColor={shareData ? CONST.switchIndicatorColor : CONST.mainBlue}
               value={shareData}
               onValueChange={(() => {
                 firebase.firestore().collection('users_data').doc(uid).update({
@@ -76,57 +84,8 @@ export default function NotificationsProfile({ navigation }) {
           </View>
             
           
-          </View>
       </ScrollView>
     </SafeAreaProvider>
   );
 }
 
-const screenWidth = Dimensions.get('window').width;
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    paddingLeft: 25,
-    paddingRight: 25,
-    paddingBottom: 90,
-  },
-
-  
-  options: {
-    flex: 1,
-    marginTop: 20,
-    marginBottom: 10,
-    borderRadius: 15,
-    paddingTop: 15,
-    paddingBottom: 15,
-    width: screenWidth - 50, 
-    flexDirection: "row",
-    alignItems: "center",
-    textAlign: 'left',
-    backgroundColor: "#E3ECF7",
-    flexDirection: 'row',
-    justifyContent: "space-between",
-  },
-
-  textOptions: {
-    marginLeft: 25,
-    fontFamily: "GothamBook",
-    fontSize: 16,
-  },
-
-  title: {
-    fontFamily: "GothamMedium",
-    fontSize: 24,
-    marginTop: 30,
-  },
-
-  text: {
-    fontFamily: "GothamBook",
-    fontSize: 16,
-    marginTop: 30,
-    lineHeight: 24,
-  },
-});

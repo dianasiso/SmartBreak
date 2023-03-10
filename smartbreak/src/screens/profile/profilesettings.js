@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import {
   Pressable,
   Dimensions,
@@ -28,10 +28,15 @@ import { useFonts } from "expo-font";
 import firebase from "./../../config/firebase.js";
 import { getAuth, deleteUser } from "firebase/auth";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../../redux/user.js";
+import * as SecureStore from "expo-secure-store";
+
+// CSS
+import { styles } from "./../../styles/css.js";
 
 export default function ProfileSettings({ navigation }) {
-  //const dispatch = useDispatch();
+  const dispatch = useDispatch();
   // Loading Gotham font
   const [loaded] = useFonts({
     GothamMedium: "./../fonts/GothamMedium.ttf",
@@ -41,26 +46,26 @@ export default function ProfileSettings({ navigation }) {
   const userData = useSelector((state) => state.user.userID);
   const uid = userData;
 
-
   const apagarconta = () => {
     Alert.alert("Atenção", "Deseja apagar a sua conta permanentemente?", [
       { text: "Cancelar" },
       {
         text: "Confirmar",
-        onPress: (() => {
-          getAuth().currentUser.delete()
-          firebase.firestore().collection('users_data').doc(uid).delete()
-          firebase.firestore().collection('users_devices').doc(uid).delete()
-          firebase.firestore().collection('users_routines').doc(uid).delete()
-          
+        onPress: () => {
+          getAuth().currentUser.delete();
+          firebase.firestore().collection("users_data").doc(uid).delete();
+          firebase.firestore().collection("users_devices").doc(uid).delete();
+          firebase.firestore().collection("users_routines").doc(uid).delete();
+
           handleLogout();
-        })
+        },
       },
     ]);
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     try {
+      await SecureStore.deleteItemAsync("uid");
       navigation.navigate("Welcome");
     } catch (err) {
       console.error(err);
@@ -68,17 +73,20 @@ export default function ProfileSettings({ navigation }) {
   };
 
   const terminarsessao = () => {
+    if (!uid) {
+      console.error("UID is undefined");
+      return;
+    }
     Alert.alert("Atenção", "Tem a certeza que deseja terminar a sessão? ", [
       { text: "Cancelar" },
       {
         text: "Confirmar",
-        
         onPress: () => {
-          firebase.firestore().collection('users_data').doc(uid).update({
-            pause: false, 
-          })
-          handleLogout()
-        }
+          firebase.firestore().collection("users_data").doc(uid).update({
+            pause: false,
+          });
+          handleLogout();
+        },
       },
     ]);
   };
@@ -86,45 +94,87 @@ export default function ProfileSettings({ navigation }) {
   return (
     <SafeAreaProvider
       showsVerticalScrollIndicator={false}
-      style={styles.container}
+      style={styles.containerLight}
     >
       <ScrollView>
         <StatusBar style="auto" />
-        <Text style={styles.title}>Definições</Text>
+        <Text style={styles.titleText}>Definições</Text>
 
-        <Pressable style={styles.options} onPress={() => navigation.navigate("EditPassword")}>
-            <Lock1 color="#000000"  />
-            <Text style={styles.text}>  Alterar palavra-passe</Text>
+        <Pressable
+          style={styles.profileOptions}
+          onPress={() => navigation.navigate("EditPassword")}
+        >
+          <Lock1 variant="Bold" style={styles.profileIcon} />
+          <Text style={styles.profileOptionsText}> Alterar palavra-passe</Text>
         </Pressable>
-
-        <Pressable style={styles.options} onPress={() => navigation.navigate("NotificationsProfile")}>
-            <Notification color="#000000"/>
-            <Text style={styles.text}>  Notificações</Text>
+        <View style={styles.divider} />
+        <Pressable
+          style={styles.profileOptions}
+          onPress={() => navigation.navigate("NotificationsProfile")}
+        >
+          <Notification variant="Bold" style={styles.profileIcon} />
+          <Text style={styles.profileOptionsText}> Notificações</Text>
         </Pressable>
-
-        <Pressable style={styles.options} onPress={() => navigation.navigate("SecurityProfile")}>
-            <SecurityUser color="#000000" /> 
-            <Text style={styles.text}>  Segurança</Text>
+        <View style={styles.divider} />
+        <Pressable
+          style={styles.profileOptions}
+          onPress={() => navigation.navigate("SecurityProfile")}
+        >
+          <SecurityUser variant="Bold" style={styles.profileIcon} />
+          <Text style={styles.profileOptionsText}> Segurança</Text>
         </Pressable>
-
-        <Pressable style={styles.options} onPress={() => navigation.navigate("TermsofUseProfile")}>
-            <DocumentText1 color="#000000"/>
-            <Text style={styles.text}>  Termos de utilização</Text>
+        <View style={styles.divider} />
+        <Pressable
+          style={styles.profileOptions}
+          onPress={() => navigation.navigate("TermsofUseProfile")}
+        >
+          <DocumentText1 variant="Bold" style={styles.profileIcon} />
+          <Text style={styles.profileOptionsText}> Termos de utilização</Text>
         </Pressable>
-
-        <Pressable style={styles.options} onPress={() => navigation.navigate("HelpCenterProfile")}>
-            <MessageQuestion color="#000000" />
-            <Text style={styles.text}>  Centro de ajuda</Text>
+        <View style={styles.divider} />
+        <Pressable
+          style={styles.profileOptions}
+          onPress={() => navigation.navigate("HelpCenterProfile")}
+        >
+          <MessageQuestion variant="Bold" style={styles.profileIcon} />
+          <Text style={styles.profileOptionsText}> Centro de ajuda</Text>
         </Pressable>
-
-        <Pressable style={styles.options} onPress={apagarconta} >
-            <Trash color="#000000"  onPress={apagarconta}/>
-            <Text style={styles.text}>  Apagar conta</Text>
+        <View style={styles.divider} />
+        <Pressable
+          style={styles.profileOptions}
+          onPress={() => navigation.navigate("HelpCenterProfile")}
+        >
+          <MessageQuestion variant="Bold" style={styles.profileIcon} />
+          <Text style={styles.profileOptionsText}> Acessibilidade</Text>
+          {/*
+          !!!!!!!!!!!!!
+          !!!!!!!!!!!!!
+          !!!!!!!!!!!!!
+          !!!!!!!!!!!!!
+          FALTA ICONE PARA ACESSIBILIDADE E LINKAR A PAGINA DE ACESSIBILIDADE
+          !!!!!!!!!!!!!
+          !!!!!!!!!!!!!
+          !!!!!!!!!!!!!
+          !!!!!!!!!!!!!
+          */}
         </Pressable>
-
-        <Pressable style={styles.options} onPress={terminarsessao} >
-            <Logout color="#000000" onPress={terminarsessao}/>
-            <Text style={styles.text}>  Terminar sessão</Text>
+        <View style={styles.divider} />
+        <Pressable style={styles.profileOptions} onPress={apagarconta}>
+          <Trash
+            variant="Bold"
+            style={styles.profileIcon}
+            onPress={apagarconta}
+          />
+          <Text style={styles.profileOptionsText}> Apagar conta</Text>
+        </Pressable>
+        <View style={styles.divider} />
+        <Pressable style={styles.profileOptions} onPress={terminarsessao}>
+          <Logout
+            variant="Bold"
+            style={styles.profileIcon}
+            onPress={terminarsessao}
+          />
+          <Text style={styles.profileOptionsText}> Terminar sessão</Text>
         </Pressable>
       </ScrollView>
     </SafeAreaProvider>
@@ -133,6 +183,7 @@ export default function ProfileSettings({ navigation }) {
 
 const screenWidth = Dimensions.get("window").width;
 
+/*
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -157,10 +208,10 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     paddingBottom: 15,
     paddingLeft: 25,
-    width: screenWidth - 50, 
+    width: screenWidth - 50,
     flexDirection: "row",
     alignItems: "center",
-    textAlign: 'left',
+    textAlign: "left",
     backgroundColor: "#E3ECF7",
   },
 
@@ -170,3 +221,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+*/
