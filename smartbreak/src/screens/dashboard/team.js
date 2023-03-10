@@ -13,6 +13,13 @@ import { useFonts } from "expo-font";
 // Firebase
 import firebase from "./../../config/firebase.js";
 
+// CSS
+import { styles } from "./../../styles/css.js";
+
+// CSS
+import * as CONST from "./../../styles/variables.js";
+
+
 const Info = ({value}) => {
   
   const navigation = useNavigation();
@@ -39,14 +46,14 @@ const Info = ({value}) => {
     <>
     
     <View>
-      <Text style={styles.subtitulo}>{userName}</Text>
-      <Text style={styles.text}>{userEmail}</Text>
+      <Text style={styles.normalText}>{userName}</Text>
+      <Text style={styles.normalText}>{userEmail}</Text>
     </View>
     {userRewards ?
       <ArrowCircleRight
-        style={{ position: "absolute", right: 0 }}
+        style={{position: "absolute", right: 0}}
         variant="Bold"
-        color="#0051BA"
+        color={CONST.mainOrange}
         onPress={() =>
           navigation.navigate("MembersRewardsDashboard", {
           username: userName,
@@ -92,15 +99,15 @@ export default function Team({ navigation }) {
   return (
     <SafeAreaProvider
       showsVerticalScrollIndicator={false}
-      style={styles.container}
+      style={[styles.containerLight, {paddingTop: 0}]}
     >
       <ScrollView>
         <StatusBar style="auto" />
-        <Text style={styles.title}>{name}</Text>
-        <Text style={styles.text}>{description}</Text>
+        <Text style={[styles.titleText, {paddingBottom: CONST.textPadding}]}>{name}</Text>
+        <Text style={styles.normalText}>{description}</Text>
        
           {users && users.map((callbackfn, id) => (
-            <View style={styles.membros}>
+            <View style={styles.membrosView}>
               <Info value={users[id]} />
             </View>
           ))}
@@ -109,6 +116,7 @@ export default function Team({ navigation }) {
   );
 }
 
+/*
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -151,3 +159,4 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
 });
+*/

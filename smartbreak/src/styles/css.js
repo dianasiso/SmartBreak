@@ -550,6 +550,12 @@ export const styles = StyleSheet.create({
     lineHeight: 20,
   },
 
+  membrosView: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 30,
+  },
+
   /////LIXO/////
 
   // ---- PROFILE ---- //
