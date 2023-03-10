@@ -85,6 +85,7 @@ export const dividerMargin = 10;
 export const normalButtonRadius = 15;
 export const smallButtonRadius = 8;
 export const largeCardRadius = 25;
+export const circleRadius = 50;
 
 // ---- DIMENSIONS ----
 export const screenWidth = Dimensions.get("window").width;
