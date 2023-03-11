@@ -10,7 +10,7 @@ export const thirdOrange = "#FCD6C3";
 export const lightBackgroundColor = "#FEFEFE";
 export const darkerColor = "#333333";
 export const greyColor = "#555555";
-export const whiteText = "#FFFFFF";
+export const whiteText = "#FEFEFE";
 export const dividerColor = "#D9D9D9";
 
 // ---- GOALS COLORS ----
@@ -76,6 +76,10 @@ export const iconPadding = 25;
 export const inputPadding = 5;
 export const boxPadding = 15;
 export const modalPadding = 25;
+
+// ---- MODAL -----
+export const modalPadding = 25;
+export const shadowRadius = 5;
 
 // ---- MARGINS ----
 export const inputMargin = 40;

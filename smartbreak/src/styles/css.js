@@ -5,6 +5,7 @@ import * as CONST from "./variables.js";
 
 export const styles = StyleSheet.create({
   // ---- GENERAL -----
+  // ---- containers ----
   mainContainer: {
     flex: 1,
     paddingTop: CONST.backgroundPaddingTop,
@@ -66,10 +67,17 @@ export const styles = StyleSheet.create({
     paddingTop: CONST.cardPadding + 10,
     maxHeight: (CONST.screenHeight / 3) * 2,
   },
+  // ---- buttons ----
   primaryButtonText: {
     fontFamily: "GothamMedium",
     color: CONST.primaryButtonTextColor,
     fontSize: CONST.normalButtonSize,
+    textAlign: "center",
+  },
+  smallPrimaryButtonText: {
+    fontFamily: "GothamMedium",
+    color: CONST.primaryButtonTextColor,
+    fontSize: CONST.smallButtonSize,
     textAlign: "center",
   },
   buttonWhiteText: {
@@ -84,6 +92,12 @@ export const styles = StyleSheet.create({
     fontSize: CONST.normalButtonSize,
     textAlign: "center",
   },
+  smallSecondaryButtonText: {
+    fontFamily: "GothamMedium",
+    color: CONST.secondaryButtonTextColor,
+    fontSize: CONST.smallButtonSize,
+    textAlign: "center",
+  },
   primaryButton: {
     backgroundColor: CONST.primaryButtonBackground,
     justifyContent: "center",
@@ -96,11 +110,38 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: CONST.primaryButtonBorderColor,
   },
+  smallPrimaryButton: {
+    backgroundColor: CONST.primaryButtonBackground,
+    justifyContent: "center", 
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    height: CONST.heightButton,
+    borderRadius: CONST.smallButtonRadius,
+    margin: 5,
+    borderWidth: 1,
+    borderColor: CONST.primaryButtonBorderColor,
+  },
   buttonWhite: {
     backgroundColor: CONST.lightBackgroundColor,
     justifyContent: "center",
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
     height: CONST.heightButton,
     borderRadius: CONST.normalButtonRadius,
+    margin: 5,
+    borderWidth: 1,
+    borderColor: CONST.lightBackgroundColor,
+  },
+  smallButtonWhite: {
+    backgroundColor: CONST.lightBackgroundColor,
+    justifyContent: "center",
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    height: CONST.heightButton,
+    borderRadius: CONST.smallButtonRadius,
     margin: 5,
     borderWidth: 1,
     borderColor: CONST.lightBackgroundColor,
@@ -108,12 +149,29 @@ export const styles = StyleSheet.create({
   secondaryButton: {
     backgroundColor: CONST.secondaryButtonBackground,
     justifyContent: "center",
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
     height: CONST.heightButton,
     borderRadius: CONST.normalButtonRadius,
     margin: 5,
     borderWidth: 1,
     borderColor: CONST.secondaryButtonBorderColor,
   },
+  smallSecondaryButton: {
+    backgroundColor: CONST.secondaryButtonBackground,
+    justifyContent: "center",
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    height: CONST.heightButton,
+    borderRadius: CONST.smallButtonRadius,
+    margin: 5,
+    borderWidth: 1,
+    borderColor: CONST.secondaryButtonBorderColor,
+  },
+
+  // ---- texts ----
   titleText: {
     fontSize: CONST.pageTitleSize,
     fontFamily: "GothamMedium",
@@ -156,6 +214,8 @@ export const styles = StyleSheet.create({
     fontSize: CONST.welcomeLogoText,
     paddingTop: CONST.textPadding,
   },
+
+  // ---- input ----
   inputLabel: {
     fontFamily: "GothamBook",
     fontSize: CONST.pageTextSize,
@@ -194,6 +254,8 @@ export const styles = StyleSheet.create({
     marginBottom: CONST.inputMargin,
     color: CONST.whiteText,
   },
+
+  // ---- cards/boxes ----
   boxOptions: {
     paddingLeft: CONST.boxMargin,
     paddingRight: CONST.boxMargin,
@@ -206,15 +268,14 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   boxOptionsPressed: {
-    marginBottom: CONST.boxMargin,
     paddingLeft: CONST.boxMargin,
     paddingRight: CONST.boxMargin,
     paddingTop: CONST.boxPadding,
     paddingBottom: CONST.boxPadding,
+    flex: 1,
+    opacity: 0.8,
     borderBottomWidth: 1,
     borderBottomColor: CONST.dividerColor,
-    opacity: 0.5,
-    flex: 1,
     flexDirection: "row",
     alignItems: "center",
   },
@@ -224,15 +285,15 @@ export const styles = StyleSheet.create({
   },
 
   // ---- MAIN NAVIGATION ----
-  IconContainer: {},
-  Indicator: {
+  iconContainer: {},
+  indicator: {
     width: 50,
     height: 3,
     backgroundColor: CONST.mainBlue,
     borderRadius: 5,
     top: -15,
   },
-  IndicatorError: {
+  indicatorError: {
     width: 50,
     height: 3,
     backgroundColor: "#FFF",
@@ -243,6 +304,136 @@ export const styles = StyleSheet.create({
   // --- RETURN TOP BUTTON ON STACK NAV --- //
   returnTopButton: {
     paddingLeft: 20,
+  },
+
+  // ---- ROUTINES ----
+  rowRoutine: {
+    flexDirection: 'row',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  boxRoutine: {
+    flexDirection: "column",
+    flex: 1,
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
+
+  // ---- MODALS ----
+  modalBackgroundView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
+  },
+
+  modalView: {
+    backgroundColor: CONST.lightBackgroundColor,
+    borderRadius: CONST.smallButtonRadius,
+    padding: CONST.modalPadding,
+    shadowColor: CONST.darkerColor,
+    shadowRadius: CONST.shadowRadius,
+    width: CONST.screenWidth/3*2,
+    shadowOpacity: 0.5,
+    elevation: 10,
+    overflow: 'hidden',
+  },
+
+   // ---- MODAL DEVICES -----
+
+  modalDeviceTypeButton: {
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+    borderWidth: 1,
+    borderRadius: CONST.smallButtonRadius,
+    padding: CONST.smallButtonRadius,
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }, 
+
+  modalDeviceTypeButtonPressed: {
+    backgroundColor: 'transparent',
+    borderColor: CONST.darkerColor,
+    borderWidth: 1,
+    borderRadius: CONST.smallButtonRadius,
+    padding: CONST.smallButtonRadius,
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }, 
+
+  // ---- MODAL ROUTINES ----
+
+  modalRoutineButton: {
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+    borderWidth: 1,
+    borderRadius: CONST.smallButtonRadius,
+    padding: CONST.smallButtonRadius,
+    paddingTop: 4,
+    paddingBottom: 4,
+    margin: 2,
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }, 
+
+  modalRoutineButtonPressed: {
+    backgroundColor: 'transparent',
+    borderColor: CONST.darkerColor,
+    borderWidth: 1,
+    borderRadius: CONST.smallButtonRadius,
+    padding: CONST.smallButtonRadius,
+    paddingTop: 4,
+    paddingBottom: 4,
+    margin: 2,
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }, 
+
+  hoursContainer: {
+    width:  CONST.screenWidth/4,
+    marginBottom: CONST.backgroundPaddingTop,
+    flexDirection: "row",
+    justifyContent: "center",
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 5,
+  },
+  daysContainer: {
+    width:  CONST.screenWidth/4,
+    marginBottom: CONST.inputMargin,
+    flexDirection: "row",
+    justifyContent: "center",
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 5,
+  },
+  hoursTextStyle: {  
+    color: CONST.darkerColor,
+    fontFamily: 'GothamBook',
+    fontSize: CONST.pageSmallTextSize,
+  },
+  hoursPicker: {
+    backgroundColor: 'transparent',
+    borderWidth: 0,
+    paddingBottom: 0,
+    borderBottomWidth: 1,
+    borderBottomColor: CONST.darkerColor,
+    color: CONST.darkerColor,
+    fontFamily: 'GothamBook',
+    fontSize: CONST.pageTextSize,
+  },
+  dropwdownBoxRoutines: {
+    backgroundColor: CONST.thirdBlue,
+    borderColor: CONST.darkerColor,
+    color: CONST.whiteText,
+    fontSize: CONST.pageSmallTextSize,
+    fontFamily: 'GothamBook'
   },
 
   // --- WELCOME, ONBOARDING AND LOGIN PAGES ----
@@ -283,6 +474,18 @@ export const styles = StyleSheet.create({
     backgroundColor: CONST.lightBackgroundColor,
     borderRadius: 50,
   },
+
+  // ---- PROFILE ----
+  profileInfo: {
+    alignItems: "center",
+    marginBottom: CONST.inputMargin,
+  },
+  profileImage: {
+    width: 100,
+    height: 100,
+    borderRadius: CONST.circleRadius,
+  },
+
   // ---- ONBOARDING ----
   skipBox: {
     paddingLeft: CONST.backgroundPaddingLateral,
@@ -484,6 +687,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
   },*/
+  
   toggleContainer: {
     width: CONST.screenWidth - 50,
     height: CONST.heightButton,
@@ -557,37 +761,7 @@ export const styles = StyleSheet.create({
     marginTop: 30,
   },
 
-  /////LIXO/////
 
-  // ---- PROFILE ---- //
-  profileInfo: {
-    alignItems: "center",
-    marginBottom: CONST.inputMargin,
-  },
-  profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: CONST.circleRadius,
-  },
-  profileName: {
-    marginTop: CONST.textPadding,
-    fontSize: CONST.pageTitleSize,
-    textTransform: "capitalize",
-    fontFamily: "GothamMedium",
-    color: CONST.darkerColor,
-  },
-  profileOrganization: {
-    marginTop: CONST.boxMargin,
-    fontSize: CONST.pageTextSize,
-    color: CONST.darkerColor,
-    fontFamily: "GothamBook",
-  },
-
-  profileOptionsText: {
-    fontSize: CONST.pageTextSize,
-    color: CONST.darkerColor,
-    fontFamily: "GothamBook",
-  },
 
   editprofileRewards: {
     flexDirection: "row",
