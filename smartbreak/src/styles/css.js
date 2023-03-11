@@ -132,7 +132,6 @@ export const styles = StyleSheet.create({
   },
   smallText: {
     fontSize: CONST.pageSmallTextSize,
-    paddingTop: 15,
     fontFamily: "GothamBook",
     lineHeight: CONST.pageTextSize + 5,
     color: CONST.darkerColor,
@@ -386,7 +385,7 @@ export const styles = StyleSheet.create({
     paddingLeft: 25,
     paddingRight: 25,
   },
-  modalView: {
+  /*modalView: {
     backgroundColor: "#E3ECF7",
     borderRadius: 15,
     padding: 25,
@@ -394,7 +393,7 @@ export const styles = StyleSheet.create({
     shadowRadius: 5,
     shadowOpacity: 0.5,
     elevation: 10,
-  },
+  }, */
   modalTextBold: {
     fontFamily: "GothamMedium",
     fontSize: 16,
@@ -462,7 +461,7 @@ export const styles = StyleSheet.create({
     borderRadius: 16,
     position: "absolute",
     left: CONST.screenWidth / 2 - 112,
-    transform: [{ rotate: '90deg'}]
+    transform: [{ rotate: '90deg' }]
   },
   batteryFillPause: {
     // height: 88,
@@ -527,7 +526,7 @@ export const styles = StyleSheet.create({
     width: CONST.screenWidth - 50,
     //backgroundColor: "#E3ECF7",
     borderRadius: 15,
-   
+
     marginTop: 20,
     flexDirection: "row",
     alignItems: "center",
@@ -588,6 +587,13 @@ export const styles = StyleSheet.create({
     fontFamily: "GothamBook",
   },
 
+  editprofileRewards: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 20,
+  },
+
   // ---- ERROR PAGES ---- //
   errorTitleText: {
     fontSize: CONST.errorTitleText,
@@ -604,11 +610,173 @@ export const styles = StyleSheet.create({
     color: CONST.whiteText,
     textAlign: "center",
     paddingTop: CONST.backgroundPaddingTop,
-=======
-  editprofileRewards: {
+  },
+
+
+  // ---- MODALS ----/
+
+  modalBackgroundView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
+  },
+
+  modalView: {
+    backgroundColor: CONST.lightBackgroundColor,
+    borderRadius: CONST.smallButtonRadius,
+    padding: CONST.modalPadding,
+    shadowColor: CONST.darkerColor,
+    shadowRadius: CONST.shadowRadius,
+    width: CONST.screenWidth / 3 * 2,
+    shadowOpacity: 0.5,
+    elevation: 10,
+  },
+
+
+
+  // --- GOALS --- //
+
+  modalAlign: {
+    flexDirection: "row",
+    paddingTop: CONST.iconPadding,
+    paddingBottom: CONST.iconPadding + 10,
+  },
+
+  modal: {
+    marginRight: 0,
+    marginLeft: "auto",
+    padding: CONST.boxMargin,
+    borderRadius: CONST.smallButtonRadius,
+  },
+
+  goals: {
+    flex: 1,
+    marginBottom: CONST.inputMargin - 10,
+    borderTopRightRadius: CONST.normalButtonRadius,
+    borderBottomRightRadius: CONST.normalButtonRadius,
+    paddingTop: CONST.boxPadding,
+    paddingBottom: CONST.boxPadding,
+    paddingLeft: CONST.modalPadding,
+    paddingRight: CONST.boxPadding,
+    width: CONST.screenWidth - 50,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 20,
+    textAlign: "left",
+    borderLeftWidth: 3,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowColor: 'rgba(0, 0, 0, 0.1)',
+    shadowOpacity: 1,
+    shadowRadius: 10,
   },
+
+  goalsBox: {
+    flexDirection: "row",
+    flex: 1,
+    marginTop: "auto",
+    marginBottom: "auto",
+    alignItems: "center"
+  },
+
+  goalsBoxContent: {
+    marginRight: 5,
+    flexDirection: "column",
+    flex: 1,
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
+
+  goalsBoxPriority: {
+    flexDirection: "row",
+    flex: 1,
+    alignItems: "center",
+    marginTop: 20,
+  },
+  /*  ESTILOS ONDE APARECEM OS FILTROS SELECIONADOS
+  textPriority: {
+    fontFamily: "GothamBook",
+    color: "#FFF",
+    fontSize: 12,
+  }, */
+
+
+  modalFilterText: {
+    fontFamily: "GothamBook",
+    color: CONST.darkerColor,
+    fontSize: CONST.pageSmallTextSize,
+  },
+
+  modalFilterTextSelect: {
+    fontFamily: "GothamBook",
+    color: CONST.whiteText,
+    fontSize: CONST.pageSmallTextSize,
+  },
+
+  modalFilter: {
+    marginRight: "auto",
+    marginLeft: 0,
+    backgroundColor: CONST.lightBackgroundColor,
+    borderRadius: CONST.normalButtonRadius,
+    paddingTop: CONST.inputPadding,
+    paddingBottom: CONST.inputPadding,
+    paddingLeft: CONST.boxPadding - 10,
+    paddingRight: CONST.boxPadding,
+    marginTop: CONST.boxMargin - 5,
+    marginBottom: CONST.boxMargin,
+  },
+
+  modalFilterSelected: {
+    marginRight: "auto",
+    marginLeft: 0,
+    borderRadius: CONST.normalButtonRadius,
+    paddingTop: CONST.inputPadding,
+    paddingBottom: CONST.inputPadding,
+    paddingLeft: CONST.boxPadding - 5,
+    paddingRight: CONST.boxPadding,
+    marginTop: CONST.boxMargin - 5,
+    marginBottom: CONST.boxMargin,
+    backgroundColor: CONST.darkerColor,
+  },
+
+  smallSecondaryButton: {
+    backgroundColor: CONST.secondaryButtonBackground,
+    justifyContent: "center",
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    height: CONST.heightButton,
+    borderRadius: CONST.smallButtonRadius,
+    margin: 5,
+    borderWidth: 1,
+    borderColor: CONST.secondaryButtonBorderColor,
+  },
+  smallPrimaryButton: {
+    backgroundColor: CONST.primaryButtonBackground,
+    justifyContent: "center",
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    height: CONST.heightButton,
+    borderRadius: CONST.smallButtonRadius,
+    margin: 5,
+    borderWidth: 1,
+    borderColor: CONST.primaryButtonBorderColor,
+  },
+  smallPrimaryButtonText: {
+    fontFamily: "GothamMedium",
+    color: CONST.primaryButtonTextColor,
+    fontSize: CONST.smallButtonSize,
+    textAlign: "center",
+  },
+  smallSecondaryButtonText: {
+    fontFamily: "GothamMedium",
+    color: CONST.secondaryButtonTextColor,
+    fontSize: CONST.smallButtonSize,
+    textAlign: "center",
+  },
+
+
 });
