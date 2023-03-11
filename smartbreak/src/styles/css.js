@@ -5,6 +5,7 @@ import * as CONST from "./variables.js";
 
 export const styles = StyleSheet.create({
   // ---- GENERAL -----
+  // ---- containers ----
   mainContainer: {
     flex: 1,
     paddingTop: CONST.backgroundPaddingTop,
@@ -66,6 +67,7 @@ export const styles = StyleSheet.create({
     paddingTop: CONST.cardPadding + 10,
     maxHeight: (CONST.screenHeight / 3) * 2,
   },
+  // ---- buttons ----
   primaryButtonText: {
     fontFamily: "GothamMedium",
     color: CONST.primaryButtonTextColor,
@@ -168,6 +170,8 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: CONST.secondaryButtonBorderColor,
   },
+
+  // ---- texts ----
   titleText: {
     fontSize: CONST.pageTitleSize,
     fontFamily: "GothamMedium",
@@ -204,6 +208,8 @@ export const styles = StyleSheet.create({
     fontSize: CONST.welcomeLogoText,
     paddingTop: CONST.textPadding,
   },
+
+  // ---- input ----
   inputLabel: {
     fontFamily: "GothamBook",
     fontSize: CONST.pageTextSize,
@@ -242,6 +248,8 @@ export const styles = StyleSheet.create({
     marginBottom: CONST.inputMargin,
     color: CONST.whiteText,
   },
+
+  // ---- cards/boxes ----
   boxOptions: {
     paddingLeft: CONST.boxMargin,
     paddingRight: CONST.boxMargin,
@@ -271,15 +279,15 @@ export const styles = StyleSheet.create({
   },
 
   // ---- MAIN NAVIGATION ----
-  IconContainer: {},
-  Indicator: {
+  iconContainer: {},
+  indicator: {
     width: 50,
     height: 3,
     backgroundColor: CONST.mainBlue,
     borderRadius: 5,
     top: -15,
   },
-  IndicatorError: {
+  indicatorError: {
     width: 50,
     height: 3,
     backgroundColor: "#FFF",
@@ -439,6 +447,7 @@ export const styles = StyleSheet.create({
     backgroundColor: CONST.lightBackgroundColor,
     borderRadius: 50,
   },
+
   // ---- ONBOARDING ----
   skipBox: {
     paddingLeft: CONST.backgroundPaddingLateral,
@@ -530,13 +539,6 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
   },
 
-
-  /*
-  toggleView: {
-    top: 65,
-    alignItems: "center",
-    flexDirection: "row",
-  },*/
   toggleContainer: {
     width: CONST.screenWidth - 50,
     height: CONST.heightButton,

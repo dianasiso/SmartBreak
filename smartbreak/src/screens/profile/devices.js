@@ -482,7 +482,7 @@ export default function Devices({ navigation }) {
             underlayColor={"transparent"} >
             <Text style={[styles.primaryButtonText, {paddingLeft: CONST.textPadding}]}>Adicionar equipamento</Text>
             <AddCircle
-              color="#FFF"
+              color={CONST.whiteText}
               variant="Bold"
               style={{marginLeft: "auto", marginRight: CONST.iconPadding}}
               onPress={() => { setModalVisible(true);}}

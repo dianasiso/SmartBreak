@@ -478,7 +478,7 @@ export default function Routines({ navigation }) {
           >
           <Text style={[styles.primaryButtonText, {paddingLeft: CONST.textPadding}]}>Adicionar rotina</Text>
           <AddCircle
-              color="#FFF"
+              color={CONST.whiteText}
               variant="Bold"
               style={{marginLeft: "auto", marginRight: CONST.iconPadding}}
               onPress={() => { setModalVisible(true);}}

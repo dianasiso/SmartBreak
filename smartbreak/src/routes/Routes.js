@@ -481,11 +481,11 @@ const ProfileStackNavigation = ({ navigation }) => {
 };
 
 const RectangleIndicator = () => {
-  return <View style={styles.Indicator} />;
+  return <View style={styles.indicator} />;
 };
 
 const RectangleIndicatorError = () => {
-  return <View style={styles.IndicatorError} />;
+  return <View style={styles.indicatorError} />;
 };
 //style={ { display: isLoggedIn ? 'block' : 'none' } }
 
