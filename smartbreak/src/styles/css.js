@@ -50,6 +50,9 @@ export const styles = StyleSheet.create({
     paddingTop: CONST.backgroundPaddingTop + CONST.backgroundPaddingLateral,
     maxHeight: 440, //adicionei maxheight e já dá
   },
+  dashboardContent: {
+    paddingTop: CONST.backgroundPaddingTop,
+  },
   subContainer: {
     backgroundColor: CONST.lightBackgroundColor,
     position: "absolute",
@@ -86,7 +89,7 @@ export const styles = StyleSheet.create({
   },
   primaryButton: {
     backgroundColor: CONST.primaryButtonBackground,
-    justifyContent: "center", 
+    justifyContent: "center",
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
@@ -270,11 +273,11 @@ export const styles = StyleSheet.create({
   arrow: {
     flexDirection: "row",
     justifyContent: "flex-end",
-    position: 'absolute',
+    position: "absolute",
     right: CONST.backgroundPaddingLateral,
-    bottom: CONST.backgroundPaddingTop*3,
+    bottom: CONST.backgroundPaddingTop * 3,
     zIndex: 10,
-    backgroundColor:  CONST.lightBackgroundColor,
+    backgroundColor: CONST.lightBackgroundColor,
     borderRadius: 50,
   },
   // ---- ONBOARDING ----
@@ -309,6 +312,20 @@ export const styles = StyleSheet.create({
   },
 
   // ---- DASHBOARD ---- //
+
+  rowContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  columnContainerLeft: {
+    flexDirection: "column",
+    //justifyContent: "space-between",
+  },
+  columnContainerRight: {
+    flexDirection: "column",
+    //  justifyContent: "space-between",
+    alignItems: "center",
+  },
 
   addPauseButtonContainer: {
     flexDirection: "row",
@@ -420,6 +437,24 @@ export const styles = StyleSheet.create({
     marginLeft: 10,
   },
 
+  batteryValuesTitle: {
+    fontFamily: "GothamBook",
+    fontSize: CONST.pageTextSize,
+    color: CONST.whiteText,
+    paddingBottom: 10,
+  },
+  batteryValuesCharge: {
+    fontFamily: "GothamMedium",
+    fontSize: CONST.dashboardChargeSize,
+    color: CONST.whiteText,
+    paddingBottom: 15,
+  },
+  batteryValuesGoals: {
+    fontFamily: "GothamMedium",
+    fontSize: CONST.dashboardGoalsSize,
+    color: CONST.whiteText,
+  },
+
   batteryView: {
     //display: "none",
     flexDirection: "column",
@@ -434,6 +469,8 @@ export const styles = StyleSheet.create({
     borderRadius: 18,
     borderColor: CONST.whiteText,
     borderWidth: 1,
+    //overflow: "hidden",
+    //backgroundColor: "red",
   },
   batteryBolt: {
     position: "absolute",
@@ -456,13 +493,17 @@ export const styles = StyleSheet.create({
     //marginLeft: 4,
   },
   batteryFill: {
-    // height: 88,
-    // width: 90, //máximo 163
-    backgroundColor: CONST.whiteText,
-    borderRadius: 16,
     position: "absolute",
-    left: CONST.screenWidth / 2 - 112,
-    transform: [{ rotate: '90deg'}]
+    marginRight: CONST.cardPadding,
+    width: 82.5,
+    height: 168.5,
+    // width: 90, //máximo 163
+    backgroundColor: "red",
+    borderRadius: 16.5,
+    bottom:0,
+    //position: "absolute",
+    //left: CONST.screenWidth / 2 - 112,
+    //transform: [{ rotate: "90deg" }],
   },
   batteryFillPause: {
     // height: 88,
@@ -527,7 +568,7 @@ export const styles = StyleSheet.create({
     width: CONST.screenWidth - 50,
     //backgroundColor: "#E3ECF7",
     borderRadius: 15,
-   
+
     marginTop: 20,
     flexDirection: "row",
     alignItems: "center",
@@ -560,7 +601,6 @@ export const styles = StyleSheet.create({
 
   // ---- PROFILE ---- //
 
- 
   profileInfo: {
     alignItems: "center",
     marginBottom: CONST.inputMargin,
@@ -583,7 +623,7 @@ export const styles = StyleSheet.create({
     color: CONST.darkerColor,
     fontFamily: "GothamBook",
   },
-  
+
   profileOptionsText: {
     fontSize: CONST.pageTextSize,
     color: CONST.darkerColor,
