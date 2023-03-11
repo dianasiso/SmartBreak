@@ -142,6 +142,13 @@ export const styles = StyleSheet.create({
     lineHeight: CONST.pageTextSize + 5,
     color: CONST.whiteText,
   },
+
+  smallTextWhite: {
+    fontSize: CONST.smallTextSize,
+    fontFamily: "GothamBook",
+    lineHeight: CONST.pageTextSize + 5,
+    color: CONST.whiteText,
+  },
   logoText: {
     textAlign: "center",
     fontFamily: "GothamMedium",
@@ -517,11 +524,6 @@ export const styles = StyleSheet.create({
     marginRight: 20,
   },
 
-  metricasText: {
-    fontSize: 20,
-    fontFamily: "GothamMedium",
-    marginBottom: 18,
-  },
   metricasElement: {
     width: CONST.screenWidth - 50,
     //backgroundColor: "#E3ECF7",
@@ -702,18 +704,6 @@ export const styles = StyleSheet.create({
     fontSize: 12,
   }, */
 
-
-  modalFilterText: {
-    fontFamily: "GothamBook",
-    color: CONST.darkerColor,
-    fontSize: CONST.pageSmallTextSize,
-  },
-
-  modalFilterTextSelect: {
-    fontFamily: "GothamBook",
-    color: CONST.whiteText,
-    fontSize: CONST.pageSmallTextSize,
-  },
 
   modalFilter: {
     marginRight: "auto",

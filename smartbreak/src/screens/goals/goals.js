@@ -255,8 +255,8 @@ export default function Goals() {
                     <Text
                       style={
                         filtersSelected[0]
-                          ? styles.modalFilterTextSelect
-                          : styles.modalFilterText
+                          ? styles.smallTextWhite
+                          : styles.smallText
                       }
                     >
                       Alta Prioridade
@@ -273,8 +273,8 @@ export default function Goals() {
                     <Text
                       style={
                         filtersSelected[1]
-                          ? styles.modalFilterTextSelect
-                          : styles.modalFilterText
+                          ? styles.smallTextWhite
+                          : styles.smallText
                       }
                     >
                       Média Prioridade
@@ -291,8 +291,8 @@ export default function Goals() {
                     <Text
                       style={
                         filtersSelected[2]
-                          ? styles.modalFilterTextSelect
-                          : styles.modalFilterText
+                          ? styles.smallTextWhite
+                          : styles.smallText
                       }
                     >
                       Baixa Prioridade
@@ -309,8 +309,8 @@ export default function Goals() {
                     <Text
                       style={
                         filtersSelected[3]
-                          ? styles.modalFilterTextSelect
-                          : styles.modalFilterText
+                          ? styles.smallTextWhite
+                          : styles.smallText
                       }
                     >
                       Data crescente
@@ -327,8 +327,8 @@ export default function Goals() {
                     <Text
                       style={
                         filtersSelected[4]
-                          ? styles.modalFilterTextSelect
-                          : styles.modalFilterText
+                          ? styles.smallTextWhite
+                          : styles.smallText
                       }
                     >
                       Data decrescente
