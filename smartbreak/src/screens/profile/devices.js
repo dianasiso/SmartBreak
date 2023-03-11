@@ -29,7 +29,6 @@ import {
   Keyboard,
   Mouse,
   Mobile,
-  MirroringScreen,
   Monitor,
   Video,
   AddCircle,
@@ -78,7 +77,6 @@ export default function Devices({ navigation }) {
   const [type01, setType01] = useState(false);
   const [type02, setType02] = useState(false);
   const [type03, setType03] = useState(false);
-  const [type04, setType04] = useState(false);
   const [type05, setType05] = useState(false);
   const [type06, setType06] = useState(false);
   const [type07, setType07] = useState(false);
@@ -88,12 +86,10 @@ export default function Devices({ navigation }) {
   const [type11, setType11] = useState(false);
   const [type12, setType12] = useState(false);
   const [type13, setType13] = useState(false);
-  const [type14, setType14] = useState(false);
   const arrayTypes = [
     setType01,
     setType02,
     setType03,
-    setType04,
     setType05,
     setType06,
     setType07,
@@ -103,7 +99,6 @@ export default function Devices({ navigation }) {
     setType11,
     setType12,
     setType13,
-    setType14,
   ];
   const [addType, setAddType] = useState(null);
   const [addName, setAddName] = useState("");
@@ -117,52 +112,49 @@ export default function Devices({ navigation }) {
 
   const whichIcon = (text) => {
     if (text == "Printer") {
-      return <Printer color="#333" variant="Bold" style={styles.boxIcon} />;
+      return <Printer color={CONST.darkerColor} variant="Bold" style={styles.boxIcon} />;
     }
     if (text == "Camera") {
-      return <Camera color="#333" variant="Bold" style={styles.boxIcon} />;
+      return <Camera color={CONST.darkerColor} variant="Bold" style={styles.boxIcon} />;
     }
     if (text == "Headphone") {
-      return <Headphone color="#333" variant="Bold" style={styles.boxIcon} />;
+      return <Headphone color={CONST.darkerColor} variant="Bold" style={styles.boxIcon} />;
     }
     if (text == "Mobile") {
-      return <Mobile color="#333" variant="Bold" style={styles.boxIcon} />;
+      return <Mobile color={CONST.darkerColor} variant="Bold" style={styles.boxIcon} />;
     }
     if (text == "Keyboard") {
-      return <Keyboard color="#333" variant="Bold" style={styles.boxIcon} />;
+      return <Keyboard color={CONST.darkerColor} variant="Bold" style={styles.boxIcon} />;
     }
     if (text == "Mouse") {
-      return <Mouse color="#333" variant="Bold" style={styles.boxIcon} />;
+      return <Mouse color={CONST.darkerColor} variant="Bold" style={styles.boxIcon} />;
     }
     if (text == "Call") {
-      return <Call color="#333" variant="Bold" style={styles.boxIcon} />;
+      return <Call color={CONST.darkerColor} variant="Bold" style={styles.boxIcon} />;
     }
     if (text == "Electricity") {
-      return <Electricity color="#333" variant="Bold" style={styles.boxIcon} />;
+      return <Electricity color={CONST.darkerColor} variant="Bold" style={styles.boxIcon} />;
     }
     if (text == "MonitorMobbile") {
-      return <MonitorMobbile color="#333" variant="Bold" style={styles.boxIcon} />;
+      return <MonitorMobbile color={CONST.darkerColor} variant="Bold" style={styles.boxIcon} />;
     }
     if (text == "Headphones") {
-      return <Headphones color="#333" variant="Bold" style={styles.boxIcon} />;
+      return <Headphones color={CONST.darkerColor} variant="Bold" style={styles.boxIcon} />;
     }
     if (text == "Lamp") {
-      return <Lamp color="#333" variant="Bold" style={styles.boxIcon} />;
+      return <Lamp color={CONST.darkerColor} variant="Bold" style={styles.boxIcon} />;
     }
     if (text == "TableLamp") {
-      return <TableLamp color="#333" variant="Bold" style={styles.boxIcon} />;
+      return <TableLamp color={CONST.darkerColor}variant="Bold" style={styles.boxIcon} />;
     }
     if (text == "Video") {
-      return <Video color="#333" variant="Bold" style={styles.boxIcon} />;
+      return <Video color={CONST.darkerColor} variant="Bold" style={styles.boxIcon} />;
     }
     if (text == "Monitor") {
-      return <Monitor color="#333" variant="Bold" style={styles.boxIcon} />;
-    }
-    if (text == "MirroringScreen") {
-      return <MirroringScreen color="#333" variant="Bold" style={styles.boxIcon} />;
+      return <Monitor color={CONST.darkerColor} variant="Bold" style={styles.boxIcon} />;
     }
     if (text == "Microphone2") {
-      return <Microphone2 color="#333" variant="Bold" style={styles.boxIcon} />;
+      return <Microphone2 color={CONST.darkerColor} variant="Bold" style={styles.boxIcon} />;
     }
   };
 
@@ -197,7 +189,7 @@ export default function Devices({ navigation }) {
         nameType2 = "Fones de Ouvido";
         break;
       case "Mobile":
-        nameType2 = "Telemóvel";
+        nameType2 = "Tablet";
         break;
       case "Keyboard":
         nameType2 = "Teclado";
@@ -206,13 +198,13 @@ export default function Devices({ navigation }) {
         nameType2 = "Rato";
         break;
       case "Call":
-        nameType2 = "Telefone";
+        nameType2 = "Telemóvel";
         break;
       case "Electricity":
         nameType2 = "Tomada";
         break;
       case "MonitorMobbile":
-        nameType2 = "Ecrã Móvel";
+        nameType2 = "Monitor";
         break;
       case "Lamp":
         nameType2 = "Lâmpada";
@@ -224,10 +216,7 @@ export default function Devices({ navigation }) {
         nameType2 = "Vídeo";
         break;
       case "Monitor":
-        nameType2 = "Monitor";
-        break;
-      case "MirroringScreen":
-        nameType2 = "Ecrã Espelhado";
+        nameType2 = "Computador";
         break;
       case "Microphone2":
         nameType2 = "Microfone";
@@ -259,7 +248,7 @@ export default function Devices({ navigation }) {
     setAddName("");
     setAddEnergy(0);
     setAddType(null);
-    ~arrayTypes.forEach(function (x) {
+    arrayTypes.forEach(function (x) {
       x(false);
     });
   };
@@ -305,7 +294,7 @@ export default function Devices({ navigation }) {
 
   return (
     <SafeAreaProvider style={styles.containerLight}>
-      <StatusBar style="auto" />
+      <StatusBar style="dark" />
       <Modal
         animationType="fade"
         transparent={true}
@@ -314,196 +303,170 @@ export default function Devices({ navigation }) {
           setModalVisible(!modalVisible);
         }}
       >
-        <View style={styles.centeredView}>
+        <View style={styles.modalBackgroundView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>Tipo</Text>
-            <View style={{ flexDirection: "row", marginTop: 5 }}>
+            <Text style={[styles.normalText, {marginBottom: CONST.inputPadding}]}>Tipo</Text>
+            <View style={{ flexDirection: "row",  justifyContent: 'space-around' }}>
               <Pressable
                 onPress={() => typePressed(type01, setType01, "Video")}
                 style={
                   type01
-                    ? styles.modalTypeButtonPressed
-                    : styles.modalTypeButton
+                    ? styles.modalDeviceTypeButtonPressed
+                    : styles.modalDeviceTypeButton
                 }
               >
-                <Video size={24} color="#000000" />
+                <Video size={24} color={CONST.darkerColor} />
               </Pressable>
               <Pressable
                 onPress={() => typePressed(type02, setType02, "Monitor")}
                 style={
                   type02
-                    ? styles.modalTypeButtonPressed
-                    : styles.modalTypeButton
+                  ? styles.modalDeviceTypeButtonPressed
+                  : styles.modalDeviceTypeButton
                 }
               >
-                <Monitor size={24} color="#000000" />
+                <Monitor size={24} color={CONST.darkerColor} />
               </Pressable>
               <Pressable
                 onPress={() => typePressed(type03, setType03, "MonitorMobbile")}
                 style={
                   type03
-                    ? styles.modalTypeButtonPressed
-                    : styles.modalTypeButton
+                  ? styles.modalDeviceTypeButtonPressed
+                  : styles.modalDeviceTypeButton
                 }
               >
-                <MonitorMobbile size={24} color="#000000" />
-              </Pressable>
-              <Pressable
-                onPress={() =>
-                  typePressed(type04, setType04, "MirroringScreen")
-                }
-                style={
-                  type04
-                    ? styles.modalTypeButtonPressed
-                    : styles.modalTypeButton
-                }
-              >
-                <MirroringScreen size={24} color="#000000" />
+                <MonitorMobbile size={24} color={CONST.darkerColor} />
               </Pressable>
               <Pressable
                 onPress={() => typePressed(type05, setType05, "Mobile")}
                 style={
                   type05
-                    ? styles.modalTypeButtonPressed
-                    : styles.modalTypeButton
+                  ? styles.modalDeviceTypeButtonPressed
+                  : styles.modalDeviceTypeButton
                 }
               >
-                <Mobile size={24} color="#000000" />
+                <Mobile size={24} color={CONST.darkerColor} />
               </Pressable>
+            </View>
+            <View style={{ flexDirection: "row", justifyContent: 'space-around' }}>  
               <Pressable
                 onPress={() => typePressed(type06, setType06, "Printer")}
                 style={
                   type06
-                    ? styles.modalTypeButtonPressed
-                    : styles.modalTypeButton
+                  ? styles.modalDeviceTypeButtonPressed
+                  : styles.modalDeviceTypeButton
                 }
               >
-                <Printer size={24} color="#000000" />
+                <Printer size={24} color={CONST.darkerColor} />
               </Pressable>
-            </View>
-            <View style={{ flexDirection: "row", marginTop: 5 }}>
               <Pressable
                 onPress={() => typePressed(type07, setType07, "Call")}
                 style={
                   type07
-                    ? styles.modalTypeButtonPressed
-                    : styles.modalTypeButton
+                  ? styles.modalDeviceTypeButtonPressed
+                  : styles.modalDeviceTypeButton
                 }
               >
-                <Call size={24} color="#000000" />
+                <Call size={24} color={CONST.darkerColor} />
               </Pressable>
               <Pressable
                 onPress={() => typePressed(type08, setType08, "Microphone2")}
                 style={
                   type08
-                    ? styles.modalTypeButtonPressed
-                    : styles.modalTypeButton
+                  ? styles.modalDeviceTypeButtonPressed
+                  : styles.modalDeviceTypeButton
                 }
               >
-                <Microphone2 size={24} color="#000000" />
+                <Microphone2 size={24} color={CONST.darkerColor} />
               </Pressable>
               <Pressable
                 onPress={() => typePressed(type09, setType09, "Mouse")}
                 style={
                   type09
-                    ? styles.modalTypeButtonPressed
-                    : styles.modalTypeButton
+                  ? styles.modalDeviceTypeButtonPressed
+                  : styles.modalDeviceTypeButton
                 }
               >
-                <Mouse size={24} color="#000000" />
-              </Pressable>
+                <Mouse size={24} color={CONST.darkerColor} />
+              </Pressable> 
+            </View>
+            <View style={{ flexDirection: "row", justifyContent: 'space-around'}}>  
               <Pressable
                 onPress={() => typePressed(type10, setType10, "Keyboard")}
                 style={
                   type10
-                    ? styles.modalTypeButtonPressed
-                    : styles.modalTypeButton
+                  ? styles.modalDeviceTypeButtonPressed
+                  : styles.modalDeviceTypeButton
                 }
               >
-                <Keyboard size={24} color="#000000" />
+                <Keyboard size={24} color={CONST.darkerColor} />
               </Pressable>
-              <Pressable
+           <Pressable
                 onPress={() => typePressed(type11, setType11, "Headphone")}
                 style={
                   type11
-                    ? styles.modalTypeButtonPressed
-                    : styles.modalTypeButton
+                  ? styles.modalDeviceTypeButtonPressed
+                  : styles.modalDeviceTypeButton
                 }
               >
-                <Headphone size={24} color="#000000" />
+                <Headphone size={24} color={CONST.darkerColor} />
               </Pressable>
               <Pressable
                 onPress={() => typePressed(type12, setType12, "Electricity")}
                 style={
                   type12
-                    ? styles.modalTypeButtonPressed
-                    : styles.modalTypeButton
+                  ? styles.modalDeviceTypeButtonPressed
+                  : styles.modalDeviceTypeButton
                 }
               >
-                <Electricity size={24} color="#000000" />
+                <Electricity size={24} color={CONST.darkerColor} />
               </Pressable>
-            </View>
-            <View style={{ flexDirection: "row", marginBottom: 30 }}>
               <Pressable
                 onPress={() => typePressed(type13, setType13, "TableLamp")}
                 style={
                   type13
-                    ? styles.modalTypeButtonPressed
-                    : styles.modalTypeButton
+                  ? styles.modalDeviceTypeButtonPressed
+                  : styles.modalDeviceTypeButton
                 }
               >
-                <TableLamp size={24} color="#000000" />
-              </Pressable>
-              <Pressable
-                onPress={() => typePressed(type14, setType14, "Lamp")}
-                style={
-                  type14
-                    ? styles.modalTypeButtonPressed
-                    : styles.modalTypeButton
-                }
-              >
-                <Lamp size={24} color="#000000" />
+                <TableLamp size={24} color={CONST.darkerColor} />
               </Pressable>
             </View>
-            <View style={{ flexDirection: "column", marginBottom: 30 }}>
-              <Text style={styles.modalText}>Nome</Text>
+            <View style={{ flexDirection: "column"}}>
+            <Text style={[styles.normalText, {marginBottom: CONST.inputPadding}]}>{"\n"}Nome</Text>
               <TextInput
-                style={styles.modalInput}
+                style={styles.inputField}
                 onChangeText={(text) => setAddName(text)}
                 value={addName}
               />
             </View>
-            <View style={{ flexDirection: "column", marginBottom: 30 }}>
-              <Text style={styles.modalText}>
+            <View style={{ flexDirection: "column"}}>
+            <Text style={[styles.normalText, {marginBottom: CONST.inputPadding}]}>
                 Consumo{" "}
                 <Text style={{ fontFamily: "GothamBook" }}>(Opcional)</Text>
               </Text>
               <TextInput
-                style={styles.modalInput}
+                style={styles.inputField}
                 onChangeText={(text) => setAddEnergy(text)}
                 value={addEnergy}
               />
             </View>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                marginTop: 10,
-              }}
-            >
+            <View style={{flexDirection: "row", justifyContent: "space-evenly"}}>
               <Pressable
                 onPress={() => {
                   setModalVisible(!modalVisible);
                   clearFields();
                 }}
-                style={{ padding: 10, marginRight: 10 }}
+                style={styles.smallSecondaryButton}
               >
-                <Text style={{ color: "#0051ba", fontFamily: "GothamMedium" }}>
+                <Text style={styles.smallSecondaryButtonText}>
                   Cancelar
                 </Text>
               </Pressable>
-              <Pressable onPress={() => addDevice()} style={styles.buttonAdd}>
-                <Text style={{ color: "#FFF", fontFamily: "GothamMedium" }}>
+              <Pressable 
+                onPress={() => addDevice()} 
+                style={styles.smallPrimaryButton}>
+                <Text style={styles.smallPrimaryButtonText}>
                   Adicionar
                 </Text>
               </Pressable>
@@ -511,241 +474,103 @@ export default function Devices({ navigation }) {
           </View>
         </View>
       </Modal>
-      <ScrollView>
-      <Pressable
-          style={styles.primaryButton}
-          onPress={() => { setModalVisible(true); }}
-          underlayColor={"transparent"} >
-          <Text style={[styles.primaryButtonText, {paddingLeft: CONST.textPadding}]}>Adicionar equipamento</Text>
-          <AddCircle
-            color="#FFF"
-            variant="Bold"
-            style={{marginLeft: "auto", marginRight: CONST.iconPadding}}
-            onPress={() => { setModalVisible(true);}}
-          />
-        </Pressable>
-        
-        <Text style={[styles.smallText, {opacity: 0.5}]}>
-          Clique continuamente nos seus equipamentos se os desejar eliminar.
-        </Text>
-      </ScrollView>
-      <ScrollView style={{ marginTop: 20, marginBottom: 10 }}>
-        {devicesArray &&
-          devicesArray.length > 0 &&
-          devicesArray.map((callbackfn, id) => (
-            <Pressable
-              key={id}
-              style={longPress ? styles.boxOptionsPressed : styles.boxOptions}
-              onLongPress={() => {
-                setLongPress(true);
-                Alert.alert(
-                  "Atenção",
-                  "Tem a certeza que deseja eliminar o equipamento?",
-                  [
-                    {
-                      text: "Cancelar",
-                      onPress: () => {
-                        setLongPress(false);
+      <View style={{flexDirection: 'column'}}>
+        <ScrollView>
+          <Pressable
+            style={styles.primaryButton}
+            onPress={() => { setModalVisible(true); }}
+            underlayColor={"transparent"} >
+            <Text style={[styles.primaryButtonText, {paddingLeft: CONST.textPadding}]}>Adicionar equipamento</Text>
+            <AddCircle
+              color="#FFF"
+              variant="Bold"
+              style={{marginLeft: "auto", marginRight: CONST.iconPadding}}
+              onPress={() => { setModalVisible(true);}}
+            />
+          </Pressable>
+          
+          <Text style={[styles.smallText, {opacity: 0.5, paddingBottom: CONST.textPadding}]}>
+            Clique continuamente nos seus equipamentos se os desejar eliminar.
+          </Text>
+        </ScrollView>
+        <ScrollView style={{marginBottom: CONST.textPadding }}>
+          {devicesArray &&
+            devicesArray.length > 0 &&
+            devicesArray.map((callbackfn, id) => (
+              <Pressable
+                key={id}
+                style={longPress ? styles.boxOptionsPressed : styles.boxOptions}
+                onLongPress={() => {
+                  setLongPress(true);
+                  Alert.alert(
+                    "Atenção",
+                    "Tem a certeza que deseja eliminar o equipamento?",
+                    [
+                      {
+                        text: "Cancelar",
+                        onPress: () => {
+                          setLongPress(false);
+                        },
                       },
-                    },
-                    {
-                      text: "Confirmar",
-                      onPress: () => {
-                        setLongPress(false);
-                        const arrTemp = devicesArray.filter(
-                          (item) => item.id !== devicesArray[id].id
-                        );
-                        setDevices([...arrTemp]);
-                        firebase
-                          .firestore()
-                          .collection("users_devices")
-                          .doc(uid)
-                          .update({
-                            devices: arrTemp,
-                          });
-                        ToastAndroid.show(
-                          "Equipamento eliminado!",
-                          ToastAndroid.SHORT
-                        );
+                      {
+                        text: "Confirmar",
+                        onPress: () => {
+                          setLongPress(false);
+                          const arrTemp = devicesArray.filter(
+                            (item) => item.id !== devicesArray[id].id
+                          );
+                          setDevices([...arrTemp]);
+                          firebase
+                            .firestore()
+                            .collection("users_devices")
+                            .doc(uid)
+                            .update({
+                              devices: arrTemp,
+                            });
+                          ToastAndroid.show(
+                            "Equipamento eliminado!",
+                            ToastAndroid.SHORT
+                          );
+                        },
                       },
-                    },
-                  ]
-                );
-              }}
-            >
-              {whichIcon(devicesArray[id].type)}
-              <Text style={styles.normalText}> {devicesArray[id].name} </Text>
-              <Switch
-                style={{ marginLeft: "auto", marginRight: CONST.iconPadding }}
-                trackColor={{ false: CONST.switchOffColor, true: CONST.switchOnColor }}
-                thumbColor={devicesArray[id].using ? CONST.switchIndicatorColor : CONST.mainBlue}
-                value={devicesArray[id].using}
-                onValueChange={() => {
-                  devicesArray[id] = {
-                    energy: devicesArray[id].energy,
-                    name: devicesArray[id].name,
-                    id: devicesArray[id].id,
-                    type: devicesArray[id].type,
-                    using: !devicesArray[id].using,
-                  };
-                  firebase
-                    .firestore()
-                    .collection("users_devices")
-                    .doc(uid)
-                    .update({
-                      devices: devicesArray,
-                    });
-
-                  ToastAndroid.show(
-                    "Estado do equipamento alterado!",
-                    ToastAndroid.SHORT
+                    ]
                   );
-                  forceUpdate();
                 }}
-              />
-            </Pressable>
-          ))}
-      </ScrollView>
+              >
+                {whichIcon(devicesArray[id].type)}
+                <Text style={styles.normalText}> {devicesArray[id].name} </Text>
+                <Switch
+                  style={{ marginLeft: "auto", marginRight: CONST.iconPadding }}
+                  trackColor={{ false: CONST.switchOffColor, true: CONST.switchOnColor }}
+                  thumbColor={devicesArray[id].using ? CONST.switchIndicatorColor : CONST.mainBlue}
+                  value={devicesArray[id].using}
+                  onValueChange={() => {
+                    devicesArray[id] = {
+                      energy: devicesArray[id].energy,
+                      name: devicesArray[id].name,
+                      id: devicesArray[id].id,
+                      type: devicesArray[id].type,
+                      using: !devicesArray[id].using,
+                    };
+                    firebase
+                      .firestore()
+                      .collection("users_devices")
+                      .doc(uid)
+                      .update({
+                        devices: devicesArray,
+                      });
+
+                    ToastAndroid.show(
+                      "Estado do equipamento alterado!",
+                      ToastAndroid.SHORT
+                    );
+                    forceUpdate();
+                  }}
+                />
+              </Pressable>
+            ))}
+        </ScrollView>
+      </View>
     </SafeAreaProvider>
   );
 }
-
-// const screenWidth = Dimensions.get("window").width;
-// const screenHeight = Dimensions.get("window").height;
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#fff",
-//     paddingLeft: 25,
-//     paddingRight: 25,
-//     paddingBottom: 90,
-//   },
-
-//   title: {
-//     fontFamily: "GothamMedium",
-//     fontSize: 24,
-//     marginTop: 30,
-//     marginBottom: 10,
-//   },
-
-//   options: {
-//     flex: 1,
-//     marginTop: 20,
-//     marginBottom: 10,
-//     borderRadius: 15,
-//     paddingTop: 15,
-//     paddingBottom: 15,
-//     paddingLeft: 25,
-//     width: screenWidth - 50,
-//     flexDirection: "row",
-//     alignItems: "center",
-//     textAlign: "left",
-//     backgroundColor: "#E3ECF7",
-//   },
-
-//   optionsPressed: {
-//     flex: 1,
-//     marginTop: 20,
-//     marginBottom: 10,
-//     borderRadius: 15,
-//     paddingTop: 15,
-//     paddingBottom: 15,
-//     paddingLeft: 25,
-//     width: screenWidth - 50,
-//     flexDirection: "row",
-//     alignItems: "center",
-//     textAlign: "left",
-//     backgroundColor: "#d2dbe6",
-//   },
-
-//   text: {
-//     marginLeft: 10,
-//     fontFamily: "GothamBook",
-//     fontSize: 16,
-//   },
-
-//   button: {
-//     flex: 1,
-//     marginTop: 30,
-//     marginBottom: 10,
-//     borderRadius: 15,
-//     paddingTop: 15,
-//     paddingBottom: 15,
-//     paddingLeft: 20,
-//     width: screenWidth - 50,
-//     alignItems: "center",
-//     flexDirection: "row",
-//     justifyContent: "flex-start",
-//     textAlign: "left",
-//     backgroundColor: "#0051ba",
-//   },
-
-//   textButton: {
-//     marginLeft: 10,
-//     fontFamily: "GothamBook",
-//     fontSize: 16,
-//     color: "#FFF",
-//   },
-//   centeredView: {
-//     flex: 1,
-//     justifyContent: "center",
-//     alignItems: "center",
-//     backgroundColor: "rgba(0, 0, 0, 0.5)",
-//   },
-//   modalView: {
-//     backgroundColor: "#E3ECF7",
-//     borderRadius: 15,
-//     padding: 25,
-//     shadowColor: "#000",
-//     shadowRadius: 5,
-//     shadowOpacity: 0.5,
-//     elevation: 10,
-//   },
-//   modalText: {
-//     fontFamily: "GothamMedium",
-//     fontSize: 16,
-//     textAlign: "left",
-//     marginBottom: 0,
-//   },
-//   modalTypeButton: {
-//     backgroundColor: "transparent",
-//     borderColor: "transparent",
-//     borderWidth: 1,
-//     borderRadius: 8,
-//     padding: 8,
-//     margin: 2,
-//     textAlign: "center",
-//     alignItems: "center",
-//     justifyContent: "center",
-//   },
-//   modalTypeButtonPressed: {
-//     backgroundColor: "transparent",
-//     borderColor: "#000",
-//     borderWidth: 1,
-//     borderRadius: 8,
-//     padding: 8,
-//     margin: 2,
-//     textAlign: "center",
-//     alignItems: "center",
-//     justifyContent: "center",
-//   },
-//   modalInput: {
-//     marginTop: 0,
-//     borderBottomWidth: 1,
-//     paddingTop: 5,
-//     paddingBottom: 5,
-//     fontFamily: "GothamBook",
-//     fontSize: 16,
-//   },
-//   buttonAdd: {
-//     backgroundColor: "#0051ba",
-//     paddingTop: 10,
-//     paddingBottom: 10,
-//     paddingLeft: 20,
-//     paddingRight: 20,
-//     borderRadius: 8,
-//     alignItems: "center",
-//     marginLeft: 10,
-//   },
-// });

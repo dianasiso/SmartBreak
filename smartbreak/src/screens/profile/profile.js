@@ -30,6 +30,9 @@ import { useFonts } from "expo-font";
 // CSS
 import { styles } from "./../../styles/css.js";
 
+// Variables
+import * as CONST from "./../../styles/variables.js";
+
 export default function ProfilePage({ navigation, route }) {
   const userData = useSelector((state) => state.user.userID);
   useEffect(() => {
@@ -67,7 +70,7 @@ export default function ProfilePage({ navigation, route }) {
 
   return (
     <SafeAreaProvider style={styles.mainContainerLight}>
-      <StatusBar style="auto" />
+      <StatusBar style="dark" />
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={styles.containerLight}
@@ -82,14 +85,14 @@ export default function ProfilePage({ navigation, route }) {
         </View>
 
         <Pressable
-          style={styles.boxOptions}
+          style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
           onPress={() => navigation.navigate("EditProfile")}
         >
           <Edit2 variant="Bold" style={styles.boxIcon} />
           <Text style={styles.normalText}> Editar perfil</Text>
         </Pressable>
         <Pressable
-          style={styles.boxOptions}
+          style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
           onPress={() => navigation.navigate("MyDevices")}
         >
           <Category variant="Bold" style={styles.boxIcon} />
@@ -97,28 +100,28 @@ export default function ProfilePage({ navigation, route }) {
         </Pressable>
 
         <Pressable
-          style={styles.boxOptions}
+          style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
           onPress={() => navigation.navigate("MyRoutines")}
         >
           <Calendar variant="Bold" style={styles.boxIcon} />
           <Text style={styles.normalText}> As minhas rotinas</Text>
         </Pressable>
         <Pressable
-          style={styles.boxOptions}
+          style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
           onPress={() => navigation.navigate("historicoPausas")}
         >
           <Clock variant="Bold" style={styles.boxIcon} />
           <Text style={styles.normalText}> Histórico de pausas</Text>
         </Pressable>
         <Pressable
-          style={styles.boxOptions}
+          style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
           onPress={() => navigation.navigate("ProfileRewards")}
         >
           <MedalStar variant="Bold" style={styles.boxIcon} />
           <Text style={styles.normalText}> As minhas recompensas</Text>
         </Pressable>
         <Pressable
-          style={[styles.boxOptions, {borderBottomWidth: 0}]}
+          style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding, borderBottomWidth: 0}]}
           onPress={() => navigation.navigate("ProfileSettings")}
         >
           <Setting2 variant="Bold" style={styles.boxIcon} />

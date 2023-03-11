@@ -33,7 +33,7 @@ export default function TermsofUseProfile() {
 
   return (
     <SafeAreaProvider style={styles.containerLight}>
-      <StatusBar style="auto" />
+      <StatusBar style="dark" />
       <Pressable style={styles.arrow} onPress={onPressTouch} >
         <ArrowCircleUp variant="Bold" color={CONST.mainBlue} size="50" />
       </Pressable>

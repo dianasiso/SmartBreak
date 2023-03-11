@@ -57,6 +57,12 @@ export const styles = StyleSheet.create({
     fontSize: CONST.normalButtonSize,
     textAlign: "center",
   },
+  smallPrimaryButtonText: {
+    fontFamily: "GothamMedium",
+    color: CONST.primaryButtonTextColor,
+    fontSize: CONST.smallButtonSize,
+    textAlign: "center",
+  },
   buttonWhiteText: {
     fontFamily: "GothamMedium",
     color: CONST.mainBlue,
@@ -67,6 +73,12 @@ export const styles = StyleSheet.create({
     fontFamily: "GothamMedium",
     color: CONST.secondaryButtonTextColor,
     fontSize: CONST.normalButtonSize,
+    textAlign: "center",
+  },
+  smallSecondaryButtonText: {
+    fontFamily: "GothamMedium",
+    color: CONST.secondaryButtonTextColor,
+    fontSize: CONST.smallButtonSize,
     textAlign: "center",
   },
   primaryButton: {
@@ -81,11 +93,38 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: CONST.primaryButtonBorderColor,
   },
+  smallPrimaryButton: {
+    backgroundColor: CONST.primaryButtonBackground,
+    justifyContent: "center", 
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    height: CONST.heightButton,
+    borderRadius: CONST.smallButtonRadius,
+    margin: 5,
+    borderWidth: 1,
+    borderColor: CONST.primaryButtonBorderColor,
+  },
   buttonWhite: {
     backgroundColor: CONST.lightBackgroundColor,
     justifyContent: "center",
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
     height: CONST.heightButton,
     borderRadius: CONST.normalButtonRadius,
+    margin: 5,
+    borderWidth: 1,
+    borderColor: CONST.lightBackgroundColor,
+  },
+  smallButtonWhite: {
+    backgroundColor: CONST.lightBackgroundColor,
+    justifyContent: "center",
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    height: CONST.heightButton,
+    borderRadius: CONST.smallButtonRadius,
     margin: 5,
     borderWidth: 1,
     borderColor: CONST.lightBackgroundColor,
@@ -93,8 +132,23 @@ export const styles = StyleSheet.create({
   secondaryButton: {
     backgroundColor: CONST.secondaryButtonBackground,
     justifyContent: "center",
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
     height: CONST.heightButton,
     borderRadius: CONST.normalButtonRadius,
+    margin: 5,
+    borderWidth: 1,
+    borderColor: CONST.secondaryButtonBorderColor,
+  },
+  smallSecondaryButton: {
+    backgroundColor: CONST.secondaryButtonBackground,
+    justifyContent: "center",
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    height: CONST.heightButton,
+    borderRadius: CONST.smallButtonRadius,
     margin: 5,
     borderWidth: 1,
     borderColor: CONST.secondaryButtonBorderColor,
@@ -187,15 +241,14 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   boxOptionsPressed: {
-    marginBottom: CONST.boxMargin,
     paddingLeft: CONST.boxMargin,
     paddingRight: CONST.boxMargin,
     paddingTop: CONST.boxPadding,
     paddingBottom: CONST.boxPadding,
+    flex: 1,
+    opacity: 0.8,
     borderBottomWidth: 1,
     borderBottomColor: CONST.dividerColor,
-    opacity: 0.5,
-    flex: 1,
     flexDirection: "row",
     alignItems: "center",
   },
@@ -204,7 +257,7 @@ export const styles = StyleSheet.create({
     marginRight: CONST.boxPadding,
   },
 
-  //main navigation//
+  // ---- NAVIGATION ----
   IconContainer: {},
   Indicator: {
     width: 50,
@@ -222,9 +275,119 @@ export const styles = StyleSheet.create({
     //position: "absolute",
     top: -15,
   },
+
   // --- RETURN TOP BUTTON ON STACK NAV --- //
   returnTopButton: {
     paddingLeft: 20,
+  },
+
+  // ---- MODALS ----
+  modalBackgroundView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
+  },
+
+  modalView: {
+    backgroundColor: CONST.lightBackgroundColor,
+    borderRadius: CONST.smallButtonRadius,
+    padding: CONST.modalPadding,
+    shadowColor: CONST.darkerColor,
+    shadowRadius: CONST.shadowRadius,
+    width: CONST.screenWidth/3*2,
+    shadowOpacity: 0.5,
+    elevation: 10,
+    overflow: 'hidden',
+  },
+
+   // ---- MODAL DEVICES -----
+
+  modalDeviceTypeButton: {
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+    borderWidth: 1,
+    borderRadius: CONST.smallButtonRadius,
+    padding: CONST.smallButtonRadius,
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }, 
+
+  modalDeviceTypeButtonPressed: {
+    backgroundColor: 'transparent',
+    borderColor: CONST.darkerColor,
+    borderWidth: 1,
+    borderRadius: CONST.smallButtonRadius,
+    padding: CONST.smallButtonRadius,
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }, 
+
+  // ---- MODAL ROUTINES ----
+
+  modalRoutineButton: {
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+    borderWidth: 1,
+    borderRadius: CONST.smallButtonRadius,
+    padding: CONST.smallButtonRadius,
+    paddingTop: 4,
+    paddingBottom: 4,
+    margin: 2,
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }, 
+
+  modalRoutineButtonPressed: {
+    backgroundColor: 'transparent',
+    borderColor: CONST.darkerColor,
+    borderWidth: 1,
+    borderRadius: CONST.smallButtonRadius,
+    padding: CONST.smallButtonRadius,
+    paddingTop: 4,
+    paddingBottom: 4,
+    margin: 2,
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }, 
+
+  hoursContainer: {
+    width:  CONST.screenWidth/4,
+    marginBottom: CONST.backgroundPaddingTop,
+    flexDirection: "row",
+    justifyContent: "center",
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 5,
+  },
+  daysContainer: {
+    width:  CONST.screenWidth/4,
+    marginBottom: CONST.inputMargin,
+    flexDirection: "row",
+    justifyContent: "center",
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 5,
+  },
+  hoursTextStyle: {  
+    color: CONST.darkerColor,
+    fontFamily: 'GothamBook',
+    fontSize: CONST.pageSmallTextSize,
+  },
+
+  hoursPicker: {
+    backgroundColor: 'transparent',
+    borderWidth: 0,
+    paddingBottom: 0,
+    borderBottomWidth: 1,
+    borderBottomColor: CONST.darkerColor,
+    color: CONST.darkerColor,
+    fontFamily: 'GothamBook',
+    fontSize: CONST.pageTextSize,
   },
 
   // --- WELCOME, ONBOARDING AND LOGIN PAGES ----
