@@ -102,12 +102,12 @@ export default function Team({ navigation }) {
       style={[styles.containerLight, {paddingTop: 0}]}
     >
       <ScrollView>
-        <StatusBar style="auto" />
+        <StatusBar style="dark" />
         <Text style={[styles.titleText, {paddingBottom: CONST.textPadding}]}>{name}</Text>
         <Text style={styles.normalText}>{description}</Text>
        
           {users && users.map((callbackfn, id) => (
-            <View style={styles.membrosView}>
+            <View style={styles.membersView}>
               <Info value={users[id]} />
             </View>
           ))}
@@ -115,48 +115,3 @@ export default function Team({ navigation }) {
     </SafeAreaProvider>
   );
 }
-
-/*
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    paddingLeft: 25,
-    paddingRight: 25,
-    paddingBottom: 90,
-  },
-
-  profilepicture: {
-    backgroundColor: "#F5F5F5",
-    //mudar os tamanhos para percentagens para funcionar bem em todos os ecrãs
-    height: 60,
-    width: 60,
-    borderRadius: 100,
-    marginRight: 30,
-  },
-
-  title: {
-    fontFamily: "GothamMedium",
-    fontSize: 24,
-    marginTop: 30,
-  },
-
-  subtitulo: {
-    fontFamily: "GothamMedium",
-    fontSize: 16,
-    textTransform: 'capitalize'
-  },
-
-  text: {
-    fontFamily: "GothamBook",
-    fontSize: 16,
-    lineHeight: 24,
-  },
-
-  membros: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 30,
-  },
-});
-*/

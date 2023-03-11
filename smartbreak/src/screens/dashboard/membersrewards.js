@@ -44,29 +44,38 @@ export default function MembersRewards({ route, navigation }) {
       style={[styles.containerLight, {paddingTop: 0}]}
     >
       <ScrollView>
-        <StatusBar style="auto" />
+        <StatusBar style="dark" />
         <Text style={styles.titleText}>Recompensas de {props.username}</Text>
         
-        <View style={styles.metricasElement}>
-          <View style={[styles.metricasCircle, {backgroundColor: CONST.thirdOrange}]}>
+        <View style={styles.metricsElement}>
+          <View style={[styles.metricsCircle, {backgroundColor: CONST.thirdOrange}]}>
             <Car color={CONST.darkerColor} />
           </View>
-          <Text style={styles.metricasElementText}>
+          <Text style={styles.smallText}>
           1 dia de férias em setembro
           </Text>
         </View>
 
-        <View style={styles.metricasElement}>
-          <View style={[styles.metricasCircle, {backgroundColor: CONST.thirdOrange}]}>
+        <View style={styles.metricsElement}>
+          <View style={[styles.metricsCircle, {backgroundColor: CONST.thirdOrange}]}>
             <DollarCircle color={CONST.darkerColor} />
           </View>
-          <Text style={styles.metricasElementText}>
+          <Text style={styles.smallText}>
           Vale 15€ em refeições
           </Text>
         </View>
 
-        <View style={styles.metricasElement}>
-          <View style={[styles.metricasCircle, {backgroundColor: CONST.thirdOrange}]}>
+        <View style={styles.metricsElement}>
+          <View style={styles.metricsCircle}>
+            <Car color={CONST.darkerColor} />
+          </View>
+          <Text style={styles.smallText}>
+            1 dia de férias em setembro
+          </Text>
+        </View>
+
+        <View style={styles.metricsElement}>
+          <View style={[styles.metricsCircle, {backgroundColor: CONST.thirdOrange}]}>
             <Coffee color={CONST.darkerColor} />
           </View>
           <Text style={styles.metricasElementText}>

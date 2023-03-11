@@ -559,12 +559,7 @@ export const styles = StyleSheet.create({
     marginRight: 20,
   },
 
-  metricasText: {
-    fontSize: 20,
-    fontFamily: "GothamMedium",
-    marginBottom: 18,
-  },
-  metricasElement: {
+  metricsElement: {
     width: CONST.screenWidth - 50,
     //backgroundColor: "#E3ECF7",
     borderRadius: 15,
@@ -573,7 +568,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  metricasCircle: {
+  metricsCircle: {
     backgroundColor: CONST.thirdBlue,
     height: CONST.heightButton,
     width: CONST.heightButton,
@@ -581,17 +576,10 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     zIndex: 100,
     justifyContent: "center",
-  },
-  metricasElementText: {
-    fontSize: CONST.pageSmallTextSize,
-    color: CONST.darkerColor,
-    fontFamily: "GothamBook",
-    paddingLeft: 15,
-    paddingRight: 25,
-    lineHeight: 20,
+    marginRight: 15,
   },
 
-  membrosView: {
+  membersView: {
     flexDirection: "row",
     alignItems: "center",
     marginTop: 30,
