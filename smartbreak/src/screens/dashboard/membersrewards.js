@@ -78,7 +78,7 @@ export default function MembersRewards({ route, navigation }) {
           <View style={[styles.metricsCircle, {backgroundColor: CONST.thirdOrange}]}>
             <Coffee color={CONST.darkerColor} />
           </View>
-          <Text style={styles.metricasElementText}>
+          <Text style={styles.smallText}>
           10 cafés grátis no bar
           </Text>
         </View>
