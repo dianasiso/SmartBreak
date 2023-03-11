@@ -49,7 +49,7 @@ export default function ProfileRewards() {
           <View style={styles.metricsCircle}>
             <Coffee color={CONST.darkerColor} />
           </View>
-          <Text style={styles.metricsElementText}>
+          <Text style={styles.smallText}>
             10 cafés grátis no bar
           </Text>
         </View>
@@ -58,7 +58,7 @@ export default function ProfileRewards() {
           <View style={styles.metricsCircle}>
             <DollarCircle color={CONST.darkerColor} />
           </View>
-          <Text style={styles.metricsElementText}>
+          <Text style={styles.smallText}>
             Vale 15€ em refeições
           </Text>
         </View>
