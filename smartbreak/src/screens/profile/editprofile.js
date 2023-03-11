@@ -115,7 +115,7 @@ export default function EditProfile({ navigation }) {
       showsVerticalScrollIndicator={false}
       style={styles.mainContainerLight}
     >
-      <StatusBar style="auto" />
+      <StatusBar style="dark" />
       <ScrollView
         style={[styles.containerLight, {paddingTop: 0}]}
         refreshControl={
@@ -180,7 +180,7 @@ export default function EditProfile({ navigation }) {
             editable={false}
           />
 
-          <View style={styles.editprofileRewards} >
+          <View style={styles.editProfileRewards} >
             <Text style={styles.normalText}>
               Tornar as recompensas públicas
             </Text>

@@ -33,32 +33,32 @@ export default function ProfileRewards() {
       style={styles.containerLight}
     >
       <ScrollView>
-        <StatusBar style="auto" />
+        <StatusBar style="dark" />
         <Text style={styles.titleText}>As minhas recompensas</Text>
 
-        <View style={styles.metricasElement}>
-          <View style={styles.metricasCircle}>
+        <View style={styles.metricsElement}>
+          <View style={styles.metricsCircle}>
             <Car color={CONST.darkerColor} />
           </View>
-          <Text style={styles.metricasElementText}>
+          <Text style={styles.smallText}>
             1 dia de férias em setembro
           </Text>
         </View>
 
-        <View style={styles.metricasElement}>
-          <View style={styles.metricasCircle}>
+        <View style={styles.metricsElement}>
+          <View style={styles.metricsCircle}>
             <Coffee color={CONST.darkerColor} />
           </View>
-          <Text style={styles.metricasElementText}>
+          <Text style={styles.metricsElementText}>
             10 cafés grátis no bar
           </Text>
         </View>
 
-        <View style={styles.metricasElement}>
-          <View style={styles.metricasCircle}>
+        <View style={styles.metricsElement}>
+          <View style={styles.metricsCircle}>
             <DollarCircle color={CONST.darkerColor} />
           </View>
-          <Text style={styles.metricasElementText}>
+          <Text style={styles.metricsElementText}>
             Vale 15€ em refeições
           </Text>
         </View>
@@ -67,39 +67,3 @@ export default function ProfileRewards() {
     </SafeAreaProvider>
   );
 }
-/*
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    paddingLeft: 25,
-    paddingRight: 25,
-    paddingBottom: 90,
-  },
-
-  options: {
-    marginTop: 30,
-    borderRadius: 15,
-    paddingLeft: 25,
-    paddingTop: 15,
-    paddingBottom: 15,
-    width: "100%",
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#E3ECF7",
-  },
-
-  title: {
-    fontFamily: "GothamMedium",
-    fontSize: 24,
-    marginTop: 30,
-  },
-
-  text: {
-    fontFamily: "GothamBook",
-    fontSize: 16,
-    marginLeft: 15,
-    lineHeight: 24,
-  },
-});
-*/

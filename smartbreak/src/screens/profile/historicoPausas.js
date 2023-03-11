@@ -20,7 +20,7 @@ export default function historicoPausas() {
             style={styles.containerLight}
         >
             <ScrollView>
-                <StatusBar style="auto" />
+                <StatusBar style="dark" />
 
                 <Text style={[styles.titleText, { paddingBottom: CONST.textPadding }]}>14 de nov. - 20 de nov.</Text>
                 <View>
@@ -87,49 +87,3 @@ export default function historicoPausas() {
         </SafeAreaView>
     );
 }
-/*
-// Get screen dimensions
-const screenWidth = Dimensions.get('window').width;
-const screenHeight = Dimensions.get('window').height - 50;
-
-const styles = StyleSheet.create({
-    container: {
-        width: screenWidth,
-        height: screenHeight,
-        flex: 1,
-        backgroundColor: '#fff',
-        paddingLeft: 25,
-    },
-    textoData: {
-        fontFamily: 'GothamMedium',
-        fontSize: 20,
-        marginTop: 10,
-    },
-    caixa: {
-        backgroundColor: '#E3ECF7',
-        borderRadius: 14,
-        width: '92%',
-        borderRadius: 14,
-        padding: 15,
-        marginTop: 10,
-        marginBottom: 20,
-    },
-    parteCima: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingBottom: 15,
-        borderColor: 'rgba(0, 81, 186, 0.5)',
-        borderBottomWidth: 2,
-    },
-    textoCima: {
-        fontFamily: 'GothamMedium',
-        fontSize: 16,
-    },
-    parteBaixo: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingTop: 15,
-    }
-}); */

@@ -105,7 +105,7 @@ export default function EditPassword({ navigation }) {
       style={styles.containerLight}
     >
       <ScrollView>
-        <StatusBar style="auto" />
+        <StatusBar style="dark" />
         <Text style={[styles.titleText, { paddingBottom: CONST.textPadding }]}>Alterar palavra-passe</Text>
         <Text
           accessible={true}
