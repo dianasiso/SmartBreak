@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
+  Pressable,
   Dimensions,
   StyleSheet,
   ScrollView,
@@ -23,33 +24,69 @@ import {
 // Font Gotham
 import { useFonts } from "expo-font";
 
+// Firebase
+import firebase from "./../../config/firebase.js";
+import { getAuth, deleteUser } from "firebase/auth";
+
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../../redux/user.js";
+import * as SecureStore from "expo-secure-store";
+
+// CSS
+import { styles } from "./../../styles/css.js";
+
 export default function ProfileSettings({ navigation }) {
+  const dispatch = useDispatch();
   // Loading Gotham font
   const [loaded] = useFonts({
     GothamMedium: "./../fonts/GothamMedium.ttf",
     GothamBook: "./../fonts/GothamBook.ttf",
   });
 
-  if (!loaded) {
-    return null; // Returns null if unable to load the font
-  }
+  const userData = useSelector((state) => state.user.userID);
+  const uid = userData;
 
   const apagarconta = () => {
     Alert.alert("Atenção", "Deseja apagar a sua conta permanentemente?", [
       { text: "Cancelar" },
       {
         text: "Confirmar",
-        onPress: () => navigation.navigate("###"),
+        onPress: () => {
+          getAuth().currentUser.delete();
+          firebase.firestore().collection("users_data").doc(uid).delete();
+          firebase.firestore().collection("users_devices").doc(uid).delete();
+          firebase.firestore().collection("users_routines").doc(uid).delete();
+
+          handleLogout();
+        },
       },
     ]);
   };
 
+  const handleLogout = async () => {
+    try {
+      await SecureStore.deleteItemAsync("uid");
+      navigation.navigate("Welcome");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const terminarsessao = () => {
+    if (!uid) {
+      console.error("UID is undefined");
+      return;
+    }
     Alert.alert("Atenção", "Tem a certeza que deseja terminar a sessão? ", [
       { text: "Cancelar" },
       {
         text: "Confirmar",
-        onPress: () => navigation.navigate("###"),
+        onPress: () => {
+          firebase.firestore().collection("users_data").doc(uid).update({
+            pause: false,
+          });
+          handleLogout();
+        },
       },
     ]);
   };
@@ -57,81 +94,88 @@ export default function ProfileSettings({ navigation }) {
   return (
     <SafeAreaProvider
       showsVerticalScrollIndicator={false}
-      style={styles.container}
+      style={styles.containerLight}
     >
       <ScrollView>
         <StatusBar style="auto" />
-        <Text style={styles.title}>Definições</Text>
+        <Text style={styles.titleText}>Definições</Text>
 
-        <View style={styles.options}>
-          <Lock1 color="#000000" />
-          <TouchableHighlight
-            onPress={() => navigation.navigate("EditPassword")}
-            underlayColor={"transparent"}
-          >
-            <Text style={styles.text}>Alterar palavra-passe</Text>
-          </TouchableHighlight>
-        </View>
-
-        <View style={styles.options}>
-          <Notification color="#000000" />
-          <TouchableHighlight
-            onPress={() => navigation.navigate("NotificationsProfile")}
-            underlayColor={"transparent"}
-          >
-            <Text style={styles.text}>Notificações</Text>
-          </TouchableHighlight>
-        </View>
-
-        <View style={styles.options}>
-          <SecurityUser color="#000000" />
-          <TouchableHighlight
-            onPress={() => navigation.navigate("SecurityProfile")}
-            underlayColor={"transparent"}
-          >
-            <Text style={styles.text}>Segurança</Text>
-          </TouchableHighlight>
-        </View>
-
-        <View style={styles.options}>
-          <DocumentText1 color="#000000" />
-          <TouchableHighlight
-            onPress={() => navigation.navigate("TermsofUseProfile")}
-            underlayColor={"transparent"}
-          >
-            <Text style={styles.text}>Termos de utilização</Text>
-          </TouchableHighlight>
-        </View>
-
-        <View style={styles.options}>
-          <MessageQuestion color="#000000" />
-          <TouchableHighlight
-            onPress={() => navigation.navigate("HelpCenterProfile")}
-            underlayColor={"transparent"}
-          >
-            <Text style={styles.text}>Centro de ajuda</Text>
-          </TouchableHighlight>
-        </View>
-
-        <View style={styles.options}>
-          <Trash color="#000000" />
-          <TouchableHighlight
+        <Pressable
+          style={styles.profileOptions}
+          onPress={() => navigation.navigate("EditPassword")}
+        >
+          <Lock1 variant="Bold" style={styles.profileIcon} />
+          <Text style={styles.profileOptionsText}> Alterar palavra-passe</Text>
+        </Pressable>
+        <View style={styles.divider} />
+        <Pressable
+          style={styles.profileOptions}
+          onPress={() => navigation.navigate("NotificationsProfile")}
+        >
+          <Notification variant="Bold" style={styles.profileIcon} />
+          <Text style={styles.profileOptionsText}> Notificações</Text>
+        </Pressable>
+        <View style={styles.divider} />
+        <Pressable
+          style={styles.profileOptions}
+          onPress={() => navigation.navigate("SecurityProfile")}
+        >
+          <SecurityUser variant="Bold" style={styles.profileIcon} />
+          <Text style={styles.profileOptionsText}> Segurança</Text>
+        </Pressable>
+        <View style={styles.divider} />
+        <Pressable
+          style={styles.profileOptions}
+          onPress={() => navigation.navigate("TermsofUseProfile")}
+        >
+          <DocumentText1 variant="Bold" style={styles.profileIcon} />
+          <Text style={styles.profileOptionsText}> Termos de utilização</Text>
+        </Pressable>
+        <View style={styles.divider} />
+        <Pressable
+          style={styles.profileOptions}
+          onPress={() => navigation.navigate("HelpCenterProfile")}
+        >
+          <MessageQuestion variant="Bold" style={styles.profileIcon} />
+          <Text style={styles.profileOptionsText}> Centro de ajuda</Text>
+        </Pressable>
+        <View style={styles.divider} />
+        <Pressable
+          style={styles.profileOptions}
+          onPress={() => navigation.navigate("HelpCenterProfile")}
+        >
+          <MessageQuestion variant="Bold" style={styles.profileIcon} />
+          <Text style={styles.profileOptionsText}> Acessibilidade</Text>
+          {/*
+          !!!!!!!!!!!!!
+          !!!!!!!!!!!!!
+          !!!!!!!!!!!!!
+          !!!!!!!!!!!!!
+          FALTA ICONE PARA ACESSIBILIDADE E LINKAR A PAGINA DE ACESSIBILIDADE
+          !!!!!!!!!!!!!
+          !!!!!!!!!!!!!
+          !!!!!!!!!!!!!
+          !!!!!!!!!!!!!
+          */}
+        </Pressable>
+        <View style={styles.divider} />
+        <Pressable style={styles.profileOptions} onPress={apagarconta}>
+          <Trash
+            variant="Bold"
+            style={styles.profileIcon}
             onPress={apagarconta}
-            underlayColor={"transparent"}
-          >
-            <Text style={styles.text}>Apagar conta</Text>
-          </TouchableHighlight>
-        </View>
-
-        <View style={styles.options}>
-          <Logout color="#000000" />
-          <TouchableHighlight
+          />
+          <Text style={styles.profileOptionsText}> Apagar conta</Text>
+        </Pressable>
+        <View style={styles.divider} />
+        <Pressable style={styles.profileOptions} onPress={terminarsessao}>
+          <Logout
+            variant="Bold"
+            style={styles.profileIcon}
             onPress={terminarsessao}
-            underlayColor={"transparent"}
-          >
-            <Text style={styles.text}>Terminar sessão</Text>
-          </TouchableHighlight>
-        </View>
+          />
+          <Text style={styles.profileOptionsText}> Terminar sessão</Text>
+        </Pressable>
       </ScrollView>
     </SafeAreaProvider>
   );
@@ -139,37 +183,42 @@ export default function ProfileSettings({ navigation }) {
 
 const screenWidth = Dimensions.get("window").width;
 
+/*
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
     paddingLeft: 25,
     paddingRight: 25,
-    paddingBottom: 100,
-  },
-
-  options: {
-    marginTop: 30,
-    borderRadius: 15,
-    paddingLeft: 25,
-    paddingTop: 15,
-    paddingBottom: 15,
-    width: screenWidth - 50,
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#E3ECF7",
+    paddingBottom: 90,
   },
 
   title: {
     fontFamily: "GothamMedium",
     fontSize: 24,
     marginTop: 30,
+    marginBottom: 10,
+  },
+
+  options: {
+    flex: 1,
+    marginTop: 20,
+    marginBottom: 10,
+    borderRadius: 15,
+    paddingTop: 15,
+    paddingBottom: 15,
+    paddingLeft: 25,
+    width: screenWidth - 50,
+    flexDirection: "row",
+    alignItems: "center",
+    textAlign: "left",
+    backgroundColor: "#E3ECF7",
   },
 
   text: {
+    marginLeft: 10,
     fontFamily: "GothamBook",
     fontSize: 16,
-    marginLeft: 15,
-    lineHeight: 24,
   },
 });
+*/

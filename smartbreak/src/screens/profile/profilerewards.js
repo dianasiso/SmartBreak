@@ -6,12 +6,19 @@ import {
   View,
   Text,
   TouchableHighlight,
+  Pressable,
 } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Car, Coffee, DollarCircle } from "iconsax-react-native";
 
 // Font Gotham
 import { useFonts } from "expo-font";
+
+// CSS
+import { styles } from "./../../styles/css.js";
+
+// Variables
+import * as CONST from "./../../styles/variables.js";
 
 export default function ProfileRewards() {
   // Loading Gotham font
@@ -23,53 +30,41 @@ export default function ProfileRewards() {
   return (
     <SafeAreaProvider
       showsVerticalScrollIndicator={false}
-      style={styles.container}
+      style={styles.containerLight}
     >
       <ScrollView>
         <StatusBar style="auto" />
-        <Text style={styles.title}>As minhas recompensas</Text>
+        <Text style={[styles.titleText, { paddingBottom: CONST.textPadding }]}>As minhas recompensas</Text>
 
-        <View style={styles.options}>
-          <Car color="#000000" />
-          <TouchableHighlight
-            onPress={() => navigation.navigate("EditPassword")}
-            underlayColor={"transparent"}
-          >
-            <Text style={styles.text}>1 dia de férias em setembro</Text>
-          </TouchableHighlight>
-        </View>
+        <Pressable style={[styles.boxOptions, {borderBottomColor: 'transparent'}]}>
+          <View style={styles.iconBackground}>
+            <Car variant="Bold"/>
+          </View>
+          
+          <Text style={styles.normalText}>1 dia de férias em setembro</Text>
+        </Pressable>
 
-        <View style={styles.options}>
-          <Coffee color="#000000" />
-          <TouchableHighlight
-            onPress={() => navigation.navigate("NotificationsProfile")}
-            underlayColor={"transparent"}
-          >
-            <Text style={styles.text}>10 cafés grátis no bar</Text>
-          </TouchableHighlight>
-        </View>
+        <Pressable style={styles.options}>
+          <Coffee color={CONST.darkerColor} />
+          <Text style={styles.text}>10 cafés grátis no bar</Text>
+        </Pressable>
 
-        <View style={styles.options}>
-          <DollarCircle color="#000000" />
-          <TouchableHighlight
-            onPress={() => navigation.navigate("SecurityProfile")}
-            underlayColor={"transparent"}
-          >
-            <Text style={styles.text}>Vale 15€ em refeições</Text>
-          </TouchableHighlight>
-        </View>
+        <Pressable style={styles.options}>
+          <DollarCircle color={CONST.darkerColor} />
+          <Text style={styles.text}>Vale 15€ em refeições</Text>
+        </Pressable>
       </ScrollView>
     </SafeAreaProvider>
   );
 }
-
+/*
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
     paddingLeft: 25,
     paddingRight: 25,
-    paddingBottom: 100,
+    paddingBottom: 90,
   },
 
   options: {
@@ -97,3 +92,4 @@ const styles = StyleSheet.create({
     lineHeight: 24,
   },
 });
+*/

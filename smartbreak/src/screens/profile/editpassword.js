@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Alert } from "react-native";
 import {
   Dimensions,
@@ -8,12 +8,19 @@ import {
   View,
   Text,
   TextInput,
-  TouchableOpacity,
+  Pressable,
 } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { useSelector } from "react-redux";
 
 // Firebase
 import firebase from "./../../config/firebase.js";
+
+// CSS
+import { styles } from "./../../styles/css.js";
+
+// Variables
+import * as CONST from "./../../styles/variables.js";
 
 // Font Gotham
 import { useFonts } from "expo-font";
@@ -25,19 +32,15 @@ export default function EditPassword({ navigation }) {
     GothamBook: "./../fonts/GothamBook.ttf",
   });
 
-  const [get, setGet] = useState(true);
   const [passwordStored, setPasswordStored] = useState();
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
   const [newPassword, setNewPassword] = useState();
-  const uid = "Y8f9M4o03ceZrFjoWu6iOA8rm2F2"; // Posteriormente pegar da navegation
 
-  if (!loaded) {
-    return null; // Returns null if unable to load the font
-  }
+  const userData = useSelector((state) => state.user.userID);
+  const uid = userData;
 
-  // Get data from firestore
-  if (get) {
+  useEffect(() => {
     firebase
       .firestore()
       .collection("users_data")
@@ -46,8 +49,9 @@ export default function EditPassword({ navigation }) {
       .then((doc) => {
         setPasswordStored(doc.data().password);
       });
-    setGet(false);
-  }
+
+  }, [])
+
 
   const validate_password = (pass) => {
     if (pass.length < 8) {
@@ -96,122 +100,63 @@ export default function EditPassword({ navigation }) {
   };
 
   return (
-    <SafeAreaProvider style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+    <SafeAreaProvider
+      showsVerticalScrollIndicator={false}
+      style={styles.containerLight}
+    >
+      <ScrollView>
         <StatusBar style="auto" />
-        <Text style={styles.title}>Alterar palavra-passe</Text>
-        <View style={{ alignItems: "center" }}>
-          <View style={styles.edit}>
-            <Text style={styles.text}>Palavra-passe atual</Text>
-            <TextInput
-              secureTextEntry={true}
-              placeholder=""
-              style={styles.input}
-              onChangeText={(text) => setPassword(text)}
-              value={password}
-            />
-            <Text style={styles.text}>Nova palavra-passe</Text>
-            <TextInput
-              secureTextEntry={true}
-              placeholder=""
-              style={styles.input}
-              onChangeText={(text) => setNewPassword(text)}
-              value={newPassword}
-            />
-            <Text style={styles.text}>Confirmar nova palavra-passe</Text>
-            <TextInput
-              secureTextEntry={true}
-              placeholder=""
-              style={styles.input}
-              onChangeText={(text) => setConfirmPassword(text)}
-              value={confirmPassword}
-            />
-          </View>
-          <View>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => editarpasse()}
-              underlayColor={"transparent"}
-              style={styles.button}
-            >
-              <Text
-                style={{
-                  color: "#FFFFFF",
-                  fontFamily: "GothamBook",
-                  fontSize: 16,
-                  lineHeight: 24,
-                  textAlign: "center",
-                }}
-              >
-                {" "}
-                Concluído{" "}
-              </Text>
-            </TouchableOpacity>
-          </View>
+        <Text style={[styles.titleText, { paddingBottom: CONST.textPadding }]}>Alterar palavra-passe</Text>
+        <Text
+          accessible={true}
+          accessibilityLabel="Texto na cor preta num fundo branco escrito Palavra-passe atual."
+          style={styles.inputLabel}>Palavra-passe atual</Text>
+        <TextInput
+          secureTextEntry={true}
+          placeholder=""
+          accessible={true}
+          accessibilityLabel="Campo para introdução da Palavra-passe atual."
+          style={styles.inputField}
+          onChangeText={(text) => setPassword(text)}
+          value={password}
+        />
+
+        <Text
+          accessible={true}
+          accessibilityLabel="Texto na cor preta num fundo branco escrito Nova palavra-passe."
+          style={styles.inputLabel}>Nova palavra-passe</Text>
+        <TextInput
+          accessible={true}
+          accessibilityLabel="Campo para introdução da Nova palavra-passe."
+          secureTextEntry={true}
+          placeholder=""
+          style={styles.inputField}
+          onChangeText={(text) => setNewPassword(text)}
+          value={newPassword}
+        />
+
+        <Text
+          accessible={true}
+          accessibilityLabel="Texto na cor preta num fundo branco escrito Confirmar nova palavra-passe."
+          style={styles.textLabel}>Confirmar nova palavra-passe</Text>
+        <TextInput
+        accessible={true}
+        accessibilityLabel="Campo para introdução da Confirmação da nova palavra-passe."
+          secureTextEntry={true}
+          placeholder=""
+          style={styles.inputField}
+          onChangeText={(text) => setConfirmPassword(text)}
+          value={confirmPassword}
+        />
+
+        <View>
+          <Pressable onPress={() => editarpasse()} style={styles.primaryButton}>
+            <Text style={styles.primaryButtonText}>
+              Concluído
+            </Text>
+          </Pressable>
         </View>
       </ScrollView>
     </SafeAreaProvider>
   );
-}
-
-const screenWidth = Dimensions.get("window").width;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    paddingLeft: 25,
-    paddingRight: 25,
-    paddingBottom: 100,
-  },
-
-  edit: {
-    marginTop: 30,
-    width: "100%",
-  },
-
-  input: {
-    marginTop: 0,
-    borderBottomWidth: 1,
-    paddingTop: 5,
-    paddingBottom: 5,
-    fontFamily: "GothamBook",
-    fontSize: 16,
-    lineHeight: 16,
-  },
-
-  options: {
-    marginTop: 30,
-    borderRadius: 15,
-    paddingTop: 15,
-    paddingBottom: 15,
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "center",
-    backgroundColor: "#0051BA",
-  },
-
-  title: {
-    fontFamily: "GothamMedium",
-    fontSize: 24,
-    marginTop: 30,
-  },
-
-  text: {
-    fontFamily: "GothamMedium",
-    fontSize: 16,
-    marginTop: 40,
-    lineHeight: 24,
-  },
-  button: {
-    alignSelf: "stretch",
-    marginTop: 40,
-    borderRadius: 15,
-    paddingTop: 15,
-    paddingBottom: 15,
-    marginBottom: 20,
-    justifyContent: "center",
-    backgroundColor: "#0051BA",
-    width: screenWidth - 50,
-  },
-});
+} 

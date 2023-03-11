@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, {useState} from "react";
 import {
   StyleSheet,
   ScrollView,
@@ -9,67 +9,84 @@ import {
 } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Car, Coffee, DollarCircle } from "iconsax-react-native";
+import { useNavigation , useRoute} from "@react-navigation/native";
 
 // Font Gotham
 import { useFonts } from "expo-font";
+import { useEffect } from "react";
 
-export default function MembersRewards({ navigation }) {
+// CSS
+import { styles } from "./../../styles/css.js";
+
+// CSS
+import * as CONST from "./../../styles/variables.js";
+
+export default function MembersRewards({ route, navigation }) {
+  const props = route.params;
+  const [teamId, setTeamId] = useState(useRoute().params.teamId);
+  //console.log(props.username);
+
   // Loading Gotham font
   const [loaded] = useFonts({
     GothamMedium: "./../fonts/GothamMedium.ttf",
     GothamBook: "./../fonts/GothamBook.ttf",
   });
 
+  useEffect(() => {
+    navigation.setParams({
+      teamId: teamId,
+    });
+  }, [])
+
   return (
     <SafeAreaProvider
       showsVerticalScrollIndicator={false}
-      style={styles.container}
+      style={[styles.containerLight, {paddingTop: 0}]}
     >
       <ScrollView>
         <StatusBar style="auto" />
-        <Text style={styles.title}>Recompensas de xxx</Text>
-
-        <View style={styles.options}>
-          <Car color="#000000" />
-          <TouchableHighlight
-            onPress={() => navigation.navigate("EditPassword")}
-            underlayColor={"transparent"}
-          >
-            <Text style={styles.text}>1 dia de férias em setembro</Text>
-          </TouchableHighlight>
+        <Text style={styles.titleText}>Recompensas de {props.username}</Text>
+        
+        <View style={styles.metricasElement}>
+          <View style={[styles.metricasCircle, {backgroundColor: CONST.thirdOrange}]}>
+            <Car color={CONST.darkerColor} />
+          </View>
+          <Text style={styles.metricasElementText}>
+          1 dia de férias em setembro
+          </Text>
         </View>
 
-        <View style={styles.options}>
-          <Coffee color="#000000" />
-          <TouchableHighlight
-            onPress={() => navigation.navigate("NotificationsProfile")}
-            underlayColor={"transparent"}
-          >
-            <Text style={styles.text}>10 cafés grátis no bar</Text>
-          </TouchableHighlight>
+        <View style={styles.metricasElement}>
+          <View style={[styles.metricasCircle, {backgroundColor: CONST.thirdOrange}]}>
+            <DollarCircle color={CONST.darkerColor} />
+          </View>
+          <Text style={styles.metricasElementText}>
+          Vale 15€ em refeições
+          </Text>
         </View>
 
-        <View style={styles.options}>
-          <DollarCircle color="#000000" />
-          <TouchableHighlight
-            onPress={() => navigation.navigate("SecurityProfile")}
-            underlayColor={"transparent"}
-          >
-            <Text style={styles.text}>Vale 15€ em refeições</Text>
-          </TouchableHighlight>
+        <View style={styles.metricasElement}>
+          <View style={[styles.metricasCircle, {backgroundColor: CONST.thirdOrange}]}>
+            <Coffee color={CONST.darkerColor} />
+          </View>
+          <Text style={styles.metricasElementText}>
+          10 cafés grátis no bar
+          </Text>
         </View>
+
       </ScrollView>
     </SafeAreaProvider>
   );
 }
 
+/*
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
     paddingLeft: 25,
     paddingRight: 25,
-    paddingBottom: 100,
+    paddingBottom: 90,
   },
 
   options: {
@@ -96,4 +113,4 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     lineHeight: 24,
   },
-});
+}); */
