@@ -73,15 +73,11 @@ export default function ProfilePage({ navigation, route }) {
       <StatusBar style="dark" />
       <ScrollView
         showsVerticalScrollIndicator={false}
-        style={styles.containerLight}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      >
+        style={styles.containerLight}>
         <View style={styles.profileInfo}>
           <Image style={styles.profileImage} source={require("../../imgs/img_register_photo_default.png")} />
-          <Text style={styles.profileName}>{name}</Text>
-          <Text style={[styles.profileOrganization, {opacity: 0.5}]}>{organization}</Text>
+          <Text style={[styles.titleText, {marginTop: CONST.boxMargin}]}>{name}</Text>
+          <Text style={[styles.normalText, {opacity: 0.5, marginTop: CONST.boxMargin}]}>{organization}</Text>
         </View>
 
         <Pressable

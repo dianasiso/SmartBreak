@@ -475,7 +475,8 @@ export default function Devices({ navigation }) {
         </View>
       </Modal>
       <View style={{flexDirection: 'column'}}>
-        <ScrollView>
+        <ScrollView
+          showsVerticalScrollIndicator={false}>
           <Pressable
             style={styles.primaryButton}
             onPress={() => { setModalVisible(true); }}
@@ -493,7 +494,9 @@ export default function Devices({ navigation }) {
             Clique continuamente nos seus equipamentos se os desejar eliminar.
           </Text>
         </ScrollView>
-        <ScrollView style={{marginBottom: CONST.textPadding }}>
+        <ScrollView 
+          showsVerticalScrollIndicator={false}
+          style={{marginBottom: CONST.textPadding }}>
           {devicesArray &&
             devicesArray.length > 0 &&
             devicesArray.map((callbackfn, id) => (

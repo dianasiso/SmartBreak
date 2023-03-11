@@ -300,6 +300,21 @@ export const styles = StyleSheet.create({
     paddingLeft: 20,
   },
 
+  // ---- ROUTINES ----
+  rowRoutine: {
+    flexDirection: 'row',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  boxRoutine: {
+    flexDirection: "column",
+    flex: 1,
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
+
   // ---- MODALS ----
   modalBackgroundView: {
     flex: 1,
@@ -397,7 +412,6 @@ export const styles = StyleSheet.create({
     fontFamily: 'GothamBook',
     fontSize: CONST.pageSmallTextSize,
   },
-
   hoursPicker: {
     backgroundColor: 'transparent',
     borderWidth: 0,
@@ -407,6 +421,13 @@ export const styles = StyleSheet.create({
     color: CONST.darkerColor,
     fontFamily: 'GothamBook',
     fontSize: CONST.pageTextSize,
+  },
+  dropwdownBoxRoutines: {
+    backgroundColor: CONST.thirdBlue,
+    borderColor: CONST.darkerColor,
+    color: CONST.whiteText,
+    fontSize: CONST.pageSmallTextSize,
+    fontFamily: 'GothamBook'
   },
 
   // --- WELCOME, ONBOARDING AND LOGIN PAGES ----
@@ -446,6 +467,17 @@ export const styles = StyleSheet.create({
     zIndex: 10,
     backgroundColor: CONST.lightBackgroundColor,
     borderRadius: 50,
+  },
+
+  // ---- PROFILE ----
+  profileInfo: {
+    alignItems: "center",
+    marginBottom: CONST.inputMargin,
+  },
+  profileImage: {
+    width: 100,
+    height: 100,
+    borderRadius: CONST.circleRadius,
   },
 
   // ---- ONBOARDING ----

@@ -303,12 +303,7 @@ export default function Routines({ navigation }) {
                   showTickIcon={false}
                   closeAfterSelecting={true}
                   textStyle={styles.hoursTextStyle}
-                  dropDownContainerStyle={{
-                    backgroundColor: "#D2DBE6",
-                    borderColor: "#000",
-                    fontFamily: "GothamBook",
-                    fontSize: 16,
-                  }}
+                  dropDownContainerStyle={styles.dropwdownBoxRoutines}
                 />
                 <DropDownPicker
                   maxHeight={80}
@@ -323,12 +318,7 @@ export default function Routines({ navigation }) {
                   showTickIcon={false}
                   closeAfterSelecting={true}
                   textStyle={styles.hoursTextStyle}
-                  dropDownContainerStyle={{
-                    backgroundColor: "#D2DBE6",
-                    borderColor: "#000",
-                    fontFamily: "GothamBook",
-                    fontSize: 16,
-                  }}
+                  dropDownContainerStyle={styles.dropwdownBoxRoutines}
                 />
               </View>
               <Text style={styles.normalText}>Hora de término</Text>
@@ -346,12 +336,7 @@ export default function Routines({ navigation }) {
                   showTickIcon={false}
                   closeAfterSelecting={true}
                   textStyle={styles.hoursTextStyle}
-                  dropDownContainerStyle={{
-                    backgroundColor: "#D2DBE6",
-                    borderColor: "#000",
-                    fontFamily: "GothamBook",
-                    fontSize: 16,
-                  }}
+                  dropDownContainerStyle={styles.dropwdownBoxRoutines}
                 />
                 <DropDownPicker
                   maxHeight={80}
@@ -366,12 +351,7 @@ export default function Routines({ navigation }) {
                   showTickIcon={false}
                   closeAfterSelecting={true}
                   textStyle={styles.hoursTextStyle}
-                  dropDownContainerStyle={{
-                    backgroundColor: "#D2DBE6",
-                    borderColor: "#000",
-                    fontFamily: "GothamBook",
-                    fontSize: 16,
-                  }}
+                  dropDownContainerStyle={styles.dropwdownBoxRoutines}
                 />
               </View>
               <Text style={styles.normalText}>Dias da semana</Text>
@@ -384,7 +364,7 @@ export default function Routines({ navigation }) {
                       : styles.modalRoutineButton
                   }
                 >
-                  <Text style={styles.modalDay}>D</Text>
+                  <Text style={styles.normalText}>D</Text>
                 </Pressable>
                 <Pressable
                   onPress={() => dayPressed(monday, setMonday)}
@@ -394,7 +374,7 @@ export default function Routines({ navigation }) {
                       : styles.modalRoutineButton
                   }
                 >
-                  <Text style={styles.modalDay}>S</Text>
+                  <Text style={styles.normalText}>S</Text>
                 </Pressable>
                 <Pressable
                   onPress={() => dayPressed(tuesday, setTuesday)}
@@ -404,7 +384,7 @@ export default function Routines({ navigation }) {
                       : styles.modalRoutineButton
                   }
                 >
-                  <Text style={styles.modalDay}>T</Text>
+                  <Text style={styles.normalText}>T</Text>
                 </Pressable>
                 <Pressable
                   onPress={() => dayPressed(wednesday, setWednesday)}
@@ -414,7 +394,7 @@ export default function Routines({ navigation }) {
                       : styles.modalRoutineButton
                   }
                 >
-                  <Text style={styles.modalDay}>Q</Text>
+                  <Text style={styles.normalText}>Q</Text>
                 </Pressable>
                 <Pressable
                   onPress={() => dayPressed(thursday, setThursday)}
@@ -424,7 +404,7 @@ export default function Routines({ navigation }) {
                       : styles.modalRoutineButton
                   }
                 >
-                  <Text style={styles.modalDay}>Q</Text>
+                  <Text style={styles.normalText}>Q</Text>
                 </Pressable>
                 <Pressable
                   onPress={() => dayPressed(friday, setFriday)}
@@ -434,7 +414,7 @@ export default function Routines({ navigation }) {
                       : styles.modalRoutineButton
                   }
                 >
-                  <Text style={styles.modalDay}>S</Text>
+                  <Text style={styles.normalText}>S</Text>
                 </Pressable>
                 <Pressable
                   onPress={() => dayPressed(saturday, setSaturday)}
@@ -444,7 +424,7 @@ export default function Routines({ navigation }) {
                       : styles.modalRoutineButton
                   }
                 >
-                  <Text style={styles.modalDay}>S</Text>
+                  <Text style={styles.normalText}>S</Text>
                 </Pressable>
               </View>
             </View>
@@ -470,7 +450,8 @@ export default function Routines({ navigation }) {
         </View>
       </Modal>
       <View style={{flexDirection: 'column'}}>
-        <ScrollView>
+        <ScrollView
+          showsVerticalScrollIndicator={false}>
           <Pressable
             style={styles.primaryButton}
             onPress={() => { setModalVisible(true); }}
@@ -488,7 +469,9 @@ export default function Routines({ navigation }) {
             Clique continuamente nos seus equipamentos se os desejar eliminar.
           </Text>
         </ScrollView>
-        <ScrollView style={{marginBottom: CONST.textPadding }}>
+        <ScrollView 
+          showsVerticalScrollIndicator={false}
+          style={{marginBottom: CONST.textPadding }}>
           {routinesArray &&
             routinesArray.length > 0 &&
             routinesArray.map((callbackfn, id) => (
@@ -532,22 +515,8 @@ export default function Routines({ navigation }) {
                   );
                 }}
               >
-                <View
-                  style={{
-                    flexDirection: "column",
-                    flex: 1,
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                  }}
-                >
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      flex: 1,
-                      alignItems: "center",
-                      paddingBottom: 20,
-                    }}
-                  >
+                <View style={styles.boxRoutine}>
+                  <View style={[styles.rowRoutine, {paddingBottom: CONST.boxMargin}]}>
                     <Text style={styles.normalText}>
                       {routinesArray[id].start}h - {routinesArray[id].end}h
                     </Text>
@@ -580,12 +549,11 @@ export default function Routines({ navigation }) {
                       }}
                     />
                   </View>
-                  <View
-                    style={{ flexDirection: "row", flex: 1, justifyContent: "center"}}>
+                  <View style={[styles.rowRoutine, {paddingTop: CONST.boxMargin}]}>
                     <Text
                       style={
                         routinesArray[id].days[1]
-                        ? [styles.normalText, {color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
+                        ? [styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
                         : [styles.normalText, {marginRight: 5, marginLeft: 5}]
                       }
                     >
@@ -594,7 +562,7 @@ export default function Routines({ navigation }) {
                     <Text
                       style={
                         routinesArray[id].days[2]
-                        ? [styles.normalText, {color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
+                        ? [styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
                         : [styles.normalText, {marginRight: 5, marginLeft: 5}]
                       }
                     >
@@ -603,7 +571,7 @@ export default function Routines({ navigation }) {
                     <Text
                       style={
                         routinesArray[id].days[3]
-                        ? [styles.normalText, {color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
+                        ? [styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
                         : [styles.normalText, {marginRight: 5, marginLeft: 5}]
                       }
                     >
@@ -612,7 +580,7 @@ export default function Routines({ navigation }) {
                     <Text
                       style={
                         routinesArray[id].days[4]
-                        ? [styles.normalText, {color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
+                        ? [styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
                         : [styles.normalText, {marginRight: 5, marginLeft: 5}]
                       }
                     >
@@ -621,7 +589,7 @@ export default function Routines({ navigation }) {
                     <Text
                       style={
                         routinesArray[id].days[5]
-                        ? [styles.normalText, {color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
+                        ? [styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
                         : [styles.normalText, {marginRight: 5, marginLeft: 5}]
                       }
                     >
@@ -630,7 +598,7 @@ export default function Routines({ navigation }) {
                     <Text
                       style={
                         routinesArray[id].days[6]
-                        ? [styles.normalText, {color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
+                        ? [styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
                         : [styles.normalText, {marginRight: 5, marginLeft: 5}]
                       }
                     >
@@ -639,7 +607,7 @@ export default function Routines({ navigation }) {
                     <Text
                       style={
                         routinesArray[id].days[0]
-                          ? [styles.normalText, {color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
+                        ? [styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
                           : [styles.normalText, {marginRight: 5, marginLeft: 5}]
                       }
                     >
@@ -655,189 +623,3 @@ export default function Routines({ navigation }) {
     </SafeAreaProvider>
   );
 }
-
-// const screenWidth = Dimensions.get("window").width;
-// const screenHeight = Dimensions.get("window").height;
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#fff",
-//     paddingLeft: 25,
-//     paddingRight: 25,
-//     paddingBottom: 90,
-//   },
-
-//   options: {
-//     flex: 1,
-//     marginTop: 20,
-//     marginBottom: 10,
-//     borderRadius: 15,
-//     paddingTop: 15,
-//     paddingBottom: 15,
-//     paddingLeft: 25,
-//     width: screenWidth - 50,
-//     flexDirection: "row",
-//     alignItems: "center",
-//     textAlign: "left",
-//     backgroundColor: "#E3ECF7",
-//   },
-
-//   optionsPressed: {
-//     flex: 1,
-//     marginTop: 20,
-//     marginBottom: 10,
-//     borderRadius: 15,
-//     paddingTop: 15,
-//     paddingBottom: 15,
-//     paddingLeft: 25,
-//     width: screenWidth - 50,
-//     flexDirection: "row",
-//     alignItems: "center",
-//     textAlign: "left",
-//     backgroundColor: "#d2dbe6",
-//   },
-
-//   text: {
-//     fontFamily: "GothamMedium",
-//     fontSize: 20,
-//   },
-
-//   textDays: {
-//     fontFamily: "GothamBook",
-//     fontSize: 14,
-//     color: "#000",
-//     marginLeft: 5,
-//     marginRight: 5,
-//   },
-
-//   textDaysSelected: {
-//     fontFamily: "GothamMedium",
-//     fontSize: 14,
-//     color: "#0051ba",
-//     marginLeft: 5,
-//     marginRight: 5,
-//   },
-
-//   button: {
-//     flex: 1,
-//     marginTop: 30,
-//     marginBottom: 10,
-//     borderRadius: 15,
-//     paddingTop: 15,
-//     paddingBottom: 15,
-//     paddingLeft: 20,
-//     width: screenWidth - 50,
-//     alignItems: "center",
-//     flexDirection: "row",
-//     justifyContent: "flex-start",
-//     textAlign: "left",
-//     backgroundColor: "#0051ba",
-//   },
-
-//   textButton: {
-//     marginLeft: 10,
-//     fontFamily: "GothamBook",
-//     fontSize: 16,
-//     color: "#FFF",
-//   },
-//   centeredView: {
-//     flex: 1,
-//     justifyContent: "center",
-//     alignItems: "center",
-//     backgroundColor: "rgba(0, 0, 0, 0.5)",
-//   },
-//   modalView: {
-//     backgroundColor: "#E3ECF7",
-//     borderRadius: 15,
-//     padding: 25,
-//     shadowColor: "#000",
-//     shadowRadius: 5,
-//     shadowOpacity: 0.5,
-//     elevation: 10,
-//   },
-//   modalText: {
-//     fontFamily: "GothamMedium",
-//     fontSize: 16,
-//     textAlign: "left",
-//     marginBottom: 0,
-//   },
-//   modalDay: {
-//     fontFamily: "GothamBook",
-//     fontSize: 16,
-//     textAlign: "left",
-//     marginBottom: 0,
-//   },
-//   modalTypeButton: {
-//     backgroundColor: "transparent",
-//     borderColor: "transparent",
-//     borderWidth: 1,
-//     borderRadius: 8,
-//     padding: 8,
-//     margin: 2,
-//     textAlign: "center",
-//     alignItems: "center",
-//     justifyContent: "center",
-//   },
-//   modalTypeButtonPressed: {
-//     backgroundColor: "transparent",
-//     borderColor: "#000",
-//     borderWidth: 1,
-//     borderRadius: 8,
-//     padding: 8,
-//     margin: 2,
-//     textAlign: "center",
-//     alignItems: "center",
-//     justifyContent: "center",
-//   },
-//   modalInput: {
-//     marginTop: 0,
-//     borderBottomWidth: 1,
-//     paddingTop: 5,
-//     paddingBottom: 5,
-//     fontFamily: "GothamBook",
-//     fontSize: 16,
-//   },
-//   buttonAdd: {
-//     backgroundColor: "#0051ba",
-//     paddingTop: 10,
-//     paddingBottom: 10,
-//     paddingLeft: 20,
-//     paddingRight: 20,
-//     borderRadius: 8,
-//     alignItems: "center",
-//     marginLeft: 10,
-//   },
-
-//   hoursPicker: {
-//     backgroundColor: "transparent",
-//     borderWidth: 0,
-//     borderBottomWidth: 1,
-//     paddingBottom: 0,
-//     fontSize: 16,
-//     fontFamily: "GothamBook",
-//   },
-
-//   modalRoutineButton: {
-//     borderWidth: 1,
-//     borderColor: "transparent",
-//     borderRadius: 8,
-//     marginLeft: 5,
-//     marginRight: 5,
-//     paddingTop: 6,
-//     paddingBottom: 6,
-//     paddingLeft: 10,
-//     paddingRight: 10,
-//   },
-//   modalRoutineButtonPressed: {
-//     borderWidth: 1,
-//     borderColor: "#000",
-//     borderRadius: 8,
-//     marginLeft: 5,
-//     marginRight: 5,
-//     paddingTop: 6,
-//     paddingBottom: 6,
-//     paddingLeft: 10,
-//     paddingRight: 10,
-//   },
-// });
