@@ -35,6 +35,21 @@ export const styles = StyleSheet.create({
     backgroundColor: CONST.lightBackgroundColor,
     width: CONST.screenWidth,
   },
+  dashboardContainer: {
+    position: "absolute",
+    top: 0,
+    width: CONST.screenWidth,
+    flexDirection: "column",
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: CONST.largeCardRadius,
+    borderBottomLeftRadius: CONST.largeCardRadius,
+    paddingLeft: CONST.cardPadding,
+    paddingRight: CONST.cardPadding,
+    paddingBottom: CONST.cardPadding + 10,
+    paddingTop: CONST.backgroundPaddingTop + CONST.backgroundPaddingLateral,
+    maxHeight: 440, //adicionei maxheight e já dá
+  },
   subContainer: {
     backgroundColor: CONST.lightBackgroundColor,
     position: "absolute",
@@ -83,7 +98,7 @@ export const styles = StyleSheet.create({
   },
   primaryButton: {
     backgroundColor: CONST.primaryButtonBackground,
-    justifyContent: "center", 
+    justifyContent: "center",
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
@@ -178,8 +193,6 @@ export const styles = StyleSheet.create({
   },
   normalTextWhite: {
     fontSize: CONST.pageTextSize,
-    paddingTop: 15,
-    paddingBottom: 40,
     fontFamily: "GothamBook",
     lineHeight: CONST.pageTextSize + 5,
     color: CONST.whiteText,
@@ -257,14 +270,13 @@ export const styles = StyleSheet.create({
     marginRight: CONST.boxPadding,
   },
 
-  // ---- NAVIGATION ----
+  // ---- MAIN NAVIGATION ----
   IconContainer: {},
   Indicator: {
     width: 50,
     height: 3,
     backgroundColor: CONST.mainBlue,
     borderRadius: 5,
-    //position: "absolute",
     top: -15,
   },
   IndicatorError: {
@@ -272,7 +284,6 @@ export const styles = StyleSheet.create({
     height: 3,
     backgroundColor: "#FFF",
     borderRadius: 5,
-    //position: "absolute",
     top: -15,
   },
 
@@ -421,11 +432,11 @@ export const styles = StyleSheet.create({
   arrow: {
     flexDirection: "row",
     justifyContent: "flex-end",
-    position: 'absolute',
+    position: "absolute",
     right: CONST.backgroundPaddingLateral,
-    bottom: CONST.backgroundPaddingTop*3,
+    bottom: CONST.backgroundPaddingTop * 3,
     zIndex: 10,
-    backgroundColor:  CONST.lightBackgroundColor,
+    backgroundColor: CONST.lightBackgroundColor,
     borderRadius: 50,
   },
   // ---- ONBOARDING ----
@@ -459,34 +470,176 @@ export const styles = StyleSheet.create({
     left: undefined,
   },
 
-  // ---- PROFILE ---- //
+  // ---- DASHBOARD ---- //
 
- 
-  profileInfo: {
+  addPauseButtonContainer: {
+    flexDirection: "row",
     alignItems: "center",
-    marginBottom: CONST.inputMargin,
+    justifyContent: "flex-start",
   },
-  profileImage: {
-    width: 100,
-    height: 100,
+
+  addPauseButton: {
+    backgroundColor: CONST.thirdBlue,
+    color: CONST.darkerColor,
+    borderBottomLeftRadius: 0,
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: CONST.normalButtonRadius,
+    borderBottomRightRadius: CONST.normalButtonRadius,
+    marginLeft: -CONST.heightButton / 2,
+    height: CONST.heightButton,
+    paddingLeft: CONST.iconPadding, //TODO: COLCOAR - 10
+    paddingRight: CONST.iconPadding + 10,
+    justifyContent: "center",
   },
-  profileName: {
-    marginTop: CONST.textPadding,
-    fontSize: CONST.pageTitleSize,
-    textTransform: "capitalize",
+
+  addPauseButtonText: {
+    color: CONST.darkerColor,
+    fontSize: CONST.pageTextSize,
     fontFamily: "GothamMedium",
-    color: CONST.darkerColor,
+    textAlign: "left",
+    paddingLeft: CONST.heightButton / 2,
   },
-  profileOrganization: {
-    marginTop: CONST.boxMargin,
-    fontSize: CONST.pageTextSize,
+
+  pauseCircle: {
+    backgroundColor: CONST.whiteText,
+    height: CONST.heightButton,
+    width: CONST.heightButton,
+    borderRadius: CONST.heightButton / 2,
+    alignItems: "center",
+    zIndex: 100,
+    justifyContent: "center",
+  },
+
+  verEquipaButtonContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
+
+  verEquipaButton: {
+    backgroundColor: CONST.thirdOrange,
+    color: CONST.darkerColor,
+    borderBottomLeftRadius: 0,
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: CONST.normalButtonRadius,
+    borderBottomRightRadius: CONST.normalButtonRadius,
+    marginLeft: -CONST.heightButton / 2,
+    height: CONST.heightButton,
+    paddingLeft: CONST.iconPadding, //TODO: COLCOAR - 10
+    paddingRight: CONST.iconPadding + 10,
+    justifyContent: "center",
+  },
+
+
+  /*
+  toggleView: {
+    top: 65,
+    alignItems: "center",
+    flexDirection: "row",
+  },*/
+  toggleContainer: {
+    width: CONST.screenWidth - 50,
+    height: CONST.heightButton,
+    borderRadius: CONST.normalButtonRadius,
+    justifyContent: "space-between",
+    flexDirection: "row",
+  },
+  toggleSelector: {
+    width: (CONST.screenWidth - CONST.backgroundPaddingLateral * 2) / 2,
+    height: CONST.heightButton,
+    borderRadius: CONST.normalButtonRadius,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  ButtonDashboardView: {
+    marginTop: 60,
+    marginBottom: 60,
+  },
+  ButtonDashboardContainer: {
+    backgroundColor: "#0051BA",
+    width: CONST.screenWidth - 50,
+    borderRadius: 15,
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  ButtonDashboardText: {
+    color: CONST.whiteText,
+    fontSize: 16,
+    fontFamily: "GothamMedium",
+    textAlign: "left",
+    padding: 15,
+    paddingLeft: 20,
+  },
+  icon: {
+    alignSelf: "center",
+    marginLeft: "auto",
+    marginRight: 20,
+  },
+
+  metricasText: {
+    fontSize: 20,
+    fontFamily: "GothamMedium",
+    marginBottom: 18,
+  },
+  metricasElement: {
+    width: CONST.screenWidth - 50,
+    //backgroundColor: "#E3ECF7",
+    borderRadius: 15,
+   
+    marginTop: 20,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  metricasCircle: {
+    backgroundColor: CONST.thirdBlue,
+    height: CONST.heightButton,
+    width: CONST.heightButton,
+    borderRadius: CONST.heightButton / 2,
+    alignItems: "center",
+    zIndex: 100,
+    justifyContent: "center",
+  },
+  metricasElementText: {
+    fontSize: CONST.pageSmallTextSize,
     color: CONST.darkerColor,
     fontFamily: "GothamBook",
+    paddingLeft: 15,
+    paddingRight: 25,
+    lineHeight: 20,
   },
-  
-  profileOptionsText: {
-    fontSize: CONST.pageTextSize,
-    color: CONST.darkerColor,
+
+  membrosView: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 30,
+  },
+
+
+
+  // ---- ERROR PAGES ---- //
+  errorTitleText: {
+    fontSize: CONST.errorTitleText,
+    fontFamily: "GothamMedium",
+    color: CONST.whiteText,
+    paddingTop: CONST.backgroundPaddingTop,
+    textAlign: "center",
+  },
+
+  errorNormalText: {
+    fontSize: CONST.pageSubtitleSize,
     fontFamily: "GothamBook",
+    lineHeight: CONST.pageTextSize + 5,
+    color: CONST.whiteText,
+    textAlign: "center",
+    paddingTop: CONST.backgroundPaddingTop,
+  },
+
+  // ---- REWARDS ----
+  editprofileRewards: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 20,
   },
 });

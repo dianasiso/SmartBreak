@@ -1,65 +1,45 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View, ScrollView, Image, Dimensions } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import React from "react";
+import { Text, View, ScrollView, Image } from "react-native";
 
 // Icons
-import { MaterialIcons } from '@expo/vector-icons'; 
+import { MaterialIcons } from "@expo/vector-icons";
 
 // Font Gotham
-import { useFonts } from 'expo-font';
+import { useFonts } from "expo-font";
+
+// CSS
+import { styles } from "./../styles/css.js";
 
 export default function Error404() {
-     // Loading Gotham font
-    const [loaded] = useFonts({
-        GothamMedium: require('./../fonts/GothamMedium.ttf'),
-        GothamBook: require('./../fonts/GothamBook.ttf'),
-    });
+  // Loading Gotham font
+  const [loaded] = useFonts({
+    GothamMedium: require("./../fonts/GothamMedium.ttf"),
+    GothamBook: require("./../fonts/GothamBook.ttf"),
+  });
 
-    return (
-        <View style={styles.container}>
-            <StatusBar style="light" />
-            <View>
-              <MaterialIcons name="arrow-back-ios" size={24} color="white" />
-            </View>
-            <ScrollView>
-                <Text style={styles.textMessageTitle}>Erro</Text> 
-                <Text style={styles.textMessageBody}>Sobrecarga na bateria!</Text>
-                <View style={styles.imageOnboarding}>
-                    <Image source={require('./../imgs/img_error_404.png')} />
-                </View>
-                <Text style={styles.textMessageBody}>Esta página não existe.</Text>
-            </ScrollView>
+  return (
+    <View style={[styles.container, { backgroundColor: "#F57738" }]}>
+      <StatusBar style="light" />
+      <View>
+        <MaterialIcons name="arrow-back-ios" size={24} color="white" />
+      </View>
+      <ScrollView>
+        <Text style={styles.errorTitleText}>Erro</Text>
+        <Text style={styles.errorNormalText}>Sobrecarga na bateria!</Text>
+        <View
+          style={[
+            styles.imageLogo,
+            { justifyContent: "center", marginRight: 20 },
+          ]}
+        >
+          <Image
+            source={require("./../imgs/img_error_404.png")}
+            style={{ width: 215, height: 180 }}
+          />
         </View>
-    );
+        <Text style={styles.errorNormalText}>Esta página não existe.</Text>
+      </ScrollView>
+    </View>
+  );
 }
-
-
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: 65,
-    paddingLeft: 25,
-    paddingRight: 25,
-    flex: 1,
-    backgroundColor: '#0051BA'
-  },
-  imageOnboarding: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingTop: 120,
-  }, 
-  textMessageTitle: {
-    fontSize: 45,
-    textAlign: 'center',
-    paddingTop: 55,
-    fontFamily: 'GothamMedium',
-    color: '#FFFFFF',
-  },
-  textMessageBody: {
-    fontSize: 20,
-    textAlign: 'center',
-    paddingTop: 50,
-    lineHeight: 22,
-    fontFamily: 'GothamBook',
-    color: '#FFFFFF',
-  },
-});
