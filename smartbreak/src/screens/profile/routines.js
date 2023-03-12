@@ -288,9 +288,14 @@ export default function Routines({ navigation }) {
         <View style={styles.modalBackgroundView}>
           <View style={styles.modalView}>
             <View style={{ flexDirection: "column"}}>
-              <Text style={styles.normalText}>Hora de início</Text>
+              <Text 
+                accessible={true}
+                accessibilityLabel="Texto na cor preta num fundo branco escrito Hora de início. Em baixo segue-se 2 menus dropdown alinhados um ao lado do outro para definição da hora de início da pausa. O primeiro é referente às horas e o segundo referente aos minutos."  
+                style={styles.normalText}>Hora de início</Text>
               <View style={styles.hoursContainer}>
                 <DropDownPicker
+                  accessible={true}
+                  accessibilityLabel={valueHoursStart}  
                   maxHeight={80}
                   open={openHoursStart}
                   value={valueHoursStart}
@@ -305,7 +310,10 @@ export default function Routines({ navigation }) {
                   textStyle={styles.hoursTextStyle}
                   dropDownContainerStyle={styles.dropwdownBoxRoutines}
                 />
+                <View style={{width: 20}}></View>
                 <DropDownPicker
+                  accessible={true}
+                  accessibilityLabel={valueMinutesStart}  
                   maxHeight={80}
                   open={openMinutesStart}
                   value={valueMinutesStart}
@@ -321,9 +329,14 @@ export default function Routines({ navigation }) {
                   dropDownContainerStyle={styles.dropwdownBoxRoutines}
                 />
               </View>
-              <Text style={styles.normalText}>Hora de término</Text>
+              <Text 
+                accessible={true}
+                accessibilityLabel="Texto na cor preta num fundo branco escrito Hora de término. Em baixo segue-se 2 menus dropdown alinhados um ao lado do outro para definição da hora de término da pausa. O primeiro é referente às horas e o segundo referente aos minutos."  
+                style={styles.normalText}>Hora de término</Text>
               <View style={styles.hoursContainer}>
                 <DropDownPicker
+                  accessible={true}
+                  accessibilityLabel={valueHoursEnd}  
                   maxHeight={80}
                   open={openHoursEnd}
                   value={valueHoursEnd}
@@ -338,7 +351,10 @@ export default function Routines({ navigation }) {
                   textStyle={styles.hoursTextStyle}
                   dropDownContainerStyle={styles.dropwdownBoxRoutines}
                 />
+                <View style={{width: 20}}></View>
                 <DropDownPicker
+                  accessible={true}
+                  accessibilityLabel={valueMinutesEnd}  
                   maxHeight={80}
                   open={openMinutesEnd}
                   value={valueMinutesEnd}
@@ -354,9 +370,14 @@ export default function Routines({ navigation }) {
                   dropDownContainerStyle={styles.dropwdownBoxRoutines}
                 />
               </View>
-              <Text style={styles.normalText}>Dias da semana</Text>
+              <Text 
+                accessible={true}
+                accessibilityLabel="Texto na cor preta num fundo branco escrito Dias da semana. Em baixo segue-se 7 botões alinhados um ao lado do outro simbolizando os dias da semana e começando pelo domingo. Clique neles para definir em que dias a rotina acontece."  
+                style={styles.normalText}>Dias da semana</Text>
               <View style={styles.daysContainer} >
                 <Pressable
+                  accessible={true}
+                  accessibilityLabel="Domingo."  
                   onPress={() => dayPressed(sunday, setSunday)}
                   style={
                     sunday
@@ -367,6 +388,8 @@ export default function Routines({ navigation }) {
                   <Text style={styles.normalText}>D</Text>
                 </Pressable>
                 <Pressable
+                  accessible={true}
+                  accessibilityLabel="Segunda."  
                   onPress={() => dayPressed(monday, setMonday)}
                   style={
                     monday
@@ -377,6 +400,8 @@ export default function Routines({ navigation }) {
                   <Text style={styles.normalText}>S</Text>
                 </Pressable>
                 <Pressable
+                  accessible={true}
+                  accessibilityLabel="Terça."  
                   onPress={() => dayPressed(tuesday, setTuesday)}
                   style={
                     tuesday
@@ -387,6 +412,8 @@ export default function Routines({ navigation }) {
                   <Text style={styles.normalText}>T</Text>
                 </Pressable>
                 <Pressable
+                  accessible={true}
+                  accessibilityLabel="Quarta."  
                   onPress={() => dayPressed(wednesday, setWednesday)}
                   style={
                     wednesday
@@ -397,6 +424,8 @@ export default function Routines({ navigation }) {
                   <Text style={styles.normalText}>Q</Text>
                 </Pressable>
                 <Pressable
+                  accessible={true}
+                  accessibilityLabel="Quinta."  
                   onPress={() => dayPressed(thursday, setThursday)}
                   style={
                     thursday
@@ -407,6 +436,8 @@ export default function Routines({ navigation }) {
                   <Text style={styles.normalText}>Q</Text>
                 </Pressable>
                 <Pressable
+                  accessible={true}
+                  accessibilityLabel="Sexta."  
                   onPress={() => dayPressed(friday, setFriday)}
                   style={
                     friday
@@ -417,6 +448,8 @@ export default function Routines({ navigation }) {
                   <Text style={styles.normalText}>S</Text>
                 </Pressable>
                 <Pressable
+                  accessible={true}
+                  accessibilityLabel="Sabado."  
                   onPress={() => dayPressed(saturday, setSaturday)}
                   style={
                     saturday
@@ -430,6 +463,8 @@ export default function Routines({ navigation }) {
             </View>
             <View style={{flexDirection: "row", justifyContent: "space-evenly"}}>
               <Pressable
+                accessible={true}
+                accessibilityLabel="Botão da cor branca com uma borda laranja num fundo branco com o objetivo de cancelar a adição da rotina. Tem escrito na cor laranja a palavra Cancelar."    
                 onPress={() => {
                   setModalVisible(!modalVisible);
                   clearFields();
@@ -440,7 +475,10 @@ export default function Routines({ navigation }) {
                   Cancelar
                 </Text>
               </Pressable>
-              <Pressable onPress={() => addRoutine()} style={styles.smallPrimaryButton}>
+              <Pressable 
+                accessible={true}
+                accessibilityLabel="Botão da cor azul escura num fundo branco com o objetivo de adicionar a rotina configurada. Tem escrito na cor branca a palavra Adicionar."  
+                onPress={() => addRoutine()} style={styles.smallPrimaryButton}>
                 <Text style={styles.smallPrimaryButtonText}>
                   Adicionar
                 </Text>
@@ -453,6 +491,8 @@ export default function Routines({ navigation }) {
         <ScrollView
           showsVerticalScrollIndicator={false}>
           <Pressable
+            accessible={true}
+            accessibilityLabel="Botão da cor azul escura num fundo branco com o objetivo de Adicionar uma nova rotina. Tem escrito na cor branca a frase Adicionar rotina e está acompanhado por um icon redondo com o símbolo de mais. Ao clicar nele abrirá um modal branco com três campos de preenchimento para registo de uma rotina."
             style={styles.primaryButton}
             onPress={() => { setModalVisible(true); }}
             underlayColor={"transparent"}
@@ -465,8 +505,11 @@ export default function Routines({ navigation }) {
               onPress={() => { setModalVisible(true);}}
             />
           </Pressable>
-          <Text style={[styles.smallText, {opacity: 0.5, paddingBottom: CONST.textPadding}]}>
-            Clique continuamente nos seus equipamentos se os desejar eliminar.
+          <Text 
+            accessible={true}
+            accessibilityLabel="Texto na cor cinza num fundo branco escrito Clique continuamente nas suas rotinas se as desejar eliminar." 
+            style={[styles.smallText, {opacity: 0.5, paddingBottom: CONST.textPadding}]}>
+            Clique continuamente nas suas rotinas se as desejar eliminar.
           </Text>
         </ScrollView>
         <ScrollView 
@@ -476,6 +519,8 @@ export default function Routines({ navigation }) {
             routinesArray.length > 0 &&
             routinesArray.map((callbackfn, id) => (
               <Pressable
+                accessible={true}
+                accessibilityLabel="Botão transparente com texto na cor preta num fundo branco com as horas definidas para a rotina. Ao pressionar continuamente irá ativar um alerta que lhe pergunta se tem a certeza que deseja eliminar a rotina."
                 key={id}
                 style={longPress ? styles.boxOptionsPressed : styles.boxOptions}
                 onLongPress={() => {
@@ -486,12 +531,16 @@ export default function Routines({ navigation }) {
                     [
                       {
                         text: "Cancelar",
+                        accessible: true,
+                        accessibilityLabel: "Texto escrito Cancelar.",
                         onPress: () => {
                           setLongPress(false);
                         },
                       },
                       {
                         text: "Confirmar",
+                        accessible: true,
+                        accessibilityLabel: "Texto escrito Confirmar.",
                         onPress: () => {
                           setLongPress(false);
                           const arrTemp = routinesArray.filter(
@@ -517,10 +566,16 @@ export default function Routines({ navigation }) {
               >
                 <View style={styles.boxRoutine}>
                   <View style={[styles.rowRoutine, {paddingBottom: CONST.boxMargin}]}>
-                    <Text style={styles.normalText}>
+                    <Text 
+                      accessible={true}
+                      accessibilityLabel="" 
+                      // TODO: DESCOBRIR COMO PASSAR VARIAVEIS PRAI
+                      style={styles.normalText}>
                       {routinesArray[id].start}h - {routinesArray[id].end}h
                     </Text>
                     <Switch
+                      accessible={true}
+                      accessibilityLabel={routinesArray[id].using ?  "Dispositivo em uso." : "Dispositivo desativado."}     
                       style={{ marginLeft: "auto", marginRight: CONST.iconPadding }}
                       trackColor={{ false: CONST.switchOffColor, true: CONST.switchOnColor }}
                       thumbColor={routinesArray[id].using ? CONST.switchIndicatorColor : CONST.mainBlue}
@@ -551,6 +606,9 @@ export default function Routines({ navigation }) {
                   </View>
                   <View style={[styles.rowRoutine, {paddingTop: CONST.boxMargin}]}>
                     <Text
+                      accessible={true}
+                      accessibilityLabel={ routinesArray[id].days[1]
+                        ?  "Alarme programado para domingo." : "Alarme não programado para domingo"}     
                       style={
                         routinesArray[id].days[1]
                         ? [styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
@@ -560,6 +618,9 @@ export default function Routines({ navigation }) {
                       D
                     </Text>
                     <Text
+                      accessible={true}
+                      accessibilityLabel={ routinesArray[id].days[2]
+                         ?  "Alarme programado para segunda-feira." : "Alarme não programado para segunda-feira."}     
                       style={
                         routinesArray[id].days[2]
                         ? [styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
@@ -569,6 +630,9 @@ export default function Routines({ navigation }) {
                       S
                     </Text>
                     <Text
+                      accessible={true}
+                      accessibilityLabel={ routinesArray[id].days[3]
+                         ?  "Alarme programado para terça-feira." : "Alarme não programado para terça-feira."}     
                       style={
                         routinesArray[id].days[3]
                         ? [styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
@@ -578,6 +642,9 @@ export default function Routines({ navigation }) {
                       T
                     </Text>
                     <Text
+                      accessible={true}
+                      accessibilityLabel={ routinesArray[id].days[4]
+                        ?  "Alarme programado para quarta-feira." : "Alarme não programado para quarta-feira."}     
                       style={
                         routinesArray[id].days[4]
                         ? [styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
@@ -587,6 +654,9 @@ export default function Routines({ navigation }) {
                       Q
                     </Text>
                     <Text
+                      accessible={true}
+                      accessibilityLabel={ routinesArray[id].days[5]
+                        ?  "Alarme programado para quinta-feira." : "Alarme não programado para quinta-feira."}     
                       style={
                         routinesArray[id].days[5]
                         ? [styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
@@ -596,6 +666,9 @@ export default function Routines({ navigation }) {
                       Q
                     </Text>
                     <Text
+                      accessible={true}
+                      accessibilityLabel={ routinesArray[id].days[6]
+                        ?  "Alarme programado para sexta-feira." : "Alarme não programado para sexta-feira."}     
                       style={
                         routinesArray[id].days[6]
                         ? [styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
@@ -605,6 +678,9 @@ export default function Routines({ navigation }) {
                       S
                     </Text>
                     <Text
+                      accessible={true}
+                      accessibilityLabel={ routinesArray[id].days[0]
+                        ?  "Alarme programado para sábado." : "Alarme não programado para sábado."}     
                       style={
                         routinesArray[id].days[0]
                         ? [styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 

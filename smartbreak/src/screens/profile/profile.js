@@ -75,12 +75,23 @@ export default function ProfilePage({ navigation, route }) {
         showsVerticalScrollIndicator={false}
         style={styles.containerLight}>
         <View style={styles.profileInfo}>
-          <Image style={styles.profileImage} source={require("../../imgs/img_register_photo_default.png")} />
-          <Text style={[styles.titleText, {marginTop: CONST.boxMargin}]}>{name}</Text>
-          <Text style={[styles.normalText, {opacity: 0.5, marginTop: CONST.boxMargin}]}>{organization}</Text>
+          <Image 
+            accessible={true}
+            accessibilityLabel="Foto de perfil."
+            style={styles.profileImage} source={require("../../imgs/img_register_photo_default.png")} />
+          <Text 
+            accessible={true}
+            accessibilityLabel={"Texto na cor preta num fundo branco escrito " + {name}}
+            style={[styles.titleText, {marginTop: CONST.boxMargin}]}>{name}</Text>
+          <Text 
+            accessible={true}
+            accessibilityLabel={"Texto na cor preta num fundo branco escrito " + {organization}}
+            style={[styles.normalText, {opacity: 0.5, marginTop: CONST.boxMargin}]}>{organization}</Text>
         </View>
 
         <Pressable
+          accessible={true}
+          accessibilityLabel="Botão transparente com texto na cor preta num fundo branco escrito Editar perfil. É acompanhado por um icon de lápis."
           style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
           onPress={() => navigation.navigate("EditProfile")}
         >
@@ -88,6 +99,8 @@ export default function ProfilePage({ navigation, route }) {
           <Text style={styles.normalText}> Editar perfil</Text>
         </Pressable>
         <Pressable
+          accessible={true}
+          accessibilityLabel="Botão transparente com texto na cor preta num fundo branco escrito Os meus equipamentos. É acompanhado por um icon de composto por 4 quadrados numa disposição 2 por 2."
           style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
           onPress={() => navigation.navigate("MyDevices")}
         >
@@ -96,6 +109,8 @@ export default function ProfilePage({ navigation, route }) {
         </Pressable>
 
         <Pressable
+          accessible={true}
+          accessibilityLabel="Botão transparente com texto na preta num fundo branco escrito As minhas rotinas. É acompanhado por um icon de calendário."
           style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
           onPress={() => navigation.navigate("MyRoutines")}
         >
@@ -103,6 +118,8 @@ export default function ProfilePage({ navigation, route }) {
           <Text style={styles.normalText}> As minhas rotinas</Text>
         </Pressable>
         <Pressable
+          accessible={true}
+          accessibilityLabel="Botão transparente com texto na preta num fundo branco escrito Histórico de pausas. É acompanhado por um icon de relógio."
           style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
           onPress={() => navigation.navigate("historicoPausas")}
         >
@@ -110,6 +127,8 @@ export default function ProfilePage({ navigation, route }) {
           <Text style={styles.normalText}> Histórico de pausas</Text>
         </Pressable>
         <Pressable
+          accessible={true}
+          accessibilityLabel="Botão transparente com texto na preta num fundo branco escrito As minhas recompensas. É acompanhado por um icon de medalha."
           style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
           onPress={() => navigation.navigate("ProfileRewards")}
         >
@@ -117,6 +136,8 @@ export default function ProfilePage({ navigation, route }) {
           <Text style={styles.normalText}> As minhas recompensas</Text>
         </Pressable>
         <Pressable
+          accessible={true}
+          accessibilityLabel="Botão transparente com texto na preta num fundo branco escrito Definições. É acompanhado por um icon de roda dentada."
           style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding, borderBottomWidth: 0}]}
           onPress={() => navigation.navigate("ProfileSettings")}
         >

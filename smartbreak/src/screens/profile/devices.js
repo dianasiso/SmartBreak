@@ -305,9 +305,14 @@ export default function Devices({ navigation }) {
       >
         <View style={styles.modalBackgroundView}>
           <View style={styles.modalView}>
-            <Text style={[styles.normalText, {marginBottom: CONST.inputPadding}]}>Tipo</Text>
+            <Text 
+              accessible={true}
+              accessibilityLabel="Texto na cor preta num fundo branco escrito Tipo. Em baixo segue-se 12 botões alinhados em 3 filas de 4 colunas para selecionar o tipo de dispositivo que pretende adicionar."  
+              style={[styles.normalText, {marginBottom: CONST.inputPadding}]}>Tipo</Text>
             <View style={{ flexDirection: "row",  justifyContent: 'space-around' }}>
               <Pressable
+                accessible={true}
+                accessibilityLabel="Botão transparente com o icon de uma câmara na cor preta."    
                 onPress={() => typePressed(type01, setType01, "Video")}
                 style={
                   type01
@@ -318,6 +323,8 @@ export default function Devices({ navigation }) {
                 <Video size={24} color={CONST.darkerColor} />
               </Pressable>
               <Pressable
+                accessible={true}
+                accessibilityLabel="Botão transparente com o icon de um computador na cor preta."    
                 onPress={() => typePressed(type02, setType02, "Monitor")}
                 style={
                   type02
@@ -328,6 +335,8 @@ export default function Devices({ navigation }) {
                 <Monitor size={24} color={CONST.darkerColor} />
               </Pressable>
               <Pressable
+                accessible={true}
+                accessibilityLabel="Botão transparente com o icon de um monitor na cor preta."    
                 onPress={() => typePressed(type03, setType03, "MonitorMobbile")}
                 style={
                   type03
@@ -338,6 +347,8 @@ export default function Devices({ navigation }) {
                 <MonitorMobbile size={24} color={CONST.darkerColor} />
               </Pressable>
               <Pressable
+                accessible={true}
+                accessibilityLabel="Botão transparente com o icon de um tablet na cor preta."    
                 onPress={() => typePressed(type05, setType05, "Mobile")}
                 style={
                   type05
@@ -350,6 +361,8 @@ export default function Devices({ navigation }) {
             </View>
             <View style={{ flexDirection: "row", justifyContent: 'space-around' }}>  
               <Pressable
+                accessible={true}
+                accessibilityLabel="Botão transparente com o icon de uma impressora na cor preta."    
                 onPress={() => typePressed(type06, setType06, "Printer")}
                 style={
                   type06
@@ -360,6 +373,8 @@ export default function Devices({ navigation }) {
                 <Printer size={24} color={CONST.darkerColor} />
               </Pressable>
               <Pressable
+                accessible={true}
+                accessibilityLabel="Botão transparente com o icon de um telefone na cor preta."    
                 onPress={() => typePressed(type07, setType07, "Call")}
                 style={
                   type07
@@ -370,6 +385,8 @@ export default function Devices({ navigation }) {
                 <Call size={24} color={CONST.darkerColor} />
               </Pressable>
               <Pressable
+                accessible={true}
+                accessibilityLabel="Botão transparente com o icon de um microfone na cor preta."    
                 onPress={() => typePressed(type08, setType08, "Microphone2")}
                 style={
                   type08
@@ -380,6 +397,8 @@ export default function Devices({ navigation }) {
                 <Microphone2 size={24} color={CONST.darkerColor} />
               </Pressable>
               <Pressable
+                accessible={true}
+                accessibilityLabel="Botão transparente com o icon de um rato portátil na cor preta."    
                 onPress={() => typePressed(type09, setType09, "Mouse")}
                 style={
                   type09
@@ -392,6 +411,8 @@ export default function Devices({ navigation }) {
             </View>
             <View style={{ flexDirection: "row", justifyContent: 'space-around'}}>  
               <Pressable
+                accessible={true}
+                accessibilityLabel="Botão transparente com o icon de um teclado na cor preta."    
                 onPress={() => typePressed(type10, setType10, "Keyboard")}
                 style={
                   type10
@@ -402,6 +423,8 @@ export default function Devices({ navigation }) {
                 <Keyboard size={24} color={CONST.darkerColor} />
               </Pressable>
            <Pressable
+                accessible={true}
+                accessibilityLabel="Botão transparente com o icon de uns auscutadores na cor preta."    
                 onPress={() => typePressed(type11, setType11, "Headphone")}
                 style={
                   type11
@@ -412,6 +435,8 @@ export default function Devices({ navigation }) {
                 <Headphone size={24} color={CONST.darkerColor} />
               </Pressable>
               <Pressable
+                accessible={true}
+                accessibilityLabel="Botão transparente com o icon de uma tomada na cor preta."    
                 onPress={() => typePressed(type12, setType12, "Electricity")}
                 style={
                   type12
@@ -433,19 +458,29 @@ export default function Devices({ navigation }) {
               </Pressable>
             </View>
             <View style={{ flexDirection: "column"}}>
-            <Text style={[styles.normalText, {marginBottom: CONST.inputPadding}]}>{"\n"}Nome</Text>
+            <Text 
+              accessible={true}
+              accessibilityLabel="Texto na cor preta num fundo branco escrito Nome. Em baixo segue-se um campo para introdução do nome do equipamento que pretende adicionar."  
+              style={[styles.normalText, {marginBottom: CONST.inputPadding}]}>{"\n"}Nome</Text>
               <TextInput
+                accessible={true}
+                accessibilityLabel="Campo para introdução do Nome do equipamento."  
                 style={styles.inputField}
                 onChangeText={(text) => setAddName(text)}
                 value={addName}
               />
             </View>
             <View style={{ flexDirection: "column"}}>
-            <Text style={[styles.normalText, {marginBottom: CONST.inputPadding}]}>
+            <Text 
+              accessible={true}
+              accessibilityLabel="Texto na cor preta num fundo branco escrito Consumo. Em baixo segue-se um campo de preenchimento opcional para introdução do consumo em watts do equipamento que pretende adicionar."  
+              style={[styles.normalText, {marginBottom: CONST.inputPadding}]}>
                 Consumo{" "}
                 <Text style={{ fontFamily: "GothamBook" }}>(Opcional)</Text>
               </Text>
               <TextInput
+                accessible={true}
+                accessibilityLabel="Campo para introdução do Consumo do equipamento."  
                 style={styles.inputField}
                 onChangeText={(text) => setAddEnergy(text)}
                 value={addEnergy}
@@ -453,6 +488,8 @@ export default function Devices({ navigation }) {
             </View>
             <View style={{flexDirection: "row", justifyContent: "space-evenly"}}>
               <Pressable
+                accessible={true}
+                accessibilityLabel="Botão da cor branca com uma borda laranja num fundo branco com o objetivo de cancelar a adição do equipamento. Tem escrito na cor laranja a palavra Cancelar."    
                 onPress={() => {
                   setModalVisible(!modalVisible);
                   clearFields();
@@ -464,6 +501,8 @@ export default function Devices({ navigation }) {
                 </Text>
               </Pressable>
               <Pressable 
+                accessible={true}
+                accessibilityLabel="Botão da cor azul escura num fundo branco com o objetivo de adicionar o equipamento configurado. Tem escrito na cor branca a palavra Adicionar."  
                 onPress={() => addDevice()} 
                 style={styles.smallPrimaryButton}>
                 <Text style={styles.smallPrimaryButtonText}>
@@ -478,6 +517,8 @@ export default function Devices({ navigation }) {
         <ScrollView
           showsVerticalScrollIndicator={false}>
           <Pressable
+            accessible={true}
+            accessibilityLabel="Botão da cor azul escura num fundo branco com o objetivo de Adicionar um novo equipamento. Tem escrito na cor branca a frase Adicionar equipamento e está acompanhado por um icon redondo com o símbolo de mais. Ao clicar nele abrirá um modal branco com três campos de preenchimento para registo de um dispositivo."
             style={styles.primaryButton}
             onPress={() => { setModalVisible(true); }}
             underlayColor={"transparent"} >
@@ -490,7 +531,10 @@ export default function Devices({ navigation }) {
             />
           </Pressable>
           
-          <Text style={[styles.smallText, {opacity: 0.5, paddingBottom: CONST.textPadding}]}>
+          <Text 
+            accessible={true}
+            accessibilityLabel="Texto na cor cinza num fundo branco escrito Clique continuamente nos seus equipamentos se os desejar eliminar." 
+            style={[styles.smallText, {opacity: 0.5, paddingBottom: CONST.textPadding}]}>
             Clique continuamente nos seus equipamentos se os desejar eliminar.
           </Text>
         </ScrollView>
@@ -501,6 +545,8 @@ export default function Devices({ navigation }) {
             devicesArray.length > 0 &&
             devicesArray.map((callbackfn, id) => (
               <Pressable
+                accessible={true}
+                accessibilityLabel="Botão transparente com texto na cor preta num fundo branco com a denominação do dispositivo. Ao pressionar continuamente irá ativar um alerta que lhe pergunta se tem a certeza que deseja eliminar o equipamento."
                 key={id}
                 style={longPress ? styles.boxOptionsPressed : styles.boxOptions}
                 onLongPress={() => {
@@ -511,12 +557,16 @@ export default function Devices({ navigation }) {
                     [
                       {
                         text: "Cancelar",
+                        accessible: true,
+                        accessibilityLabel: "Texto escrito Cancelar.",
                         onPress: () => {
                           setLongPress(false);
                         },
                       },
                       {
                         text: "Confirmar",
+                        accessible: true,
+                        accessibilityLabel: "Texto escrito Confirmar.",
                         onPress: () => {
                           setLongPress(false);
                           const arrTemp = devicesArray.filter(
@@ -541,8 +591,13 @@ export default function Devices({ navigation }) {
                 }}
               >
                 {whichIcon(devicesArray[id].type)}
-                <Text style={styles.normalText}> {devicesArray[id].name} </Text>
+                <Text 
+                  accessible={true}
+                  accessibilityLabel={devicesArray[id].name}
+                  style={styles.normalText}> {devicesArray[id].name} </Text>
                 <Switch
+                  accessible={true}
+                  accessibilityLabel={devicesArray[id].using ?  "Dispositivo em uso." : "Dispositivo desativado."}     
                   style={{ marginLeft: "auto", marginRight: CONST.iconPadding }}
                   trackColor={{ false: CONST.switchOffColor, true: CONST.switchOnColor }}
                   thumbColor={devicesArray[id].using ? CONST.switchIndicatorColor : CONST.mainBlue}
