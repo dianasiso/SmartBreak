@@ -195,13 +195,19 @@ export const styles = StyleSheet.create({
   },
   smallText: {
     fontSize: CONST.pageSmallTextSize,
-    paddingTop: 15,
     fontFamily: "GothamBook",
     lineHeight: CONST.pageTextSize + 5,
     color: CONST.darkerColor,
   },
   normalTextWhite: {
     fontSize: CONST.pageTextSize,
+    fontFamily: "GothamBook",
+    lineHeight: CONST.pageTextSize + 5,
+    color: CONST.whiteText,
+  },
+
+  smallTextWhite: {
+    fontSize: CONST.smallTextSize,
     fontFamily: "GothamBook",
     lineHeight: CONST.pageTextSize + 5,
     color: CONST.whiteText,
@@ -576,6 +582,117 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
   },
 
+  //////ESTILOS LIXO
+
+  pageContainer: {
+    flex: 1,
+    backgroundColor: "#fff",
+    paddingLeft: 25,
+    paddingRight: 25,
+    paddingBottom: 90,
+    alignItems: "center",
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    paddingLeft: 25,
+    paddingRight: 25,
+  },
+  /*modalView: {
+    backgroundColor: "#E3ECF7",
+    borderRadius: 15,
+    padding: 25,
+    shadowColor: "#000",
+    shadowRadius: 5,
+    shadowOpacity: 0.5,
+    elevation: 10,
+  }, */
+  modalTextBold: {
+    fontFamily: "GothamMedium",
+    fontSize: 16,
+    textAlign: "left",
+    marginBottom: 20,
+    lineHeight: 22,
+  },
+  modalText: {
+    fontFamily: "GothamBook",
+    fontSize: 16,
+    textAlign: "left",
+    marginBottom: 20,
+    lineHeight: 22,
+  },
+  buttonAdd: {
+    backgroundColor: "#0051ba",
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+    borderRadius: 8,
+    alignItems: "center",
+    marginLeft: 10,
+  },
+
+  batteryView: {
+    //display: "none",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 0,
+    //backgroundColor: "red",
+  },
+  batteryContainer: {
+    height: 171,
+    width: 85,
+    borderRadius: 18,
+    borderColor: CONST.whiteText,
+    borderWidth: 1,
+  },
+  batteryBolt: {
+    position: "absolute",
+    zIndex: 1,
+    alignSelf: "center",
+    width: 94,
+    height: 94,
+  },
+  batteryTip: {
+    height: 2.38,
+    width: 23.78,
+    marginBottom: 2,
+    backgroundColor: CONST.whiteText,
+    borderTopLeftRadius: 107.03,
+    borderTopRightRadius: 107.03,
+    borderBottomRightRadius: 0,
+    borderBottomLeftRadius: 0,
+    borderColor: CONST.whiteText,
+    //borderWidth: 2.5,
+    //marginLeft: 4,
+  },
+  batteryFill: {
+    // height: 88,
+    // width: 90, //máximo 163
+    backgroundColor: CONST.whiteText,
+    borderRadius: 16,
+    position: "absolute",
+    left: CONST.screenWidth / 2 - 112,
+    transform: [{ rotate: '90deg' }]
+  },
+  batteryFillPause: {
+    // height: 88,
+    // width: 90, //máximo 163
+    backgroundColor: "#E3ECF7",
+    borderRadius: 16,
+    position: "absolute",
+    left: CONST.screenWidth / 2 - 112,
+  },
+  /*
+  toggleView: {
+    top: 65,
+    alignItems: "center",
+    flexDirection: "row",
+  },*/
+  
   toggleContainer: {
     width: CONST.screenWidth - 50,
     height: CONST.heightButton,
@@ -616,16 +733,11 @@ export const styles = StyleSheet.create({
     marginRight: 20,
   },
 
-  metricasText: {
-    fontSize: 20,
-    fontFamily: "GothamMedium",
-    marginBottom: 18,
-  },
   metricasElement: {
     width: CONST.screenWidth - 50,
     //backgroundColor: "#E3ECF7",
     borderRadius: 15,
-   
+
     marginTop: 20,
     flexDirection: "row",
     alignItems: "center",
@@ -655,6 +767,13 @@ export const styles = StyleSheet.create({
   },
 
 
+
+  editprofileRewards: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 20,
+  },
 
   // ---- ERROR PAGES ---- //
   errorTitleText: {
@@ -715,5 +834,87 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: CONST.boxPadding,
     paddingTop: 0,
-  }
+  },
+
+  // --- GOALS --- //
+
+   goals: {
+    flex: 1,
+    marginBottom: CONST.inputMargin - 10,
+    borderTopRightRadius: CONST.normalButtonRadius,
+    borderBottomRightRadius: CONST.normalButtonRadius,
+    paddingTop: CONST.boxPadding,
+    paddingBottom: CONST.boxPadding,
+    paddingLeft: CONST.modalPadding,
+    paddingRight: CONST.boxPadding,
+    width: CONST.screenWidth - 50,
+    flexDirection: "row",
+    alignItems: "center",
+    textAlign: "left",
+    borderLeftWidth: 3,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowColor: 'rgba(0, 0, 0, 0.1)',
+    shadowOpacity: 1,
+    shadowRadius: 10,
+  },
+
+  goalsBox: {
+    flexDirection: "row",
+    flex: 1,
+    marginTop: "auto",
+    marginBottom: "auto",
+    alignItems: "center"
+  },
+
+  goalsBoxContent: {
+    marginRight: 5,
+    flexDirection: "column",
+    flex: 1,
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
+
+  goalsBoxPriority: {
+    flexDirection: "row",
+    flex: 1,
+    alignItems: "center",
+    marginTop: 20,
+  },
+  /*  ESTILOS ONDE APARECEM OS FILTROS SELECIONADOS
+  textPriority: {
+    fontFamily: "GothamBook",
+    color: "#FFF",
+    fontSize: 12,
+  }, */
+
+
+  modalFilter: {
+    marginRight: "auto",
+    marginLeft: 0,
+    backgroundColor: CONST.lightBackgroundColor,
+    borderRadius: CONST.normalButtonRadius,
+    paddingTop: CONST.inputPadding,
+    paddingBottom: CONST.inputPadding,
+    paddingLeft: CONST.boxPadding - 10,
+    paddingRight: CONST.boxPadding,
+    marginTop: CONST.boxMargin - 5,
+    marginBottom: CONST.boxMargin,
+  },
+
+  modalFilterSelected: {
+    marginRight: "auto",
+    marginLeft: 0,
+    borderRadius: CONST.normalButtonRadius,
+    paddingTop: CONST.inputPadding,
+    paddingBottom: CONST.inputPadding,
+    paddingLeft: CONST.boxPadding - 5,
+    paddingRight: CONST.boxPadding,
+    marginTop: CONST.boxMargin - 5,
+    marginBottom: CONST.boxMargin,
+    backgroundColor: CONST.darkerColor,
+  },
+
 });
