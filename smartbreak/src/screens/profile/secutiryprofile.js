@@ -52,7 +52,7 @@ export default function NotificationsProfile({ navigation }) {
       style={styles.containerLight}
     >
       <ScrollView>
-        <StatusBar style="auto" />
+        <StatusBar style="dark" />
         <Text style={styles.titleText}>Segurança</Text>
           <Text style={styles.normalText}>
           {"\n"}O utilizador, ao aceitar os Termos e Política de Privacidade,

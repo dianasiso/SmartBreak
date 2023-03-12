@@ -22,6 +22,13 @@ import { useSelector } from "react-redux";
 
 // Firebase
 import firebase from "./../../config/firebase.js";
+
+// CSS
+import { styles } from "./../../styles/css.js";
+
+// CSS
+import * as CONST from "./../../styles/variables.js";
+
 export default function Goals() {
   const [loaded] = useFonts({
     GothamMedium: "./../fonts/GothamMedium.ttf",
@@ -147,18 +154,27 @@ export default function Goals() {
     }
     forceUpdate();
   };
-  const whichPriority = (priorityNumber) => {
+  const whichPriorityText = (priorityNumber) => {
     if (priorityNumber == 1) {
-      return <Text style={styles.textPriority}>Baixa Prioridade</Text>;
+      return <Text style={[styles.smallText, { fontFamily: "GothamMedium" }]}>Baixa Prioridade</Text>;
     } else if (priorityNumber == 2) {
-      return <Text style={styles.textPriority}>Média Prioridade</Text>;
-    } else if (priorityNumber == 3) {
-      return <Text style={styles.textPriority}>Alta Prioridade</Text>;
+      return <Text style={[styles.smallText, { fontFamily: "GothamMedium" }]}>Média Prioridade</Text>;
     } else {
-      return <Text style={styles.textPriority}>Urgente</Text>;
+      return <Text style={[styles.smallText, { fontFamily: "GothamMedium" }]}>Alta Prioridade</Text>;
     }
   };
 
+  const whichPriorityColor = (priorityNumber) => {
+    if (priorityNumber == 1) {
+      return CONST.lowPriorityColor; // default color
+    } else if (priorityNumber == 2) {
+      return CONST.mediumPriorityColor; // medium priority color
+    } else {
+      return CONST.highPriorityColor; // high priority color
+    }
+  };
+
+  // ESTILOS NÃO ATUALIZADOS PQ NÃO APARECEM
   const showFilters = (i) => {
     console.log("index ", i);
     if (i == 0) {
@@ -171,127 +187,191 @@ export default function Goals() {
     return "<View style={styles.viewPriority}><Text style={styles.textPriority}>Data Decrescente</Text></View>";
   };
 
+  const [selected, setSelected] = useState("personal");
+
   return (
-    <SafeAreaProvider style={styles.container}>
-      <StatusBar style="auto" />
-      <Modal
-        style={{ margin: 0 }}
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <View style={{ flexDirection: "column", marginTop: 5 }}>
-              <Pressable
-                style={
-                  filtersSelected[0]
-                    ? styles.modalFilterSelected
-                    : styles.modalFilter
-                }
-                onPress={() => pressFilter(0)}
-              >
-                <Text
-                  style={
-                    filtersSelected[0]
-                      ? styles.modalFilterTextSelect
-                      : styles.modalFilterText
-                  }
+    <SafeAreaProvider style={styles.mainContainerLight}>
+      <StatusBar style="dark" />
+
+      <View
+        style={styles.containerLight}>
+        {/* Toggle */}
+        <View
+          style={[
+            styles.toggleContainer,
+            selected == "personal"
+              ? { backgroundColor: CONST.thirdBlue }
+              : { backgroundColor: CONST.thirdOrange },
+          ]}
+        >
+          <Pressable
+            style={[
+              styles.toggleSelector,
+              selected === "personal"
+                ? { backgroundColor: CONST.lightBackgroundColor }
+                : { backgroundColor: "transparent" },
+            ]}
+            onPress={() => setSelected("personal")}
+          >
+            <Text style={[styles.normalText, { fontFamily: "GothamMedium" }]}>
+              Individual
+            </Text>
+          </Pressable>
+          <Pressable
+            style={[
+              styles.toggleSelector,
+              selected === "team"
+                ? { backgroundColor: CONST.lightBackgroundColor }
+                : { backgroundColor: "transparent" },
+            ]}
+            onPress={() => setSelected("team")}
+          >
+            <Text style={[styles.normalText, { fontFamily: "GothamMedium" }]}>
+              Departamental
+            </Text>
+          </Pressable>
+
+          <Modal
+            style={{ margin: 0 }}
+            animationType="fade"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              setModalVisible(!modalVisible);
+            }}
+          >
+
+            <View style={styles.modalBackgroundView}>
+              <View style={styles.modalView}>
+                <View style={{ flexDirection: "column", marginTop: 5 }}>
+                  <Pressable
+                    style={
+                      filtersSelected[0]
+                        ? styles.modalFilterSelected
+                        : styles.modalFilter
+                    }
+                    onPress={() => pressFilter(0)}
+                  >
+                    <Text
+                      style={
+                        filtersSelected[0]
+                          ? styles.smallTextWhite
+                          : styles.smallText
+                      }
+                    >
+                      Alta Prioridade
+                    </Text>
+                  </Pressable>
+                  <Pressable
+                    style={
+                      filtersSelected[1]
+                        ? styles.modalFilterSelected
+                        : styles.modalFilter
+                    }
+                    onPress={() => pressFilter(1)}
+                  >
+                    <Text
+                      style={
+                        filtersSelected[1]
+                          ? styles.smallTextWhite
+                          : styles.smallText
+                      }
+                    >
+                      Média Prioridade
+                    </Text>
+                  </Pressable>
+                  <Pressable
+                    style={
+                      filtersSelected[2]
+                        ? styles.modalFilterSelected
+                        : styles.modalFilter
+                    }
+                    onPress={() => pressFilter(2)}
+                  >
+                    <Text
+                      style={
+                        filtersSelected[2]
+                          ? styles.smallTextWhite
+                          : styles.smallText
+                      }
+                    >
+                      Baixa Prioridade
+                    </Text>
+                  </Pressable>
+                  <Pressable
+                    style={
+                      filtersSelected[3]
+                        ? styles.modalFilterSelected
+                        : styles.modalFilter
+                    }
+                    onPress={() => pressFilter(3)}
+                  >
+                    <Text
+                      style={
+                        filtersSelected[3]
+                          ? styles.smallTextWhite
+                          : styles.smallText
+                      }
+                    >
+                      Data crescente
+                    </Text>
+                  </Pressable>
+                  <Pressable
+                    style={
+                      filtersSelected[4]
+                        ? styles.modalFilterSelected
+                        : styles.modalFilter
+                    }
+                    onPress={() => pressFilter(4)}
+                  >
+                    <Text
+                      style={
+                        filtersSelected[4]
+                          ? styles.smallTextWhite
+                          : styles.smallText
+                      }
+                    >
+                      Data decrescente
+                    </Text>
+                  </Pressable>
+                </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    marginTop: CONST.boxMargin,
+                  }}
                 >
-                  Urgente
-                </Text>
-              </Pressable>
-              <Pressable
-                style={
-                  filtersSelected[1]
-                    ? styles.modalFilterSelected
-                    : styles.modalFilter
-                }
-                onPress={() => pressFilter(1)}
-              >
-                <Text
-                  style={
-                    filtersSelected[1]
-                      ? styles.modalFilterTextSelect
-                      : styles.modalFilterText
-                  }
-                >
-                  Alta Prioridade
-                </Text>
-              </Pressable>
-              <Pressable
-                style={
-                  filtersSelected[2]
-                    ? styles.modalFilterSelected
-                    : styles.modalFilter
-                }
-                onPress={() => pressFilter(2)}
-              >
-                <Text
-                  style={
-                    filtersSelected[2]
-                      ? styles.modalFilterTextSelect
-                      : styles.modalFilterText
-                  }
-                >
-                  Média Prioridade
-                </Text>
-              </Pressable>
-              <Pressable
-                style={
-                  filtersSelected[3]
-                    ? styles.modalFilterSelected
-                    : styles.modalFilter
-                }
-                onPress={() => pressFilter(3)}
-              >
-                <Text
-                  style={
-                    filtersSelected[3]
-                      ? styles.modalFilterTextSelect
-                      : styles.modalFilterText
-                  }
-                >
-                  Baixa Prioridade
-                </Text>
-              </Pressable>
+                  <Pressable
+                    onPress={() => {
+                      setFiltersSelected([]);
+                      setModalVisible(!modalVisible);
+                    }}
+                    style={styles.smallSecondaryButton}
+                  >
+                    <Text style={styles.smallSecondaryButtonText}>
+                      Cancelar
+                    </Text>
+                  </Pressable>
+                  <Pressable
+                    onPress={() => {
+                      setModalVisible(!modalVisible);
+                    }}
+                    style={styles.smallPrimaryButton}
+                  >
+                    <Text style={styles.smallPrimaryButtonText}>
+                      Aplicar
+                    </Text>
+                  </Pressable>
+                </View>
+              </View>
             </View>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                marginTop: 10,
-              }}
-            >
-              <Pressable
-                onPress={() => {
-                  setFiltersSelected([]);
-                  setModalVisible(!modalVisible);
-                }}
-                style={{ padding: 10, marginRight: 10 }}
-              >
-                <Text style={{ color: "#0051ba", fontFamily: "GothamMedium" }}>
-                  Cancelar
-                </Text>
-              </Pressable>
-              <Pressable
-                onPress={() => {
-                  setModalVisible(!modalVisible);
-                }}
-                style={styles.buttonAdd}
-              >
-                <Text style={{ color: "#FFF", fontFamily: "GothamMedium" }}>
-                  Aplicar
-                </Text>
-              </Pressable>
-            </View>
-          </View>
+
+          </Modal>
         </View>
-      </Modal>
-      {/*<DropDownPicker
+
+
+        {/*<DropDownPicker
         disabled={true}
         open={openDropdown}
         value={dropdownValue}
@@ -319,380 +399,71 @@ export default function Goals() {
           fontSize: 16,
         }}
       />*/}
-      <View
-        style={{
-          flexDirection: "row",
-          paddingTop: 30,
-          paddingBottom: 30,
-
-          marginTop: 30,
-          alignItems: "center",
-        }}
-      >
-        {/* <View style={{flex: 1,  alignItems: 'center', marginLeft: 0, marginRight: 'auto'}}>
+        <View
+          style={styles.modalAlign}
+        >
+          {/* <View style={{flex: 1,  alignItems: 'center', marginLeft: 0, marginRight: 'auto'}}>
         <View style={styles.viewPriority}><Text style={styles.textPriority}>Urgente</Text></View>
         <View style={styles.viewPriority}><Text style={styles.textPriority}>Alta Prioridade</Text></View>
         <View style={styles.viewPriority}><Text style={styles.textPriority}>Média Prioridade</Text></View>
         <View style={styles.viewPriority}><Text style={styles.textPriority}>Baixa Prioridade</Text></View>
       </View> */}
-        <View
-          style={{
-            marginLeft: "auto",
-            marginRight: 0,
-            backgroundColor: "transparent",
-          }}
-        >
-          <Pressable
-            onPress={() => {
-              setModalVisible(true);
-            }}
+          <View
             style={{
-              marginRight: 0,
               marginLeft: "auto",
-              backgroundColor: "#0051ba",
-              padding: 8,
-              borderRadius: 8,
-            }}
-          >
-            <Candle2 color="#FFF" size="24" />
-          </Pressable>
+              marginRight: 0,
+            }}>
+            <Pressable
+              onPress={() => {
+                setModalVisible(true);
+              }}
+              style={[styles.modal, selected == "personal"
+                ? { backgroundColor: CONST.mainBlue }
+                : { backgroundColor: CONST.mainOrange }]}
+            >
+              <Candle2 color="#FFF" size="24" />
+            </Pressable>
+          </View>
         </View>
-      </View>
 
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={{ height: "100%", overflow: "scroll" }}
-      >
-        {docs &&
-          docs.length > 0 &&
-          docs.map((callbackfn, id) => (
-            <Pressable style={styles.options} key={id}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  flex: 1,
-                  marginTop: "auto",
-                  marginBottom: "auto",
-                  alignItems: "center",
-                }}
-              >
-                <View
-                  style={{
-                    marginRight: 5,
-                    flexDirection: "column",
-                    flex: 1,
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                  }}
-                >
-                  <Text style={styles.textDescription}>
-                    {docs[id].description}
-                  </Text>
+        
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{ height: "100%", overflow: "scroll" }}
+        >
+          {docs &&
+            docs.length > 0 &&
+            docs.map((callbackfn, id) => (
+              <Pressable style={[styles.goals, { borderLeftColor: whichPriorityColor(docs[id].priority) }]} key={id}>
+                <View style={styles.goalsBox}>
+                  <View style={styles.goalsBoxContent}>
+                    <Text style={styles.normalText}>
+                      {docs[id].description}
+                    </Text>
 
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      flex: 1,
-                      alignItems: "center",
-                      marginTop: 20,
-                    }}
-                  >
-                    <View style={styles.viewPriority}>
-                      {whichPriority(docs[id].priority)}
-                    </View>
-                    <View style={{ marginRight: 0, marginLeft: "auto" }}>
-                      <Text style={styles.textDetails}>{docs[id].date}</Text>
+                    <View style={styles.goalsBoxPriority}>
+                      <View>
+                        {whichPriorityText(docs[id].priority)}
+                      </View>
+                      <View style={{ marginRight: 0, marginLeft: "auto" }}>
+                        <Text style={[styles.smallText, { fontFamily: "GothamMedium" }]}>{docs[id].date}</Text>
+                      </View>
                     </View>
                   </View>
+                  <Pressable
+                    style={{ marginLeft: CONST.boxPadding }}
+                    onPress={() =>
+                      navigation.navigate("Tips", { goalId: docs[id].id })
+                    }
+                  >
+                    <ArrowCircleRight variant="Bold" color={whichPriorityColor(docs[id].priority)} size="30" />
+                  </Pressable>
                 </View>
-                <Pressable
-                  style={styles.arrow}
-                  onPress={() =>
-                    navigation.navigate("Tips", { goalId: docs[id].id })
-                  }
-                >
-                  <ArrowCircleRight variant="Bold" color="#0051ba" size="40" />
-                </Pressable>
-              </View>
-            </Pressable>
-          ))}
-      </ScrollView>
+              </Pressable>
+            ))}
+        </ScrollView>
+      </View>
     </SafeAreaProvider>
   );
 }
 
-// Get screen dimensions
-const screenWidth = Dimensions.get("window").width;
-const screenHeight = Dimensions.get("window").height - 50;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    paddingLeft: 25,
-    paddingRight: 25,
-    paddingBottom: 90,
-  },
-
-  options: {
-    flex: 1,
-    marginBottom: 30,
-    borderRadius: 15,
-    paddingTop: 25,
-    paddingBottom: 25,
-    paddingLeft: 25,
-    paddingRight: 15,
-    width: screenWidth - 50,
-    flexDirection: "row",
-    alignItems: "center",
-    textAlign: "left",
-    backgroundColor: "#E3ECF7",
-  },
-
-  textDescription: {
-    fontFamily: "GothamBook",
-    fontSize: 16,
-    lineHeight: 22,
-  },
-
-  textDetails: {
-    fontFamily: "GothamMedium",
-    fontSize: 12,
-  },
-  textPriority: {
-    fontFamily: "GothamBook",
-    color: "#FFF",
-    fontSize: 12,
-  },
-
-  viewPriority: {
-    marginRight: "auto",
-    marginLeft: 0,
-    backgroundColor: "#0051ba",
-    borderRadius: 15,
-    paddingTop: 5,
-    paddingBottom: 5,
-    paddingLeft: 10,
-    paddingRight: 10,
-    marginBottom: 1,
-  },
-
-  modalFilterText: {
-    fontFamily: "GothamBook",
-    color: "#0051ba",
-    fontSize: 12,
-  },
-
-  modalFilterTextSelect: {
-    fontFamily: "GothamBook",
-    color: "#FFF",
-    fontSize: 12,
-  },
-
-  modalFilter: {
-    marginRight: "auto",
-    marginLeft: 0,
-    backgroundColor: "#FFF",
-    borderRadius: 15,
-    paddingTop: 5,
-    paddingBottom: 5,
-    paddingLeft: 10,
-    paddingRight: 10,
-    marginTop: 5,
-    marginBottom: 5,
-  },
-
-  modalFilterSelected: {
-    marginRight: "auto",
-    marginLeft: 0,
-    backgroundColor: "#0051ba",
-    borderRadius: 15,
-    paddingTop: 5,
-    paddingBottom: 5,
-    paddingLeft: 10,
-    paddingRight: 10,
-    marginTop: 5,
-    marginBottom: 5,
-  },
-
-  button: {
-    flex: 1,
-    marginTop: 30,
-    marginBottom: 10,
-    borderRadius: 15,
-    paddingTop: 15,
-    paddingBottom: 15,
-    paddingLeft: 20,
-    width: screenWidth - 50,
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    textAlign: "left",
-    backgroundColor: "#0051ba",
-  },
-
-  textButton: {
-    marginLeft: 10,
-    fontFamily: "GothamBook",
-    fontSize: 16,
-    color: "#FFF",
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  modalView: {
-    backgroundColor: "#E3ECF7",
-    borderRadius: 15,
-    padding: 25,
-    shadowColor: "#000",
-    shadowRadius: 5,
-    shadowOpacity: 0.5,
-    elevation: 10,
-  },
-  modalText: {
-    fontFamily: "GothamMedium",
-    fontSize: 16,
-    textAlign: "left",
-    marginBottom: 0,
-  },
-  buttonAdd: {
-    backgroundColor: "#0051ba",
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 20,
-    paddingRight: 20,
-    borderRadius: 8,
-    alignItems: "center",
-    marginLeft: 10,
-  },
-
-  arrow: {
-    marginLeft: 15,
-  },
-});
-
-// const styles = StyleSheet.create({
-//   container: {
-//     width: screenWidth,
-//     height: screenHeight,
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     paddingTop: 65,
-//   },
-//   dropdown: {
-//     width: '86%',
-//     height: 50,
-//     borderBottomWidth: 2,
-//     paddingHorizontal: 8,
-//   },
-//   label: {
-//     position: 'absolute',
-//     backgroundColor: 'white',
-//     left: 22,
-//     top: 20,
-//     zIndex: 999,
-//     paddingHorizontal: 8,
-//     fontSize: 14,
-//     borderBottom: 'black',
-//   },
-//   placeholderStyle: {
-//     fontSize: 16,
-//   },
-//   selectedTextStyle: {
-//     fontSize: 16,
-//   },
-//   filersArea: {
-//     display: 'flex',
-//     flexDirection: 'row',
-//     justifyContent: 'space-between',
-//     width: '86%',
-//     marginLeft: 25,
-//     marginTop: 24,
-//     marginBottom: 4,
-//     alignItems: 'center'
-//   },
-//   filters: {
-//     backgroundColor: '#0051BA',
-//     width: 44,
-//     height: 44,
-//     borderRadius: 8,
-//     display: 'flex',
-//     flexWrap: 'nowrap',
-//     justifyContent: 'center',
-//     elevation: 2
-//   },
-//   icon: {
-//     width: 30,
-//     height: 30,
-//     left: 325,
-//     top: 123,
-//     alignSelf: 'center',
-//   },
-//   centeredView: {
-//     flex: 1,
-//     backgroundColor: 'rgba(0, 0, 0, 0.5)',
-//     justifyContent: "center",
-//     alignItems: "center",
-//     margin: 0,
-//   },
-//   modalView: {
-//     margin: 20,
-//     backgroundColor: "#E3ECF7",
-//     borderRadius: 14,
-//     padding: 25,
-//     width: '80%',
-//     alignItems: "center",
-//     shadowColor: "#000",
-//     shadowOffset: {
-//       width: 0,
-//       height: 2
-//     },
-//     shadowOpacity: 0.20,
-//     shadowRadius: 5,
-//     elevation: 5
-//   },
-//   objetivosCaixa: {
-//     display: 'flex',
-//     flexDirection: 'row',
-//     flexWrap: 'nowrap',
-//     justifyContent: 'space-between',
-//     alignItems: 'center',
-//     left: 25,
-//     width: '86%',
-//     backgroundColor: '#e3ecf7',
-//     borderRadius: 14,
-//     padding: 15,
-//     marginTop: 20,
-//     marginBottom: 20,
-//     // height: '8%'
-//   },
-//   filtroCaixa: {
-//     width: 140,
-//     height: 25,
-//     backgroundColor: '#0051BA',
-//     borderRadius: 12,
-//     marginTop: 15,
-//     padding: 4,
-//   },
-//   filtroTexto: {
-//     alignSelf: 'center',
-//     color: 'white',
-//     fontFamily: 'GothamBook',
-//   },
-//   seta: {
-//     backgroundColor: '#0051BA',
-//     borderRadius: 25,
-//     width: 25,
-//     height: 25,
-//   },
-//   parteBaixo: {
-//     display: 'flex',
-//     flexDirection: 'row',
-//     flexWrap: 'nowrap',
-//     justifyContent: 'space-between',
-//     alignItems: 'baseline',
-//   },
-// });

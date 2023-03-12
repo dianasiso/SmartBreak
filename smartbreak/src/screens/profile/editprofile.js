@@ -3,14 +3,12 @@ import React, { useEffect, useState } from "react";
 import { Alert } from "react-native";
 import {
   RefreshControl,
-  StyleSheet,
   ScrollView,
   View,
   Text,
   Image,
   TextInput,
   Switch,
-  Dimensions,
   Pressable,
 } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -111,20 +109,16 @@ export default function EditProfile({ navigation }) {
   };
 
   return (
-    <SafeAreaProvider
-      showsVerticalScrollIndicator={false}
-      style={styles.mainContainerLight}
-    >
-      <StatusBar style="auto" />
-      <ScrollView
-        style={[styles.containerLight, {paddingTop: 0}]}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      >
+    <SafeAreaProvider>
+      <StatusBar style="dark" />
+      <ScrollView 
+        showsVerticalScrollIndicator={false}
+        style={[styles.containerLight]}>
 
         <View style={styles.profileInfo}>
-          <Image
+          <Image  
+            accessible={true}
+            accessibilityLabel="Foto de perfil."
             source={require("../../imgs/ester.png")}
             style={styles.profileImage}
           />
@@ -173,18 +167,23 @@ export default function EditProfile({ navigation }) {
             style={styles.inputLabel}>Empresa</Text>
           <TextInput
             accessible={true}
-            accessibilityLabel="Campo para introdução do E-mail."
-            style={[styles.inputField, {opacity:0.5, marginBottom: 20}]}
+            accessibilityLabel="Campo para visualização da empresa. Campo não editável."
+            style={styles.inputField}
             placeholder={organization}
-            placeholderTextColor={CONST.darkerColor}
+            placeholderTextColor={CONST.enableColor}
             editable={false}
           />
 
           <View style={styles.editprofileRewards} >
-            <Text style={styles.normalText}>
+            <Text 
+              accessible={true}
+              accessibilityLabel="Texto na cor preta num fundo branco escrito Tornar as recompensas públicas. Possui um switch à frente para ativar ou desativar a opção."
+              style={styles.normalText}>
               Tornar as recompensas públicas
             </Text>
             <Switch
+              accessible={true}
+              accessibilityLabel={rewards ?  "Ativado" : "Desativado"}
               trackColor={{ false: CONST.switchOffColor, true: CONST.switchOnColor }}
               thumbColor={rewards ? CONST.switchIndicatorColor : CONST.mainBlue}
               value={rewards}
@@ -193,13 +192,11 @@ export default function EditProfile({ navigation }) {
           </View>
         </View>
         <View>
-          <Pressable onPress={() => editarperfil()} style={styles.primaryButton}>
-            <Text
-              style={styles.primaryButtonText}
-            >
-              {" "}
-              Concluído{" "}
-            </Text>
+          <Pressable 
+            accessible={true}
+            accessibilityLabel="Botão da cor azul escura num fundo branco com o objetivo de guardar as alterações. Tem escrito na cor branca a palavra Concluído."
+            onPress={() => editarperfil()} style={styles.primaryButton}>
+            <Text style={styles.primaryButtonText}>Concluído</Text>
           </Pressable>
         </View>
       </ScrollView>

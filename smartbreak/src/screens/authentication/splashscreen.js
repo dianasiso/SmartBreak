@@ -58,7 +58,7 @@ export default function SplashScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <StatusBar />
+      <StatusBar style="light" />
       <View style={styles.splashImage}>
         <Image
           source={require("./../../imgs/gif_battery_white_v2.gif")}
