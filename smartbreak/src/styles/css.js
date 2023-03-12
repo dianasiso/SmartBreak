@@ -676,7 +676,7 @@ export const styles = StyleSheet.create({
     borderRadius: 16,
     position: "absolute",
     left: CONST.screenWidth / 2 - 112,
-    transform: [{ rotate: '90deg' }]
+    transform: [{ rotate: "90deg" }],
   },
   batteryFillPause: {
     // height: 88,
@@ -801,6 +801,88 @@ export const styles = StyleSheet.create({
     marginBottom: CONST.inputMargin,
   },
 
+  // ---- TIPS ---- //
+  smallSecondaryButton: {
+    backgroundColor: CONST.secondaryButtonBackground,
+    justifyContent: "center",
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    height: CONST.heightButton,
+    borderRadius: CONST.smallButtonRadius,
+    margin: 5,
+    borderWidth: 1,
+    borderColor: CONST.secondaryButtonBorderColor,
+  },
+  smallPrimaryButton: {
+    backgroundColor: CONST.primaryButtonBackground,
+    justifyContent: "center",
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    height: CONST.heightButton,
+    borderRadius: CONST.smallButtonRadius,
+    margin: 5,
+    borderWidth: 1,
+    borderColor: CONST.primaryButtonBorderColor,
+  },
+  smallPrimaryButtonText: {
+    fontFamily: "GothamMedium",
+    color: CONST.primaryButtonTextColor,
+    fontSize: CONST.smallButtonSize,
+    textAlign: "center",
+  },
+
+  smallSecondaryButtonText: {
+    fontFamily: "GothamMedium",
+    color: CONST.secondaryButtonTextColor,
+    fontSize: CONST.smallButtonSize,
+    textAlign: "center",
+  },
+
+  goalBox: {
+      shadowColor: "rgba(0, 0, 0, 0.1)",
+    shadowOpacity: 1,
+    shadowRadius: 10,
+    borderRadius: CONST.normalButtonRadius,
+    marginTop: CONST.boxMargin,
+    marginBottom: CONST.boxMargin + 10, //até aqui é cópia da sombra que a Ju usou no histórico de pausas
+    display: "flex", // a partir de aqui é o estilo da caixa em si
+    flexDirection: "column",
+    backgroundColor: "#FFFFFF",
+    justifyContent: "flex-start",
+    textAlign: "left",
+    padding: CONST.boxPadding,
+  },
+
+  tipBox: {
+    display: "flex",
+    flexDirection: "column",
+    backgroundColor: "#07407B",
+    justifyContent: "flex-start",
+    textAlign: "left",
+    padding: CONST.boxPadding,
+  },
+
+  optionsTips: {
+    marginBottom: CONST.dividerMargin,
+    borderRadius: CONST.normalButtonRadius,
+    padding: CONST.cardPadding,
+    backgroundColor: CONST.lowPriorityColor,
+    //opacity: 0.5,
+  },
+
+  numberTips: {
+    fontFamily: "GothamMedium",
+    fontSize: CONST.pageTextSiz,
+    marginBottom: CONST.dividerMargin,
+    padding: CONST.dividerMargin,
+    backgroundColor: "#839FBD",
+    borderRadius: CONST.circleRadius,
+    color: CONST.whiteText,
+    width: CONST.iconWidth + 10,
+  },
+
   // ---- HISTORIC ----
   pauseBoxMain: {
     // shadowOffset: {
@@ -916,5 +998,4 @@ export const styles = StyleSheet.create({
     marginBottom: CONST.boxMargin,
     backgroundColor: CONST.darkerColor,
   },
-
 });
