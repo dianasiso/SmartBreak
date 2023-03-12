@@ -285,7 +285,10 @@ export default function Onboarding() {
               e o seu contributo para a empresa através de{" "}
               <Text style={{ fontFamily: "GothamMedium" }}>estatísticas</Text>{" "}
             </Text>
-          <View style={styles.imageLogo}>
+          <View 
+            accessible={true}
+            accessibilityLabel="Imagem em tons azuis num fundo azul escuro. Representa um gráfico de barras."
+            style={styles.imageLogo}>
             <Image source={require("./../imgs/smartbreak_stats_onboarding.png")} />
           </View>
         </View>
@@ -305,7 +308,10 @@ export default function Onboarding() {
               melhorar hábitos de consumo energético mais{" "}
               <Text style={{ fontFamily: "GothamMedium" }}>conscientes</Text>{" "}
             </Text>
-          <View style={styles.imageLogo}>
+          <View 
+            accessible={true}
+            accessibilityLabel="Imagem em tons azuis num fundo azul escuro. É uma lâmpada com um caule dentro, simbolizando o crescimento do conhecimento." 
+            style={styles.imageLogo}>
             <Image source={require("./../imgs/smartbreak_lamp_onboarding.png")} />
           </View>
         </View>
