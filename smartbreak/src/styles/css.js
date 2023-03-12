@@ -112,7 +112,7 @@ export const styles = StyleSheet.create({
   },
   smallPrimaryButton: {
     backgroundColor: CONST.primaryButtonBackground,
-    justifyContent: "center", 
+    justifyContent: "center",
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
@@ -313,10 +313,10 @@ export const styles = StyleSheet.create({
 
   // ---- ROUTINES ----
   rowRoutine: {
-    flexDirection: 'row',
+    flexDirection: "row",
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   boxRoutine: {
@@ -329,8 +329,8 @@ export const styles = StyleSheet.create({
   // ---- MODALS ----
   modalBackgroundView: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.7)",
   },
 
@@ -340,54 +340,54 @@ export const styles = StyleSheet.create({
     padding: CONST.modalPadding,
     shadowColor: CONST.darkerColor,
     shadowRadius: CONST.shadowRadius,
-    width: CONST.screenWidth/3*2,
+    width: (CONST.screenWidth / 3) * 2,
     shadowOpacity: 0.5,
     elevation: 10,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
 
-   // ---- MODAL DEVICES -----
+  // ---- MODAL DEVICES -----
 
   modalDeviceTypeButton: {
-    backgroundColor: 'transparent',
-    borderColor: 'transparent',
+    backgroundColor: "transparent",
+    borderColor: "transparent",
     borderWidth: 1,
     borderRadius: CONST.smallButtonRadius,
     padding: CONST.smallButtonRadius,
-    textAlign: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }, 
+    textAlign: "center",
+    alignItems: "center",
+    justifyContent: "center",
+  },
 
   modalDeviceTypeButtonPressed: {
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     borderColor: CONST.darkerColor,
     borderWidth: 1,
     borderRadius: CONST.smallButtonRadius,
     padding: CONST.smallButtonRadius,
-    textAlign: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }, 
+    textAlign: "center",
+    alignItems: "center",
+    justifyContent: "center",
+  },
 
   // ---- MODAL ROUTINES ----
 
   modalRoutineButton: {
-    backgroundColor: 'transparent',
-    borderColor: 'transparent',
+    backgroundColor: "transparent",
+    borderColor: "transparent",
     borderWidth: 1,
     borderRadius: CONST.smallButtonRadius,
     padding: CONST.smallButtonRadius,
     paddingTop: 4,
     paddingBottom: 4,
     margin: 2,
-    textAlign: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }, 
+    textAlign: "center",
+    alignItems: "center",
+    justifyContent: "center",
+  },
 
   modalRoutineButtonPressed: {
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     borderColor: CONST.darkerColor,
     borderWidth: 1,
     borderRadius: CONST.smallButtonRadius,
@@ -395,42 +395,42 @@ export const styles = StyleSheet.create({
     paddingTop: 4,
     paddingBottom: 4,
     margin: 2,
-    textAlign: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }, 
+    textAlign: "center",
+    alignItems: "center",
+    justifyContent: "center",
+  },
 
   hoursContainer: {
-    width:  CONST.screenWidth/4,
+    width: CONST.screenWidth / 4,
     marginBottom: CONST.backgroundPaddingTop,
     flexDirection: "row",
     justifyContent: "center",
-    marginLeft: 'auto',
-    marginRight: 'auto',
+    marginLeft: "auto",
+    marginRight: "auto",
     marginTop: 5,
   },
   daysContainer: {
-    width:  CONST.screenWidth/4,
+    width: CONST.screenWidth / 4,
     marginBottom: CONST.inputMargin,
     flexDirection: "row",
     justifyContent: "center",
-    marginLeft: 'auto',
-    marginRight: 'auto',
+    marginLeft: "auto",
+    marginRight: "auto",
     marginTop: 5,
   },
-  hoursTextStyle: {  
+  hoursTextStyle: {
     color: CONST.darkerColor,
-    fontFamily: 'GothamBook',
+    fontFamily: "GothamBook",
     fontSize: CONST.pageSmallTextSize,
   },
   hoursPicker: {
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     borderWidth: 0,
     paddingBottom: 0,
     borderBottomWidth: 1,
     borderBottomColor: CONST.darkerColor,
     color: CONST.darkerColor,
-    fontFamily: 'GothamBook',
+    fontFamily: "GothamBook",
     fontSize: CONST.pageTextSize,
   },
   dropwdownBoxRoutines: {
@@ -438,7 +438,7 @@ export const styles = StyleSheet.create({
     borderColor: CONST.darkerColor,
     color: CONST.whiteText,
     fontSize: CONST.pageSmallTextSize,
-    fontFamily: 'GothamBook'
+    fontFamily: "GothamBook",
   },
 
   // --- WELCOME, ONBOARDING AND LOGIN PAGES ----
@@ -692,7 +692,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
   },*/
-  
+
   toggleContainer: {
     width: CONST.screenWidth - 50,
     height: CONST.heightButton,
@@ -766,8 +766,6 @@ export const styles = StyleSheet.create({
     marginTop: 30,
   },
 
-
-
   editprofileRewards: {
     flexDirection: "row",
     alignItems: "center",
@@ -840,30 +838,6 @@ export const styles = StyleSheet.create({
     textAlign: "center",
   },
 
-  goalBox: {
-      shadowColor: "rgba(0, 0, 0, 0.1)",
-    shadowOpacity: 1,
-    shadowRadius: 10,
-    borderRadius: CONST.normalButtonRadius,
-    marginTop: CONST.boxMargin,
-    marginBottom: CONST.boxMargin + 10, //até aqui é cópia da sombra que a Ju usou no histórico de pausas
-    display: "flex", // a partir de aqui é o estilo da caixa em si
-    flexDirection: "column",
-    backgroundColor: "#FFFFFF",
-    justifyContent: "flex-start",
-    textAlign: "left",
-    padding: CONST.boxPadding,
-  },
-
-  tipBox: {
-    display: "flex",
-    flexDirection: "column",
-    backgroundColor: "#07407B",
-    justifyContent: "flex-start",
-    textAlign: "left",
-    padding: CONST.boxPadding,
-  },
-
   optionsTips: {
     marginBottom: CONST.dividerMargin,
     borderRadius: CONST.normalButtonRadius,
@@ -904,23 +878,23 @@ export const styles = StyleSheet.create({
     marginBottom: CONST.inputMargin,
   },
   pauseBoxTop: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     backgroundColor: CONST.mainBlue,
     padding: CONST.boxPadding,
     borderTopLeftRadius: CONST.normalButtonRadius,
     borderTopRightRadius: CONST.normalButtonRadius,
   },
   pauseBoxBottom: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     padding: CONST.boxPadding,
     paddingTop: 0,
   },
 
   // --- GOALS --- //
 
-   goals: {
+  goals: {
     flex: 1,
     marginBottom: CONST.inputMargin - 10,
     borderTopRightRadius: CONST.normalButtonRadius,
@@ -938,7 +912,7 @@ export const styles = StyleSheet.create({
       width: 0,
       height: 2,
     },
-    shadowColor: 'rgba(0, 0, 0, 0.1)',
+    shadowColor: "rgba(0, 0, 0, 0.1)",
     shadowOpacity: 1,
     shadowRadius: 10,
   },
@@ -948,7 +922,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     marginTop: "auto",
     marginBottom: "auto",
-    alignItems: "center"
+    alignItems: "center",
   },
 
   goalsBoxContent: {
@@ -971,7 +945,6 @@ export const styles = StyleSheet.create({
     color: "#FFF",
     fontSize: 12,
   }, */
-
 
   modalFilter: {
     marginRight: "auto",

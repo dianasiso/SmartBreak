@@ -104,7 +104,7 @@ export default function Tips() {
         showsVerticalScrollIndicator={false}
         style={{ height: "100%", overflow: "scroll" }}
       >
-        <Pressable style={[styles.goalBox, styles.pauseBoxMain]}>
+        <View style={[styles.pauseBoxMain, { padding: 15 }]}>
           <Text
             style={{
               fontFamily: "GothamMedium",
@@ -141,7 +141,7 @@ export default function Tips() {
               <Text style={styles.smallPrimaryButtonText}>Próximo</Text>
             </Pressable>
           </View>
-        </Pressable>
+        </View>
         <Text
           style={{
             fontFamily: "GothamMedium",
