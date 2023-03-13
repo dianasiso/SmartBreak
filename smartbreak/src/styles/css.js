@@ -839,11 +839,11 @@ export const styles = StyleSheet.create({
   },
 
   optionsTips: {
+    marginLeft: CONST.backgroundPaddingLateral,
+    marginRight: CONST.backgroundPaddingLateral,
     marginBottom: CONST.dividerMargin,
     borderRadius: CONST.normalButtonRadius,
     padding: CONST.cardPadding,
-    backgroundColor: CONST.lowPriorityColor,
-    //opacity: 0.5,
   },
 
   numberTips: {
