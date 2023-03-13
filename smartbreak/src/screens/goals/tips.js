@@ -1,6 +1,13 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
-import { Text, View, ScrollView, Dimensions, Pressable } from "react-native";
+import {
+  ImageBackground,
+  Text,
+  View,
+  ScrollView,
+  Dimensions,
+  Pressable,
+} from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import bg from "../../imgs/tips.png";
@@ -97,9 +104,9 @@ export default function Tips() {
 
   return (
     <SafeAreaProvider
-      style={[styles.container, { backgroundColor: "#FFFFFF" }]}
+      style={[styles.mainContainer, { backgroundColor: "#FFFFFF" }]}
     >
-      <StatusBar style="auto" />
+      <StatusBar style="dark" />
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={{ height: "100%", overflow: "scroll" }}
@@ -148,6 +155,7 @@ export default function Tips() {
             fontSize: 20,
             marginBottom: 20,
             marginTop: 20,
+            marginLeft: 25,
           }}
         >
           Dicas
@@ -155,12 +163,12 @@ export default function Tips() {
 
         {tips &&
           tips.map((callbackfn, id) => (
-            <View style={styles.optionsTips} key={id}>
+            <ImageBackground source={bg} style={styles.optionsTips} key={id}>
               <Text style={styles.numberTips}>{id + 1}</Text>
               <Text style={[styles.normalText, { color: "#FFFFFF" }]}>
                 {tips[id]}
               </Text>
-            </View>
+            </ImageBackground>
           ))}
       </ScrollView>
     </SafeAreaProvider>
