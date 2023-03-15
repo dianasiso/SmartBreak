@@ -163,12 +163,14 @@ export default function Tips() {
 
         {tips &&
           tips.map((callbackfn, id) => (
-            <ImageBackground source={bg} style={styles.optionsTips} key={id}>
-              <Text style={styles.numberTips}>{id + 1}</Text>
-              <Text style={[styles.normalText, { color: "#FFFFFF" }]}>
-                {tips[id]}
-              </Text>
-            </ImageBackground>
+            <View>
+              <ImageBackground source={bg} style={styles.optionsTips} key={id}>
+                <Text style={styles.numberTips}>{id + 1}</Text>
+                <Text style={[styles.normalText, { color: "#FFFFFF" }]}>
+                  {tips[id]}
+                </Text>
+              </ImageBackground>
+            </View>
           ))}
       </ScrollView>
     </SafeAreaProvider>

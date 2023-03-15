@@ -842,6 +842,7 @@ export const styles = StyleSheet.create({
     marginLeft: CONST.backgroundPaddingLateral,
     marginRight: CONST.backgroundPaddingLateral,
     marginBottom: CONST.dividerMargin,
+    overflow: "hidden",
     borderRadius: CONST.normalButtonRadius,
     padding: CONST.cardPadding,
   },
@@ -854,7 +855,8 @@ export const styles = StyleSheet.create({
     backgroundColor: "#839FBD",
     borderRadius: CONST.circleRadius,
     color: CONST.whiteText,
-    width: CONST.iconWidth + 10,
+    width: CONST.iconWidth + 15,
+    height: CONST.iconWidth + 15,
   },
 
   // ---- HISTORIC ----
