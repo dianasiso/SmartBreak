@@ -365,13 +365,13 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
   },
 
-  verEquipaButtonContainer: {
+  openTeamButtonContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
   },
 
-  verEquipaButton: {
+  openTeamButton: {
     backgroundColor: CONST.thirdOrange,
     color: CONST.darkerColor,
     borderBottomLeftRadius: 0,
@@ -496,11 +496,13 @@ export const styles = StyleSheet.create({
     position: "absolute",
     marginRight: CONST.cardPadding,
     width: 82.5,
-    height: 168.5,
+    height: 50,
     // width: 90, //máximo 163
-    backgroundColor: "red",
+    backgroundColor: CONST.whiteText,
+    borderTopRightRadius: 0,
+    borderTopLeftRadius: 0,
     borderRadius: 16.5,
-    bottom:0,
+    bottom: 0,
     //position: "absolute",
     //left: CONST.screenWidth / 2 - 112,
     //transform: [{ rotate: "90deg" }],
@@ -512,6 +514,9 @@ export const styles = StyleSheet.create({
     borderRadius: 16,
     position: "absolute",
     left: CONST.screenWidth / 2 - 112,
+  },
+  batteryEmoji: {
+    paddingTop: 110,
   },
   /*
   toggleView: {
@@ -534,18 +539,18 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
   },
 
-  ButtonDashboardView: {
+  buttonDashboardView: {
     marginTop: 60,
     marginBottom: 60,
   },
-  ButtonDashboardContainer: {
+  buttonDashboardContainer: {
     backgroundColor: "#0051BA",
     width: CONST.screenWidth - 50,
     borderRadius: 15,
     alignItems: "center",
     flexDirection: "row",
   },
-  ButtonDashboardText: {
+  buttonDashboardText: {
     color: CONST.whiteText,
     fontSize: 16,
     fontFamily: "GothamMedium",
@@ -559,21 +564,21 @@ export const styles = StyleSheet.create({
     marginRight: 20,
   },
 
-  metricasText: {
+  metricsText: {
     fontSize: 20,
     fontFamily: "GothamMedium",
     marginBottom: 18,
   },
-  metricasElement: {
+  metricsElement: {
     width: CONST.screenWidth - 50,
     //backgroundColor: "#E3ECF7",
     borderRadius: 15,
 
-    marginTop: 20,
+    marginBottom: 20,
     flexDirection: "row",
     alignItems: "center",
   },
-  metricasCircle: {
+  metricsCircle: {
     backgroundColor: CONST.thirdBlue,
     height: CONST.heightButton,
     width: CONST.heightButton,
@@ -582,7 +587,7 @@ export const styles = StyleSheet.create({
     zIndex: 100,
     justifyContent: "center",
   },
-  metricasElementText: {
+  metricsElementText: {
     fontSize: CONST.pageSmallTextSize,
     color: CONST.darkerColor,
     fontFamily: "GothamBook",
