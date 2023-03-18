@@ -596,7 +596,7 @@ export const styles = StyleSheet.create({
     lineHeight: 20,
   },
 
-  membrosView: {
+  membersView: {
     flexDirection: "row",
     alignItems: "center",
     marginTop: 30,
