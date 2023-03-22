@@ -12,13 +12,10 @@ import { styles } from "./../../styles/css.js";
 import * as CONST from "./../../styles/variables.js";
 
 export default function historicoPausas() {
-
-
     return (
         <SafeAreaView
             showsVerticalScrollIndicator={false}
-            style={styles.mainContainerLight}
-        >
+            style={styles.mainContainerLight}>
             <ScrollView>
                 <StatusBar style="dark" />
 
