@@ -849,6 +849,10 @@ export const styles = StyleSheet.create({
     shadowRadius: 10,
   },
 
+  shadowColor: CONST.enableColor,
+    shadowRadius: CONST.shadowRadius,
+    shadowOpacity: 1,
+
   goalsBox: {
     flexDirection: "row",
     flex: 1,
