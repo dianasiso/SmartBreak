@@ -1,7 +1,7 @@
-/*//add storybook
-export { default } from "./.storybook";*/
+//add storybook
+export { default } from "./.storybook";
 
-//import { StyleSheet, Text, View } from "react-native";
+/*//import { StyleSheet, Text, View } from "react-native";
 import AvailableSoon from "./src/errors/availableSoon";
 
 //navegação
