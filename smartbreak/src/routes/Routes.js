@@ -590,7 +590,22 @@ const TabRoutes = (
 
       <Tab.Screen
         name="Stats"
-        component={AvailableSoon}
+        component={Stats}
+        options={{
+          tabBarLabel: "Objetivos",
+          tabBarActiveTintColor: CONST.mainBlue,
+          tabBarIcon: ({ focused, color }) => (
+            <>
+              <View style={{ opacity: focused ? 1 : 0 }}>
+                <RectangleIndicator />
+              </View>
+              <Icon name="stats" color={color} />
+            </>
+          ),
+        }}
+
+
+        /*
         options={{
           tabBarLabel: "Estatísticas",
           tabBarActiveTintColor: "#F5F5F5",
@@ -620,7 +635,7 @@ const TabRoutes = (
             elevation: 0,
             color: "#F5F5F5",
           },
-        }}
+        }} */
       />
 
       <Tab.Screen

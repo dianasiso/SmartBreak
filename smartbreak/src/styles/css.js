@@ -986,4 +986,12 @@ export const styles = StyleSheet.create({
     marginBottom: CONST.boxMargin,
     backgroundColor: CONST.darkerColor,
   },
+
+
+  // ------- STATS ---------- //
+  dropdown: {
+    height: 50,
+    paddingTop: CONST.inputPadding,
+    borderBottomWidth: 1,
+  },
 });
