@@ -6,6 +6,7 @@ export const Primary_btn = ({
   text,
   backgroundColor = "#07407B",
   borderColor = "#07407B",
+  color = "white",
 }) => {
   const style = {
     width: 300,
@@ -17,9 +18,13 @@ export const Primary_btn = ({
     borderColor,
   };
 
+  const textColor = {
+    color,
+  };
+
   return (
     <TouchableOpacity style={style} onPress={onPress} activeOpacity={0.8}>
-      <Text>{text}</Text>
+      <Text style={textColor}>{text}</Text>
     </TouchableOpacity>
   );
 };
