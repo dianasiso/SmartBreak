@@ -994,4 +994,9 @@ export const styles = StyleSheet.create({
     paddingTop: CONST.inputPadding,
     borderBottomWidth: 1,
   },
+
+  chart: {
+    margin: CONST.boxMargin,
+    text: '#000000'
+  }
 });
