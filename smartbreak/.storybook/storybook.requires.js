@@ -52,7 +52,6 @@ try {
 const getStories = () => {
   return {
     "./.storybook/stories/Button/PrimaryButton.stories.js": require("./stories/Button/PrimaryButton.stories.js"),
-    "./.storybook/stories/Button/SecondaryButton.stories.js": require("./stories/Button/SecondaryButton.stories.js"),
     "./.storybook/stories/Button/AddButton.stories.js": require("./stories/Button/AddButton.stories.js"),
     "./.storybook/stories/Button/TipsButton.stories.js": require("./stories/Button/TipsButton.stories.js"),
     "./.storybook/stories/Button/BackButton.stories.js": require("./stories/Button/BackButton.stories.js"),

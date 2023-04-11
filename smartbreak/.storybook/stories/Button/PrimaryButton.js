@@ -7,12 +7,15 @@ export const Primary_btn = ({
   backgroundColor = "#07407B",
   borderColor = "#07407B",
   color = "white",
+  width = 300,
+  paddingVertical = 10,
+  borderRadius = 15,
 }) => {
   const style = {
-    width: 300,
-    paddingVertical: 10,
+    width,
+    paddingVertical,
     backgroundColor,
-    borderRadius: 15,
+    borderRadius,
     alignItems: "center",
     borderWidth: 1,
     borderColor,

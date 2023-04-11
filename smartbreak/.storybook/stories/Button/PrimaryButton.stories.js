@@ -39,22 +39,73 @@ export const Registar1 = {
   },
 };
 
-export const Concluido = {
-  args: {
-    text: "Concluído",
-  },
-};
-
 export const Registar2 = {
   args: {
     text: "Registar",
   },
 };
 
-export const Confirmar = {
+export const Concluido = {
+  args: {
+    text: "Concluído",
+  },
+};
+
+export const ConfirmarPalavraPasse = {
   args: {
     text: "Confirmar palavra-passe",
     backgroundColor: "#FFFFFF",
     color: "#07407B",
+  },
+};
+
+export const SmallProximo = {
+  args: {
+    text: "Proximo",
+    width: 100,
+    paddingVertical: 5,
+    borderRadius: 8,
+  },
+};
+
+export const SmallAdicionar = {
+  args: {
+    text: "Adicionar",
+    width: 100,
+    paddingVertical: 5,
+    borderRadius: 8,
+  },
+};
+
+export const SmallTerminar = {
+  args: {
+    text: "Terminar",
+    width: 100,
+    paddingVertical: 5,
+    borderRadius: 8,
+  },
+};
+
+export const SmallAnterior = {
+  args: {
+    text: "Anterior",
+    width: 100,
+    paddingVertical: 5,
+    borderRadius: 8,
+    backgroundColor: "#FFFFFF",
+    borderColor: "#F57738",
+    color: "#F57738",
+  },
+};
+
+export const SmallCancelar = {
+  args: {
+    text: "Cancelar",
+    width: 100,
+    paddingVertical: 5,
+    borderRadius: 8,
+    backgroundColor: "#FFFFFF",
+    borderColor: "#F57738",
+    color: "#F57738",
   },
 };
