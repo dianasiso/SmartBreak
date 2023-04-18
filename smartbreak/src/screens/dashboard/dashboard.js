@@ -25,6 +25,7 @@ import {
 } from "iconsax-react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
+import { Svg } from "react-native-svg";
 
 //screenOrientation
 import * as ScreenOrientation from "expo-screen-orientation";
@@ -36,10 +37,53 @@ import { styles } from "./../../styles/css.js";
 import * as CONST from "./../../styles/variables.js";
 
 //ondas
-import Wave from "react-wavify";
+//import Wave from "react-wavify";
+/*
+import Animated, {
+  useAnimatedProps,
+  useDerivedValue,
+  Path,
+} from "react-native-reanimated";
+const AnimatedPath = Animated.createAnimatedComponent(Path);
+const AnimatedCircle = Animated.createAnimatedComponent(Path);
+
+const Wave = () => {
+  const data = useDerivedValue(() => {
+    return {
+      from: { x: 0, y: 0 },
+      c1: { x: 0.25, y: 0.5 },
+      c2: { x: 0.75, y: 0.5 },
+      to: { x: 1, y: 1 },
+    };
+  });
+  path = useAnimatedProps(() => {
+    const { from, c1, c2, to } = data.value;
+    return {
+      d: `M${from.x} ${from.y} C ${c1.x} ${c1.y} ${c2.x} ${c2.y} ${to.x} ${to.y} L 1 1 L 0 1 Z`,
+    };
+  });
+  return (
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Svg width={100} height={100} viewBox="0 0 1 1">
+        <AnimatedPath fill="orange" animatedProps={path} />
+        <AnimatedCircle fill="blue" animatedProps={from} />
+        <AnimatedCircle animatedProps={c1} />
+        <AnimatedCircle animatedProps={c2} />
+        <AnimatedCircle fill="red" animatedProps={to} />
+      </Svg>
+    </View>
+  );
+};*/
 
 // Firebase
 import firebase from "./../../config/firebase.js";
+
 const Battery = ({ selected }) => {
   if (pausa === false) {
     return (
