@@ -1,4 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
+import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
@@ -9,16 +9,16 @@ import {
   Dimensions,
 } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Dropdown } from 'react-native-element-dropdown';
+import { Dropdown } from "react-native-element-dropdown";
 
-// CHART 
+// CHART
 import {
   LineChart,
   BarChart,
   PieChart,
   ProgressChart,
   ContributionGraph,
-  StackedBarChart
+  StackedBarChart,
 } from "react-native-chart-kit";
 
 // CSS
@@ -28,14 +28,13 @@ import { styles } from "./../../styles/css.js";
 import * as CONST from "./../../styles/variables.js";
 
 export default function Stats() {
-
   const [selected, setSelected] = useState("personal");
   const dropdown = [
-    { label: 'Esta semana', value: '0' },
-    { label: '15 dias', value: '1' },
-    { label: '1 mês', value: '2' },
-    { label: '6 meses', value: '3' },
-    { label: '1 ano', value: '4' },
+    { label: "Esta semana", value: "0" },
+    { label: "15 dias", value: "1" },
+    { label: "1 mês", value: "2" },
+    { label: "6 meses", value: "3" },
+    { label: "1 ano", value: "4" },
   ];
 
   const [value, setValue] = useState(null);
@@ -51,30 +50,29 @@ export default function Stats() {
     labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
     strokeWidth: 2, // optional, default 3
     barPercentage: 0.5,
-    useShadowColorFromDataset: true // optional
+    useShadowColorFromDataset: true, // optional
   };
 
   const data = {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
     datasets: [
       {
-        data: [20, 45, 28, 80, 99, 43]
-      }
+        data: [20, 45, 28, 80, 99, 43],
+      },
     ],
-    legend: ["Rainy Days"] // optional
+    legend: ["Rainy Days"], // optional
   };
 
   const data1 = {
     data: [0.4, 0.6, 0.8],
-    labels: ["Swim", "Bike", "Run"]
+    labels: ["Swim", "Bike", "Run"],
   };
 
   return (
     <SafeAreaProvider style={styles.mainContainerLight}>
       <StatusBar style="dark" />
 
-      <View
-        style={styles.containerLight}>
+      <View style={styles.containerLight}>
         {/* Toggle */}
         <View
           style={[
@@ -112,7 +110,6 @@ export default function Stats() {
           </Pressable>
         </View>
 
-
         <Dropdown
           data={dropdown}
           style={[styles.dropdown, focus]}
@@ -120,13 +117,13 @@ export default function Stats() {
           selectedTextStyle={styles.selectedTextStyle}
           inputSearchStyle={styles.inputSearchStyle}
           maxHeight={300}
-          labelField='label'
-          valueField='value'
+          labelField="label"
+          valueField="value"
           placeholder={!focus ? dropdown[0].label : value}
           value={value}
           onFocus={() => setFocus(true)}
           onBlur={() => setFocus(false)}
-          onChange={item => {
+          onChange={(item) => {
             setValue(item.value);
             setFocus(false);
           }}
@@ -135,34 +132,36 @@ export default function Stats() {
         {data && (
           <BarChart
             data={data}
-            width={340} //corrigir mas se apagar a width o expo buga. 
+            width={340} //corrigir mas se apagar a width o expo buga.
             height={200}
-            yAxisSuffix={''}
-            yAxisLabel={'$'}
+            yAxisSuffix={""}
+            yAxisLabel={"$"}
             chartConfig={{
-              backgroundGradientFrom: '#ffffff',
-              backgroundGradientTo: '#ffffff',
+              backgroundGradientFrom: "#ffffff",
+              backgroundGradientTo: "#ffffff",
               color: (opacity = 1) => {
-                return selected === "personal" ? CONST.mainBlue : CONST.mainOrange;
-              }
+                return selected === "personal"
+                  ? CONST.mainBlue
+                  : CONST.mainOrange;
+              },
             }}
             withInnerLines={false}
             style={styles.chart}
           />
         )}
 
-        {data && (<LineChart
-          data={data}
-          width={340}
-          height={256}
-          verticalLabelRotation={30}
-          chartConfig={chartConfig}
-          bezier
-          withInnerLines={false}
-          style={styles.chart}
-        />
+        {data && (
+          <LineChart
+            data={data}
+            width={340}
+            height={256}
+            verticalLabelRotation={30}
+            chartConfig={chartConfig}
+            bezier
+            withInnerLines={false}
+            style={styles.chart}
+          />
         )}
-
 
         {/* {data1 && data1 != null ? (
           <ProgressChart
@@ -175,7 +174,6 @@ export default function Stats() {
             hideLegend={false}
           />
         ) : null} */}
-
       </View>
     </SafeAreaProvider>
   );
