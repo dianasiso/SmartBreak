@@ -29,8 +29,36 @@ import { useFonts } from "expo-font";
 
 // CSS
 import { styles } from "./../../styles/css.js";
+//import { Config } from "react-native-config";
+//Config();
+
+//import dotenv from "dotenv";
+//dotenv.config();
+
+//import { API_KEY, API_URL } from "react-native-dotenv"; // import API_KEY from .env file
+
+const API_KEY = process.env.API_KEY;
+const API_URL = process.env.API_URL;
 
 export default function ProfilePage({ navigation, route }) {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch(API_URL, {
+      headers: {
+        "api-key": API_KEY, // use API_KEY from .env file
+      },
+    })
+      .then((response) => response.json())
+      .then((jsonData) => {
+        setData(jsonData);
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
   const userData = useSelector((state) => state.user.userID);
   useEffect(() => {
     firebase
@@ -76,9 +104,14 @@ export default function ProfilePage({ navigation, route }) {
         }
       >
         <View style={styles.profileInfo}>
-          <Image style={styles.profileImage} source={require("../../imgs/img_register_photo_default.png")} />
+          <Image
+            style={styles.profileImage}
+            source={require("../../imgs/img_register_photo_default.png")}
+          />
           <Text style={styles.profileName}>{name}</Text>
-          <Text style={[styles.profileOrganization, {opacity: 0.5}]}>{organization}</Text>
+          <Text style={[styles.profileOrganization, { opacity: 0.5 }]}>
+            {organization}
+          </Text>
         </View>
 
         <Pressable
@@ -118,7 +151,7 @@ export default function ProfilePage({ navigation, route }) {
           <Text style={styles.normalText}> As minhas recompensas</Text>
         </Pressable>
         <Pressable
-          style={[styles.boxOptions, {borderBottomWidth: 0}]}
+          style={[styles.boxOptions, { borderBottomWidth: 0 }]}
           onPress={() => navigation.navigate("ProfileSettings")}
         >
           <Setting2 variant="Bold" style={styles.boxIcon} />
@@ -128,4 +161,3 @@ export default function ProfilePage({ navigation, route }) {
     </SafeAreaProvider>
   );
 }
-
