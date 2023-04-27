@@ -995,8 +995,10 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
 
-  chart: {
-    margin: CONST.boxMargin,
-    text: '#000000'
+  calendar: {
+    borderRadius: CONST.normalButtonRadius,
+    elevation: 4,
+    padding: CONST.inputPadding,
+    margin: CONST.inputMargin,
   }
 });
