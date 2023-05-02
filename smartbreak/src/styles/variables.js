@@ -69,6 +69,7 @@ export const heightButton = 48;
 // ---- BACKGROUND PADDING -----
 export const backgroundPaddingTop = 40;
 export const backgroundPaddingLateral = 25;
+export const viewPaddingBottom = 50;
 export const cardPadding = 25;
 
 // ---- PADDING ----

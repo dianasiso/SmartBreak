@@ -25,7 +25,7 @@ import * as CONST from "./../../styles/variables.js";
 
 
 
-export default function SecurityProfile({ navigation }) {
+export default function Accessibility({ navigation }) {
   // Loading Gotham font
   const [loaded] = useFonts({
     GothamMedium: "./../fonts/GothamMedium.ttf",
@@ -55,8 +55,8 @@ export default function SecurityProfile({ navigation }) {
         <StatusBar style="dark" />
         <Text 
           accessible={true}
-          accessibilityLabel="Texto na cor preta num fundo branco escrito Segurança. É o título da página."
-          style={styles.titleText}>Segurança{"\n"}</Text>
+          accessibilityLabel="Texto na cor preta num fundo branco escrito Acessibilidade. É o título da página."
+          style={styles.titleText}>Acessibilidade{"\n"}</Text>
           <Text 
             accessible={true}
             accessibilityLabel="O utilizador, ao aceitar os Termos e Política de Privacidade,
