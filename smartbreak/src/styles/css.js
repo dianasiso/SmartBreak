@@ -340,7 +340,7 @@ export const styles = StyleSheet.create({
     padding: CONST.modalPadding,
     shadowColor: CONST.darkerColor,
     shadowRadius: CONST.shadowRadius,
-    width: (CONST.screenWidth / 3) * 2,
+    width: CONST.screenWidth / 3 * 2,
     shadowOpacity: 0.5,
     elevation: 10,
     overflow: "hidden",
@@ -896,6 +896,19 @@ export const styles = StyleSheet.create({
 
   // --- GOALS --- //
 
+  modalAlign: {
+    flexDirection: "row",
+    paddingTop: CONST.iconPadding,
+    paddingBottom: CONST.iconPadding + 10,
+  },
+
+  modal: {
+    marginRight: 0,
+    marginLeft: "auto",
+    padding: CONST.boxMargin,
+    borderRadius: CONST.smallButtonRadius,
+  },
+
   goals: {
     flex: 1,
     marginBottom: CONST.inputMargin - 10,
@@ -918,6 +931,10 @@ export const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 10,
   },
+
+  shadowColor: CONST.enableColor,
+    shadowRadius: CONST.shadowRadius,
+    shadowOpacity: 1,
 
   goalsBox: {
     flexDirection: "row",

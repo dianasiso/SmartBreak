@@ -1,8 +1,19 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
-import {TextInput, Text, View, ScrollView, Image, Alert, Pressable } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  TextInput,
+  Text,
+  View,
+  ScrollView,
+  Image,
+  Alert,
+  Pressable,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+
+//API
+import { fetchData } from "../../config/api.js";
 
 //redux
 import { useDispatch } from "react-redux";
@@ -15,16 +26,20 @@ import { useFonts } from "expo-font";
 import firebase from "./../../config/firebase.js";
 import { collection, where, query, getDocs } from "firebase/firestore";
 
-
-
 //secure store para guardar a sessao
 import * as SecureStore from "expo-secure-store";
 
 // STYLES -- CSS
 import { styles } from "./../../styles/css.js";
 
-
 export default function Login() {
+  useEffect(() => {
+    console.log("useEffect");
+    fetchData("/users")
+      .then((data) => console.log(data))
+      .catch((error) => console.error(error));
+  }, []);
+
   const navigation = useNavigation();
   const dispatch = useDispatch();
   //const userData = useSelector((state) => state.userID);
@@ -38,7 +53,6 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState("");
-
 
   const submit = async () => {
     const user = query(
@@ -110,24 +124,30 @@ export default function Login() {
   return (
     <SafeAreaProvider style={styles.container}>
       <StatusBar style="light" />
-        <Text 
+      <Text
+        accessible={true}
+        accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Login!"
+        style={styles.titleTextWhite}
+      >
+        Login
+      </Text>
+      <Text
+        accessible={true}
+        accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Estamos contentes por continuares a melhorar o teu local de trabalho."
+        style={styles.normalTextWhite}
+      >
+        Estamos contentes por continuares a melhorar o teu local de trabalho.
+      </Text>
+      <View style={styles.imageLogo}>
+        <Image
           accessible={true}
-          accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Login!"
-          style={styles.titleTextWhite}>Login</Text>
-        <Text
-          accessible={true}
-          accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Estamos contentes por continuares a melhorar o teu local de trabalho."
-          style={styles.normalTextWhite}>Estamos contentes por continuares a melhorar o teu local de trabalho.</Text>
-        <View style={styles.imageLogo}>
-          <Image
-            accessible={true}
-            accessibilityLabel="Imagem com três pessoas num fundo azul escuro. A primeira está virada para o lado direito e veste um casaco verde, a
+          accessibilityLabel="Imagem com três pessoas num fundo azul escuro. A primeira está virada para o lado direito e veste um casaco verde, a
             segunda está sentada à frente com um casaco laranja e também virada para o lado direito e a terceira está do lado direito, virada para o lado
-            esquerdo e com um casaco vermelho." 
-            style={{ width: 300, height: 200 }}
-            source={require("./../../imgs/img_login.png")}
-            />
-        </View>
+            esquerdo e com um casaco vermelho."
+          style={{ width: 300, height: 200 }}
+          source={require("./../../imgs/img_login.png")}
+        />
+      </View>
 
       <ScrollView style={styles.subContainer}>
         {loading == true ? (
@@ -137,34 +157,46 @@ export default function Login() {
             <ScrollView>
               <Text
                 accessible={true}
-                accessibilityLabel="Texto na cor preta num fundo branco escrito E-mail." 
-                style={styles.inputLabel}>E-mail</Text>
+                accessibilityLabel="Texto na cor preta num fundo branco escrito E-mail."
+                style={styles.inputLabel}
+              >
+                E-mail
+              </Text>
               <TextInput
                 accessible={true}
-                accessibilityLabel="Campo para introdução do E-mail." 
+                accessibilityLabel="Campo para introdução do E-mail."
                 style={styles.inputField}
                 onChangeText={(text) => setEmail(text.toLowerCase())}
               />
-              <Text accessible={true}
-                accessibilityLabel="Texto na cor preta num fundo branco escrito Palavra-passe." 
-                style={styles.inputLabel}>Palavra-passe</Text>
+              <Text
+                accessible={true}
+                accessibilityLabel="Texto na cor preta num fundo branco escrito Palavra-passe."
+                style={styles.inputLabel}
+              >
+                Palavra-passe
+              </Text>
               <TextInput
                 secureTextEntry={true}
                 style={styles.inputField}
                 accessible={true}
-                accessibilityLabel="Campo para introdução da Palavra-passe." 
+                accessibilityLabel="Campo para introdução da Palavra-passe."
                 onChangeText={(text) => setPassword(text)}
               />
-              <Pressable 
+              <Pressable
                 accessible={true}
-                accessibilityLabel="Texto na cor cinza num fundo branco escrito Esqueceu.se da palavra-passe?." 
-                onPress={() => navigation.navigate("Password")}>
-                <Text style={styles.forgotPasswordText}>Esqueceu-se da palavra-passe?</Text>
+                accessibilityLabel="Texto na cor cinza num fundo branco escrito Esqueceu.se da palavra-passe?."
+                onPress={() => navigation.navigate("Password")}
+              >
+                <Text style={styles.forgotPasswordText}>
+                  Esqueceu-se da palavra-passe?
+                </Text>
               </Pressable>
-              <Pressable 
+              <Pressable
                 accessible={true}
                 accessibilityLabel="Botão da cor azul escura num fundo branco com o objetivo de efetuar o Login. Tem escrito na cor branca a palavra Entrar."
-                onPress={() => submit()} style={styles.primaryButton}>
+                onPress={() => submit()}
+                style={styles.primaryButton}
+              >
                 <Text style={styles.primaryButtonText}>Entrar</Text>
               </Pressable>
             </ScrollView>
@@ -174,4 +206,3 @@ export default function Login() {
     </SafeAreaProvider>
   );
 }
-
