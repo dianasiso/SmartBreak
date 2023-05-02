@@ -57,51 +57,6 @@ export default function Accessibility({ navigation }) {
       <ScrollView>
         <StatusBar style="auto" />
         <Text style={styles.titleText}>Acessibilidade {"\n"}</Text>
-        <View style={styles.boxOptions}>
-          <Text style={styles.normalText}>Mão esquerda</Text>
-          <Switch
-            style={{ marginLeft: "auto", marginRight: CONST.iconPadding }}
-            trackColor={{
-              false: CONST.switchOffColor,
-              true: CONST.switchOnColor,
-            }}
-            thumbColor={
-              notificationsArray[0]
-                ? CONST.switchIndicatorColor
-                : CONST.mainBlue
-            }
-            value={notificationsArray[0]}
-            onValueChange={() => {
-              if (notificationsArray[0]) {
-                firebase
-                  .firestore()
-                  .collection("users_data")
-                  .doc(uid)
-                  .update({
-                    notifications: [false, true, true, true],
-                  });
-                setNotificationsArray([false, true, true, true]);
-              } else {
-                firebase
-                  .firestore()
-                  .collection("users_data")
-                  .doc(uid)
-                  .update({
-                    notifications: [true, false, false, false],
-                  });
-                setNotificationsArray([true, false, false, false]);
-              }
-              // firebase.firestore().collection('users_data').doc(uid).update({
-              //   notifications : notificationsArray
-              // })
-              ToastAndroid.show(
-                "Alterações efetuadas com sucesso!",
-                ToastAndroid.SHORT
-              );
-              forceUpdate();
-            }}
-          />
-        </View>
 
         <View style={styles.boxOptions}>
           <Text style={styles.normalText}>Alto contraste</Text>
