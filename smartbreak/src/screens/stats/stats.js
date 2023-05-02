@@ -33,23 +33,13 @@ import * as CONST from "./../../styles/variables.js";
 
 export default function Stats() {
   const [selected, setSelected] = useState("personal");
-  const [date, setDate] = useState([]);
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndStartDate] = useState("");
-
-  useEffect(() => {
-    console.log(date);
-  }, [date]);
 
   const dropdown = [
-    { label: "Esta semana", value: "0" },
-    { label: "15 dias", value: "1" },
-    { label: "1 mês", value: "2" },
-    { label: "6 meses", value: "3" },
-    { label: "1 ano", value: "4" },
+    { label: "Hoje", value: "0" },
+    { label: "Esta semana", value: "1" },
+    { label: "Este mês", value: "2" },
   ];
 
-  const [modalVisible, setModalVisible] = useState(false);
 
   const [value, setValue] = useState(null);
   const [focus, setFocus] = useState(false);
@@ -123,7 +113,7 @@ export default function Stats() {
           </Pressable>
         </View>
 
-        <Pressable
+        {/*<Pressable
           onPress={() => {
             setModalVisible(true);
           }}>
@@ -145,7 +135,7 @@ export default function Stats() {
               [date[1]]: {endingDay: true, marked: true, color: CONST.mainBlue}
             }}
           />
-        </Modal>
+          </Modal> */}
 
 
 
