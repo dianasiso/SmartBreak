@@ -1,5 +1,5 @@
-/*//add storybook
-export { default } from "./.storybook";*/
+//add storybook (descomentar e comentar o resto se for para ver o storybook)
+//export { default } from "./.storybook";
 
 //import { StyleSheet, Text, View } from "react-native";
 import AvailableSoon from "./src/errors/availableSoon";
@@ -60,4 +60,4 @@ export default function App() {
 //     alignItems: 'center',
 //     justifyContent: 'center',
 //   },
-// });*/
+// });

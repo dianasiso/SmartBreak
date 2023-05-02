@@ -43,6 +43,7 @@ import SecurityProfile from "../screens/profile/secutiryprofile";
 import TermsofUseProfile from "../screens/profile/termsofuseprofile";
 import HelpCenterProfile from "../screens/profile/helpcenterprofile";
 import historicoPausas from "../screens/profile/historicoPausas";
+import Accessibility from "../screens/profile/accessibility.js";
 
 //autenticação
 import SplashScreen from "../screens/authentication/splashscreen";
@@ -389,6 +390,24 @@ const ProfileStackNavigation = ({ navigation }) => {
       <ProfileStack.Screen
         name="NotificationsProfile"
         component={NotificationsProfile}
+        options={{
+          headerShown: true,
+          headerTitle: "",
+          headerShadowVisible: false,
+          headerLeft: () => (
+            <View style={styles.returnTopButton}>
+              <ArrowLeft2
+                size="24"
+                color="#333333"
+                onPress={() => navigation.navigate("ProfileSettings")}
+              />
+            </View>
+          ),
+        }}
+      />
+      <ProfileStack.Screen
+        name="Accessibility"
+        component={Accessibility}
         options={{
           headerShown: true,
           headerTitle: "",
