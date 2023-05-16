@@ -99,8 +99,11 @@ export default function ProfileSettings({ navigation }) {
       style={styles.containerLight}
     >
       <ScrollView>
-        <StatusBar style="auto" />
-        <Text style={[styles.titleText, {paddingBottom: CONST.backgroundPaddingLateral}]}>Definições</Text>
+        <StatusBar style="dark" />
+        <Text 
+          accessible={true}
+          accessibilityLabel="Texto na cor preta num fundo branco escrito Definições. É o título da página."
+          style={styles.titleText}>Definições{"\n"}</Text>
 
         <Pressable
           accessible={true}
@@ -132,7 +135,7 @@ export default function ProfileSettings({ navigation }) {
           accessible={true}
           accessibilityLabel="Botão transparente com texto na preta num fundo branco escrito Acessibilidade. É acompanhado por um icon da letra A."
          style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
-          onPress={() => navigation.navigate("HelpCenterProfile")}>
+          onPress={() => navigation.navigate("Accessibility")}>
           <Autobrightness variant="Bold" style={styles.boxIcon} />
           <Text style={styles.normalText}> Acessibilidade</Text>
         </Pressable>

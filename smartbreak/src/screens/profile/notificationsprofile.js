@@ -53,14 +53,22 @@ export default function NotificationsProfile({ navigation }) {
       style={styles.containerLight}
     >
       <ScrollView>
-        <StatusBar style="auto" />
-        <Text style={styles.titleText}>Notificações {"\n"}</Text>
+        <StatusBar style="dark" />
+        <Text 
+          accessible={true}
+          accessibilityLabel="Texto na cor preta num fundo branco escrito Notificações. É o título da página."
+          style={styles.titleText}>Notificações {"\n"}</Text>
           <View style={styles.boxOptions}>
-              <Text style={styles.normalText}>Supender tudo</Text>
+              <Text 
+                accessible={true}
+                accessibilityLabel="Texto na cor preta num fundo branco escrito Suspender tudo. Possui um switch à frente para ativar ou desativar a opção."
+                style={styles.normalText}>Supender tudo</Text>
               <Switch
-               style={{ marginLeft: "auto", marginRight: CONST.iconPadding }}
-               trackColor={{ false: CONST.switchOffColor, true: CONST.switchOnColor }}
-               thumbColor={notificationsArray[0] ?  CONST.switchIndicatorColor : CONST.mainBlue}
+                accessible={true}
+                accessibilityLabel={notificationsArray[0] ?  "Ativado" : "Desativado"}
+                style={{ marginLeft: "auto", marginRight: CONST.iconPadding }}
+                trackColor={{ false: CONST.switchOffColor, true: CONST.switchOnColor }}
+                thumbColor={notificationsArray[0] ?  CONST.switchIndicatorColor : CONST.mainBlue}
                 value={notificationsArray[0]}
                 onValueChange={(() => {
                   if (notificationsArray[0]) {
@@ -84,8 +92,13 @@ export default function NotificationsProfile({ navigation }) {
           </View>
 
           <View style={styles.boxOptions}>
-              <Text style={styles.normalText}>Recomendações de pausas</Text>
+              <Text 
+                accessible={true}
+                accessibilityLabel="Texto na cor preta num fundo branco escrito Recomendações de pausas. Possui um switch à frente para ativar ou desativar a opção."
+                style={styles.normalText}>Recomendações de pausas</Text>
               <Switch
+                accessible={true}
+                accessibilityLabel={notificationsArray[1] ?  "Ativado" : "Desativado"}
                 style={{ marginLeft: "auto", marginRight: CONST.iconPadding }}
                 trackColor={{ false: CONST.switchOffColor, true: CONST.switchOnColor }}
                 thumbColor={notificationsArray[1] ?  CONST.switchIndicatorColor : CONST.mainBlue}
@@ -112,8 +125,13 @@ export default function NotificationsProfile({ navigation }) {
           </View>
 
           <View style={styles.boxOptions}>
-              <Text style={styles.normalText}>Dicas diárias</Text>
+              <Text 
+                accessible={true}
+                accessibilityLabel="Texto na cor preta num fundo branco escrito Dicas diárias. Possui um switch à frente para ativar ou desativar a opção."
+                style={styles.normalText}>Dicas diárias</Text>
               <Switch
+                accessible={true}
+                accessibilityLabel={notificationsArray[2] ?  "Ativado" : "Desativado"}
                 style={{ marginLeft: "auto", marginRight: CONST.iconPadding }}
                 trackColor={{ false: CONST.switchOffColor, true: CONST.switchOnColor }}
                 thumbColor={notificationsArray[2] ?  CONST.switchIndicatorColor : CONST.mainBlue}
@@ -140,8 +158,13 @@ export default function NotificationsProfile({ navigation }) {
           </View>
 
           <View style={styles.boxOptions}>
-              <Text style={styles.normalText}>Novos objetivos</Text>
+              <Text 
+                accessible={true}
+                accessibilityLabel="Texto na cor preta num fundo branco escrito Novos objetivos. Possui um switch à frente para ativar ou desativar a opção."
+                style={styles.normalText}>Novos objetivos</Text>
               <Switch
+                accessible={true}
+                accessibilityLabel={notificationsArray[3] ?  "Ativado" : "Desativado"}
                 style={{ marginLeft: "auto", marginRight: CONST.iconPadding }}
                 trackColor={{ false: CONST.switchOffColor, true: CONST.switchOnColor }}
                 thumbColor={notificationsArray[3] ?  CONST.switchIndicatorColor : CONST.mainBlue}
@@ -170,50 +193,3 @@ export default function NotificationsProfile({ navigation }) {
     </SafeAreaProvider>
   );
 }
-
-// const screenWidth = Dimensions.get('window').width;
-// const screenHeight = Dimensions.get('window').height;
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#fff",
-//     paddingLeft: 25,
-//     paddingRight: 25,
-//     paddingBottom: 90,
-//   },
-
-//   options: {
-//     flex: 1,
-//     marginTop: 20,
-//     marginBottom: 10,
-//     borderRadius: 15,
-//     paddingTop: 15,
-//     paddingBottom: 15,
-//     paddingLeft: 25,
-//     width: screenWidth - 50, 
-//     flexDirection: "row",
-//     alignItems: "center",
-//     textAlign: 'left',
-//     backgroundColor: "#E3ECF7",
-//   },
-//   rewards: {
-//     flexDirection: "row",
-//     alignItems: "center",
-//     justifyContent: "space-between",
-//     marginTop: 30,
-//   },
-
-//   title: {
-//     fontFamily: "GothamMedium",
-//     fontSize: 24,
-//     marginTop: 30,
-//   },
-
-//   text: {
-//     fontFamily: "GothamBook",
-//     fontSize: 16,
-//     marginLeft: 15,
-//     lineHeight: 24,
-//   },
-// });

@@ -25,7 +25,7 @@ import * as CONST from "./../../styles/variables.js";
 
 
 
-export default function NotificationsProfile({ navigation }) {
+export default function SecurityProfile({ navigation }) {
   // Loading Gotham font
   const [loaded] = useFonts({
     GothamMedium: "./../fonts/GothamMedium.ttf",
@@ -53,9 +53,22 @@ export default function NotificationsProfile({ navigation }) {
     >
       <ScrollView>
         <StatusBar style="dark" />
-        <Text style={styles.titleText}>Segurança</Text>
-          <Text style={styles.normalText}>
-          {"\n"}O utilizador, ao aceitar os Termos e Política de Privacidade,
+        <Text 
+          accessible={true}
+          accessibilityLabel="Texto na cor preta num fundo branco escrito Segurança. É o título da página."
+          style={styles.titleText}>Segurança{"\n"}</Text>
+          <Text 
+            accessible={true}
+            accessibilityLabel="O utilizador, ao aceitar os Termos e Política de Privacidade,
+            autoriza expressamente a aplicação a coletar, usar, armazenar,
+            tratar, ceder ou utilizar as informações derivadas do uso da
+            aplicação, incluindo todas as informações preenchidas pelo
+            utilizador no momento em que realizar ou atualizar o seu cadastro,
+            além de outras expressamente descritas na Política de Privacidade
+            que deverá ser autorizada pelo utilizador."
+            
+            style={styles.normalText}>
+            O utilizador, ao aceitar os Termos e Política de Privacidade,
             autoriza expressamente a aplicação a coletar, usar, armazenar,
             tratar, ceder ou utilizar as informações derivadas do uso da
             aplicação, incluindo todas as informações preenchidas pelo
@@ -66,8 +79,11 @@ export default function NotificationsProfile({ navigation }) {
             {"\n"}
           </Text>
         
-          <View style={styles.boxOptions}>
-            <Text style={styles.normalText}>Partilha de dados</Text>
+          <View style={[styles.boxOptions, {borderBottomWidth: 0, borderTopWidth: 1, borderTopColor: CONST.dividerColor}]}>
+            <Text 
+              accessible={true}
+              accessibilityLabel="Texto na cor preta num fundo branco escrito Partilha de dados. Possui um switch à frente para ativar ou desativar a opção."
+              style={styles.normalText}>Partilha de dados</Text>
             <Switch
               style={{ marginLeft: "auto", marginRight: CONST.iconPadding }}
               trackColor={{ false: CONST.switchOffColor, true: CONST.switchOnColor }}
