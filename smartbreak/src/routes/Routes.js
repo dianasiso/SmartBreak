@@ -43,7 +43,11 @@ import SecurityProfile from "../screens/profile/secutiryprofile";
 import TermsofUseProfile from "../screens/profile/termsofuseprofile";
 import HelpCenterProfile from "../screens/profile/helpcenterprofile";
 import historicoPausas from "../screens/profile/historicoPausas";
+<<<<<<< HEAD
 import Accessibility from "../screens/profile/accessibility";
+=======
+import Accessibility from "../screens/profile/accessibility.js";
+>>>>>>> 7449097a7a451eb92877b26f4e80a9562daac6e3
 
 //autenticação
 import SplashScreen from "../screens/authentication/splashscreen";

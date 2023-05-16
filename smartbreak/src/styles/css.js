@@ -932,6 +932,10 @@ export const styles = StyleSheet.create({
     shadowRadius: 10,
   },
 
+  shadowColor: CONST.enableColor,
+    shadowRadius: CONST.shadowRadius,
+    shadowOpacity: 1,
+
   goalsBox: {
     flexDirection: "row",
     flex: 1,
@@ -995,8 +999,10 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
 
-  chart: {
-    margin: CONST.boxMargin,
-    text: '#000000'
+  calendar: {
+    borderRadius: CONST.normalButtonRadius,
+    elevation: 4,
+    padding: CONST.inputPadding,
+    margin: CONST.inputMargin,
   }
 });

@@ -18,6 +18,9 @@ import {
   Setting2,
 } from "iconsax-react-native";
 
+// API
+import { fetchData } from "../../config/api.js";
+
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
@@ -49,6 +52,13 @@ export default function ProfilePage({ navigation, route }) {
         setOrganization(getOrganization);
       });
   }, [route.params?.updatedUserData, userData]);
+
+  useEffect(() => {
+    console.log("useEffect");
+    fetchData("/users")
+      .then((data) => console.log(data))
+      .catch((error) => console.error(error));
+  }, []);
 
   // Loading Gotham font
   const [loaded] = useFonts({
