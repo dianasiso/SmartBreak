@@ -43,6 +43,7 @@ import SecurityProfile from "../screens/profile/secutiryprofile";
 import TermsofUseProfile from "../screens/profile/termsofuseprofile";
 import HelpCenterProfile from "../screens/profile/helpcenterprofile";
 import historicoPausas from "../screens/profile/historicoPausas";
+import Accessibility from "../screens/profile/accessibility";
 
 //autenticação
 import SplashScreen from "../screens/authentication/splashscreen";
@@ -262,6 +263,8 @@ const GoalsStackNavigation = ({ navigation }) => {
 };
 
 //navegação stack no perfil
+
+//navegação stack no perfil
 const ProfileStackNavigation = ({ navigation }) => {
   return (
     <ProfileStack.Navigator
@@ -389,6 +392,24 @@ const ProfileStackNavigation = ({ navigation }) => {
       <ProfileStack.Screen
         name="NotificationsProfile"
         component={NotificationsProfile}
+        options={{
+          headerShown: true,
+          headerTitle: "",
+          headerShadowVisible: false,
+          headerLeft: () => (
+            <View style={styles.returnTopButton}>
+              <ArrowLeft2
+                size="24"
+                color="#333333"
+                onPress={() => navigation.navigate("ProfileSettings")}
+              />
+            </View>
+          ),
+        }}
+      />
+      <ProfileStack.Screen
+        name="Accessibility"
+        component={Accessibility}
         options={{
           headerShown: true,
           headerTitle: "",
@@ -592,7 +613,7 @@ const TabRoutes = (
         name="Stats"
         component={Stats}
         options={{
-          tabBarLabel: "Objetivos",
+          tabBarLabel: "Relatórios",
           tabBarActiveTintColor: CONST.mainBlue,
           tabBarIcon: ({ focused, color }) => (
             <>
@@ -603,7 +624,6 @@ const TabRoutes = (
             </>
           ),
         }}
-
 
         /*
         options={{

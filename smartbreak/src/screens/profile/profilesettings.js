@@ -100,12 +100,22 @@ export default function ProfileSettings({ navigation }) {
     >
       <ScrollView>
         <StatusBar style="auto" />
-        <Text style={[styles.titleText, {paddingBottom: CONST.backgroundPaddingLateral}]}>Definições</Text>
+        <Text
+          style={[
+            styles.titleText,
+            { paddingBottom: CONST.backgroundPaddingLateral },
+          ]}
+        >
+          Definições
+        </Text>
 
         <Pressable
           accessible={true}
           accessibilityLabel="Botão transparente com texto na preta num fundo branco escrito Alterar palavra-passe. É acompanhado por um icon de cadeado trancado."
-          style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
+          style={[
+            styles.boxOptions,
+            { paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding },
+          ]}
           onPress={() => navigation.navigate("EditPassword")}
         >
           <Lock1 variant="Bold" style={styles.boxIcon} />
@@ -114,7 +124,10 @@ export default function ProfileSettings({ navigation }) {
         <Pressable
           accessible={true}
           accessibilityLabel="Botão transparente com texto na preta num fundo branco escrito Notificações. É acompanhado por um icon de sino."
-          style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
+          style={[
+            styles.boxOptions,
+            { paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding },
+          ]}
           onPress={() => navigation.navigate("NotificationsProfile")}
         >
           <Notification variant="Bold" style={styles.boxIcon} />
@@ -123,55 +136,81 @@ export default function ProfileSettings({ navigation }) {
         <Pressable
           accessible={true}
           accessibilityLabel="Botão transparente com texto na preta num fundo branco escrito Segurança. É acompanhado por um icon de escudo com uma pessoa estampada."
-         style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
-          onPress={() => navigation.navigate("SecurityProfile")}>
+          style={[
+            styles.boxOptions,
+            { paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding },
+          ]}
+          onPress={() => navigation.navigate("SecurityProfile")}
+        >
           <SecurityUser variant="Bold" style={styles.boxIcon} />
           <Text style={styles.normalText}> Segurança</Text>
         </Pressable>
         <Pressable
           accessible={true}
           accessibilityLabel="Botão transparente com texto na preta num fundo branco escrito Acessibilidade. É acompanhado por um icon da letra A."
-         style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
-          onPress={() => navigation.navigate("HelpCenterProfile")}>
+          style={[
+            styles.boxOptions,
+            { paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding },
+          ]}
+          onPress={() => navigation.navigate("Accessibility")}
+        >
           <Autobrightness variant="Bold" style={styles.boxIcon} />
           <Text style={styles.normalText}> Acessibilidade</Text>
         </Pressable>
         <Pressable
           accessible={true}
           accessibilityLabel="Botão transparente com texto na preta num fundo branco escrito Termos de utilização. É acompanhado por um icon de folha de bloco de notas."
-          style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
-          onPress={() => navigation.navigate("TermsofUseProfile")}>
+          style={[
+            styles.boxOptions,
+            { paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding },
+          ]}
+          onPress={() => navigation.navigate("TermsofUseProfile")}
+        >
           <DocumentText1 variant="Bold" style={styles.boxIcon} />
           <Text style={styles.normalText}> Termos de utilização</Text>
         </Pressable>
         <Pressable
           accessible={true}
           accessibilityLabel="Botão transparente com texto na preta num fundo branco escrito Centro de Ajuda. É acompanhado por um icon de ponto de interrogação."
-          style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
-          onPress={() => navigation.navigate("HelpCenterProfile")}>
+          style={[
+            styles.boxOptions,
+            { paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding },
+          ]}
+          onPress={() => navigation.navigate("HelpCenterProfile")}
+        >
           <MessageQuestion variant="Bold" style={styles.boxIcon} />
           <Text style={styles.normalText}> Centro de ajuda</Text>
         </Pressable>
-        <Pressable 
+        <Pressable
           accessible={true}
           accessibilityLabel="Botão transparente com texto na preta num fundo branco escrito Aapgar conta. É acompanhado por um icon de caixote de lixo."
-          style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
-          onPress={apagarconta}>
-          <Trash
-            variant="Bold"
-            style={styles.boxIcon}
-            onPress={apagarconta}/>
+          style={[
+            styles.boxOptions,
+            { paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding },
+          ]}
+          onPress={apagarconta}
+        >
+          <Trash variant="Bold" style={styles.boxIcon} onPress={apagarconta} />
           <Text style={styles.normalText}> Apagar conta</Text>
         </Pressable>
-        <Pressable 
+        <Pressable
           accessible={true}
           accessibilityLabel="Botão transparente com texto na preta num fundo branco escrito Terminar sessão. É acompanhado por um icon de porta com indicação de saída."
-          style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding, borderBottomWidth: 0}]}
-          onPress={terminarsessao}>
+          style={[
+            styles.boxOptions,
+            {
+              paddingTop: CONST.textPadding,
+              paddingBottom: CONST.textPadding,
+              borderBottomWidth: 0,
+            },
+          ]}
+          onPress={terminarsessao}
+        >
           <Logout
             variant="Bold"
             style={styles.boxIcon}
-            onPress={terminarsessao}/>
+            onPress={terminarsessao}
+          />
           <Text style={styles.normalText}> Terminar sessão</Text>
         </Pressable>
       </ScrollView>
