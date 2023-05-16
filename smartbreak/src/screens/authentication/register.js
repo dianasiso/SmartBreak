@@ -18,10 +18,6 @@ import PassMeter from "react-native-passmeter";
 // Font Gotham
 import { useFonts } from "expo-font";
 
-// Firebase
-import firebase from "./../../config/firebase.js";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-
 import { useNavigation } from "@react-navigation/native";
 
 //redux
@@ -34,9 +30,9 @@ import * as CONST from "./../../styles/variables.js";
 // CSS
 import { styles } from "./../../styles/css.js";
 
-
 // ---------- CODE ----------
 
+const apiURL = "https://sb-api.herokuapp.com/auth/register";
 
 export default function Register() {
   const navigation = useNavigation();
@@ -57,11 +53,12 @@ export default function Register() {
 
   // fields
   const [name, setName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [department, setDepartment] = useState("");
   const [notifications, setNotifications] = useState([
     true,
     false,
@@ -69,57 +66,13 @@ export default function Register() {
     false,
   ]);
 
-  // Firebase store data
-  const firestoreUserData = firebase.firestore().collection("users_data");
-  const firestoreUserDevices = firebase.firestore().collection("users_devices");
-  const firestoreUserRoutines = firebase
-    .firestore()
-    .collection("users_routines");
-
-  // Firebase authentication
-  const auth = getAuth();
-  const registerFirebase = () => {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        firestoreUserData.doc(userCredential.user.uid).set({
-          name: name,
-          lastName: lastName,
-          email: email.trim().toLowerCase(),
-          password: password.trim(),
-          organization: valueOrg,
-          uid: userCredential.user.uid,
-          rewards: false,
-          notifications: notifications,
-          shareData: true,
-          pause: false,
-          battery: 0,
-          teams: [],
-          admin: false,
-        });
-        firestoreUserRoutines.doc(userCredential.user.uid).set({
-          routines: [],
-        });
-        firestoreUserDevices.doc(userCredential.user.uid).set({
-          devices: [],
-        });
-
-        dispatch(logUser(userCredential.user.uid));
-        Alert.alert("Sucesso", "Utilizador registado com sucesso.");
-        // navigate.navigate("Painel", {idUser: userCredential.user.uid})
-      })
-      .catch((error) => {
-        Alert.alert("Erro", "O e-mail já está em uso.");
-        setLoading(false);
-      });
-  };
-
   const loadingScreen = () => {
     return (
       <Image
         source={require("./../../imgs/img_loading_v2.gif")}
         style={{
-          height: screenWidth / 3.4,
-          width: screenWidth / 4,
+          height: CONST.screenWidth / 3.4,
+          width: CONST.screenWidth / 4,
           marginLeft: "auto",
           marginRight: "auto",
           marginTop: "auto",
@@ -129,6 +82,50 @@ export default function Register() {
     );
   };
 
+  const handleRegister = async () => {
+    try {
+      const response = await fetch(
+        "https://sb-api.herokuapp.com/auth/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: name,
+            surname: surname,
+            email: email,
+            password: password,
+            admin: false,
+            department: "DECA" //TODO: TO CHANGE
+          }),
+        }
+      );
+
+      let res = JSON.stringify({
+        name: name,
+        surname: surname,
+        email: email,
+        password: password,
+        admin: false,
+        department: "DECA"
+      });
+
+      console.log(res + "TÁ AQUI");
+
+      if (response.ok) {
+        // registo com sucesso
+        Alert.alert("Registration successful");
+        // --->  redireccionar para outra pagina
+      } else {
+        const errorData = await response.json();
+        Alert.alert("Registration failed", errorData.message);
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Error", "An error occurred during registration");
+    }
+  };
 
   const validate_email = (text) => {
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -153,17 +150,17 @@ export default function Register() {
   const submit = () => {
     setLoading(true);
 
-    if (email.length == 0 || validate_email(email.trim()) == false) {
+    if (email.trim().length === 0 || validate_email(email.trim()) === false) {
       Alert.alert("Preencha corretamente o campo E-mail");
       setLoading(false);
       return false;
     }
-    if (name.length == 0) {
+    if (name.trim().length === 0) {
       Alert.alert("Preencha corretamente o campo Nome");
       setLoading(false);
       return false;
     }
-    if (lastName.length == 0) {
+    if (surname.trim().length === 0) {
       Alert.alert("Preencha corretamente o campo Apelido");
       setLoading(false);
       return false;
@@ -173,12 +170,12 @@ export default function Register() {
       setLoading(false);
       return false;
     }
-    if (password.length == 0) {
+    if (password.length === 0) {
       Alert.alert("Preencha corretamente o campo Palavra-passe");
       setLoading(false);
       return false;
     }
-    if (confirmPassword.length == 0) {
+    if (confirmPassword.length === 0) {
       Alert.alert("Preencha corretamente o campo Confirmar palavra-passe");
       setLoading(false);
       return false;
@@ -187,65 +184,88 @@ export default function Register() {
       setLoading(false);
       return false;
     }
-    registerFirebase();
+    handleRegister();
     navigation.navigate("Login");
   };
 
   return (
     <SafeAreaProvider style={styles.container}>
       <StatusBar style="light" />
-      <ScrollView >
-      <Text 
-        accessible={true}
-        accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Regista-te."
-        style={styles.titleTextWhite}>Regista-te</Text> 
-      <Text 
-        accessible={true}
-        accessibilityLabel="Texto na cor branca num fundo azul escuro escrito  Estamos contentes por teres tomado esta iniciativa. Vem fazer energy breaks."
-        style={styles.normalTextWhite}>Estamos contentes por teres tomado esta iniciativa. Vem fazer energy breaks.</Text>
+      <ScrollView>
+        <Text
+          accessible={true}
+          accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Regista-te."
+          style={styles.titleTextWhite}
+        >
+          Regista-te
+        </Text>
+        <Text
+          accessible={true}
+          accessibilityLabel="Texto na cor branca num fundo azul escuro escrito  Estamos contentes por teres tomado esta iniciativa. Vem fazer energy breaks."
+          style={styles.normalTextWhite}
+        >
+          Estamos contentes por teres tomado esta iniciativa. Vem fazer energy
+          breaks.
+        </Text>
       </ScrollView>
 
       {loading == true ? (
         loadingScreen()
-        ) : (
+      ) : (
         <View style={styles.subContainer}>
-          <ScrollView 
+          <ScrollView
             showsVerticalScrollIndicator={false}
-            style={{paddingBottom: CONST.cardPadding}}>
+            style={{ paddingBottom: CONST.cardPadding }}
+          >
             <Text
               accessible={true}
-              accessibilityLabel="Texto na cor preta num fundo branco escrito Nome." 
-              style={styles.inputLabel}>Nome</Text>
+              accessibilityLabel="Texto na cor preta num fundo branco escrito Nome."
+              style={styles.inputLabel}
+            >
+              Nome
+            </Text>
             <TextInput
               accessible={true}
-              accessibilityLabel="Campo para introdução do Nome." 
+              accessibilityLabel="Campo para introdução do Nome."
               style={styles.inputField}
-              onChangeText={(text) => setName(text)}/>
-          
-            <Text
-              accessible={true}
-              accessibilityLabel="Texto na cor preta num fundo branco escrito Sobrenome." 
-              style={styles.inputLabel}>Sobrenome</Text>
-            <TextInput
-              accessible={true}
-              accessibilityLabel="Campo para introdução do Sobrenome." 
-              style={styles.inputField}
-              onChangeText={(text) => setLastName(text)}/>
+              onChangeText={(text) => setName(text)}
+            />
 
             <Text
               accessible={true}
-              accessibilityLabel="Texto na cor preta num fundo branco escrito E-mail." 
-              style={styles.inputLabel}>E-mail</Text>
+              accessibilityLabel="Texto na cor preta num fundo branco escrito Sobrenome."
+              style={styles.inputLabel}
+            >
+              Sobrenome
+            </Text>
             <TextInput
               accessible={true}
-              accessibilityLabel="Campo para introdução do E-mail." 
+              accessibilityLabel="Campo para introdução do Sobrenome."
               style={styles.inputField}
-              onChangeText={(text) => setEmail(text.toLowerCase())}/>
+              onChangeText={(text) => setSurname(text)}
+            />
 
             <Text
               accessible={true}
-              accessibilityLabel="Texto na cor preta num fundo branco escrito Empresa." 
-              style={styles.inputLabel}>Empresa</Text>
+              accessibilityLabel="Texto na cor preta num fundo branco escrito E-mail."
+              style={styles.inputLabel}
+            >
+              E-mail
+            </Text>
+            <TextInput
+              accessible={true}
+              accessibilityLabel="Campo para introdução do E-mail."
+              style={styles.inputField}
+              onChangeText={(text) => setEmail(text.toLowerCase())}
+            />
+
+            <Text
+              accessible={true}
+              accessibilityLabel="Texto na cor preta num fundo branco escrito Empresa."
+              style={styles.inputLabel}
+            >
+              Empresa
+            </Text>
 
             {/* TODO: ADD ACESSIBILIDADE NO DROPDOWNPICKER */}
             <DropDownPicker
@@ -257,54 +277,65 @@ export default function Register() {
               setValue={setValueOrg}
               setItems={setItems}
               style={styles.inputField}
-              placeholder="" 
+              placeholder=""
               multiple={false}
               showTickIcon={false}
               closeAfterSelecting={true}
-              onChangeText={(text) => setOrganization(text)}/>
+              onChangeText={(text) => setDepartment(text)}
+            />
 
-            <Text accessible={true}
-              accessibilityLabel="Texto na cor preta num fundo branco escrito Palavra-passe." 
-              style={styles.inputLabel}>Palavra-passe</Text>
+            <Text
+              accessible={true}
+              accessibilityLabel="Texto na cor preta num fundo branco escrito Palavra-passe."
+              style={styles.inputLabel}
+            >
+              Palavra-passe
+            </Text>
             <TextInput
               secureTextEntry={true}
               style={styles.inputField}
               accessible={true}
-              accessibilityLabel="Campo para introdução da Palavra-passe." 
-              onChangeText={(text) => setPassword(text)}/>
+              accessibilityLabel="Campo para introdução da Palavra-passe."
+              onChangeText={(text) => setPassword(text)}
+            />
             <View style={styles.passwordProgressBar}>
               <PassMeter
                 showLabels={false}
                 password={password}
                 maxLength={15}
                 minLength={8}
-                labels={[]}/> 
+                labels={[]}
+              />
             </View>
-            <Text 
+            <Text
               accessible={true}
-              accessibilityLabel="Texto na cor preta num fundo branco escrito Confirmar nova palavra-passe." 
-              style={styles.inputLabel}>Confirmar nova palavra-passe</Text> 
-            <TextInput  
+              accessibilityLabel="Texto na cor preta num fundo branco escrito Confirmar nova palavra-passe."
+              style={styles.inputLabel}
+            >
+              Confirmar nova palavra-passe
+            </Text>
+            <TextInput
               accessible={true}
-              accessibilityLabel="Campo para introdução da Confirmação da nova palavra-passe." 
-              secureTextEntry={true} 
-              style={styles.inputField} 
-              onChangeText={(text) => setConfirmPassword(text)}/>   
+              accessibilityLabel="Campo para introdução da Confirmação da nova palavra-passe."
+              secureTextEntry={true}
+              style={styles.inputField}
+              onChangeText={(text) => setConfirmPassword(text)}
+            />
           </ScrollView>
 
-          <Pressable 
+          <Pressable
             accessible={true}
             accessibilityLabel="Botão da cor azul escura num fundo branco com o objetivo de efetuar o Login. Tem escrito na cor branca a palavra Entrar."
-            onPress={() => submit()} style={styles.primaryButton}>
+            onPress={() => submit()}
+            style={styles.primaryButton}
+          >
             <Text style={styles.primaryButtonText}>Registar</Text>
           </Pressable>
-
         </View>
       )}
     </SafeAreaProvider>
   );
 }
-
 
 // const styles = StyleSheet.create({
 //   container: {
