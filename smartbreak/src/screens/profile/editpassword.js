@@ -105,12 +105,15 @@ export default function EditPassword({ navigation }) {
       style={styles.containerLight}
     >
       <ScrollView>
-        <StatusBar style="auto" />
-        <Text style={[styles.titleText, { paddingBottom: CONST.textPadding }]}>Alterar palavra-passe</Text>
+        <StatusBar style="dark" />
+        <Text 
+          accessible={true}
+          accessibilityLabel="Texto na cor preta num fundo branco escrito Alterar Palavra-passe. É o título da página."
+          style={styles.titleText}>Alterar palavra-passe{"\n"}</Text>
         <Text
           accessible={true}
           accessibilityLabel="Texto na cor preta num fundo branco escrito Palavra-passe atual."
-          style={styles.inputLabel}>Palavra-passe atual</Text>
+          style={styles.inputLabel}>{"\n"}Palavra-passe atual</Text>
         <TextInput
           secureTextEntry={true}
           placeholder=""
@@ -124,7 +127,7 @@ export default function EditPassword({ navigation }) {
         <Text
           accessible={true}
           accessibilityLabel="Texto na cor preta num fundo branco escrito Nova palavra-passe."
-          style={styles.inputLabel}>Nova palavra-passe</Text>
+          style={styles.inputLabel}>{"\n"}Nova palavra-passe</Text>
         <TextInput
           accessible={true}
           accessibilityLabel="Campo para introdução da Nova palavra-passe."
@@ -138,7 +141,7 @@ export default function EditPassword({ navigation }) {
         <Text
           accessible={true}
           accessibilityLabel="Texto na cor preta num fundo branco escrito Confirmar nova palavra-passe."
-          style={styles.textLabel}>Confirmar nova palavra-passe</Text>
+          style={styles.inputLabel}>{"\n"}Confirmar nova palavra-passe</Text>
         <TextInput
         accessible={true}
         accessibilityLabel="Campo para introdução da Confirmação da nova palavra-passe."
@@ -150,7 +153,10 @@ export default function EditPassword({ navigation }) {
         />
 
         <View>
-          <Pressable onPress={() => editarpasse()} style={styles.primaryButton}>
+          <Pressable 
+            accessible={true}
+            accessibilityLabel="Botão da cor azul escura num fundo branco com o objetivo de guardar as alterações. Tem escrito na cor branca a palavra Concluído."
+            onPress={() => editarpasse()} style={[styles.primaryButton, {marginTop: CONST.backgroundPaddingLateral}]}>
             <Text style={styles.primaryButtonText}>
               Concluído
             </Text>

@@ -43,6 +43,7 @@ import SecurityProfile from "../screens/profile/secutiryprofile";
 import TermsofUseProfile from "../screens/profile/termsofuseprofile";
 import HelpCenterProfile from "../screens/profile/helpcenterprofile";
 import historicoPausas from "../screens/profile/historicoPausas";
+import Accessibility from "../screens/profile/accessibility.js";
 
 //autenticação
 import SplashScreen from "../screens/authentication/splashscreen";
@@ -368,9 +369,27 @@ const ProfileStackNavigation = ({ navigation }) => {
         }}
       />
 
-      <ProfileStack.Screen
+<ProfileStack.Screen
         name="EditPassword"
         component={EditPassword}
+        options={{
+          headerShown: true,
+          headerTitle: "",
+          headerShadowVisible: false,
+          headerLeft: () => (
+            <View style={styles.returnTopButton}>
+              <ArrowLeft2
+                size="24"
+                color="#333333"
+                onPress={() => navigation.navigate("ProfileSettings")}
+              />
+            </View>
+          ),
+        }}
+      />
+       <ProfileStack.Screen
+        name="Accessibility"
+        component={Accessibility}
         options={{
           headerShown: true,
           headerTitle: "",
@@ -389,6 +408,24 @@ const ProfileStackNavigation = ({ navigation }) => {
       <ProfileStack.Screen
         name="NotificationsProfile"
         component={NotificationsProfile}
+        options={{
+          headerShown: true,
+          headerTitle: "",
+          headerShadowVisible: false,
+          headerLeft: () => (
+            <View style={styles.returnTopButton}>
+              <ArrowLeft2
+                size="24"
+                color="#333333"
+                onPress={() => navigation.navigate("ProfileSettings")}
+              />
+            </View>
+          ),
+        }}
+      />
+      <ProfileStack.Screen
+        name="Accessibility"
+        component={Accessibility}
         options={{
           headerShown: true,
           headerTitle: "",
@@ -481,11 +518,11 @@ const ProfileStackNavigation = ({ navigation }) => {
 };
 
 const RectangleIndicator = () => {
-  return <View style={styles.Indicator} />;
+  return <View style={styles.indicator} />;
 };
 
 const RectangleIndicatorError = () => {
-  return <View style={styles.IndicatorError} />;
+  return <View style={styles.indicatorError} />;
 };
 //style={ { display: isLoggedIn ? 'block' : 'none' } }
 
@@ -597,17 +634,19 @@ const TabRoutes = (
           headerShown: true,
           headerShadowVisible: false,
           headerTitle: "",
-          headerStyle: { backgroundColor: CONST.mainBlue },
+          headerStyle: { backgroundColor: CONST.mainOrange },
           tabBarIcon: ({ focused, color }) => (
             <>
               <View style={{ opacity: focused ? 1 : 0 }}>
-                <RectangleIndicatorError style={{ backgroundColor: "#F5F5F5" }} />
+                <RectangleIndicatorError
+                  style={{ backgroundColor: "#F5F5F5" }}
+                />
               </View>
               <Icon name="stats" color={color} />
             </>
           ),
           tabBarStyle: {
-            backgroundColor: CONST.mainBlue,
+            backgroundColor: CONST.mainOrange,
             borderTopColor: "transparent",
             height: 90,
             borderTopLeftRadius: 0,

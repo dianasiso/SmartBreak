@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
   mainContainerLight: {
     flex: 1,
     paddingTop: CONST.backgroundPaddingTop,
-    backgroundColor: CONST.lightBackgroundColor,
+    backgroundColor: CONST.darkerColor,
     width: CONST.screenWidth,
   },
   container: {
@@ -33,7 +33,7 @@ export const styles = StyleSheet.create({
     paddingLeft: CONST.backgroundPaddingLateral,
     paddingRight: CONST.backgroundPaddingLateral,
     paddingTop: CONST.backgroundPaddingTop,
-    backgroundColor: CONST.lightBackgroundColor,
+    backgroundColor: CONST.darkerColor,
     width: CONST.screenWidth,
   },
   dashboardContainer: {
@@ -50,9 +50,6 @@ export const styles = StyleSheet.create({
     paddingBottom: CONST.cardPadding + 10,
     paddingTop: CONST.backgroundPaddingTop + CONST.backgroundPaddingLateral,
     maxHeight: 440, //adicionei maxheight e já dá
-  },
-  dashboardContent: {
-    paddingTop: CONST.backgroundPaddingTop,
   },
   subContainer: {
     backgroundColor: CONST.lightBackgroundColor,
@@ -97,7 +94,7 @@ export const styles = StyleSheet.create({
   },
   smallSecondaryButtonText: {
     fontFamily: "GothamMedium",
-    color: CONST.secondaryButtonTextColor,
+    color: CONST.thirdOrange,
     fontSize: CONST.smallButtonSize,
     textAlign: "center",
   },
@@ -178,7 +175,7 @@ export const styles = StyleSheet.create({
   titleText: {
     fontSize: CONST.pageTitleSize,
     fontFamily: "GothamMedium",
-    color: CONST.darkerColor,
+    color: CONST.whiteText,
   },
   titleTextWhite: {
     fontSize: CONST.pageTitleSize,
@@ -188,25 +185,25 @@ export const styles = StyleSheet.create({
   subTitleText: {
     fontSize: CONST.pageSubtitleSize,
     fontFamily: "GothamMedium",
-    color: CONST.darkerColor,
+    color: CONST.whiteText,
   },
   normalText: {
     fontSize: CONST.pageTextSize,
     fontFamily: "GothamBook",
     lineHeight: CONST.pageTextSize + 5,
-    color: CONST.darkerColor,
+    color: CONST.whiteText,
   },
   smallText: {
     fontSize: CONST.pageSmallTextSize,
     fontFamily: "GothamBook",
     lineHeight: CONST.pageTextSize + 5,
-    color: CONST.darkerColor,
+    color: CONST.whiteText,
   },
   normalTextWhite: {
     fontSize: CONST.pageTextSize,
     fontFamily: "GothamBook",
     lineHeight: CONST.pageTextSize + 5,
-    color: CONST.whiteText,
+    color: CONST.darkerColor,
   },
 
   smallTextWhite: {
@@ -227,7 +224,7 @@ export const styles = StyleSheet.create({
   inputLabel: {
     fontFamily: "GothamBook",
     fontSize: CONST.pageTextSize,
-    color: CONST.darkerColor,
+    color: CONST.whiteText,
     textAlign: "left",
     paddingBottom: CONST.inputPadding,
   },
@@ -241,14 +238,14 @@ export const styles = StyleSheet.create({
   inputField: {
     fontFamily: "GothamBook",
     fontSize: CONST.pageSmallTextSize,
-    borderBottomColor: CONST.darkerColor,
+    borderBottomColor: CONST.whiteText,
     borderBottomWidth: 1,
     borderTopWidth: 0,
     borderLeftWidth: 0,
     borderRightWidth: 0,
     borderRadius: 0,
     marginBottom: CONST.inputMargin,
-    color: CONST.darkerColor,
+    color: CONST.whiteText,
   },
   inputFieldWhite: {
     fontFamily: "GothamBook",
@@ -288,7 +285,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   boxIcon: {
-    color: CONST.darkerColor,
+    color: CONST.whiteText,
     marginRight: CONST.boxPadding,
   },
 
@@ -338,12 +335,12 @@ export const styles = StyleSheet.create({
   },
 
   modalView: {
-    backgroundColor: CONST.lightBackgroundColor,
+    backgroundColor: CONST.darkerColor,
     borderRadius: CONST.smallButtonRadius,
     padding: CONST.modalPadding,
     shadowColor: CONST.darkerColor,
     shadowRadius: CONST.shadowRadius,
-    width: CONST.screenWidth / 3 * 2,
+    width: (CONST.screenWidth / 3) * 2,
     shadowOpacity: 0.5,
     elevation: 10,
     overflow: "hidden",
@@ -422,7 +419,7 @@ export const styles = StyleSheet.create({
     marginTop: 5,
   },
   hoursTextStyle: {
-    color: CONST.darkerColor,
+    color: CONST.whiteText,
     fontFamily: "GothamBook",
     fontSize: CONST.pageSmallTextSize,
   },
@@ -438,8 +435,8 @@ export const styles = StyleSheet.create({
   },
   dropwdownBoxRoutines: {
     backgroundColor: CONST.dividerColor,
-    borderColor: CONST.darkerColor,
-    color: CONST.whiteText,
+    borderColor: CONST.whiteText,
+    color: CONST.darkerColor,
     fontSize: CONST.pageSmallTextSize,
     fontFamily: "GothamBook",
   },
@@ -479,7 +476,7 @@ export const styles = StyleSheet.create({
     right: CONST.backgroundPaddingLateral,
     bottom: CONST.backgroundPaddingTop * 3,
     zIndex: 10,
-    backgroundColor: CONST.lightBackgroundColor,
+    backgroundColor: CONST.darkerColor,
     borderRadius: 50,
   },
 
@@ -527,20 +524,6 @@ export const styles = StyleSheet.create({
 
   // ---- DASHBOARD ---- //
 
-  rowContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  columnContainerLeft: {
-    flexDirection: "column",
-    //justifyContent: "space-between",
-  },
-  columnContainerRight: {
-    flexDirection: "column",
-    //  justifyContent: "space-between",
-    alignItems: "center",
-  },
-
   addPauseButtonContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -579,13 +562,13 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
   },
 
-  openTeamButtonContainer: {
+  verEquipaButtonContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
   },
 
-  openTeamButton: {
+  verEquipaButton: {
     backgroundColor: CONST.thirdOrange,
     color: CONST.darkerColor,
     borderBottomLeftRadius: 0,
@@ -651,24 +634,6 @@ export const styles = StyleSheet.create({
     marginLeft: 10,
   },
 
-  batteryValuesTitle: {
-    fontFamily: "GothamBook",
-    fontSize: CONST.pageTextSize,
-    color: CONST.whiteText,
-    paddingBottom: 10,
-  },
-  batteryValuesCharge: {
-    fontFamily: "GothamMedium",
-    fontSize: CONST.dashboardChargeSize,
-    color: CONST.whiteText,
-    paddingBottom: 15,
-  },
-  batteryValuesGoals: {
-    fontFamily: "GothamMedium",
-    fontSize: CONST.dashboardGoalsSize,
-    color: CONST.whiteText,
-  },
-
   batteryView: {
     //display: "none",
     flexDirection: "column",
@@ -681,10 +646,8 @@ export const styles = StyleSheet.create({
     height: 171,
     width: 85,
     borderRadius: 18,
-    borderColor: CONST.whiteText,
+    borderColor: CONST.darkerColor,
     borderWidth: 1,
-    //overflow: "hidden",
-    //backgroundColor: "red",
   },
   batteryBolt: {
     position: "absolute",
@@ -697,29 +660,23 @@ export const styles = StyleSheet.create({
     height: 2.38,
     width: 23.78,
     marginBottom: 2,
-    backgroundColor: CONST.whiteText,
+    backgroundColor: CONST.darkerColor,
     borderTopLeftRadius: 107.03,
     borderTopRightRadius: 107.03,
     borderBottomRightRadius: 0,
     borderBottomLeftRadius: 0,
-    borderColor: CONST.whiteText,
+    borderColor: CONST.darkerColor,
     //borderWidth: 2.5,
     //marginLeft: 4,
   },
   batteryFill: {
-    position: "absolute",
-    marginRight: CONST.cardPadding,
-    width: 82.5,
-    height: 50,
+    // height: 88,
     // width: 90, //máximo 163
-    backgroundColor: CONST.whiteText,
-    borderTopRightRadius: 0,
-    borderTopLeftRadius: 0,
-    borderRadius: 16.5,
-    bottom: 0,
-    //position: "absolute",
-    //left: CONST.screenWidth / 2 - 112,
-    //transform: [{ rotate: "90deg" }],
+    backgroundColor: CONST.darkerColor,
+    borderRadius: 16,
+    position: "absolute",
+    left: CONST.screenWidth / 2 - 112,
+    transform: [{ rotate: "90deg" }],
   },
   batteryFillPause: {
     // height: 88,
@@ -728,9 +685,6 @@ export const styles = StyleSheet.create({
     borderRadius: 16,
     position: "absolute",
     left: CONST.screenWidth / 2 - 112,
-  },
-  batteryEmoji: {
-    paddingTop: 110,
   },
   /*
   toggleView: {
@@ -754,19 +708,19 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
   },
 
-  buttonDashboardView: {
+  ButtonDashboardView: {
     marginTop: 60,
     marginBottom: 60,
   },
-  buttonDashboardContainer: {
+  ButtonDashboardContainer: {
     backgroundColor: "#0051BA",
     width: CONST.screenWidth - 50,
     borderRadius: 15,
     alignItems: "center",
     flexDirection: "row",
   },
-  buttonDashboardText: {
-    color: CONST.whiteText,
+  ButtonDashboardText: {
+    color: CONST.darkerColor,
     fontSize: 16,
     fontFamily: "GothamMedium",
     textAlign: "left",
@@ -779,21 +733,16 @@ export const styles = StyleSheet.create({
     marginRight: 20,
   },
 
-  metricsText: {
-    fontSize: 20,
-    fontFamily: "GothamMedium",
-    marginBottom: 18,
-  },
-  metricsElement: {
+  metricasElement: {
     width: CONST.screenWidth - 50,
     //backgroundColor: "#E3ECF7",
     borderRadius: 15,
-    marginBottom: 20,
+
     marginTop: 20,
     flexDirection: "row",
     alignItems: "center",
   },
-  metricsCircle: {
+  metricasCircle: {
     backgroundColor: CONST.thirdBlue,
     height: CONST.heightButton,
     width: CONST.heightButton,
@@ -802,16 +751,16 @@ export const styles = StyleSheet.create({
     zIndex: 100,
     justifyContent: "center",
   },
-  metricsElementText: {
+  metricasElementText: {
     fontSize: CONST.pageSmallTextSize,
-    color: CONST.darkerColor,
+    color: CONST.whiteText,
     fontFamily: "GothamBook",
     paddingLeft: 15,
     paddingRight: 25,
     lineHeight: 20,
   },
 
-  membersView: {
+  membrosView: {
     flexDirection: "row",
     alignItems: "center",
     marginTop: 30,
@@ -842,12 +791,6 @@ export const styles = StyleSheet.create({
     paddingTop: CONST.backgroundPaddingTop,
   },
 
-  profileInfo: {
-  flexDirection: "row",
-   alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: CONST.inputMargin,
-  },
   // ---- REWARDS PROFILE ----
   editprofileRewards: {
     flexDirection: "row",
@@ -883,7 +826,7 @@ export const styles = StyleSheet.create({
   },
   smallPrimaryButtonText: {
     fontFamily: "GothamMedium",
-    color: CONST.primaryButtonTextColor,
+    color: CONST.darkerColor,
     fontSize: CONST.smallButtonSize,
     textAlign: "center",
   },
@@ -931,17 +874,11 @@ export const styles = StyleSheet.create({
     shadowRadius: CONST.shadowRadius,
     shadowOpacity: 1,
     elevation: 10,
-    backgroundColor: CONST.lightBackgroundColor,
+    backgroundColor: CONST.lightGreyColor,
     borderRadius: CONST.normalButtonRadius,
     marginTop: CONST.boxMargin,
     marginBottom: CONST.inputMargin,
   },
-
-  profileOptionsText: {
-    fontSize: CONST.pageTextSize,
-    color: CONST.darkerColor,
-    fontFamily: "GothamBook",
-},
   pauseBoxTop: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -996,8 +933,8 @@ export const styles = StyleSheet.create({
   },
 
   shadowColor: CONST.enableColor,
-    shadowRadius: CONST.shadowRadius,
-    shadowOpacity: 1,
+  shadowRadius: CONST.shadowRadius,
+  shadowOpacity: 1,
 
   goalsBox: {
     flexDirection: "row",

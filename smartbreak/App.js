@@ -1,3 +1,6 @@
+//add storybook (descomentar e comentar o resto se for para ver o storybook)
+//export { default } from "./.storybook";
+
 //import { StyleSheet, Text, View } from "react-native";
 import AvailableSoon from "./src/errors/availableSoon";
 
@@ -14,7 +17,6 @@ const Stack = createStackNavigator();
 // Font Gotham
 import { useFonts } from "expo-font";
 
-
 // Firebase
 import firebase from "./src/config/firebase.js";
 
@@ -25,9 +27,9 @@ import store from "./src/redux/store";
 export default function App() {
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
-      console.log('user logged')
+      console.log("user logged");
     }
- });
+  });
   const user = firebase.auth().currentUser;
   console.log("user logged? ", user);
 
@@ -38,15 +40,15 @@ export default function App() {
 
   return (
     <Provider store={store}>
-       <NavigationContainer>
-         <Stack.Navigator>
-           <Stack.Screen
-             name="Home"
-             component={MainStackNavigation}
-             options={{ headerShown: false }}
-           />
-         </Stack.Navigator>
-       </NavigationContainer>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Home"
+            component={MainStackNavigation}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
     </Provider>
   );
 }

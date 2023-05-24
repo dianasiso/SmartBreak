@@ -1,23 +1,25 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import {
-  StyleSheet,
+  ImageBackground,
   Text,
   View,
-  Button,
-  SafeAreaView,
   ScrollView,
   Dimensions,
   Pressable,
 } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import bg from "../../imgs/tips.png";
 
 // Font Gotham
 import { useFonts } from "expo-font";
 
 // Firebase
 import firebase from "./../../config/firebase.js";
+
+// CSS
+import { styles } from "./../../styles/css.js";
 
 export default function Tips() {
   const navigation = useNavigation();
@@ -101,13 +103,15 @@ export default function Tips() {
   };
 
   return (
-    <SafeAreaProvider style={styles.container}>
-      <StatusBar style="auto" />
+    <SafeAreaProvider
+      style={[styles.mainContainer, { backgroundColor: "#FFFFFF" }]}
+    >
+      <StatusBar style="dark" />
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={{ height: "100%", overflow: "scroll" }}
       >
-        <Pressable style={styles.optionsTips}>
+        <View style={[styles.pauseBoxMain, { padding: 15 }]}>
           <Text
             style={{
               fontFamily: "GothamMedium",
@@ -117,7 +121,7 @@ export default function Tips() {
           >
             Objetivo
           </Text>
-          <Text style={styles.text}>{description}</Text>
+          <Text style={styles.normalText}>{description}</Text>
           <View
             style={{
               flexDirection: "row",
@@ -130,31 +134,28 @@ export default function Tips() {
                 previous();
                 forceUpdate();
               }}
-              style={{ padding: 10 }}
+              style={styles.smallSecondaryButton}
             >
-              <Text style={{ color: "#0051ba", fontFamily: "GothamMedium" }}>
-                Anterior
-              </Text>
+              <Text style={styles.smallSecondaryButtonText}>Anterior</Text>
             </Pressable>
             <Pressable
               onPress={() => {
                 next();
                 forceUpdate();
               }}
-              style={styles.button}
+              style={styles.smallPrimaryButton}
             >
-              <Text style={{ color: "#FFF", fontFamily: "GothamMedium" }}>
-                Próximo
-              </Text>
+              <Text style={styles.smallPrimaryButtonText}>Próximo</Text>
             </Pressable>
           </View>
-        </Pressable>
+        </View>
         <Text
           style={{
             fontFamily: "GothamMedium",
             fontSize: 20,
             marginBottom: 20,
             marginTop: 20,
+            marginLeft: 25,
           }}
         >
           Dicas
@@ -162,17 +163,13 @@ export default function Tips() {
 
         {tips &&
           tips.map((callbackfn, id) => (
-            <View style={styles.optionsTips} key={id}>
-              <Text
-                style={{
-                  fontFamily: "GothamMedium",
-                  fontSize: 16,
-                  marginBottom: 10,
-                }}
-              >
-                Dica {id + 1}
-              </Text>
-              <Text style={styles.text}>{tips[id]}</Text>
+            <View>
+              <ImageBackground source={bg} style={styles.optionsTips} key={id}>
+                <Text style={styles.numberTips}>{id + 1}</Text>
+                <Text style={[styles.normalText, { color: "#FFFFFF" }]}>
+                  {tips[id]}
+                </Text>
+              </ImageBackground>
             </View>
           ))}
       </ScrollView>
@@ -181,42 +178,3 @@ export default function Tips() {
 }
 
 const screenWidth = Dimensions.get("window").width;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    paddingLeft: 25,
-    paddingRight: 25,
-    paddingBottom: 90,
-    paddingTop: 35,
-  },
-
-  optionsTips: {
-    flex: 1,
-    marginBottom: 20,
-    borderRadius: 15,
-    padding: 20,
-    width: screenWidth - 50,
-    flexDirection: "column",
-    textAlign: "left",
-    justifyContent: "flex-start",
-    backgroundColor: "#E3ECF7",
-  },
-
-  text: {
-    fontFamily: "GothamBook",
-    fontSize: 16,
-    lineHeight: 22,
-  },
-
-  button: {
-    backgroundColor: "#0051ba",
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 20,
-    paddingRight: 20,
-    borderRadius: 8,
-    alignItems: "center",
-  },
-});

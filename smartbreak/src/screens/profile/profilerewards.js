@@ -33,7 +33,7 @@ export default function ProfileRewards() {
       style={styles.containerLight}
     >
       <ScrollView>
-        <StatusBar style="auto" />
+        <StatusBar style="dark" />
         <Text style={[styles.titleText, { paddingBottom: CONST.textPadding }]}>As minhas recompensas</Text>
 
         <Pressable style={[styles.boxOptions, {borderBottomColor: 'transparent'}]}>

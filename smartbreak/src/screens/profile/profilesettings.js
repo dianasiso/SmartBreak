@@ -3,12 +3,10 @@ import React, { useState, useEffect } from "react";
 import {
   Pressable,
   Dimensions,
-  StyleSheet,
   ScrollView,
   View,
   Text,
   Alert,
-  TouchableHighlight,
 } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import {
@@ -19,6 +17,7 @@ import {
   MessageQuestion,
   Trash,
   Logout,
+  Autobrightness,
 } from "iconsax-react-native";
 
 // Font Gotham
@@ -34,6 +33,9 @@ import * as SecureStore from "expo-secure-store";
 
 // CSS
 import { styles } from "./../../styles/css.js";
+
+// Variables
+import * as CONST from "./../../styles/variables.js";
 
 export default function ProfileSettings({ navigation }) {
   const dispatch = useDispatch();
@@ -97,128 +99,85 @@ export default function ProfileSettings({ navigation }) {
       style={styles.containerLight}
     >
       <ScrollView>
-        <StatusBar style="auto" />
-        <Text style={styles.titleText}>Definições</Text>
+        <StatusBar style="dark" />
+        <Text 
+          accessible={true}
+          accessibilityLabel="Texto na cor preta num fundo branco escrito Definições. É o título da página."
+          style={styles.titleText}>Definições{"\n"}</Text>
 
         <Pressable
-          style={styles.profileOptions}
+          accessible={true}
+          accessibilityLabel="Botão transparente com texto na preta num fundo branco escrito Alterar palavra-passe. É acompanhado por um icon de cadeado trancado."
+          style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
           onPress={() => navigation.navigate("EditPassword")}
         >
-          <Lock1 variant="Bold" style={styles.profileIcon} />
-          <Text style={styles.profileOptionsText}> Alterar palavra-passe</Text>
+          <Lock1 variant="Bold" style={styles.boxIcon} />
+          <Text style={styles.normalText}> Alterar palavra-passe</Text>
         </Pressable>
-        <View style={styles.divider} />
         <Pressable
-          style={styles.profileOptions}
+          accessible={true}
+          accessibilityLabel="Botão transparente com texto na preta num fundo branco escrito Notificações. É acompanhado por um icon de sino."
+          style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
           onPress={() => navigation.navigate("NotificationsProfile")}
         >
-          <Notification variant="Bold" style={styles.profileIcon} />
-          <Text style={styles.profileOptionsText}> Notificações</Text>
+          <Notification variant="Bold" style={styles.boxIcon} />
+          <Text style={styles.normalText}> Notificações</Text>
         </Pressable>
-        <View style={styles.divider} />
         <Pressable
-          style={styles.profileOptions}
-          onPress={() => navigation.navigate("SecurityProfile")}
-        >
-          <SecurityUser variant="Bold" style={styles.profileIcon} />
-          <Text style={styles.profileOptionsText}> Segurança</Text>
+          accessible={true}
+          accessibilityLabel="Botão transparente com texto na preta num fundo branco escrito Segurança. É acompanhado por um icon de escudo com uma pessoa estampada."
+         style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
+          onPress={() => navigation.navigate("SecurityProfile")}>
+          <SecurityUser variant="Bold" style={styles.boxIcon} />
+          <Text style={styles.normalText}> Segurança</Text>
         </Pressable>
-        <View style={styles.divider} />
         <Pressable
-          style={styles.profileOptions}
-          onPress={() => navigation.navigate("TermsofUseProfile")}
-        >
-          <DocumentText1 variant="Bold" style={styles.profileIcon} />
-          <Text style={styles.profileOptionsText}> Termos de utilização</Text>
+          accessible={true}
+          accessibilityLabel="Botão transparente com texto na preta num fundo branco escrito Acessibilidade. É acompanhado por um icon da letra A."
+         style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
+          onPress={() => navigation.navigate("Accessibility")}>
+          <Autobrightness variant="Bold" style={styles.boxIcon} />
+          <Text style={styles.normalText}> Acessibilidade</Text>
         </Pressable>
-        <View style={styles.divider} />
         <Pressable
-          style={styles.profileOptions}
-          onPress={() => navigation.navigate("HelpCenterProfile")}
-        >
-          <MessageQuestion variant="Bold" style={styles.profileIcon} />
-          <Text style={styles.profileOptionsText}> Centro de ajuda</Text>
+          accessible={true}
+          accessibilityLabel="Botão transparente com texto na preta num fundo branco escrito Termos de utilização. É acompanhado por um icon de folha de bloco de notas."
+          style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
+          onPress={() => navigation.navigate("TermsofUseProfile")}>
+          <DocumentText1 variant="Bold" style={styles.boxIcon} />
+          <Text style={styles.normalText}> Termos de utilização</Text>
         </Pressable>
-        <View style={styles.divider} />
         <Pressable
-          style={styles.profileOptions}
-          onPress={() => navigation.navigate("HelpCenterProfile")}
-        >
-          <MessageQuestion variant="Bold" style={styles.profileIcon} />
-          <Text style={styles.profileOptionsText}> Acessibilidade</Text>
-          {/*
-          !!!!!!!!!!!!!
-          !!!!!!!!!!!!!
-          !!!!!!!!!!!!!
-          !!!!!!!!!!!!!
-          FALTA ICONE PARA ACESSIBILIDADE E LINKAR A PAGINA DE ACESSIBILIDADE
-          !!!!!!!!!!!!!
-          !!!!!!!!!!!!!
-          !!!!!!!!!!!!!
-          !!!!!!!!!!!!!
-          */}
+          accessible={true}
+          accessibilityLabel="Botão transparente com texto na preta num fundo branco escrito Centro de Ajuda. É acompanhado por um icon de ponto de interrogação."
+          style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
+          onPress={() => navigation.navigate("HelpCenterProfile")}>
+          <MessageQuestion variant="Bold" style={styles.boxIcon} />
+          <Text style={styles.normalText}> Centro de ajuda</Text>
         </Pressable>
-        <View style={styles.divider} />
-        <Pressable style={styles.profileOptions} onPress={apagarconta}>
+        <Pressable 
+          accessible={true}
+          accessibilityLabel="Botão transparente com texto na preta num fundo branco escrito Aapgar conta. É acompanhado por um icon de caixote de lixo."
+          style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
+          onPress={apagarconta}>
           <Trash
             variant="Bold"
-            style={styles.profileIcon}
-            onPress={apagarconta}
-          />
-          <Text style={styles.profileOptionsText}> Apagar conta</Text>
+            style={styles.boxIcon}
+            onPress={apagarconta}/>
+          <Text style={styles.normalText}> Apagar conta</Text>
         </Pressable>
-        <View style={styles.divider} />
-        <Pressable style={styles.profileOptions} onPress={terminarsessao}>
+        <Pressable 
+          accessible={true}
+          accessibilityLabel="Botão transparente com texto na preta num fundo branco escrito Terminar sessão. É acompanhado por um icon de porta com indicação de saída."
+          style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding, borderBottomWidth: 0}]}
+          onPress={terminarsessao}>
           <Logout
             variant="Bold"
-            style={styles.profileIcon}
-            onPress={terminarsessao}
-          />
-          <Text style={styles.profileOptionsText}> Terminar sessão</Text>
+            style={styles.boxIcon}
+            onPress={terminarsessao}/>
+          <Text style={styles.normalText}> Terminar sessão</Text>
         </Pressable>
       </ScrollView>
     </SafeAreaProvider>
   );
 }
-
-const screenWidth = Dimensions.get("window").width;
-
-/*
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    paddingLeft: 25,
-    paddingRight: 25,
-    paddingBottom: 90,
-  },
-
-  title: {
-    fontFamily: "GothamMedium",
-    fontSize: 24,
-    marginTop: 30,
-    marginBottom: 10,
-  },
-
-  options: {
-    flex: 1,
-    marginTop: 20,
-    marginBottom: 10,
-    borderRadius: 15,
-    paddingTop: 15,
-    paddingBottom: 15,
-    paddingLeft: 25,
-    width: screenWidth - 50,
-    flexDirection: "row",
-    alignItems: "center",
-    textAlign: "left",
-    backgroundColor: "#E3ECF7",
-  },
-
-  text: {
-    marginLeft: 10,
-    fontFamily: "GothamBook",
-    fontSize: 16,
-  },
-});
-*/
