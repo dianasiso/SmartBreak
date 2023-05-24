@@ -1,8 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
 import {
-  RefreshControl,
-  Dimensions,
   Text,
   Image,
   View,
@@ -10,7 +8,6 @@ import {
   Pressable,
   SafeAreaView,
   Modal,
-  ScrollView,
 } from "react-native";
 import { useFonts } from "expo-font";
 import {
@@ -18,9 +15,10 @@ import {
   Car,
   People,
   Clock,
-  CloseCircle,
+  Pause,
   Ticket,
   Play,
+  Happyemoji, //depois mudar, so serve de exemplo
 } from "iconsax-react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
@@ -36,6 +34,7 @@ import * as CONST from "./../../styles/variables.js";
 
 // Firebase
 import firebase from "./../../config/firebase.js";
+
 const Battery = ({ selected }) => {
   if (pausa === false) {
     return (
@@ -156,7 +155,7 @@ const BatteryContainer = ({ selected }) => {
               <View style={styles.modalView}>
                 <View style={{ flexDirection: "column", marginTop: 5 }}>
                   <Text style={styles.modalTextBold}>
-                    Tem a certeza que pretende adicionar uma pausa?
+                    Tem a certeza que pretende iniciar uma pausa?
                   </Text>
                   <Text style={styles.modalText}>
                     Não se esqueça de garantir que todos os equipamentos
@@ -204,30 +203,65 @@ const BatteryContainer = ({ selected }) => {
               </View>
             </View>
           </Modal>
-          <View style={styles.batteryView}>
-            <View style={styles.batteryTip} />
-            <View style={styles.batteryContainer} />
-
-            <View
-              style={[
-                styles.batteryFill,
-                { width: widthBattery, height: heightBattery },
-              ]}
-            />
-          </View>
-          <View style={styles.addPauseButtonContainer}>
-            <View style={styles.pauseCircle}>
-              <Play variant="Bold" color="#07407B" size={26} />
-            </View>
-            <View style={styles.ButtonDashboardView}>
-              <Pressable
-                onPress={() => {
-                  setModalVisible(true);
-                }}
-                style={styles.addPauseButton}
-              >
-                <Text style={styles.addPauseButtonText}> Iniciar pausa</Text>
-              </Pressable>
+          <View style={styles.dashboardContent}>
+            <View style={styles.rowContainer}>
+              <View style={styles.columnContainerLeft}>
+                <View style={styles.batteryValues}>
+                  <View>
+                    <Text style={styles.batteryValuesTitle}>
+                      A sua carga pessoal
+                    </Text>
+                    <Text style={styles.batteryValuesCharge}>400 kWh</Text>
+                  </View>
+                  <View>
+                    <Text style={styles.batteryValuesTitle}>
+                      Objetivos por cumprir
+                    </Text>
+                    <Text style={styles.batteryValuesGoals}>4</Text>
+                  </View>
+                </View>
+                <View style={styles.addPauseButtonContainer}>
+                  <View style={styles.pauseCircle}>
+                    <Play variant="Bold" color="#07407B" size={26} />
+                  </View>
+                  <View style={styles.buttonDashboardView}>
+                    <Pressable
+                      onPress={() => {
+                        setModalVisible(true);
+                      }}
+                      style={styles.addPauseButton}
+                    >
+                      <Text style={styles.addPauseButtonText}>
+                        {" "}
+                        Iniciar pausa
+                      </Text>
+                    </Pressable>
+                  </View>
+                </View>
+              </View>
+              <View style={styles.columnContainerRight}>
+                <View style={styles.batteryView}>
+                  <View style={styles.batteryTip} />
+                  <View style={styles.batteryContainer}>
+                    <View style={[styles.batteryFill]} />
+                    <View
+                      style={[
+                        styles.batteryFill,
+                        {
+                          backgroundColor: "transparent",
+                          height: 10,
+                          //FILL DINÂMICO ESTÁ TRANSPARENTE PARA DEPOIS SER REVISTO
+                        },
+                      ]}
+                    />
+                  </View>
+                </View>
+                <Happyemoji
+                  style={styles.batteryEmoji}
+                  size="40"
+                  color="#FEFEFE"
+                />
+              </View>
             </View>
           </View>
         </>
@@ -340,43 +374,67 @@ const BatteryContainer = ({ selected }) => {
               </View>
             </View>
           </Modal>
-          <View style={styles.batteryView}>
-            <View style={styles.batteryContainer} />
-            <View style={styles.batteryTip} />
-            <Image
-              source={require("./../../imgs/img_battery_pause.png")}
-              resizeMode={"contain"}
-              style={{
-                position: "absolute",
-                zIndex: 100,
-                width: "25%",
-                marginLeft: "auto",
-                marginRight: "auto",
-              }}
-            />
 
-            <View
-              style={[
-                styles.batteryFillPause,
-                { width: widthBattery, height: heightBattery },
-              ]}
-            />
-          </View>
-          <View style={styles.ButtonDashboardView}>
-            <Pressable
-              onPress={() => {
-                setModalVisible(true);
-              }}
-              style={styles.ButtonDashboardContainer}
-            >
-              <Text style={styles.ButtonDashboardText}>Terminar pausa</Text>
-              <CloseCircle
-                color="white"
-                size={26}
-                variant="Bold"
-                style={styles.icon}
-              />
-            </Pressable>
+          <View style={styles.dashboardContent}>
+            <View style={styles.rowContainer}>
+              <View style={styles.columnContainerLeft}>
+                <View style={styles.batteryValues}>
+                  <View>
+                    <Text style={styles.batteryValuesTitle}>
+                      A sua carga pessoal
+                    </Text>
+                    <Text style={styles.batteryValuesCharge}>400 kWh</Text>
+                  </View>
+                  <View>
+                    <Text style={styles.batteryValuesTitle}>
+                      Objetivos por cumprir
+                    </Text>
+                    <Text style={styles.batteryValuesGoals}>4</Text>
+                  </View>
+                </View>
+                <View style={styles.addPauseButtonContainer}>
+                  <View style={styles.pauseCircle}>
+                    <Pause variant="Bold" color="#07407B" size={26} />
+                  </View>
+                  <View style={styles.buttonDashboardView}>
+                    <Pressable
+                      onPress={() => {
+                        setModalVisible(true);
+                      }}
+                      style={styles.addPauseButton}
+                    >
+                      <Text style={styles.addPauseButtonText}>
+                        {" "}
+                        Terminar Pausa
+                      </Text>
+                    </Pressable>
+                  </View>
+                </View>
+              </View>
+              <View style={styles.columnContainerRight}>
+                <View style={styles.batteryView}>
+                  <View style={styles.batteryTip} />
+                  <View style={styles.batteryContainer}>
+                    <View style={[styles.batteryFill]} />
+                    <View
+                      style={[
+                        styles.batteryFill,
+                        {
+                          backgroundColor: "transparent",
+                          height: 10,
+                          //FILL DINÂMICO ESTÁ TRANSPARENTE PARA DEPOIS SER REVISTO
+                        },
+                      ]}
+                    />
+                  </View>
+                </View>
+                <Happyemoji
+                  style={styles.batteryEmoji}
+                  size="40"
+                  color="#FEFEFE"
+                />
+              </View>
+            </View>
           </View>
         </>
       );
@@ -384,58 +442,95 @@ const BatteryContainer = ({ selected }) => {
   } else {
     return (
       <>
-        <View style={styles.batteryView}>
-          <View style={styles.batteryContainer} />
-          <View style={styles.batteryTip} />
-          <View
-            style={[
-              styles.batteryFill,
-              { width: widthBatteryTeams, height: heightBatteryTeams },
-            ]}
-          />
-        </View>
-        <View style={styles.verEquipaButtonContainer}>
-          <View style={styles.pauseCircle}>
-            <People color="#F57738" size={26} variant="Bold" />
-          </View>
-          {teams[0] ? (
-            <Pressable
-              onPress={() =>
-                navigation.navigate("TeamDashboard", { teamId: teams[0] })
-              }
-              style={styles.verEquipaButton}
-            >
-              <Text style={styles.addPauseButtonText}>Ver equipa</Text>
-            </Pressable>
-          ) : (
-            <Pressable
-              onPress={() =>
-                ToastAndroid.show(
-                  "Não está em nenhuma equipa!",
-                  ToastAndroid.SHORT
-                )
-              }
-              style={[
-                styles.ButtonDashboardContainer,
-                { backgroundColor: "#777" },
-              ]}
-            >
-              <Text style={styles.ButtonDashboardText}>Ver equipa</Text>
-              <People
-                color="white"
-                size={26}
-                variant="Bold"
-                style={styles.icon}
+        <View style={styles.dashboardContent}>
+          <View style={styles.rowContainer}>
+            <View style={styles.columnContainerLeft}>
+              <View style={styles.batteryValues}>
+                <View>
+                  <Text style={styles.batteryValuesTitle}>
+                    A sua carga pessoal
+                  </Text>
+                  <Text style={styles.batteryValuesCharge}>400 kWh</Text>
+                </View>
+                <View>
+                  <Text style={styles.batteryValuesTitle}>
+                    Objetivos por cumprir
+                  </Text>
+                  <Text style={styles.batteryValuesGoals}>4</Text>
+                </View>
+              </View>
+              <View style={styles.addPauseButtonContainer}>
+                <View style={styles.openTeamButtonContainer}>
+                  <View style={styles.pauseCircle}>
+                    <People color="#F57738" size={26} variant="Bold" />
+                  </View>
+                  {teams[0] ? (
+                    <Pressable
+                      onPress={() =>
+                        navigation.navigate("TeamDashboard", {
+                          teamId: teams[0],
+                        })
+                      }
+                      style={styles.openTeamButton}
+                    >
+                      <Text style={styles.addPauseButtonText}>Ver equipa</Text>
+                    </Pressable>
+                  ) : (
+                    <Pressable
+                      onPress={() =>
+                        ToastAndroid.show(
+                          "Não está em nenhuma equipa!",
+                          ToastAndroid.SHORT
+                        )
+                      }
+                      style={[
+                        styles.buttonDashboardContainer,
+                        { backgroundColor: "#777" },
+                      ]}
+                    >
+                      <Text style={styles.buttonDashboardText}>Ver equipa</Text>
+                      <People
+                        color="white"
+                        size={26}
+                        variant="Bold"
+                        style={styles.icon}
+                      />
+                    </Pressable>
+                  )}
+                </View>
+              </View>
+            </View>
+            <View style={styles.columnContainerRight}>
+              <View style={styles.batteryView}>
+                <View style={styles.batteryTip} />
+                <View style={styles.batteryContainer}>
+                  <View style={[styles.batteryFill]} />
+                  <View
+                    style={[
+                      styles.batteryFill,
+                      {
+                        backgroundColor: "transparent",
+                        height: 10,
+                        //FILL DINÂMICO ESTÁ TRANSPARENTE PARA DEPOIS SER REVISTO
+                      },
+                    ]}
+                  />
+                </View>
+              </View>
+              <Happyemoji
+                style={styles.batteryEmoji}
+                size="40"
+                color="#FEFEFE"
               />
-            </Pressable>
-          )}
+            </View>
+          </View>
         </View>
       </>
     );
   }
 };
 
-const Metricas = ({ selected }) => {
+const Metrics = ({ selected }) => {
   const userData = useSelector((state) => state.user.userID);
   const uid = userData;
   const [battery, setBattery] = useState(0);
@@ -475,68 +570,68 @@ const Metricas = ({ selected }) => {
 
   return (
     <>
-      <View style={styles.metricasElement}>
-        <View style={styles.metricasCircle}>
+      <View style={styles.metricsElement}>
+        <View style={styles.metricsCircle}>
           <MoneyRecive color="black" />
         </View>
 
         {selected == "personal" ? (
-          <Text style={styles.metricasElementText}>
+          <Text style={styles.metricsElementText}>
             Poupaste {(((150 * battery) / 100) * 0.15).toFixed(2)} euros.
           </Text>
         ) : (
-          <Text style={styles.metricasElementText}>
+          <Text style={styles.metricsElementText}>
             Pouparam {(((150 * batteryTeams) / 100) * 0.15).toFixed(2)} euros.
           </Text>
         )}
       </View>
-      <View style={styles.metricasElement}>
-        <View style={styles.metricasCircle}>
+      <View style={styles.metricsElement}>
+        <View style={styles.metricsCircle}>
           <Car color="black" />
         </View>
         {selected == "personal" ? (
-          <Text style={styles.metricasElementText}>
+          <Text style={styles.metricsElementText}>
             Consegues colocar{" "}
             {((((150 * battery) / 100) * 0.15) / 1.6).toFixed(2)} litros de
             combustível.
           </Text>
         ) : (
-          <Text style={styles.metricasElementText}>
+          <Text style={styles.metricsElementText}>
             Conseguem colocar{" "}
             {((((150 * batteryTeams) / 100) * 0.15) / 1.6).toFixed(2)} litros de
             combustível.
           </Text>
         )}
       </View>
-      <View style={styles.metricasElement}>
-        <View style={styles.metricasCircle}>
+      <View style={styles.metricsElement}>
+        <View style={styles.metricsCircle}>
           <Clock color="black" />
         </View>
         {selected == "personal" ? (
-          <Text style={styles.metricasElementText}>
+          <Text style={styles.metricsElementText}>
             A energia que poupaste equivale a carregar um portátil por{" "}
             {((((150 * battery) / 100) * 0.15 * 24) / 0.23).toFixed(0)} horas.
           </Text>
         ) : (
-          <Text style={styles.metricasElementText}>
+          <Text style={styles.metricsElementText}>
             A energia que pouparam equivale a carregar um portátil por{" "}
             {((((150 * batteryTeams) / 100) * 0.15 * 24) / 0.23).toFixed(0)}{" "}
             horas.
           </Text>
         )}
       </View>
-      <View style={styles.metricasElement}>
-        <View style={styles.metricasCircle}>
+      <View style={styles.metricsElement}>
+        <View style={styles.metricsCircle}>
           <Ticket color="black" />
         </View>
         {selected == "personal" ? (
-          <Text style={styles.metricasElementText}>
+          <Text style={styles.metricsElementText}>
             O dinheiro que poupaste equivale a{" "}
             {((((150 * battery) / 100) * 0.15 * 60) / 125).toFixed(2)}{" "}
             refeições.
           </Text>
         ) : (
-          <Text style={styles.metricasElementText}>
+          <Text style={styles.metricsElementText}>
             O dinheiro que pouparam equivale a{" "}
             {((((150 * batteryTeams) / 100) * 0.15 * 60) / 125).toFixed(2)}{" "}
             refeições.
@@ -630,14 +725,9 @@ export default function Dashboard() {
         <BatteryContainer selected={selected} />
         <View>
           {/* Metricas */}
-          <Text style={styles.metricasText}>Métricas</Text>
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <Metricas selected={selected} />
-          </ScrollView>
+          <Metrics selected={selected} />
         </View>
       </View>
     </SafeAreaView>
   );
 }
-
-const screenWidth = Dimensions.get("window").width;

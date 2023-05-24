@@ -51,6 +51,9 @@ export const styles = StyleSheet.create({
     paddingTop: CONST.backgroundPaddingTop + CONST.backgroundPaddingLateral,
     maxHeight: 440, //adicionei maxheight e já dá
   },
+  dashboardContent: {
+    paddingTop: CONST.backgroundPaddingTop,
+  },
   subContainer: {
     backgroundColor: CONST.lightBackgroundColor,
     position: "absolute",
@@ -524,6 +527,20 @@ export const styles = StyleSheet.create({
 
   // ---- DASHBOARD ---- //
 
+  rowContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  columnContainerLeft: {
+    flexDirection: "column",
+    //justifyContent: "space-between",
+  },
+  columnContainerRight: {
+    flexDirection: "column",
+    //  justifyContent: "space-between",
+    alignItems: "center",
+  },
+
   addPauseButtonContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -562,13 +579,13 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
   },
 
-  verEquipaButtonContainer: {
+  openTeamButtonContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
   },
 
-  verEquipaButton: {
+  openTeamButton: {
     backgroundColor: CONST.thirdOrange,
     color: CONST.darkerColor,
     borderBottomLeftRadius: 0,
@@ -634,6 +651,24 @@ export const styles = StyleSheet.create({
     marginLeft: 10,
   },
 
+  batteryValuesTitle: {
+    fontFamily: "GothamBook",
+    fontSize: CONST.pageTextSize,
+    color: CONST.whiteText,
+    paddingBottom: 10,
+  },
+  batteryValuesCharge: {
+    fontFamily: "GothamMedium",
+    fontSize: CONST.dashboardChargeSize,
+    color: CONST.whiteText,
+    paddingBottom: 15,
+  },
+  batteryValuesGoals: {
+    fontFamily: "GothamMedium",
+    fontSize: CONST.dashboardGoalsSize,
+    color: CONST.whiteText,
+  },
+
   batteryView: {
     //display: "none",
     flexDirection: "column",
@@ -648,6 +683,8 @@ export const styles = StyleSheet.create({
     borderRadius: 18,
     borderColor: CONST.whiteText,
     borderWidth: 1,
+    //overflow: "hidden",
+    //backgroundColor: "red",
   },
   batteryBolt: {
     position: "absolute",
@@ -670,13 +707,19 @@ export const styles = StyleSheet.create({
     //marginLeft: 4,
   },
   batteryFill: {
-    // height: 88,
+    position: "absolute",
+    marginRight: CONST.cardPadding,
+    width: 82.5,
+    height: 50,
     // width: 90, //máximo 163
     backgroundColor: CONST.whiteText,
-    borderRadius: 16,
-    position: "absolute",
-    left: CONST.screenWidth / 2 - 112,
-    transform: [{ rotate: "90deg" }],
+    borderTopRightRadius: 0,
+    borderTopLeftRadius: 0,
+    borderRadius: 16.5,
+    bottom: 0,
+    //position: "absolute",
+    //left: CONST.screenWidth / 2 - 112,
+    //transform: [{ rotate: "90deg" }],
   },
   batteryFillPause: {
     // height: 88,
@@ -685,6 +728,9 @@ export const styles = StyleSheet.create({
     borderRadius: 16,
     position: "absolute",
     left: CONST.screenWidth / 2 - 112,
+  },
+  batteryEmoji: {
+    paddingTop: 110,
   },
   /*
   toggleView: {
@@ -708,18 +754,18 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
   },
 
-  ButtonDashboardView: {
+  buttonDashboardView: {
     marginTop: 60,
     marginBottom: 60,
   },
-  ButtonDashboardContainer: {
+  buttonDashboardContainer: {
     backgroundColor: "#0051BA",
     width: CONST.screenWidth - 50,
     borderRadius: 15,
     alignItems: "center",
     flexDirection: "row",
   },
-  ButtonDashboardText: {
+  buttonDashboardText: {
     color: CONST.whiteText,
     fontSize: 16,
     fontFamily: "GothamMedium",
@@ -733,16 +779,21 @@ export const styles = StyleSheet.create({
     marginRight: 20,
   },
 
-  metricasElement: {
+  metricsText: {
+    fontSize: 20,
+    fontFamily: "GothamMedium",
+    marginBottom: 18,
+  },
+  metricsElement: {
     width: CONST.screenWidth - 50,
     //backgroundColor: "#E3ECF7",
     borderRadius: 15,
-
+    marginBottom: 20,
     marginTop: 20,
     flexDirection: "row",
     alignItems: "center",
   },
-  metricasCircle: {
+  metricsCircle: {
     backgroundColor: CONST.thirdBlue,
     height: CONST.heightButton,
     width: CONST.heightButton,
@@ -751,7 +802,7 @@ export const styles = StyleSheet.create({
     zIndex: 100,
     justifyContent: "center",
   },
-  metricasElementText: {
+  metricsElementText: {
     fontSize: CONST.pageSmallTextSize,
     color: CONST.darkerColor,
     fontFamily: "GothamBook",
@@ -760,7 +811,7 @@ export const styles = StyleSheet.create({
     lineHeight: 20,
   },
 
-  membrosView: {
+  membersView: {
     flexDirection: "row",
     alignItems: "center",
     marginTop: 30,
@@ -791,6 +842,12 @@ export const styles = StyleSheet.create({
     paddingTop: CONST.backgroundPaddingTop,
   },
 
+  profileInfo: {
+  flexDirection: "row",
+   alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: CONST.inputMargin,
+  },
   // ---- REWARDS PROFILE ----
   editprofileRewards: {
     flexDirection: "row",
@@ -879,6 +936,12 @@ export const styles = StyleSheet.create({
     marginTop: CONST.boxMargin,
     marginBottom: CONST.inputMargin,
   },
+
+  profileOptionsText: {
+    fontSize: CONST.pageTextSize,
+    color: CONST.darkerColor,
+    fontFamily: "GothamBook",
+},
   pauseBoxTop: {
     flexDirection: "row",
     justifyContent: "space-between",
