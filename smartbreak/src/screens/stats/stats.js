@@ -138,8 +138,6 @@ export default function Stats() {
           </Modal> */}
 
 
-
-
         <Dropdown
           data={dropdown}
           style={[styles.dropdown, focus]}
