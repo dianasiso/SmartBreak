@@ -12,6 +12,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import bg from "../../imgs/tips.png";
 
+
 // Font Gotham
 import { useFonts } from "expo-font";
 
