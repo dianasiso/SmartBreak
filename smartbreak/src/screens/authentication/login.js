@@ -34,6 +34,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [responseData, setResponseData] = useState(null);
 
   const handleLogin = async () => {
     try {
@@ -50,28 +51,32 @@ export default function Login() {
         }),
       });
 
-      const responseData = await response.json();
-
       if (response.ok) {
-        const userData = {
-          userID: responseData.id,
-          token: responseData.token,
-          email: email,
-          password: password,
-          name: responseData.name,
-          surname: responseData.surname,
-          admin: responseData.admin,
-          organization: responseData.organization,
-          department: responseData.department,
-        };
+        setResponseData(await response.json());
 
-        //console.log da resposta stringificada
-        console.log("RESPOSTA AQUI:", JSON.stringify(responseData));
+        if (responseData && responseData.user) {
+          const userData = {
+            userID: responseData.user._id,
+            token: responseData.user.token,
+            email: email,
+            password: password,
+            name: responseData.user.name,
+            surname: responseData.user.surname,
+            admin: responseData.user.admin,
+            organization: responseData.user.organization,
+            department: responseData.user.department,
+          };
 
-        dispatch(logUser(userData)); // faz dispatch da action logUser para o redux
+          //console.log da resposta stringificada
+          console.log("RESPOSTA AQUI:", JSON.stringify(responseData));
 
-        Alert.alert("Login successful");
-        handleNavigate(responseData.id); // navega para outra página
+          dispatch(logUser(userData)); // faz dispatch da action logUser para o redux
+
+          Alert.alert("Login successful");
+          handleNavigate(responseData.id); // navega para outra página
+        } else {
+          Alert.alert("Login failed", "Invalid response data");
+        }
       } else {
         Alert.alert("Login failed", responseData.message);
       }
