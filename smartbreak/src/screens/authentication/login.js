@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TextInput,
   Text,
@@ -36,9 +36,32 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [responseData, setResponseData] = useState(null);
 
+  useEffect(() => {
+    if (responseData && responseData.message === "Logged in successfully") {
+      const userData = {
+        userID: responseData.user._id,
+        token: responseData.token,
+        email: email,
+        password: password,
+        name: responseData.user.name,
+        surname: responseData.user.surname,
+        admin: responseData.user.admin,
+        organization: responseData.user.organization,
+        department: responseData.user.department,
+      };
+
+      dispatch(logUser(userData)); // dispatch the logUser action to Redux
+
+      Alert.alert("Login successful");
+      handleNavigate(responseData.user._id); // navigate to another page
+    } else if (responseData && responseData.message) {
+      Alert.alert("Login failed", responseData.message);
+    }
+  }, [responseData]);
+
   const handleLogin = async () => {
     try {
-      setLoading(true); // coloca loading a true para mostrar o loading screen
+      setLoading(true);
 
       const response = await fetch(apiURL, {
         method: "POST",
@@ -52,42 +75,19 @@ export default function Login() {
       });
 
       if (response.ok) {
-        setResponseData(await response.json());
-
-        if (responseData && responseData.user) {
-          const userData = {
-            userID: responseData.user._id,
-            token: responseData.user.token,
-            email: email,
-            password: password,
-            name: responseData.user.name,
-            surname: responseData.user.surname,
-            admin: responseData.user.admin,
-            organization: responseData.user.organization,
-            department: responseData.user.department,
-          };
-
-          //console.log da resposta stringificada
-          console.log("RESPOSTA AQUI:", JSON.stringify(responseData));
-
-          dispatch(logUser(userData)); // faz dispatch da action logUser para o redux
-
-          Alert.alert("Login successful");
-          handleNavigate(responseData.id); // navega para outra página
-        } else {
-          Alert.alert("Login failed", "Invalid response data");
-        }
+        const data = await response.json();
+        setResponseData(data);
       } else {
-        Alert.alert("Login failed", responseData.message);
+        const errorData = await response.json();
+        throw new Error(errorData.message);
       }
     } catch (error) {
       console.error(error);
-      Alert.alert("Error", "An error occurred during Login");
+      Alert.alert("Error", error.message);
     } finally {
-      setLoading(false); // coloca loading a false para esconder o loading screen
+      setLoading(false);
     }
   };
-
   const handleNavigate = (uid) => {
     navigation.navigate("TabRoutes");
   };
@@ -132,6 +132,7 @@ export default function Login() {
               <TextInput
                 style={styles.inputField}
                 onChangeText={(text) => setEmail(text.toLowerCase())}
+                autoCapitalize="none"
               />
               <Text style={styles.inputLabel}>Palavra-passe</Text>
               <TextInput
