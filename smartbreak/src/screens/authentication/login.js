@@ -16,9 +16,6 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useDispatch } from "react-redux";
 import { logUser } from "../../redux/user.js";
 
-// Font Gotham
-import { useFonts } from "expo-font";
-
 // Variables
 import * as CONST from "./../../styles/variables.js";
 
@@ -48,12 +45,21 @@ export default function Login() {
         admin: responseData.user.admin,
         organization: responseData.user.organization,
         department: responseData.user.department,
+        battery: responseData.user.battery,
+        total_battery: responseData.user.total_battery,
+        pause: responseData.user.pause,
+        rewards: responseData.user.rewards,
+        accessibility: responseData.user.accessibility,
+        permissions: responseData.user.permissions,
+        notifications: responseData.user.notifications,
+        created: responseData.user.created,
+        connected_in: responseData.user.connected_in,
       };
 
-      dispatch(logUser(userData)); // dispatch the logUser action to Redux
+      dispatch(logUser(userData)); // dispatch the logUser action para Redux
 
       Alert.alert("Login successful");
-      handleNavigate(responseData.user._id); // navigate to another page
+      handleNavigate(responseData.user._id); // navega para outra pagina
     } else if (responseData && responseData.message) {
       Alert.alert("Login failed", responseData.message);
     }
