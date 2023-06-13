@@ -343,7 +343,7 @@ export const styles = StyleSheet.create({
     padding: CONST.modalPadding,
     shadowColor: CONST.darkerColor,
     shadowRadius: CONST.shadowRadius,
-    width: CONST.screenWidth / 3 * 2,
+    width: (CONST.screenWidth / 3) * 2,
     shadowOpacity: 0.5,
     elevation: 10,
     overflow: "hidden",
@@ -487,6 +487,8 @@ export const styles = StyleSheet.create({
   profileInfo: {
     alignItems: "center",
     marginBottom: CONST.inputMargin,
+    flex: 1,
+    justifyContent: "center",
   },
   profileImage: {
     width: 100,
@@ -843,8 +845,8 @@ export const styles = StyleSheet.create({
   },
 
   profileInfo: {
-  flexDirection: "row",
-   alignItems: "center",
+    flexDirection: "row",
+    alignItems: "center",
     justifyContent: "space-between",
     marginBottom: CONST.inputMargin,
   },
@@ -941,7 +943,7 @@ export const styles = StyleSheet.create({
     fontSize: CONST.pageTextSize,
     color: CONST.darkerColor,
     fontFamily: "GothamBook",
-},
+  },
   pauseBoxTop: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -996,8 +998,8 @@ export const styles = StyleSheet.create({
   },
 
   shadowColor: CONST.enableColor,
-    shadowRadius: CONST.shadowRadius,
-    shadowOpacity: 1,
+  shadowRadius: CONST.shadowRadius,
+  shadowOpacity: 1,
 
   goalsBox: {
     flexDirection: "row",
