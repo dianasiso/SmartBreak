@@ -32,8 +32,8 @@ import * as CONST from "./../../styles/variables.js";
 
 //REDUX
 import { useDispatch } from "react-redux";
-import { selectBattery } from "./../../redux/actions.js";
-const userBattery = useSelector(selectBattery);
+// import { selectBattery } from "./../../redux/actions.js";
+// const userBattery = useSelector(selectBattery);
 
 //Preço kWh EDP segundo https://lojaluz.com/faq/preco-kwh a 13/06/2021
 const precoKwh = 0.1364;
@@ -79,65 +79,65 @@ const BatteryContainer = ({ selected }) => {
   const [teams, setTeams] = useState();
 
   useEffect(() => {
-    firebase
-      .firestore()
-      .collection("users_data")
-      .doc(uid)
-      .get()
-      .then((doc) => {
-        setTeams(doc.data().teams);
-        setPause(doc.data().pause);
+    // firebase
+    //   .firestore()
+    //   .collection("users_data")
+    //   .doc(uid)
+    //   .get()
+    //   .then((doc) => {
+    //     setTeams(doc.data().teams);
+    //     setPause(doc.data().pause);
 
-        let temp = doc.data().battery;
-        setBattery(temp);
-        // width max é 163
-        // temp -> 100
-        // width -> 163
-        if (temp < 3) {
-          setHeightBattery(70);
-        } else if (temp < 6) {
-          setHeightBattery(76);
-        } else if (temp < 9) {
-          setHeightBattery(79);
-        } else if (temp < 12) {
-          setHeightBattery(82);
-        } else {
-          setHeightBattery(88);
-        }
-        setWidthBattery((temp * 163) / 100);
+    //     let temp = doc.data().battery;
+    //     setBattery(temp);
+    //     // width max é 163
+    //     // temp -> 100
+    //     // width -> 163
+    //     if (temp < 3) {
+    //       setHeightBattery(70);
+    //     } else if (temp < 6) {
+    //       setHeightBattery(76);
+    //     } else if (temp < 9) {
+    //       setHeightBattery(79);
+    //     } else if (temp < 12) {
+    //       setHeightBattery(82);
+    //     } else {
+    //       setHeightBattery(88);
+    //     }
+    //     setWidthBattery((temp * 163) / 100);
 
-        if (doc.data().teams.length == 0) {
-          setHeightBatteryTeams(0);
-          setWidthBatteryTeams(0);
-          setBatteryTeamsTeams(0);
-        } else {
-          firebase
-            .firestore()
-            .collection("teams")
-            .doc(doc.data().teams[0])
-            .get()
-            .then((element) => {
-              console.log("ELEMENT: ", element.data());
-              let tempTeam = element.data().battery;
-              setBatteryTeams(tempTeam);
-              // width max é 163
-              // temp -> 100
-              // width -> 163
-              if (tempTeam < 3) {
-                setHeightBatteryTeams(70);
-              } else if (tempTeam < 6) {
-                setHeightBatteryTeams(76);
-              } else if (tempTeam < 9) {
-                setHeightBatteryTeams(79);
-              } else if (tempTeam < 12) {
-                setHeightBatteryTeams(82);
-              } else {
-                setHeightBatteryTeams(88);
-              }
-              setWidthBatteryTeams((tempTeam * 163) / 100);
-            });
-        }
-      });
+    //     if (doc.data().teams.length == 0) {
+    //       setHeightBatteryTeams(0);
+    //       setWidthBatteryTeams(0);
+    //       setBatteryTeamsTeams(0);
+    //     } else {
+    //       firebase
+    //         .firestore()
+    //         .collection("teams")
+    //         .doc(doc.data().teams[0])
+    //         .get()
+    //         .then((element) => {
+    //           console.log("ELEMENT: ", element.data());
+    //           let tempTeam = element.data().battery;
+    //           setBatteryTeams(tempTeam);
+    //           // width max é 163
+    //           // temp -> 100
+    //           // width -> 163
+    //           if (tempTeam < 3) {
+    //             setHeightBatteryTeams(70);
+    //           } else if (tempTeam < 6) {
+    //             setHeightBatteryTeams(76);
+    //           } else if (tempTeam < 9) {
+    //             setHeightBatteryTeams(79);
+    //           } else if (tempTeam < 12) {
+    //             setHeightBatteryTeams(82);
+    //           } else {
+    //             setHeightBatteryTeams(88);
+    //           }
+    //           setWidthBatteryTeams((tempTeam * 163) / 100);
+    //         });
+    //     }
+    //   });
   }, [userData]);
 
   const navigation = useNavigation();
@@ -186,13 +186,13 @@ const BatteryContainer = ({ selected }) => {
                   </Pressable>
                   <Pressable
                     onPress={() => {
-                      firebase
-                        .firestore()
-                        .collection("users_data")
-                        .doc(uid)
-                        .update({
-                          pause: !pause,
-                        });
+                      // firebase
+                      //   .firestore()
+                      //   .collection("users_data")
+                      //   .doc(uid)
+                      //   .update({
+                      //     pause: !pause,
+                      //   });
                       setPause(true);
                       setModalVisible(!modalVisible);
                     }}
@@ -311,61 +311,61 @@ const BatteryContainer = ({ selected }) => {
                   </Pressable>
                   <Pressable
                     onPress={() => {
-                      firebase
-                        .firestore()
-                        .collection("users_data")
-                        .doc(uid)
-                        .update({
-                          pause: !pause,
-                          battery: battery + 3,
-                        });
-                      firebase
-                        .firestore()
-                        .collection("teams")
-                        .doc(teams[0])
-                        .update({
-                          battery: batteryTeams + 1,
-                        });
-                      if (battery < 3) {
-                        setHeightBattery(70);
-                      } else if (battery < 6) {
-                        setHeightBattery(76);
-                      } else if (battery < 9) {
-                        setHeightBattery(82);
-                      } else if (battery < 12) {
-                        setHeightBattery(79);
-                      } else {
-                        setHeightBattery(88);
-                      }
-                      if (battery + 3 > 100) {
-                        setBattery(0);
-                        setWidthBattery(0);
-                      } else {
-                        setBattery(battery + 3);
-                        setWidthBattery((battery * 163) / 100);
-                      }
-                      if (batteryTeams < 3) {
-                        setHeightBatteryTeams(70);
-                      } else if (batteryTeams < 6) {
-                        setHeightBatteryTeams(76);
-                      } else if (batteryTeams < 9) {
-                        setHeightBatteryTeams(82);
-                      } else if (batteryTeams < 12) {
-                        setHeightBatteryTeams(79);
-                      } else {
-                        setHeightBatteryTeams(88);
-                      }
-                      if (batteryTeams + 3 > 100) {
-                        setBatteryTeams(0);
-                        setWidthBatteryTeams(0);
-                      } else {
-                        setBatteryTeams(batteryTeams + 3);
-                        setWidthBatteryTeams((batteryTeams * 163) / 100);
-                      }
+                      // firebase
+                      //   .firestore()
+                      //   .collection("users_data")
+                      //   .doc(uid)
+                      //   .update({
+                      //     pause: !pause,
+                      //     battery: battery + 3,
+                      //   });
+                      // firebase
+                      //   .firestore()
+                      //   .collection("teams")
+                      //   .doc(teams[0])
+                      //   .update({
+                      //     battery: batteryTeams + 1,
+                      //   });
+                      // if (battery < 3) {
+                      //   setHeightBattery(70);
+                      // } else if (battery < 6) {
+                      //   setHeightBattery(76);
+                      // } else if (battery < 9) {
+                      //   setHeightBattery(82);
+                      // } else if (battery < 12) {
+                      //   setHeightBattery(79);
+                      // } else {
+                      //   setHeightBattery(88);
+                      // }
+                      // if (battery + 3 > 100) {
+                      //   setBattery(0);
+                      //   setWidthBattery(0);
+                      // } else {
+                      //   setBattery(battery + 3);
+                      //   setWidthBattery((battery * 163) / 100);
+                      // }
+                      // if (batteryTeams < 3) {
+                      //   setHeightBatteryTeams(70);
+                      // } else if (batteryTeams < 6) {
+                      //   setHeightBatteryTeams(76);
+                      // } else if (batteryTeams < 9) {
+                      //   setHeightBatteryTeams(82);
+                      // } else if (batteryTeams < 12) {
+                      //   setHeightBatteryTeams(79);
+                      // } else {
+                      //   setHeightBatteryTeams(88);
+                      // }
+                      // if (batteryTeams + 3 > 100) {
+                      //   setBatteryTeams(0);
+                      //   setWidthBatteryTeams(0);
+                      // } else {
+                      //   setBatteryTeams(batteryTeams + 3);
+                      //   setWidthBatteryTeams((batteryTeams * 163) / 100);
+                      // }
 
-                      setPause(false);
+                      // setPause(false);
 
-                      setModalVisible(!modalVisible);
+                      // setModalVisible(!modalVisible);
                     }}
                     style={styles.buttonAdd}
                   >
@@ -543,26 +543,26 @@ const Metrics = ({ selected }) => {
   const [kwhTeams, setKwhTeams] = useState(0);
 
   useEffect(() => {
-    firebase
-      .firestore()
-      .collection("users_data")
-      .doc(uid)
-      .onSnapshot((doc) => {
-        setTeams(doc.data().teams);
-        setBattery(doc.data().battery);
+    // firebase
+    //   .firestore()
+    //   .collection("users_data")
+    //   .doc(uid)
+    //   .onSnapshot((doc) => {
+    //     setTeams(doc.data().teams);
+    //     setBattery(doc.data().battery);
 
-        if (doc.data().teams.length != 0) {
-          firebase
-            .firestore()
-            .collection("teams")
-            .doc(doc.data().teams[0])
-            .onSnapshot((element) => {
-              setBatteryTeams(element.data().battery);
-              setKwh((150 * battery) / 100);
-              setKwhTeams((150 * batteryTeams) / 100);
-            });
-        }
-      });
+    //     if (doc.data().teams.length != 0) {
+    //       firebase
+    //         .firestore()
+    //         .collection("teams")
+    //         .doc(doc.data().teams[0])
+    //         .onSnapshot((element) => {
+    //           setBatteryTeams(element.data().battery);
+    //           setKwh((150 * battery) / 100);
+    //           setKwhTeams((150 * batteryTeams) / 100);
+    //         });
+    //     }
+    //   });
   }, [userData]);
 
   const metrics = (value) => {

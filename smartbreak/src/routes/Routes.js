@@ -387,24 +387,6 @@ const ProfileStackNavigation = ({ navigation }) => {
           ),
         }}
       />
-       <ProfileStack.Screen
-        name="Accessibility"
-        component={Accessibility}
-        options={{
-          headerShown: true,
-          headerTitle: "",
-          headerShadowVisible: false,
-          headerLeft: () => (
-            <View style={styles.returnTopButton}>
-              <ArrowLeft2
-                size="24"
-                color="#333333"
-                onPress={() => navigation.navigate("ProfileSettings")}
-              />
-            </View>
-          ),
-        }}
-      />
       <ProfileStack.Screen
         name="NotificationsProfile"
         component={NotificationsProfile}

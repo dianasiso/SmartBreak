@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TextInput,
   Text,
@@ -46,27 +46,65 @@ export default function Register() {
   // select items
   const [open, setOpen] = useState(false);
   const [valueOrg, setValueOrg] = useState("");
-  const [items, setItems] = useState([
-    { label: "Universidade de Aveiro", value: "Universidade de Aveiro" },
-    { label: "Universidade de Coimbra", value: "Universidade de Coimbra" },
-  ]);
+  const [items, setItems] = useState([]);
+  const [orgId, setOrgId] = useState("");
 
-  // fields
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [department, setDepartment] = useState("");
-  const [notifications, setNotifications] = useState([
-    true,
-    false,
-    false,
-    false,
-  ]);
+  const [openDep, setOpenDep] = useState(false);
+  const [valueDep, setValueDep] = useState("");
+  const [itemsDep, setItemsDep] = useState([]);
 
-  const loadingScreen = () => {
+
+    // fields
+    const [name, setName] = useState("");
+    const [surname, setSurname] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [organization, setOrganization] = useState("");
+    const [department, setDepartment] = useState("");
+    const [notifications, setNotifications] = useState([
+      true,
+      false,
+      false,
+      false,
+    ]);
+  
+
+    useEffect(() => {
+      async function fetchData() {
+        try {
+          setLoading(true);
+          const response = await fetch("https://sb-api.herokuapp.com/organizations", {
+            method: "GET"
+          });
+  
+          if (response.ok) {
+            const data = await response.json();
+            const message = data.message;
+            for (let i = 0; i < message.length; i++) {
+              const newItem = { label: message[i].name, value: message[i]._id };
+              setItems(prevItems => [...prevItems, newItem]);
+            }
+            
+          } else {
+            const errorData = await response.json();
+            throw new Error(errorData.message);
+          }
+        } catch (error) {
+          console.error(error);
+          Alert.alert("Error", error.message);
+        } finally {
+          setLoading(false);
+        }
+      }
+  
+      fetchData();
+    }, [setItemsDep]);
+
+
+    
+   const loadingScreen = () => {
     return (
       <Image
         source={require("./../../imgs/img_loading_v2.gif")}
@@ -75,8 +113,8 @@ export default function Register() {
           width: CONST.screenWidth / 4,
           marginLeft: "auto",
           marginRight: "auto",
-          marginTop: "auto",
-          marginBottom: "auto",
+          marginTop: 'auto',
+          marginBottom: CONST.screenHeight/2,
         }}
       />
     );
@@ -170,6 +208,11 @@ export default function Register() {
       setLoading(false);
       return false;
     }
+    if (valueDep == null) {
+      Alert.alert("Preencha corretamente o campo Departamento");
+      setLoading(false);
+      return false;
+    }
     if (password.length === 0) {
       Alert.alert("Preencha corretamente o campo Palavra-passe");
       setLoading(false);
@@ -259,16 +302,15 @@ export default function Register() {
               onChangeText={(text) => setEmail(text.toLowerCase())}
             />
 
-            <Text
+<Text
               accessible={true}
               accessibilityLabel="Texto na cor preta num fundo branco escrito Empresa."
               style={styles.inputLabel}
             >
               Empresa
             </Text>
-
-            {/* TODO: ADD ACESSIBILIDADE NO DROPDOWNPICKER */}
             <DropDownPicker
+              zIndex={1000}
               autoScroll={true}
               open={open}
               value={valueOrg}
@@ -276,6 +318,62 @@ export default function Register() {
               setOpen={setOpen}
               setValue={setValueOrg}
               setItems={setItems}
+              style={styles.inputField}
+              placeholder=""
+              multiple={false}
+              showTickIcon={false}
+              closeAfterSelecting={true}
+              onSelectItem={(item) => {
+                setOrganization(JSON.stringify(item.value));
+                Alert.alert(JSON.stringify(item.value));
+
+                const apiURLDep = "https://sb-api.herokuapp.com/departments/organization/" + JSON.stringify(item.value).replace(/"/g, '');
+                Alert.alert(apiURLDep)
+               
+                async function fetchDataDep() {
+                  try {
+                    const response = await fetch(apiURLDep, {
+                      method: "GET"
+                    });
+            
+                    if (response.ok) {
+                      const data = await response.json();
+                      // Alert.alert(JSON.stringify(data));
+                      const message = data.message;
+                      for (let i = 0; i < message.length; i++) {
+                        const newItem = { label: message[i].name, value: message[i].name };
+                        setItemsDep(prevItems => [...prevItems, newItem]);
+                      }
+                      
+                    } else {
+                      const errorData = await response.json();
+                      throw new Error(errorData.message);
+                    }
+                  } catch (error) {
+                    console.error(error);
+                    Alert.alert("Error", error.message);
+                  } 
+                }
+            
+                fetchDataDep();
+
+              }}
+            />
+            <Text
+              accessible={true}
+              accessibilityLabel="Texto na cor preta num fundo branco escrito Departamento."
+              style={styles.inputLabel}
+            >
+              Departamento
+            </Text>
+            <DropDownPicker
+              autoScroll={true}
+              open={openDep}
+              value={valueDep}
+              items={itemsDep}
+              setOpen={setOpenDep}
+              setValue={setValueDep}
+              setItems={setItemsDep}
               style={styles.inputField}
               placeholder=""
               multiple={false}
@@ -336,82 +434,3 @@ export default function Register() {
     </SafeAreaProvider>
   );
 }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#0051BA",
-//     flexDirection: "column",
-//   },
-//   groupContainer: {
-//     paddingLeft: 25,
-//     paddingRight: 25,
-//   },
-//   subContainer: {
-//     flexDirection: "column",
-//     backgroundColor: "#FFF",
-//     borderBottomLeftRadius: 0,
-//     borderBottomRightRadius: 0,
-//     borderTopRightRadius: 50,
-//     borderTopLeftRadius: 50,
-//     paddingLeft: 25,
-//     paddingRight: 25,
-//     paddingTop: 40,
-//     height: (4 * screenHeight) / 5,
-//   },
-//   registerPhoto: {
-//     height: screenWidth / 5,
-//     width: screenWidth / 5,
-//     marginLeft: "auto",
-//     marginRight: "auto",
-//     borderRadius: screenWidth / 10,
-//     flex: 1 / 2,
-//   },
-//   inputField: {
-//     borderBottomColor: "#000000",
-//     borderBottomWidth: 1,
-//     marginBottom: 40,
-//     borderTopWidth: 0,
-//     borderLeftWidth: 0,
-//     borderRightWidth: 0,
-//     borderRadius: 0,
-//   },
-//   inputFieldPass: {
-//     borderBottomColor: "#000000",
-//     borderBottomWidth: 1,
-//     marginBottom: 10,
-//     borderTopWidth: 0,
-//     borderLeftWidth: 0,
-//     borderRightWidth: 0,
-//     borderRadius: 0,
-//   },
-//   buttonText: {
-//     fontFamily: "GothamBook",
-//     color: "#FFF",
-//     fontSize: 18,
-//     textAlign: "center",
-//   },
-//   button: {
-//     backgroundColor: "#0051BA",
-//     justifyContent: "center",
-//     height: 48,
-//     borderRadius: 15,
-//     marginBottom: 40,
-//     marginTop: 20,
-//   },
-//   textMessageTitle: {
-//     fontSize: 24,
-//     textAlign: "left",
-//     paddingTop: 40,
-//     fontFamily: "GothamBook",
-//     color: "#FFFFFF",
-//   },
-//   textMessageBody: {
-//     fontSize: 16,
-//     lineHeight: 24,
-//     textAlign: "left",
-//     paddingTop: 15,
-//     fontFamily: "GothamBook",
-//     color: "#FFFFFF",
-//   },
-// });

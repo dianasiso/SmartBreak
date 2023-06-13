@@ -75,10 +75,10 @@ export default function ProfileSettings({ navigation }) {
   };
 
   const terminarsessao = () => {
-    if (!uid) {
-      console.error("UID is undefined");
-      return;
-    }
+    // if (!uid) {
+    //   console.error("UID is undefined");
+    //   return;
+    // }
     Alert.alert("Atenção", "Tem a certeza que deseja terminar a sessão? ", [
       { text: "Cancelar" },
       {
