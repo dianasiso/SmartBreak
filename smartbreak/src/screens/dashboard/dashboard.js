@@ -28,12 +28,15 @@ import * as ScreenOrientation from "expo-screen-orientation";
 
 // CSS
 import { styles } from "./../../styles/css.js";
-
-// CSS
 import * as CONST from "./../../styles/variables.js";
 
-// Firebase
-import firebase from "./../../config/firebase.js";
+//REDUX
+import { useDispatch } from "react-redux";
+import { selectBattery } from "./../../redux/actions.js";
+const userBattery = useSelector(selectBattery);
+
+//Preço kWh EDP segundo https://lojaluz.com/faq/preco-kwh a 13/06/2021
+const precoKwh = 0.1364;
 
 const Battery = ({ selected }) => {
   if (pausa === false) {
