@@ -54,9 +54,10 @@ export default function Login() {
         notifications: responseData.user.notifications,
         created: responseData.user.created,
         connected_in: responseData.user.connected_in,
+        token: responseData.token,
       };
 
-      dispatch(logUser(userData)); // dispatch the logUser action para Redux
+      dispatch(logUser(userData)); // dispatch logUser action para Redux
 
       Alert.alert("Login successful");
       handleNavigate(responseData.user._id); // navega para outra pagina

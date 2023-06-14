@@ -12,23 +12,16 @@ import {
   Pressable,
 } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 // Font Gotham
 import { useFonts } from "expo-font";
-
-// Firebase
-import firebase from "./../../config/firebase.js";
 
 // CSS
 import { styles } from "./../../styles/css.js";
 
 // Variables
 import * as CONST from "./../../styles/variables.js";
-
-import { LogBox } from "react-native";
-LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
-LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 export default function EditProfile({ navigation }) {
   // Loading Gotham font
@@ -37,86 +30,76 @@ export default function EditProfile({ navigation }) {
     GothamBook: require("./../../fonts/GothamBook.ttf"),
   });
 
-  const [name, setName] = useState();
-  const [lastName, setLastName] = useState();
-  const [email, setEmail] = useState();
-  const [organization, setOrganization] = useState();
-  const [rewards, setRewards] = useState();
-  const userData = useSelector((state) => state.user.userID);
-  const uid = userData;
+  const dispatch = useDispatch();
+  const userData = useSelector((state) => state.user);
 
-  useEffect(() => {
-    firebase
-      .firestore()
-      .collection("users_data")
-      .doc(uid)
-      .get()
-      .then((doc) => {
-        setName(doc.data().name);
-        setLastName(doc.data().lastName);
-        setEmail(doc.data().email);
-        setOrganization(doc.data().organization);
-        setRewards(doc.data().rewards);
-      });
-  }, []);
+  const [name, setName] = useState(userData.name);
+  const [lastName, setLastName] = useState(userData.lastName);
+  const [email, setEmail] = useState(userData.email);
+  const [rewards, setRewards] = useState(userData.rewards);
+  const userID = userData.userID;
+  const token = userData.token;
+  console.log(token);
 
-  const validate_email = (text) => {
-    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    if (reg.test(text) === false) {
-      return false;
-    }
-    return true;
-  };
-
-  const editarperfil = () => {
-    let updatedUserData = {};
-    Alert.alert("Atenção", "Deseja confirmar as alterações?", [
-      { text: "Cancelar" },
-      {
-        text: "Confirmar",
-        onPress: () => {
-          if (validate_email) {
-            firebase.firestore().collection("users_data").doc(uid).update({
-              name: name,
-              lastName: lastName,
-              email: email,
-              rewards: rewards,
-            });
-            navigation.navigate("ProfilePage", {
-              updatedUserData: { name, lastName, email, rewards },
-            });
-          } else {
-            Alert.alert(
-              "Email inválido!",
-              "Preencha corretamente o campo E-mail."
-            );
-          }
+  async function updateUserProfile(updatedProfileData) {
+    try {
+      const apiURLUser = "https://sb-api.herokuapp.com/users/" + userID; // Replace with your API endpoint
+      console.log(apiURLUser);
+      const response = await fetch(apiURLUser, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
         },
-      },
-    ]);
-  };
-  const [refreshing, setRefreshing] = useState(false);
+        body: JSON.stringify(updatedProfileData),
+      });
 
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  }, []);
+      console.log(JSON.stringify(response));
 
-  const toggleSwitch = () => {
-    setRewards(!rewards);
+      if (response.ok) {
+        const data = await response.json();
+        return data; // retorna os dados do perfil atualizado
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.message);
+      }
+    } catch (error) {
+      throw new Error("Failed to update profile" + error); // dá erro se nao conseguir atualizar o perfil
+    }
+  }
+
+  const handleProfileUpdate = async () => {
+    try {
+      const updatedProfileData = {
+        name: name,
+        lastName: lastName,
+        email: email,
+        rewards: rewards,
+      };
+
+      // chamar a funçao da api para atualizar o perfil
+      const response = await updateUserProfile(updatedProfileData);
+
+      // atualizar o redux com os dados do perfil novos
+      dispatch({ type: "UPDATE_USER_PROFILE", payload: response });
+
+      Alert.alert("Success", "Profile updated successfully");
+      navigation.navigate("ProfilePage");
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Error", "Failed to update profile");
+    }
   };
 
   return (
     <SafeAreaProvider>
       <StatusBar style="dark" />
-      <ScrollView 
+      <ScrollView
         showsVerticalScrollIndicator={false}
-        style={[styles.containerLight]}>
-
+        style={[styles.containerLight]}
+      >
         <View style={styles.profileInfo}>
-          <Image  
+          <Image
             accessible={true}
             accessibilityLabel="Foto de perfil."
             source={require("../../imgs/ester.png")}
@@ -128,7 +111,10 @@ export default function EditProfile({ navigation }) {
           <Text
             accessible={true}
             accessibilityLabel="Texto na cor preta num fundo branco escrito Nome."
-            style={styles.inputLabel}>Nome</Text>
+            style={styles.inputLabel}
+          >
+            Nome
+          </Text>
           <TextInput
             accessible={true}
             accessibilityLabel="Campo para introdução do Nome."
@@ -140,7 +126,10 @@ export default function EditProfile({ navigation }) {
           <Text
             accessible={true}
             accessibilityLabel="Texto na cor preta num fundo branco escrito Sobrenome."
-            style={styles.inputLabel}>Sobrenome</Text>
+            style={styles.inputLabel}
+          >
+            Sobrenome
+          </Text>
           <TextInput
             accessible={true}
             accessibilityLabel="Campo para introdução do Sobrenome."
@@ -152,51 +141,41 @@ export default function EditProfile({ navigation }) {
           <Text
             accessible={true}
             accessibilityLabel="Texto na cor preta num fundo branco escrito E-mail."
-            style={styles.inputLabel}>Email</Text>
+            style={styles.inputLabel}
+          >
+            Email
+          </Text>
           <TextInput
             accessible={true}
             accessibilityLabel="Campo para introdução do E-mail."
             style={styles.inputField}
-            onChangeText={(text) => setEmail(text.toLowerCase())}
+            onChangeText={(text) => setEmail(text)}
             value={email}
           />
 
           <Text
             accessible={true}
-            accessibilityLabel="Texto na cor preta num fundo branco escrito Empresa."
-            style={styles.inputLabel}>Empresa</Text>
-          <TextInput
+            accessibilityLabel="Texto na cor preta num fundo branco escrito Recompensas."
+            style={styles.inputLabel}
+          >
+            Recompensas
+          </Text>
+          <Switch
             accessible={true}
-            accessibilityLabel="Campo para visualização da empresa. Campo não editável."
-            style={styles.inputField}
-            placeholder={organization}
-            placeholderTextColor={CONST.enableColor}
-            editable={false}
+            accessibilityLabel="Interruptor para ativar ou desativar as Recompensas."
+            value={rewards}
+            onValueChange={(value) => setRewards(value)}
           />
-
-          <View style={styles.editprofileRewards} >
-            <Text 
-              accessible={true}
-              accessibilityLabel="Texto na cor preta num fundo branco escrito Tornar as recompensas públicas. Possui um switch à frente para ativar ou desativar a opção."
-              style={styles.normalText}>
-              Tornar as recompensas públicas
-            </Text>
-            <Switch
-              accessible={true}
-              accessibilityLabel={rewards ?  "Ativado" : "Desativado"}
-              trackColor={{ false: CONST.switchOffColor, true: CONST.switchOnColor }}
-              thumbColor={rewards ? CONST.switchIndicatorColor : CONST.mainBlue}
-              value={rewards}
-              onValueChange={toggleSwitch}
-            />
-          </View>
         </View>
-        <View>
-          <Pressable 
+
+        <View style={styles.buttonContainer}>
+          <Pressable
             accessible={true}
-            accessibilityLabel="Botão da cor azul escura num fundo branco com o objetivo de guardar as alterações. Tem escrito na cor branca a palavra Concluído."
-            onPress={() => editarperfil()} style={styles.primaryButton}>
-            <Text style={styles.primaryButtonText}>Concluído</Text>
+            accessibilityLabel="Botão para salvar as alterações no perfil do usuário."
+            style={[styles.primaryButton, styles.button]}
+            onPress={handleProfileUpdate}
+          >
+            <Text style={styles.buttonText}>Salvar</Text>
           </Pressable>
         </View>
       </ScrollView>
