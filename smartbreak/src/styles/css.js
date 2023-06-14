@@ -66,9 +66,9 @@ export const styles = StyleSheet.create({
     borderTopLeftRadius: CONST.largeCardRadius,
     paddingLeft: CONST.cardPadding,
     paddingRight: CONST.cardPadding,
-    paddingBottom: CONST.cardPadding + 10,
-    paddingTop: CONST.cardPadding + 10,
-    maxHeight: (CONST.screenHeight / 3) * 2,
+    paddingBottom: CONST.cardPadding,
+    paddingTop: CONST.cardPadding,
+    maxHeight: (CONST.screenHeight / 5) * 3,
   },
   // ---- buttons ----
   primaryButtonText: {
@@ -230,6 +230,7 @@ export const styles = StyleSheet.create({
     color: CONST.darkerColor,
     textAlign: "left",
     paddingBottom: CONST.inputPadding,
+    marginTop: CONST.inputMargin,
   },
   inputLabelWhite: {
     fontFamily: "GothamBook",

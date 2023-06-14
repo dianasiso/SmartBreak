@@ -4,13 +4,18 @@ import {
   TextInput,
   Text,
   View,
+  KeyboardAvoidingView,
   ScrollView,
   Alert,
   Image,
   Pressable,
 } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import {
+  Eye,
+  EyeSlash
+} from "iconsax-react-native";
+
 
 // Password meter
 import PassMeter from "react-native-passmeter";
@@ -53,68 +58,70 @@ export default function Register() {
   const [valueDep, setValueDep] = useState("");
   const [itemsDep, setItemsDep] = useState([]);
 
+  // fields
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [organization, setOrganization] = useState("");
+  const [department, setDepartment] = useState("");
+  const [notifications, setNotifications] = useState([
+    true,
+    false,
+    false,
+    false,
+  ]);
 
-    // fields
-    const [name, setName] = useState("");
-    const [surname, setSurname] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [organization, setOrganization] = useState("");
-    const [department, setDepartment] = useState("");
-    const [notifications, setNotifications] = useState([
-      true,
-      false,
-      false,
-      false,
-    ]);
-  
 
-    useEffect(() => {
-      async function fetchData() {
-        try {
-          setLoading(true);
-          const response = await fetch("https://sb-api.herokuapp.com/organizations", {
-            method: "GET"
-          });
-  
-          if (response.ok) {
-            const data = await response.json();
-            const message = data.message;
-            for (let i = 0; i < message.length; i++) {
-              const newItem = { label: message[i].name, value: message[i]._id };
-              setItems(prevItems => [...prevItems, newItem]);
-            }
-            
-          } else {
-            const errorData = await response.json();
-            throw new Error(errorData.message);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        setLoading(true);
+        const response = await fetch("https://sb-api.herokuapp.com/organizations", {
+          method: "GET"
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const message = data.message;
+          for (let i = 0; i < message.length; i++) {
+            const newItem = { label: message[i].name, value: message[i]._id };
+            setItems(prevItems => [...prevItems, newItem]);
           }
-        } catch (error) {
-          console.error(error);
-          Alert.alert("Error", error.message);
-        } finally {
-          setLoading(false);
+
+        } else {
+          const errorData = await response.json();
+          throw new Error(errorData.message);
         }
+      } catch (error) {
+        console.error(error);
+        Alert.alert("Error", error.message);
+      } finally {
+        setLoading(false);
       }
-  
-      fetchData();
-    }, [setItemsDep]);
+    }
+
+    fetchData();
+  }, [setItemsDep]);
 
 
-    
-   const loadingScreen = () => {
+
+  const loadingScreen = () => {
     return (
       <Image
-        source={require("./../../imgs/img_loading_v2.gif")}
+        source={require("./../../imgs/loading-sb-logo-white.gif")}
         style={{
-          height: CONST.screenWidth / 3.4,
+          height: CONST.screenWidth / 4,
           width: CONST.screenWidth / 4,
           marginLeft: "auto",
           marginRight: "auto",
           marginTop: 'auto',
-          marginBottom: CONST.screenHeight/2,
+          marginBottom: CONST.screenHeight / 2,
         }}
       />
     );
@@ -135,7 +142,8 @@ export default function Register() {
             email: email,
             password: password,
             admin: false,
-            department: "DECA" //TODO: TO CHANGE
+            department: department,
+            organization: organization,
           }),
         }
       );
@@ -146,14 +154,15 @@ export default function Register() {
         email: email,
         password: password,
         admin: false,
-        department: "DECA"
+        department: department,
+        organization: organization,
       });
 
       console.log(res + "TÁ AQUI");
 
       if (response.ok) {
         // registo com sucesso
-        Alert.alert("Registration successful");
+        // Alert.alert("Registration successful");
         // --->  redireccionar para outra pagina
       } else {
         const errorData = await response.json();
@@ -232,7 +241,10 @@ export default function Register() {
   };
 
   return (
-    <SafeAreaProvider style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
       <StatusBar style="light" />
       <ScrollView>
         <Text
@@ -245,14 +257,13 @@ export default function Register() {
         <Text
           accessible={true}
           accessibilityLabel="Texto na cor branca num fundo azul escuro escrito  Estamos contentes por teres tomado esta iniciativa. Vem fazer energy breaks."
-          style={styles.normalTextWhite}
-        >
+          style={[styles.normalTextWhite, { paddingTop: CONST.boxPadding, paddingBottom: CONST.inputMargin }]}>
           Estamos contentes por teres tomado esta iniciativa. Vem fazer energy
           breaks.
         </Text>
       </ScrollView>
 
-      {loading == true ? (
+      {loading ? (
         loadingScreen()
       ) : (
         <View style={styles.subContainer}>
@@ -302,14 +313,20 @@ export default function Register() {
               onChangeText={(text) => setEmail(text.toLowerCase())}
             />
 
-<Text
+            <Text
               accessible={true}
               accessibilityLabel="Texto na cor preta num fundo branco escrito Empresa."
-              style={styles.inputLabel}
+              style={[styles.inputLabel, { paddingBottom: 0 }]}
             >
               Empresa
             </Text>
             <DropDownPicker
+              selectedItemContainerStyle={{
+
+                fontFamily: "GothamBook",
+                fontSize: CONST.pageSmallTextSize,
+                color: CONST.darkerColor
+              }}
               zIndex={1000}
               autoScroll={true}
               open={open}
@@ -325,17 +342,15 @@ export default function Register() {
               closeAfterSelecting={true}
               onSelectItem={(item) => {
                 setOrganization(JSON.stringify(item.value));
-                Alert.alert(JSON.stringify(item.value));
 
                 const apiURLDep = "https://sb-api.herokuapp.com/departments/organization/" + JSON.stringify(item.value).replace(/"/g, '');
-                Alert.alert(apiURLDep)
-               
+
                 async function fetchDataDep() {
                   try {
                     const response = await fetch(apiURLDep, {
                       method: "GET"
                     });
-            
+
                     if (response.ok) {
                       const data = await response.json();
                       // Alert.alert(JSON.stringify(data));
@@ -344,7 +359,7 @@ export default function Register() {
                         const newItem = { label: message[i].name, value: message[i].name };
                         setItemsDep(prevItems => [...prevItems, newItem]);
                       }
-                      
+
                     } else {
                       const errorData = await response.json();
                       throw new Error(errorData.message);
@@ -352,9 +367,9 @@ export default function Register() {
                   } catch (error) {
                     console.error(error);
                     Alert.alert("Error", error.message);
-                  } 
+                  }
                 }
-            
+
                 fetchDataDep();
 
               }}
@@ -362,11 +377,12 @@ export default function Register() {
             <Text
               accessible={true}
               accessibilityLabel="Texto na cor preta num fundo branco escrito Departamento."
-              style={styles.inputLabel}
+              style={[styles.inputLabel, { paddingBottom: 0 }]}
             >
               Departamento
             </Text>
             <DropDownPicker
+              zIndex={10}
               autoScroll={true}
               open={openDep}
               value={valueDep}
@@ -379,7 +395,9 @@ export default function Register() {
               multiple={false}
               showTickIcon={false}
               closeAfterSelecting={true}
-              onChangeText={(text) => setDepartment(text)}
+              onSelectItem={(item) => {
+                setDepartment(JSON.stringify(item.value));
+              }}
             />
 
             <Text
@@ -389,13 +407,29 @@ export default function Register() {
             >
               Palavra-passe
             </Text>
-            <TextInput
-              secureTextEntry={true}
-              style={styles.inputField}
-              accessible={true}
-              accessibilityLabel="Campo para introdução da Palavra-passe."
-              onChangeText={(text) => setPassword(text)}
-            />
+            <View style={{ flexDirection: 'row', width: '100%' }}>
+              <TextInput
+                secureTextEntry={showPassword ? false : true}
+                style={[styles.inputField, { width: '90%' }]}
+                accessible={true}
+                accessibilityLabel="Campo para introdução da Palavra-passe."
+                onChangeText={(text) => setPassword(text)}
+              />
+              {showPassword ?
+                <EyeSlash
+                  style={{ marginLeft: 'auto', marginRight: 'auto' }}
+                  size={CONST.pageSubtitleSize}
+                  color={CONST.darkerColor}
+                  onPress={() => setShowPassword(!showPassword)}
+                />
+                :
+                <Eye
+                  style={{ marginLeft: 'auto', marginRight: 'auto' }}
+                  size={CONST.pageSubtitleSize}
+                  color={CONST.darkerColor}
+                  onPress={() => setShowPassword(!showPassword)}
+                />}
+            </View>
             <View style={styles.passwordProgressBar}>
               <PassMeter
                 showLabels={false}
@@ -412,18 +446,32 @@ export default function Register() {
             >
               Confirmar nova palavra-passe
             </Text>
-            <TextInput
-              accessible={true}
-              accessibilityLabel="Campo para introdução da Confirmação da nova palavra-passe."
-              secureTextEntry={true}
-              style={styles.inputField}
-              onChangeText={(text) => setConfirmPassword(text)}
-            />
+            <View style={{ flexDirection: 'row', width: '100%' }}>
+              <TextInput
+                secureTextEntry={showPasswordConfirm ? false : true}
+                style={[styles.inputField, { width: '90%' }]}
+                onChangeText={(text) => setConfirmPassword(text)}
+              />
+              {showPasswordConfirm ?
+                <EyeSlash
+                  style={{ marginLeft: 'auto', marginRight: 'auto' }}
+                  size={CONST.pageSubtitleSize}
+                  color={CONST.darkerColor}
+                  onPress={() => setShowPasswordConfirm(!showPasswordConfirm)}
+                />
+                :
+                <Eye
+                  style={{ marginLeft: 'auto', marginRight: 'auto' }}
+                  size={CONST.pageSubtitleSize}
+                  color={CONST.darkerColor}
+                  onPress={() => setShowPasswordConfirm(!showPasswordConfirm)}
+                />}
+            </View>
           </ScrollView>
 
           <Pressable
             accessible={true}
-            accessibilityLabel="Botão da cor azul escura num fundo branco com o objetivo de efetuar o Login. Tem escrito na cor branca a palavra Entrar."
+            accessibilityLabel="Botão da cor azul escura num fundo branco com o objetivo de efetuar o registo. Tem escrito na cor branca a palavra Registar."
             onPress={() => submit()}
             style={styles.primaryButton}
           >
@@ -431,6 +479,6 @@ export default function Register() {
           </Pressable>
         </View>
       )}
-    </SafeAreaProvider>
+    </KeyboardAvoidingView>
   );
 }
