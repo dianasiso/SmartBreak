@@ -11,7 +11,11 @@ import {
   Pressable,
 } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import {
+  Eye,
+  EyeSlash
+} from "iconsax-react-native";
+
 
 // Password meter
 import PassMeter from "react-native-passmeter";
@@ -54,7 +58,6 @@ export default function Register() {
   const [valueDep, setValueDep] = useState("");
   const [itemsDep, setItemsDep] = useState([]);
 
-
   // fields
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
@@ -71,6 +74,9 @@ export default function Register() {
     false,
   ]);
 
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -108,9 +114,9 @@ export default function Register() {
   const loadingScreen = () => {
     return (
       <Image
-        source={require("./../../imgs/img_loading_v2.gif")}
+        source={require("./../../imgs/loading-sb-logo-white.gif")}
         style={{
-          height: CONST.screenWidth / 3.4,
+          height: CONST.screenWidth / 4,
           width: CONST.screenWidth / 4,
           marginLeft: "auto",
           marginRight: "auto",
@@ -257,7 +263,7 @@ export default function Register() {
         </Text>
       </ScrollView>
 
-      {loading == true ? (
+      {loading ? (
         loadingScreen()
       ) : (
         <View style={styles.subContainer}>
@@ -315,12 +321,12 @@ export default function Register() {
               Empresa
             </Text>
             <DropDownPicker
-            selectedItemContainerStyle={{
-            
-              fontFamily: "GothamBook",
-              fontSize: CONST.pageSmallTextSize,
-              color: CONST.darkerColor
-            }}
+              selectedItemContainerStyle={{
+
+                fontFamily: "GothamBook",
+                fontSize: CONST.pageSmallTextSize,
+                color: CONST.darkerColor
+              }}
               zIndex={1000}
               autoScroll={true}
               open={open}
@@ -401,13 +407,29 @@ export default function Register() {
             >
               Palavra-passe
             </Text>
-            <TextInput
-              secureTextEntry={true}
-              style={styles.inputField}
-              accessible={true}
-              accessibilityLabel="Campo para introdução da Palavra-passe."
-              onChangeText={(text) => setPassword(text)}
-            />
+            <View style={{ flexDirection: 'row', width: '100%' }}>
+              <TextInput
+                secureTextEntry={showPassword ? false : true}
+                style={[styles.inputField, { width: '90%' }]}
+                accessible={true}
+                accessibilityLabel="Campo para introdução da Palavra-passe."
+                onChangeText={(text) => setPassword(text)}
+              />
+              {showPassword ?
+                <EyeSlash
+                  style={{ marginLeft: 'auto', marginRight: 'auto' }}
+                  size={CONST.pageSubtitleSize}
+                  color={CONST.darkerColor}
+                  onPress={() => setShowPassword(!showPassword)}
+                />
+                :
+                <Eye
+                  style={{ marginLeft: 'auto', marginRight: 'auto' }}
+                  size={CONST.pageSubtitleSize}
+                  color={CONST.darkerColor}
+                  onPress={() => setShowPassword(!showPassword)}
+                />}
+            </View>
             <View style={styles.passwordProgressBar}>
               <PassMeter
                 showLabels={false}
@@ -424,18 +446,32 @@ export default function Register() {
             >
               Confirmar nova palavra-passe
             </Text>
-            <TextInput
-              accessible={true}
-              accessibilityLabel="Campo para introdução da Confirmação da nova palavra-passe."
-              secureTextEntry={true}
-              style={styles.inputField}
-              onChangeText={(text) => setConfirmPassword(text)}
-            />
+            <View style={{ flexDirection: 'row', width: '100%' }}>
+              <TextInput
+                secureTextEntry={showPasswordConfirm ? false : true}
+                style={[styles.inputField, { width: '90%' }]}
+                onChangeText={(text) => setConfirmPassword(text)}
+              />
+              {showPasswordConfirm ?
+                <EyeSlash
+                  style={{ marginLeft: 'auto', marginRight: 'auto' }}
+                  size={CONST.pageSubtitleSize}
+                  color={CONST.darkerColor}
+                  onPress={() => setShowPasswordConfirm(!showPasswordConfirm)}
+                />
+                :
+                <Eye
+                  style={{ marginLeft: 'auto', marginRight: 'auto' }}
+                  size={CONST.pageSubtitleSize}
+                  color={CONST.darkerColor}
+                  onPress={() => setShowPasswordConfirm(!showPasswordConfirm)}
+                />}
+            </View>
           </ScrollView>
 
           <Pressable
             accessible={true}
-            accessibilityLabel="Botão da cor azul escura num fundo branco com o objetivo de efetuar o Login. Tem escrito na cor branca a palavra Entrar."
+            accessibilityLabel="Botão da cor azul escura num fundo branco com o objetivo de efetuar o registo. Tem escrito na cor branca a palavra Registar."
             onPress={() => submit()}
             style={styles.primaryButton}
           >

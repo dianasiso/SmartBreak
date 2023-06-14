@@ -77,6 +77,7 @@ export const textPadding = 25;
 export const iconPadding = 25;
 export const inputPadding = 10;
 export const boxPadding = 15;
+export const buttonPadding = 5;
 
 // ---- MODAL -----
 export const modalPadding = 25;

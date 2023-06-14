@@ -4532,6 +4532,11 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
+bcrypt-react-native@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/bcrypt-react-native/-/bcrypt-react-native-1.1.1.tgz#a941aaadffc85d904b6a9e533a608b6e098c3126"
+  integrity sha512-te5hqMgS+8w4N5EMih0cWIUgfNeFP0mFWynf6Vmrxo1gUa2zv7hYNUbLyztd0xYuN3vW3qHG1maEUa8FOA42lw==
+
 better-opn@~3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/better-opn/-/better-opn-3.0.2.tgz#f96f35deaaf8f34144a4102651babcf00d1d8817"
@@ -13271,10 +13276,8 @@ watchpack@^1.7.4:
   resolved "https://registry.yarnpkg.com/watchpack/-/watchpack-1.7.5.tgz#1267e6c55e0b9b5be44c2023aed5437a2c26c453"
   integrity sha512-9P3MWk6SrKjHsGkLT2KHXdQ/9SNkyoJbabxnKOoJepsvJjJG8uYTR3yTPxPQvNDI3w4Nz1xnE0TLHK4RIVe/MQ==
   dependencies:
-    chokidar "^3.4.1"
     graceful-fs "^4.1.2"
     neo-async "^2.5.0"
-    watchpack-chokidar2 "^2.0.1"
   optionalDependencies:
     chokidar "^3.4.1"
     watchpack-chokidar2 "^2.0.1"
