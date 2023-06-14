@@ -4,6 +4,7 @@ import {
   TextInput,
   Text,
   View,
+  KeyboardAvoidingView,
   ScrollView,
   Alert,
   Image,
@@ -54,57 +55,57 @@ export default function Register() {
   const [itemsDep, setItemsDep] = useState([]);
 
 
-    // fields
-    const [name, setName] = useState("");
-    const [surname, setSurname] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [organization, setOrganization] = useState("");
-    const [department, setDepartment] = useState("");
-    const [notifications, setNotifications] = useState([
-      true,
-      false,
-      false,
-      false,
-    ]);
-  
+  // fields
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [organization, setOrganization] = useState("");
+  const [department, setDepartment] = useState("");
+  const [notifications, setNotifications] = useState([
+    true,
+    false,
+    false,
+    false,
+  ]);
 
-    useEffect(() => {
-      async function fetchData() {
-        try {
-          setLoading(true);
-          const response = await fetch("https://sb-api.herokuapp.com/organizations", {
-            method: "GET"
-          });
-  
-          if (response.ok) {
-            const data = await response.json();
-            const message = data.message;
-            for (let i = 0; i < message.length; i++) {
-              const newItem = { label: message[i].name, value: message[i]._id };
-              setItems(prevItems => [...prevItems, newItem]);
-            }
-            
-          } else {
-            const errorData = await response.json();
-            throw new Error(errorData.message);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        setLoading(true);
+        const response = await fetch("https://sb-api.herokuapp.com/organizations", {
+          method: "GET"
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const message = data.message;
+          for (let i = 0; i < message.length; i++) {
+            const newItem = { label: message[i].name, value: message[i]._id };
+            setItems(prevItems => [...prevItems, newItem]);
           }
-        } catch (error) {
-          console.error(error);
-          Alert.alert("Error", error.message);
-        } finally {
-          setLoading(false);
+
+        } else {
+          const errorData = await response.json();
+          throw new Error(errorData.message);
         }
+      } catch (error) {
+        console.error(error);
+        Alert.alert("Error", error.message);
+      } finally {
+        setLoading(false);
       }
-  
-      fetchData();
-    }, [setItemsDep]);
+    }
+
+    fetchData();
+  }, [setItemsDep]);
 
 
-    
-   const loadingScreen = () => {
+
+  const loadingScreen = () => {
     return (
       <Image
         source={require("./../../imgs/img_loading_v2.gif")}
@@ -114,7 +115,7 @@ export default function Register() {
           marginLeft: "auto",
           marginRight: "auto",
           marginTop: 'auto',
-          marginBottom: CONST.screenHeight/2,
+          marginBottom: CONST.screenHeight / 2,
         }}
       />
     );
@@ -135,7 +136,8 @@ export default function Register() {
             email: email,
             password: password,
             admin: false,
-            department: "DECA" //TODO: TO CHANGE
+            department: department,
+            organization: organization,
           }),
         }
       );
@@ -146,14 +148,15 @@ export default function Register() {
         email: email,
         password: password,
         admin: false,
-        department: "DECA"
+        department: department,
+        organization: organization,
       });
 
       console.log(res + "TÁ AQUI");
 
       if (response.ok) {
         // registo com sucesso
-        Alert.alert("Registration successful");
+        // Alert.alert("Registration successful");
         // --->  redireccionar para outra pagina
       } else {
         const errorData = await response.json();
@@ -232,7 +235,10 @@ export default function Register() {
   };
 
   return (
-    <SafeAreaProvider style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
       <StatusBar style="light" />
       <ScrollView>
         <Text
@@ -245,8 +251,7 @@ export default function Register() {
         <Text
           accessible={true}
           accessibilityLabel="Texto na cor branca num fundo azul escuro escrito  Estamos contentes por teres tomado esta iniciativa. Vem fazer energy breaks."
-          style={styles.normalTextWhite}
-        >
+          style={[styles.normalTextWhite, { paddingTop: CONST.boxPadding, paddingBottom: CONST.inputMargin }]}>
           Estamos contentes por teres tomado esta iniciativa. Vem fazer energy
           breaks.
         </Text>
@@ -302,14 +307,20 @@ export default function Register() {
               onChangeText={(text) => setEmail(text.toLowerCase())}
             />
 
-<Text
+            <Text
               accessible={true}
               accessibilityLabel="Texto na cor preta num fundo branco escrito Empresa."
-              style={styles.inputLabel}
+              style={[styles.inputLabel, { paddingBottom: 0 }]}
             >
               Empresa
             </Text>
             <DropDownPicker
+            selectedItemContainerStyle={{
+            
+              fontFamily: "GothamBook",
+              fontSize: CONST.pageSmallTextSize,
+              color: CONST.darkerColor
+            }}
               zIndex={1000}
               autoScroll={true}
               open={open}
@@ -325,17 +336,15 @@ export default function Register() {
               closeAfterSelecting={true}
               onSelectItem={(item) => {
                 setOrganization(JSON.stringify(item.value));
-                Alert.alert(JSON.stringify(item.value));
 
                 const apiURLDep = "https://sb-api.herokuapp.com/departments/organization/" + JSON.stringify(item.value).replace(/"/g, '');
-                Alert.alert(apiURLDep)
-               
+
                 async function fetchDataDep() {
                   try {
                     const response = await fetch(apiURLDep, {
                       method: "GET"
                     });
-            
+
                     if (response.ok) {
                       const data = await response.json();
                       // Alert.alert(JSON.stringify(data));
@@ -344,7 +353,7 @@ export default function Register() {
                         const newItem = { label: message[i].name, value: message[i].name };
                         setItemsDep(prevItems => [...prevItems, newItem]);
                       }
-                      
+
                     } else {
                       const errorData = await response.json();
                       throw new Error(errorData.message);
@@ -352,9 +361,9 @@ export default function Register() {
                   } catch (error) {
                     console.error(error);
                     Alert.alert("Error", error.message);
-                  } 
+                  }
                 }
-            
+
                 fetchDataDep();
 
               }}
@@ -362,11 +371,12 @@ export default function Register() {
             <Text
               accessible={true}
               accessibilityLabel="Texto na cor preta num fundo branco escrito Departamento."
-              style={styles.inputLabel}
+              style={[styles.inputLabel, { paddingBottom: 0 }]}
             >
               Departamento
             </Text>
             <DropDownPicker
+              zIndex={10}
               autoScroll={true}
               open={openDep}
               value={valueDep}
@@ -379,7 +389,9 @@ export default function Register() {
               multiple={false}
               showTickIcon={false}
               closeAfterSelecting={true}
-              onChangeText={(text) => setDepartment(text)}
+              onSelectItem={(item) => {
+                setDepartment(JSON.stringify(item.value));
+              }}
             />
 
             <Text
@@ -431,6 +443,6 @@ export default function Register() {
           </Pressable>
         </View>
       )}
-    </SafeAreaProvider>
+    </KeyboardAvoidingView>
   );
 }

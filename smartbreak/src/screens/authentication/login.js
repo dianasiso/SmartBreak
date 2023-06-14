@@ -118,7 +118,7 @@ export default function Login() {
     <SafeAreaProvider style={styles.container}>
       <StatusBar style="light" />
       <Text style={styles.titleTextWhite}>Login</Text>
-      <Text style={styles.normalTextWhite}>
+      <Text style={[styles.normalTextWhite, {paddingTop: CONST.boxPadding, paddingBottom: CONST.inputMargin}]}>
         Estamos contentes por continuares a melhorar o teu local de trabalho.
       </Text>
       <View style={styles.imageLogo}>

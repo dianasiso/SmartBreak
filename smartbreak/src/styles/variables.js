@@ -75,7 +75,7 @@ export const cardPadding = 25;
 // ---- PADDING ----
 export const textPadding = 25;
 export const iconPadding = 25;
-export const inputPadding = 5;
+export const inputPadding = 10;
 export const boxPadding = 15;
 
 // ---- MODAL -----
@@ -83,7 +83,7 @@ export const modalPadding = 25;
 export const shadowRadius = 5;
 
 // ---- MARGINS ----
-export const inputMargin = 40;
+export const inputMargin = 20;
 export const boxMargin = 10;
 export const dividerMargin = 10;
 
