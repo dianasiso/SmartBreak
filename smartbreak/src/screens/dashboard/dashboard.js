@@ -19,7 +19,8 @@ import {
   Pause,
   Ticket,
   Play,
-  Happyemoji, //depois mudar, so serve de exemplo
+  EmojiHappy,
+  EmojiSad, //depois mudar, so serve de exemplo
 } from "iconsax-react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
@@ -52,7 +53,7 @@ Notifications.setNotificationHandler({
 });
 
 const BatteryContainer = ({ selected }) => {
-  
+
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -66,9 +67,11 @@ const BatteryContainer = ({ selected }) => {
   console.log("User Data:", userData);
   console.log("User ID:", userData.userID);
   console.log("User ORG:", userData.organization);
-  
+
+  const [goals, setGoals] = useState();
   const [pause, setPause] = useState(userData.pause);
   const [battery, setBattery] = useState(userData.battery);
+  const [happy, setHappy] = useState(false);
   const [heightBattery, setHeightBattery] = useState(0);
   const [batteryTeams, setBatteryTeams] = useState([]);
   const [heightBatteryTeams, setHeightBatteryTeams] = useState(0);
@@ -77,8 +80,13 @@ const BatteryContainer = ({ selected }) => {
 
   const [teams, setTeams] = useState();
 
-  
+
   const heightAlgorithm = (full, value) => {
+    if (value >= full / 2) {
+      setHappy(true)
+    } else {
+      setHappy(false)
+    }
     //max 160
     return value * 163 / full;
   }
@@ -98,8 +106,8 @@ const BatteryContainer = ({ selected }) => {
       if (response.ok) {
         setPause(!pause);
         setModalVisible(!modalVisible);
-        if (pause)
-          await schedulePushNotification();
+        // if (pause)
+        //   await schedulePushNotification();
       } else {
         const errorData = await response.json();
         Alert.alert("Falha no servidor!", errorData.message);
@@ -114,20 +122,19 @@ const BatteryContainer = ({ selected }) => {
   useEffect(() => {
     // Calculate the height
     async function fetchData() {
-      // console.log("ORG FETCH", organization)
       try {
         const response = await fetch("https://sb-api.herokuapp.com/organizations/" + organization, {
           method: "GET",
           headers: {
-          "Authorization": "Bearer " + token,
-          "Content-Type": "application/json",
+            "Authorization": "Bearer " + token,
+            "Content-Type": "application/json",
           }
         });
 
         if (response.ok) {
           const data = await response.json();
           setHeightBattery(heightAlgorithm(data.message.full, battery));
-          
+
         } else {
           const errorData = await response.json();
           throw new Error(errorData.message);
@@ -135,7 +142,28 @@ const BatteryContainer = ({ selected }) => {
       } catch (error) {
         console.error(error);
         Alert.alert("Error", error.message);
-      } 
+      }
+      try {
+        const response = await fetch("https://sb-api.herokuapp.com/goals/destination/" + uid + "/active", {
+          method: "GET",
+          headers: {
+            "Authorization": "Bearer " + token,
+            "Content-Type": "application/json",
+          }
+        });
+        if (response.ok) {
+          const data = await response.json();
+          console.log("GOALS", data)
+          setGoals(data.message.total);
+
+        } else {
+          const errorData = await response.json();
+          throw new Error(errorData.message);
+        }
+      } catch (error) {
+        console.error(error);
+        Alert.alert("Error", error.message);
+      }
     }
 
     fetchData();
@@ -143,73 +171,72 @@ const BatteryContainer = ({ selected }) => {
   }, [userData]);
 
 
-
-  if (selected === "personal") {
-    return (
-      <>
-        <Modal
-          animationType="fade"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(!modalVisible);
-          }}
-        >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <View style={{ flexDirection: "column", marginTop: 5 }}>
-                <Text style={styles.modalTextBold}>
-                  {pause ? "Tem a certeza que pretende terminar a sua pausa?" : "Tem a certeza que pretende iniciar uma pausa?"}
-                </Text>
-                <Text style={styles.modalText}>
-                  {pause ? "Bom regresso ao trabalho!" : "Não se esqueça de garantir que todos os equipamentos associados à sua conta estão devidamente desligados!"}
-                </Text>
-              </View>
-              <View style={{ flexDirection: "row", justifyContent: "center", marginTop: 10 }} >
-                <Pressable
-                  onPress={() => { setModalVisible(!modalVisible); }}
-                  style={{ padding: 10, marginRight: 10 }} >
-                  <Text style={{ color: "#0051ba", fontFamily: "GothamMedium" }} > Cancelar </Text>
-                </Pressable>
-                <Pressable 
-                  onPress={() =>
-                    // TODO: dispatch(logUser(userData.pause = !pause));
-                    changePause()                   
-                  }
-                  style={styles.buttonAdd} 
-                >
-                  {pause ?
-                    <Text style={{ color: "#FFF", fontFamily: "GothamMedium" }}>
-                      Terminar
-                    </Text>
-                    :
-                    <Text style={{ color: "#FFF", fontFamily: "GothamMedium" }}>
-                      Iniciar
-                    </Text>
-                  }
-                </Pressable>
-              </View>
+  return (
+    <>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <View style={{ flexDirection: "column", marginTop: 5 }}>
+              <Text style={styles.modalTextBold}>
+                {pause ? "Tem a certeza que pretende terminar a sua pausa?" : "Tem a certeza que pretende iniciar uma pausa?"}
+              </Text>
+              <Text style={styles.modalText}>
+                {pause ? "Bom regresso ao trabalho!" : "Não se esqueça de garantir que todos os equipamentos associados à sua conta estão devidamente desligados!"}
+              </Text>
+            </View>
+            <View style={{ flexDirection: "row", justifyContent: "center", marginTop: 10 }} >
+              <Pressable
+                onPress={() => { setModalVisible(!modalVisible); }}
+                style={{ padding: 10, marginRight: 10 }} >
+                <Text style={{ color: "#0051ba", fontFamily: "GothamMedium" }} > Cancelar </Text>
+              </Pressable>
+              <Pressable
+                onPress={() => {
+                  dispatch(logUser({ ...userData, pause: !pause }));
+                  changePause()
+                }}
+                style={styles.buttonAdd}
+              >
+                {pause ?
+                  <Text style={{ color: "#FFF", fontFamily: "GothamMedium" }}>
+                    Terminar
+                  </Text>
+                  :
+                  <Text style={{ color: "#FFF", fontFamily: "GothamMedium" }}>
+                    Iniciar
+                  </Text>
+                }
+              </Pressable>
             </View>
           </View>
-        </Modal>
-        <View style={styles.dashboardContent}>
-          <View style={styles.rowContainer}>
-            <View style={styles.columnContainerLeft}>
-              <Text
-                accessible={true}
-                accessibilityLabel="Texto na cor branca escrito a sua carga pessoal."
-                style={styles.batteryValuesTitle}>
-                A sua carga pessoal
-              </Text>
-              <Text style={styles.batteryValuesCharge}>400 kWh</Text>
-              <Text
-                accessible={true}
-                accessibilityLabel="Texto na cor branca escrito a sua carga pessoal."
-                style={styles.batteryValuesTitle}>
-                Objetivos por cumprir
-              </Text>
-              <Text style={styles.batteryValuesGoals}>4</Text>
-              <View style={styles.addPauseButtonContainer}>
+        </View>
+      </Modal>
+      <View style={styles.dashboardContent}>
+        <View style={styles.rowContainer}>
+          <View style={styles.columnContainerLeft}>
+            <Text
+              accessible={true}
+              accessibilityLabel="Texto na cor branca escrito a sua carga pessoal."
+              style={styles.batteryValuesTitle}>
+              A sua carga pessoal
+            </Text>
+            <Text style={styles.batteryValuesCharge}>{battery} kWh</Text>
+            <Text
+              accessible={true}
+              accessibilityLabel="Texto na cor branca escrito a sua carga pessoal."
+              style={styles.batteryValuesTitle}>
+              Objetivos por cumprir
+            </Text>
+            <Text style={styles.batteryValuesGoals}>{goals ? goals : 0}</Text>
+            <View style={styles.addPauseButtonContainer}>
+              {selected === "personal" ?
                 <Pressable
                   onPress={() => {
                     setModalVisible(true);
@@ -221,7 +248,19 @@ const BatteryContainer = ({ selected }) => {
                     <Play variant="Bold" color="#07407B" size={20} />
                   }
                 </Pressable>
-                <View style={styles.buttonDashboardView}>
+                :
+                <Pressable
+                  onPress={() =>
+                    navigation.navigate("TeamDashboard", {
+                      teamId: userData.department,
+                    })
+                  }
+                  style={styles.pauseCircle}>
+                  <People color="#F57738" size={20} variant="Bold" />
+                </Pressable>
+              }
+              <View style={styles.buttonDashboardView}>
+                {selected === "personal" ?
                   <Pressable
                     onPress={() => {
                       setModalVisible(true);
@@ -232,124 +271,124 @@ const BatteryContainer = ({ selected }) => {
                       {pause ? "Terminar pausa" : "Iniciar pausa"}
                     </Text>
                   </Pressable>
-                </View>
+                  :
+                  <Pressable
+                    onPress={() =>
+                      navigation.navigate("TeamDashboard", {
+                        teamId: userData.department,
+                      })
+                    }
+                    style={[styles.addPauseButton, { backgroundColor: CONST.thirdOrange }]}
+                  >
+                    <Text style={styles.addPauseButtonText}>Ver equipa</Text>
+                  </Pressable>
+                }
               </View>
             </View>
-            <View style={styles.columnContainerRight}>
-              <View style={styles.batteryView}>
-                <View style={styles.batteryTip} />
-                <View style={styles.batteryContainer}>
-                  <View style={[styles.batteryFill]} />
-                  <View
-                    style={[
-                      styles.batteryFill,
-                      { 
-                        height: heightBattery,
-                      },
-                    ]}
-                  />
-                </View>
+          </View>
+          <View style={styles.columnContainerRight}>
+            <View style={styles.batteryView}>
+              <View style={styles.batteryTip} />
+              <View style={styles.batteryContainer}>
+                <View style={[styles.batteryFill]} />
+                <View
+                  style={[
+                    styles.batteryFill,
+                    {
+                      height: heightBattery,
+                    },
+                  ]}
+                />
               </View>
-              <Happyemoji
+            </View>
+            {happy ?
+              <EmojiHappy
                 style={styles.batteryEmoji}
                 size="40"
                 color="#FEFEFE"
               />
-            </View>
+              :
+              <EmojiSad
+                style={styles.batteryEmoji}
+                size="40"
+                color="#FEFEFE"
+              />
+            }
           </View>
         </View>
-      </>
-    );
+      </View>
+      <View style={styles.metricsElement}>
+        <View style={styles.metricsCircle}>
+          <MoneyRecive color="black" />
+        </View>
 
-  } else {
-    return (
-      <>
-              <View style={styles.dashboardContent}>
-          <View style={styles.rowContainer}>
-            <View style={styles.columnContainerLeft}>
-              <Text
-                accessible={true}
-                accessibilityLabel="Texto na cor branca escrito a sua carga pessoal."
-                style={styles.batteryValuesTitle}>
-                A sua carga pessoal
-              </Text>
-              <Text style={styles.batteryValuesCharge}>400 kWh</Text>
-              <Text
-                accessible={true}
-                accessibilityLabel="Texto na cor branca escrito a sua carga pessoal."
-                style={styles.batteryValuesTitle}>
-                Objetivos por cumprir
-              </Text>
-              <Text style={styles.batteryValuesGoals}>4</Text>
-              <View style={styles.addPauseButtonContainer}>
-                <View style={styles.openTeamButtonContainer}>
-                  <View style={styles.pauseCircle}>
-                    <People color="#F57738" size={20} variant="Bold" />
-                  </View>
-                  {teams[0] ? (
-                    <Pressable
-                      onPress={() =>
-                        navigation.navigate("TeamDashboard", {
-                          teamId: teams[0],
-                        })
-                      }
-                      style={styles.openTeamButton}
-                    >
-                      <Text style={styles.addPauseButtonText}>Ver equipa</Text>
-                    </Pressable>
-                  ) : (
-                    <Pressable
-                      onPress={() =>
-                        ToastAndroid.show(
-                          "Não está em nenhuma equipa!",
-                          ToastAndroid.SHORT
-                        )
-                      }
-                      style={[
-                        styles.buttonDashboardContainer,
-                        { backgroundColor: "#777" },
-                      ]}
-                    >
-                      <Text style={styles.buttonDashboardText}>Ver equipa</Text>
-                      <People
-                        color="white"
-                        size={26}
-                        variant="Bold"
-                        style={styles.icon}
-                      />
-                    </Pressable>
-                  )}
-                </View>
-              </View>
-            </View>
-            <View style={styles.columnContainerRight}>
-              <View style={styles.batteryView}>
-                <View style={styles.batteryTip} />
-                <View style={styles.batteryContainer}>
-                  <View style={[styles.batteryFill]} />
-                  <View
-                    style={[
-                      styles.batteryFill,
-                      {
-                        backgroundColor: "transparent",
-                        height: 10,
-                        //FILL DINÂMICO ESTÁ TRANSPARENTE PARA DEPOIS SER REVISTO
-                      },
-                    ]}
-                  />
-                </View>
-              </View>
-              <Happyemoji
-                style={styles.batteryEmoji}
-                size="40"
-                color="#FEFEFE"
-              />
-            </View>
-          </View>
+        {selected == "personal" ? (
+          <Text style={styles.metricsElementText}>
+            Poupaste {(((150 * battery) / 100) * 0.15).toFixed(2)} euros.
+          </Text>
+        ) : (
+          <Text style={styles.metricsElementText}>
+            Pouparam {(((150 * batteryTeams) / 100) * 0.15).toFixed(2)} euros.
+          </Text>
+        )}
+      </View>
+      <View style={styles.metricsElement}>
+        <View style={styles.metricsCircle}>
+          <Car color="black" />
         </View>
-      </>
-    );
-  }
+        {selected == "personal" ? (
+          <Text style={styles.metricsElementText}>
+            Consegues colocar{" "}
+            {((((150 * battery) / 100) * 0.15) / 1.6).toFixed(2)} litros de
+            combustível.
+          </Text>
+        ) : (
+          <Text style={styles.metricsElementText}>
+            Conseguem colocar{" "}
+            {((((150 * batteryTeams) / 100) * 0.15) / 1.6).toFixed(2)} litros de
+            combustível.
+          </Text>
+        )}
+      </View>
+      <View style={styles.metricsElement}>
+        <View style={styles.metricsCircle}>
+          <Clock color="black" />
+        </View>
+        {selected == "personal" ? (
+          <Text style={styles.metricsElementText}>
+            A energia que poupaste equivale a carregar um portátil por{" "}
+            {((((150 * battery) / 100) * 0.15 * 24) / 0.23).toFixed(0)} horas.
+          </Text>
+        ) : (
+          <Text style={styles.metricsElementText}>
+            A energia que pouparam equivale a carregar um portátil por{" "}
+            {((((150 * batteryTeams) / 100) * 0.15 * 24) / 0.23).toFixed(0)}{" "}
+            horas.
+          </Text>
+        )}
+      </View>
+      <View style={styles.metricsElement}>
+        <View style={styles.metricsCircle}>
+          <Ticket color="black" />
+        </View>
+        {selected == "personal" ? (
+          <Text style={styles.metricsElementText}>
+            O dinheiro que poupaste equivale a{" "}
+            {((((150 * battery) / 100) * 0.15 * 60) / 125).toFixed(2)}{" "}
+            refeições.
+          </Text>
+        ) : (
+          <Text style={styles.metricsElementText}>
+            O dinheiro que pouparam equivale a{" "}
+            {((((150 * batteryTeams) / 100) * 0.15 * 60) / 125).toFixed(2)}{" "}
+            refeições.
+          </Text>
+        )}
+      </View>
+    </>
+  );
+
+
 };
 
 const Metrics = ({ selected }) => {
@@ -546,10 +585,7 @@ export default function Dashboard() {
 
         {/* Battery */}
         <BatteryContainer selected={selected} />
-        <View>
-          {/* Metricas */}
-          <Metrics selected={selected} />
-        </View>
+        
       </View>
     </SafeAreaView>
   );

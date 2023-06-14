@@ -14,6 +14,7 @@ export const greyColor = "#555555";
 export const whiteText = "#FEFEFE";
 export const dividerColor = "#D9D9D9";
 
+
 // ---- GOALS COLORS ----
 export const lowPriorityColor = "#07407B";
 export const mediumPriorityColor = "#F57738";
