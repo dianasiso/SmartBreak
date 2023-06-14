@@ -139,26 +139,14 @@ export default function Register() {
           body: JSON.stringify({
             name: name,
             surname: surname,
-            email: email,
+            email: email.trim(),
             password: password,
             admin: false,
-            department: department,
-            organization: organization,
+            department: department.replace(/"/g, ''),
+            organization: organization.replace(/"/g, ''),
           }),
         }
       );
-
-      let res = JSON.stringify({
-        name: name,
-        surname: surname,
-        email: email,
-        password: password,
-        admin: false,
-        department: department,
-        organization: organization,
-      });
-
-      console.log(res + "TÁ AQUI");
 
       if (response.ok) {
         // registo com sucesso
@@ -166,11 +154,11 @@ export default function Register() {
         // --->  redireccionar para outra pagina
       } else {
         const errorData = await response.json();
-        Alert.alert("Registration failed", errorData.message);
+        Alert.alert("Falha no registo!", errorData.message);
       }
     } catch (error) {
       console.error(error);
-      Alert.alert("Error", "An error occurred during registration");
+      Alert.alert("Erro!", "Ocorreu um erro durante o registo.");
     }
   };
 
@@ -339,6 +327,10 @@ export default function Register() {
               placeholder=""
               multiple={false}
               showTickIcon={false}
+              textStyle={{
+                fontFamily: "GothamBook",
+                fontSize: CONST.pageSmallTextSize,
+              }}
               closeAfterSelecting={true}
               onSelectItem={(item) => {
                 setOrganization(JSON.stringify(item.value));
@@ -395,6 +387,10 @@ export default function Register() {
               multiple={false}
               showTickIcon={false}
               closeAfterSelecting={true}
+              textStyle={{
+                fontFamily: "GothamBook",
+                fontSize: CONST.pageSmallTextSize,
+              }}
               onSelectItem={(item) => {
                 setDepartment(JSON.stringify(item.value));
               }}

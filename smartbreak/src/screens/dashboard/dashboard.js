@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import {
   Text,
   Image,
+  Alert,
   View,
   ToastAndroid,
   Pressable,
@@ -23,6 +24,8 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 
+import * as Notifications from 'expo-notifications';
+
 //screenOrientation
 import * as ScreenOrientation from "expo-screen-orientation";
 
@@ -32,440 +35,256 @@ import * as CONST from "./../../styles/variables.js";
 
 //REDUX
 import { useDispatch } from "react-redux";
-// import { selectBattery } from "./../../redux/actions.js";
-// const userBattery = useSelector(selectBattery);
+import { logUser } from "../../redux/user.js";
+
 
 //Preço kWh EDP segundo https://lojaluz.com/faq/preco-kwh a 13/06/2021
 const precoKwh = 0.1364;
+const apiURL = "https://sb-api.herokuapp.com/users/";
 
-const Battery = ({ selected }) => {
-  if (pausa === false) {
-    return (
-      <View style={styles.batteryView}>
-        <View style={styles.batteryTip} />
-        <View style={styles.batteryContainer} />
-        <View style={styles.batteryFill} />
-      </View>
-    );
-  } else {
-    return (
-      <View style={styles.batteryView}>
-        <View style={styles.batteryFillPausa} />
-        <View style={styles.batteryContainer}>
-          <Image
-            source={require("../../imgs/batteryBolt.png")}
-            style={styles.batteryBolt}
-          />
-        </View>
-        <View style={styles.batteryTip} />
-      </View>
-    );
-  }
-};
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 
 const BatteryContainer = ({ selected }) => {
-  const userData = useSelector((state) => state.user.userID);
-  const uid = userData;
-  const [pause, setPause] = useState(false);
-  const [battery, setBattery] = useState(0);
-  const [widthBattery, setWidthBattery] = useState(0);
+  
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+
+  const userData = useSelector((state) => state.user);
+
+  const [organization, setOrganization] = useState(userData.organization)
+
+  const uid = userData.userID;
+  const token = userData.token;
+
+  console.log("User Data:", userData);
+  console.log("User ID:", userData.userID);
+  console.log("User ORG:", userData.organization);
+  
+  const [pause, setPause] = useState(userData.pause);
+  const [battery, setBattery] = useState(userData.battery);
   const [heightBattery, setHeightBattery] = useState(0);
   const [batteryTeams, setBatteryTeams] = useState([]);
-  const [widthBatteryTeams, setWidthBatteryTeams] = useState(0);
   const [heightBatteryTeams, setHeightBatteryTeams] = useState(0);
 
   const [modalVisible, setModalVisible] = useState(false);
 
   const [teams, setTeams] = useState();
 
+  
+  const heightAlgorithm = (full, value) => {
+    //max 160
+    return value * 163 / full;
+  }
+
+  const changePause = async () => {
+    try {
+      const response = await fetch(apiURL + uid, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + token,
+        },
+        body: JSON.stringify({
+          pause: !pause,
+        }),
+      });
+      if (response.ok) {
+        setPause(!pause);
+        setModalVisible(!modalVisible);
+        if (pause)
+          await schedulePushNotification();
+      } else {
+        const errorData = await response.json();
+        Alert.alert("Falha no servidor!", errorData.message);
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Erro!", "Ocorreu um erro durante a mudança de estado.");
+    }
+  };
+
+
   useEffect(() => {
-    // firebase
-    //   .firestore()
-    //   .collection("users_data")
-    //   .doc(uid)
-    //   .get()
-    //   .then((doc) => {
-    //     setTeams(doc.data().teams);
-    //     setPause(doc.data().pause);
+    // Calculate the height
+    async function fetchData() {
+      // console.log("ORG FETCH", organization)
+      try {
+        const response = await fetch("https://sb-api.herokuapp.com/organizations/" + organization, {
+          method: "GET",
+          headers: {
+          "Authorization": "Bearer " + token,
+          "Content-Type": "application/json",
+          }
+        });
 
-    //     let temp = doc.data().battery;
-    //     setBattery(temp);
-    //     // width max é 163
-    //     // temp -> 100
-    //     // width -> 163
-    //     if (temp < 3) {
-    //       setHeightBattery(70);
-    //     } else if (temp < 6) {
-    //       setHeightBattery(76);
-    //     } else if (temp < 9) {
-    //       setHeightBattery(79);
-    //     } else if (temp < 12) {
-    //       setHeightBattery(82);
-    //     } else {
-    //       setHeightBattery(88);
-    //     }
-    //     setWidthBattery((temp * 163) / 100);
+        if (response.ok) {
+          const data = await response.json();
+          setHeightBattery(heightAlgorithm(data.message.full, battery));
+          
+        } else {
+          const errorData = await response.json();
+          throw new Error(errorData.message);
+        }
+      } catch (error) {
+        console.error(error);
+        Alert.alert("Error", error.message);
+      } 
+    }
 
-    //     if (doc.data().teams.length == 0) {
-    //       setHeightBatteryTeams(0);
-    //       setWidthBatteryTeams(0);
-    //       setBatteryTeamsTeams(0);
-    //     } else {
-    //       firebase
-    //         .firestore()
-    //         .collection("teams")
-    //         .doc(doc.data().teams[0])
-    //         .get()
-    //         .then((element) => {
-    //           console.log("ELEMENT: ", element.data());
-    //           let tempTeam = element.data().battery;
-    //           setBatteryTeams(tempTeam);
-    //           // width max é 163
-    //           // temp -> 100
-    //           // width -> 163
-    //           if (tempTeam < 3) {
-    //             setHeightBatteryTeams(70);
-    //           } else if (tempTeam < 6) {
-    //             setHeightBatteryTeams(76);
-    //           } else if (tempTeam < 9) {
-    //             setHeightBatteryTeams(79);
-    //           } else if (tempTeam < 12) {
-    //             setHeightBatteryTeams(82);
-    //           } else {
-    //             setHeightBatteryTeams(88);
-    //           }
-    //           setWidthBatteryTeams((tempTeam * 163) / 100);
-    //         });
-    //     }
-    //   });
+    fetchData();
+
   }, [userData]);
 
-  const navigation = useNavigation();
+
 
   if (selected === "personal") {
-    if (!pause) {
-      return (
-        <>
-          <Modal
-            animationType="fade"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => {
-              setModalVisible(!modalVisible);
-            }}
-          >
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-                <View style={{ flexDirection: "column", marginTop: 5 }}>
-                  <Text style={styles.modalTextBold}>
-                    Tem a certeza que pretende iniciar uma pausa?
-                  </Text>
-                  <Text style={styles.modalText}>
-                    Não se esqueça de garantir que todos os equipamentos
-                    associados à sua conta estão devidamente desligados!
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "center",
-                    marginTop: 10,
-                  }}
+    return (
+      <>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <View style={{ flexDirection: "column", marginTop: 5 }}>
+                <Text style={styles.modalTextBold}>
+                  {pause ? "Tem a certeza que pretende terminar a sua pausa?" : "Tem a certeza que pretende iniciar uma pausa?"}
+                </Text>
+                <Text style={styles.modalText}>
+                  {pause ? "Bom regresso ao trabalho!" : "Não se esqueça de garantir que todos os equipamentos associados à sua conta estão devidamente desligados!"}
+                </Text>
+              </View>
+              <View style={{ flexDirection: "row", justifyContent: "center", marginTop: 10 }} >
+                <Pressable
+                  onPress={() => { setModalVisible(!modalVisible); }}
+                  style={{ padding: 10, marginRight: 10 }} >
+                  <Text style={{ color: "#0051ba", fontFamily: "GothamMedium" }} > Cancelar </Text>
+                </Pressable>
+                <Pressable 
+                  onPress={() =>
+                    // TODO: dispatch(logUser(userData.pause = !pause));
+                    changePause()                   
+                  }
+                  style={styles.buttonAdd} 
                 >
-                  <Pressable
-                    onPress={() => {
-                      setModalVisible(!modalVisible);
-                    }}
-                    style={{ padding: 10, marginRight: 10 }}
-                  >
-                    <Text
-                      style={{ color: "#0051ba", fontFamily: "GothamMedium" }}
-                    >
-                      Cancelar
-                    </Text>
-                  </Pressable>
-                  <Pressable
-                    onPress={() => {
-                      // firebase
-                      //   .firestore()
-                      //   .collection("users_data")
-                      //   .doc(uid)
-                      //   .update({
-                      //     pause: !pause,
-                      //   });
-                      setPause(true);
-                      setModalVisible(!modalVisible);
-                    }}
-                    style={styles.buttonAdd}
-                  >
-                    <Text style={{ color: "#FFF", fontFamily: "GothamMedium" }}>
-                      Adicionar
-                    </Text>
-                  </Pressable>
-                </View>
-              </View>
-            </View>
-          </Modal>
-          <View style={styles.dashboardContent}>
-            <View style={styles.rowContainer}>
-              <View style={styles.columnContainerLeft}>
-                <View style={styles.batteryValues}>
-                  <View>
-                    <Text style={styles.batteryValuesTitle}>
-                      A sua carga pessoal
-                    </Text>
-                    <Text style={styles.batteryValuesCharge}>400 kWh</Text>
-                  </View>
-                  <View>
-                    <Text style={styles.batteryValuesTitle}>
-                      Objetivos por cumprir
-                    </Text>
-                    <Text style={styles.batteryValuesGoals}>4</Text>
-                  </View>
-                </View>
-                <View style={styles.addPauseButtonContainer}>
-                  <View style={styles.pauseCircle}>
-                    <Play variant="Bold" color="#07407B" size={26} />
-                  </View>
-                  <View style={styles.buttonDashboardView}>
-                    <Pressable
-                      onPress={() => {
-                        setModalVisible(true);
-                      }}
-                      style={styles.addPauseButton}
-                    >
-                      <Text style={styles.addPauseButtonText}>
-                        {" "}
-                        Iniciar pausa
-                      </Text>
-                    </Pressable>
-                  </View>
-                </View>
-              </View>
-              <View style={styles.columnContainerRight}>
-                <View style={styles.batteryView}>
-                  <View style={styles.batteryTip} />
-                  <View style={styles.batteryContainer}>
-                    <View style={[styles.batteryFill]} />
-                    <View
-                      style={[
-                        styles.batteryFill,
-                        {
-                          backgroundColor: "transparent",
-                          height: 10,
-                          //FILL DINÂMICO ESTÁ TRANSPARENTE PARA DEPOIS SER REVISTO
-                        },
-                      ]}
-                    />
-                  </View>
-                </View>
-                <Happyemoji
-                  style={styles.batteryEmoji}
-                  size="40"
-                  color="#FEFEFE"
-                />
-              </View>
-            </View>
-          </View>
-        </>
-      );
-    } else {
-      return (
-        <>
-          <Modal
-            animationType="fade"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => {
-              setModalVisible(!modalVisible);
-            }}
-          >
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-                <View style={{ flexDirection: "column", marginTop: 5 }}>
-                  <Text style={styles.modalTextBold}>
-                    Tem a certeza que pretende terminar a sua pausa?{" "}
-                  </Text>
-                  <Text style={styles.modalText}>
-                    Bom regresso ao trabalho!
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "center",
-                    marginTop: 10,
-                  }}
-                >
-                  <Pressable
-                    onPress={() => {
-                      setModalVisible(!modalVisible);
-                    }}
-                    style={{ padding: 10, marginRight: 10 }}
-                  >
-                    <Text
-                      style={{ color: "#0051ba", fontFamily: "GothamMedium" }}
-                    >
-                      Cancelar
-                    </Text>
-                  </Pressable>
-                  <Pressable
-                    onPress={() => {
-                      // firebase
-                      //   .firestore()
-                      //   .collection("users_data")
-                      //   .doc(uid)
-                      //   .update({
-                      //     pause: !pause,
-                      //     battery: battery + 3,
-                      //   });
-                      // firebase
-                      //   .firestore()
-                      //   .collection("teams")
-                      //   .doc(teams[0])
-                      //   .update({
-                      //     battery: batteryTeams + 1,
-                      //   });
-                      // if (battery < 3) {
-                      //   setHeightBattery(70);
-                      // } else if (battery < 6) {
-                      //   setHeightBattery(76);
-                      // } else if (battery < 9) {
-                      //   setHeightBattery(82);
-                      // } else if (battery < 12) {
-                      //   setHeightBattery(79);
-                      // } else {
-                      //   setHeightBattery(88);
-                      // }
-                      // if (battery + 3 > 100) {
-                      //   setBattery(0);
-                      //   setWidthBattery(0);
-                      // } else {
-                      //   setBattery(battery + 3);
-                      //   setWidthBattery((battery * 163) / 100);
-                      // }
-                      // if (batteryTeams < 3) {
-                      //   setHeightBatteryTeams(70);
-                      // } else if (batteryTeams < 6) {
-                      //   setHeightBatteryTeams(76);
-                      // } else if (batteryTeams < 9) {
-                      //   setHeightBatteryTeams(82);
-                      // } else if (batteryTeams < 12) {
-                      //   setHeightBatteryTeams(79);
-                      // } else {
-                      //   setHeightBatteryTeams(88);
-                      // }
-                      // if (batteryTeams + 3 > 100) {
-                      //   setBatteryTeams(0);
-                      //   setWidthBatteryTeams(0);
-                      // } else {
-                      //   setBatteryTeams(batteryTeams + 3);
-                      //   setWidthBatteryTeams((batteryTeams * 163) / 100);
-                      // }
-
-                      // setPause(false);
-
-                      // setModalVisible(!modalVisible);
-                    }}
-                    style={styles.buttonAdd}
-                  >
+                  {pause ?
                     <Text style={{ color: "#FFF", fontFamily: "GothamMedium" }}>
                       Terminar
                     </Text>
+                    :
+                    <Text style={{ color: "#FFF", fontFamily: "GothamMedium" }}>
+                      Iniciar
+                    </Text>
+                  }
+                </Pressable>
+              </View>
+            </View>
+          </View>
+        </Modal>
+        <View style={styles.dashboardContent}>
+          <View style={styles.rowContainer}>
+            <View style={styles.columnContainerLeft}>
+              <Text
+                accessible={true}
+                accessibilityLabel="Texto na cor branca escrito a sua carga pessoal."
+                style={styles.batteryValuesTitle}>
+                A sua carga pessoal
+              </Text>
+              <Text style={styles.batteryValuesCharge}>400 kWh</Text>
+              <Text
+                accessible={true}
+                accessibilityLabel="Texto na cor branca escrito a sua carga pessoal."
+                style={styles.batteryValuesTitle}>
+                Objetivos por cumprir
+              </Text>
+              <Text style={styles.batteryValuesGoals}>4</Text>
+              <View style={styles.addPauseButtonContainer}>
+                <Pressable
+                  onPress={() => {
+                    setModalVisible(true);
+                  }}
+                  style={styles.pauseCircle}>
+                  {pause ?
+                    <Pause variant="Bold" color="#07407B" size={20} />
+                    :
+                    <Play variant="Bold" color="#07407B" size={20} />
+                  }
+                </Pressable>
+                <View style={styles.buttonDashboardView}>
+                  <Pressable
+                    onPress={() => {
+                      setModalVisible(true);
+                    }}
+                    style={styles.addPauseButton}
+                  >
+                    <Text style={styles.addPauseButtonText}>
+                      {pause ? "Terminar pausa" : "Iniciar pausa"}
+                    </Text>
                   </Pressable>
                 </View>
               </View>
             </View>
-          </Modal>
-
-          <View style={styles.dashboardContent}>
-            <View style={styles.rowContainer}>
-              <View style={styles.columnContainerLeft}>
-                <View style={styles.batteryValues}>
-                  <View>
-                    <Text style={styles.batteryValuesTitle}>
-                      A sua carga pessoal
-                    </Text>
-                    <Text style={styles.batteryValuesCharge}>400 kWh</Text>
-                  </View>
-                  <View>
-                    <Text style={styles.batteryValuesTitle}>
-                      Objetivos por cumprir
-                    </Text>
-                    <Text style={styles.batteryValuesGoals}>4</Text>
-                  </View>
-                </View>
-                <View style={styles.addPauseButtonContainer}>
-                  <View style={styles.pauseCircle}>
-                    <Pause variant="Bold" color="#07407B" size={26} />
-                  </View>
-                  <View style={styles.buttonDashboardView}>
-                    <Pressable
-                      onPress={() => {
-                        setModalVisible(true);
-                      }}
-                      style={styles.addPauseButton}
-                    >
-                      <Text style={styles.addPauseButtonText}>
-                        {" "}
-                        Terminar Pausa
-                      </Text>
-                    </Pressable>
-                  </View>
+            <View style={styles.columnContainerRight}>
+              <View style={styles.batteryView}>
+                <View style={styles.batteryTip} />
+                <View style={styles.batteryContainer}>
+                  <View style={[styles.batteryFill]} />
+                  <View
+                    style={[
+                      styles.batteryFill,
+                      { 
+                        height: heightBattery,
+                      },
+                    ]}
+                  />
                 </View>
               </View>
-              <View style={styles.columnContainerRight}>
-                <View style={styles.batteryView}>
-                  <View style={styles.batteryTip} />
-                  <View style={styles.batteryContainer}>
-                    <View style={[styles.batteryFill]} />
-                    <View
-                      style={[
-                        styles.batteryFill,
-                        {
-                          backgroundColor: "transparent",
-                          height: 10,
-                          //FILL DINÂMICO ESTÁ TRANSPARENTE PARA DEPOIS SER REVISTO
-                        },
-                      ]}
-                    />
-                  </View>
-                </View>
-                <Happyemoji
-                  style={styles.batteryEmoji}
-                  size="40"
-                  color="#FEFEFE"
-                />
-              </View>
+              <Happyemoji
+                style={styles.batteryEmoji}
+                size="40"
+                color="#FEFEFE"
+              />
             </View>
           </View>
-        </>
-      );
-    }
+        </View>
+      </>
+    );
+
   } else {
     return (
       <>
-        <View style={styles.dashboardContent}>
+              <View style={styles.dashboardContent}>
           <View style={styles.rowContainer}>
             <View style={styles.columnContainerLeft}>
-              <View style={styles.batteryValues}>
-                <View>
-                  <Text style={styles.batteryValuesTitle}>
-                    A sua carga pessoal
-                  </Text>
-                  <Text style={styles.batteryValuesCharge}>400 kWh</Text>
-                </View>
-                <View>
-                  <Text style={styles.batteryValuesTitle}>
-                    Objetivos por cumprir
-                  </Text>
-                  <Text style={styles.batteryValuesGoals}>4</Text>
-                </View>
-              </View>
+              <Text
+                accessible={true}
+                accessibilityLabel="Texto na cor branca escrito a sua carga pessoal."
+                style={styles.batteryValuesTitle}>
+                A sua carga pessoal
+              </Text>
+              <Text style={styles.batteryValuesCharge}>400 kWh</Text>
+              <Text
+                accessible={true}
+                accessibilityLabel="Texto na cor branca escrito a sua carga pessoal."
+                style={styles.batteryValuesTitle}>
+                Objetivos por cumprir
+              </Text>
+              <Text style={styles.batteryValuesGoals}>4</Text>
               <View style={styles.addPauseButtonContainer}>
                 <View style={styles.openTeamButtonContainer}>
                   <View style={styles.pauseCircle}>
-                    <People color="#F57738" size={26} variant="Bold" />
+                    <People color="#F57738" size={20} variant="Bold" />
                   </View>
                   {teams[0] ? (
                     <Pressable
@@ -535,6 +354,7 @@ const BatteryContainer = ({ selected }) => {
 
 const Metrics = ({ selected }) => {
   const userData = useSelector((state) => state.user.userID);
+  console.log(userData)
   const uid = userData;
   const [battery, setBattery] = useState(0);
   const [teams, setTeams] = useState([]);

@@ -712,17 +712,13 @@ export const styles = StyleSheet.create({
   batteryFill: {
     position: "absolute",
     marginRight: CONST.cardPadding,
-    width: 82.5,
-    height: 50,
+    width: 82,
     // width: 90, //máximo 163
     backgroundColor: CONST.whiteText,
     borderTopRightRadius: 0,
     borderTopLeftRadius: 0,
     borderRadius: 16.5,
     bottom: 0,
-    //position: "absolute",
-    //left: CONST.screenWidth / 2 - 112,
-    //transform: [{ rotate: "90deg" }],
   },
   batteryFillPause: {
     // height: 88,
