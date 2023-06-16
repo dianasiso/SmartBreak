@@ -114,33 +114,10 @@ const BatteryContainer = ({ selected }) => {
       Alert.alert("Erro!", "Ocorreu um erro durante a mudança de estado.");
     }
   };
-
+  /*
   useEffect(() => {
     // Calculate the height
     async function fetchData() {
-      try {
-        const response = await fetch(
-          "https://sb-api.herokuapp.com/organizations/" + organization,
-          {
-            method: "GET",
-            headers: {
-              Authorization: "Bearer " + token,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-          setHeightBattery(heightAlgorithm(data.message.full, battery));
-        } else {
-          const errorData = await response.json();
-          throw new Error(errorData.message);
-        }
-      } catch (error) {
-        console.error(error);
-        Alert.alert("Error", error.message);
-      }
       try {
         const response = await fetch(
           "https://sb-api.herokuapp.com/goals/destination/" + uid + "/active",
@@ -167,7 +144,7 @@ const BatteryContainer = ({ selected }) => {
     }
 
     fetchData();
-  }, [userData]);
+  }, [userData]);*/
 
   return (
     <>
