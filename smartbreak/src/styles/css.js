@@ -712,9 +712,8 @@ export const styles = StyleSheet.create({
   batteryFill: {
     position: "absolute",
     marginRight: CONST.cardPadding,
-    width: 82,
+    background: 'transparent',
     // width: 90, //máximo 163
-    backgroundColor: CONST.whiteText,
     borderTopRightRadius: 0,
     borderTopLeftRadius: 0,
     borderRadius: 16.5,

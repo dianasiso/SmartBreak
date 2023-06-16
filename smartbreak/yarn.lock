@@ -11247,12 +11247,17 @@ react-mixin@^3.0.5:
     object-assign "^4.0.1"
     smart-mixin "^2.0.0"
 
-react-native-animatable@1.3.3:
+react-native-animatable@1.3.3, react-native-animatable@^1.3.3:
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/react-native-animatable/-/react-native-animatable-1.3.3.tgz#a13a4af8258e3bb14d0a9d839917e9bb9274ec8a"
   integrity sha512-2ckIxZQAsvWn25Ho+DK3d1mXIgj7tITkrS4pYDvx96WyOttSvzzFeQnM2od0+FUMzILbdHDsDEqZvnz1DYNQ1w==
   dependencies:
     prop-types "^15.7.2"
+
+react-native-animated-wave@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/react-native-animated-wave/-/react-native-animated-wave-1.2.3.tgz#04c1e993264b4cb5cdad1f8ff86f4beadc6fcac2"
+  integrity sha512-Pwkn9V3OJmaDIpukF4NgNe4hVfHkXZCVIjNgkH0QhWcC2OTSE54vO2diH2WA324oLY1GYmwaWXqoayQNdCsWOw==
 
 react-native-carousel-view@^0.5.1:
   version "0.5.1"

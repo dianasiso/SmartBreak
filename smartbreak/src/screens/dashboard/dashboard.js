@@ -1,14 +1,19 @@
 import { StatusBar } from "expo-status-bar";
+import Animated, { Easing, useAnimatedProps, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated'
+import { Svg, Path } from "react-native-svg";
+
 import React, { useState, useEffect } from "react";
 import {
   Text,
   Image,
   Alert,
+  RefreshControl,
   View,
   ToastAndroid,
   Pressable,
   SafeAreaView,
   Modal,
+  ScrollView,
 } from "react-native";
 import { useFonts } from "expo-font";
 import {
@@ -20,7 +25,7 @@ import {
   Ticket,
   Play,
   EmojiHappy,
-  EmojiSad, //depois mudar, so serve de exemplo
+  EmojiSad,
 } from "iconsax-react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
@@ -80,6 +85,61 @@ const BatteryContainer = ({ selected }) => {
 
   const [teams, setTeams] = useState();
 
+  const waveAnimated = useSharedValue(20);
+  const waveAnimatedBackground = useSharedValue(20);
+  const heightAnimated = useSharedValue(120);
+
+  const AnimatedPath = Animated.createAnimatedComponent(Path);
+  const AnimatedSvg = Animated.createAnimatedComponent(Svg);
+
+
+  const firstWaveProps = useAnimatedProps(() => {
+    return {
+      d: `
+      M 0 0
+      Q 45 ${waveAnimated.value} 85 0
+      T 85 ${heightAnimated.value - 23}
+      
+      Q 85 ${heightAnimated.value} 23 ${heightAnimated.value}
+      L ${85 - 23} ${heightAnimated.value}
+      Q 0 ${heightAnimated.value} 0 ${heightAnimated.value - 23}
+
+      Z
+      `
+    }
+  })
+  // const secondWaveProps = useAnimatedProps(() => {
+  //   return {
+  //     d: `
+  //      M 0 0
+  //   Q 20 ${(waveAnimatedBackground.value + 10/2)} 42 10
+  //   Q 62 ${-(waveAnimatedBackground.value + 10)/2} 85 0
+  //   T 85 ${heightAnimated.value - 23}
+
+  //   Q 85 ${heightAnimated.value} 23 ${heightAnimated.value}
+  //   L ${85-23} ${heightAnimated.value}
+  //   Q 0 ${heightAnimated.value} 0 ${heightAnimated.value-23}
+
+  //   Z
+  //   `}
+  // })
+
+  const secondWaveProps = useAnimatedProps(() => {
+    return {
+      d: `
+       M 0 0
+    Q 25 ${(waveAnimatedBackground.value + 10 / 2)} 50 10
+    Q 68 ${-(waveAnimatedBackground.value + 10) / 3} 85 ${-(waveAnimatedBackground.value + 10) / 4.5}
+    T 85 ${heightAnimated.value - 23}
+    
+    Q 85 ${heightAnimated.value} 23 ${heightAnimated.value}
+    L ${85 - 23} ${heightAnimated.value}
+    Q 0 ${heightAnimated.value} 0 ${heightAnimated.value - 23}
+
+    Z
+    `}
+  })
+
 
   const heightAlgorithm = (full, value) => {
     if (value >= full / 2) {
@@ -118,57 +178,82 @@ const BatteryContainer = ({ selected }) => {
     }
   };
 
+  function moveWaves() {
+    waveAnimated.value = 20;
+
+    waveAnimated.value = withRepeat(
+      withTiming(30, {
+        duration: 800,
+        easing: Easing.ease
+      }), Infinity, true
+    )
+
+    waveAnimatedBackground.value = 20;
+
+    waveAnimatedBackground.value = withRepeat(
+      withTiming(30, {
+        duration: 500,
+        easing: Easing.ease
+      }), Infinity, true
+    )
+
+  }
+
 
   useEffect(() => {
+    moveWaves();
     // Calculate the height
-    async function fetchData() {
-      try {
-        const response = await fetch("https://sb-api.herokuapp.com/organizations/" + organization, {
-          method: "GET",
-          headers: {
-            "Authorization": "Bearer " + token,
-            "Content-Type": "application/json",
-          }
-        });
+    // async function fetchData() {
+    //   try {
+    //     const response = await fetch("https://sb-api.herokuapp.com/organizations/" + organization, {
+    //       method: "GET",
+    //       headers: {
+    //         "Authorization": "Bearer " + token,
+    //         "Content-Type": "application/json",
+    //       }
+    //     });
 
-        if (response.ok) {
-          const data = await response.json();
-          setHeightBattery(heightAlgorithm(data.message.full, battery));
+    //     if (response.ok) {
+    //       const data = await response.json();
+    //       setHeightBattery(heightAlgorithm(data.message.full, battery));
+    //       // heightAnimated.value = (heightAlgorithm(data.message.full, battery));
+    //       moveWaves();
 
-        } else {
-          const errorData = await response.json();
-          throw new Error(errorData.message);
-        }
-      } catch (error) {
-        console.error(error);
-        Alert.alert("Error", error.message);
-      }
-      try {
-        const response = await fetch("https://sb-api.herokuapp.com/goals/destination/" + uid + "/active", {
-          method: "GET",
-          headers: {
-            "Authorization": "Bearer " + token,
-            "Content-Type": "application/json",
-          }
-        });
-        if (response.ok) {
-          const data = await response.json();
-          console.log("GOALS", data)
-          setGoals(data.message.total);
+    //     } else {
+    //       const errorData = await response.json();
+    //       throw new Error(errorData.message);
+    //     }
+    //   } catch (error) {
+    //     console.error(error);
+    //     Alert.alert("Error", error.message);
+    //   }
+    //   try {
+    //     const response = await fetch("https://sb-api.herokuapp.com/goals/destination/" + uid + "/active", {
+    //       method: "GET",
+    //       headers: {
+    //         "Authorization": "Bearer " + token,
+    //         "Content-Type": "application/json",
+    //       }
+    //     });
+    //     if (response.ok) {
+    //       const data = await response.json();
+    //       console.log("GOALS", data)
+    //       setGoals(data.message.total);
+    //       // moveWaves();
 
-        } else {
-          const errorData = await response.json();
-          throw new Error(errorData.message);
-        }
-      } catch (error) {
-        console.error(error);
-        Alert.alert("Error", error.message);
-      }
-    }
+    //     } else {
+    //       const errorData = await response.json();
+    //       throw new Error(errorData.message);
+    //     }
+    //   } catch (error) {
+    //     console.error(error);
+    //     Alert.alert("Error", error.message);
+    //   }
+    // }
 
-    fetchData();
+    // fetchData();
 
-  }, [userData]);
+  }, [heightAnimated]);
 
 
   return (
@@ -290,15 +375,35 @@ const BatteryContainer = ({ selected }) => {
             <View style={styles.batteryView}>
               <View style={styles.batteryTip} />
               <View style={styles.batteryContainer}>
-                <View style={[styles.batteryFill]} />
-                <View
+                <AnimatedSvg
+                  style={[
+                    styles.batteryFill,
+                    { height: heightAnimated.value }
+                  ]}
+                  width={82}
+                  height={heightAnimated.value}
+                  viewBox={`0 0 85 ${heightAnimated.value}`}
+                >
+                  <AnimatedPath
+                    animatedProps={firstWaveProps}
+                    fill={CONST.thirdBlue}
+                    transform="translate(0, 9)"
+                  />
+                  <AnimatedPath
+                    animatedProps={secondWaveProps}
+                    fill={CONST.whiteText}
+                    transform="translate(0, 9)"
+                  />
+
+                </AnimatedSvg>
+                {/* <View
                   style={[
                     styles.batteryFill,
                     {
                       height: heightBattery,
                     },
                   ]}
-                />
+                /> */}
               </View>
             </View>
             {happy ?
@@ -317,73 +422,75 @@ const BatteryContainer = ({ selected }) => {
           </View>
         </View>
       </View>
-      <View style={styles.metricsElement}>
-        <View style={styles.metricsCircle}>
-          <MoneyRecive color="black" />
-        </View>
+      <View>
+        <View style={styles.metricsElement}>
+          <View style={styles.metricsCircle}>
+            <MoneyRecive color="black" />
+          </View>
 
-        {selected == "personal" ? (
-          <Text style={styles.metricsElementText}>
-            Poupaste {(((150 * battery) / 100) * 0.15).toFixed(2)} euros.
-          </Text>
-        ) : (
-          <Text style={styles.metricsElementText}>
-            Pouparam {(((150 * batteryTeams) / 100) * 0.15).toFixed(2)} euros.
-          </Text>
-        )}
-      </View>
-      <View style={styles.metricsElement}>
-        <View style={styles.metricsCircle}>
-          <Car color="black" />
+          {selected == "personal" ? (
+            <Text style={styles.metricsElementText}>
+              Poupaste {(((150 * battery) / 100) * 0.15).toFixed(2)} euros.
+            </Text>
+          ) : (
+            <Text style={styles.metricsElementText}>
+              Pouparam {(((150 * batteryTeams) / 100) * 0.15).toFixed(2)} euros.
+            </Text>
+          )}
         </View>
-        {selected == "personal" ? (
-          <Text style={styles.metricsElementText}>
-            Consegues colocar{" "}
-            {((((150 * battery) / 100) * 0.15) / 1.6).toFixed(2)} litros de
-            combustível.
-          </Text>
-        ) : (
-          <Text style={styles.metricsElementText}>
-            Conseguem colocar{" "}
-            {((((150 * batteryTeams) / 100) * 0.15) / 1.6).toFixed(2)} litros de
-            combustível.
-          </Text>
-        )}
-      </View>
-      <View style={styles.metricsElement}>
-        <View style={styles.metricsCircle}>
-          <Clock color="black" />
+        <View style={styles.metricsElement}>
+          <View style={styles.metricsCircle}>
+            <Car color="black" />
+          </View>
+          {selected == "personal" ? (
+            <Text style={styles.metricsElementText}>
+              Consegues colocar{" "}
+              {((((150 * battery) / 100) * 0.15) / 1.6).toFixed(2)} litros de
+              combustível.
+            </Text>
+          ) : (
+            <Text style={styles.metricsElementText}>
+              Conseguem colocar{" "}
+              {((((150 * batteryTeams) / 100) * 0.15) / 1.6).toFixed(2)} litros de
+              combustível.
+            </Text>
+          )}
         </View>
-        {selected == "personal" ? (
-          <Text style={styles.metricsElementText}>
-            A energia que poupaste equivale a carregar um portátil por{" "}
-            {((((150 * battery) / 100) * 0.15 * 24) / 0.23).toFixed(0)} horas.
-          </Text>
-        ) : (
-          <Text style={styles.metricsElementText}>
-            A energia que pouparam equivale a carregar um portátil por{" "}
-            {((((150 * batteryTeams) / 100) * 0.15 * 24) / 0.23).toFixed(0)}{" "}
-            horas.
-          </Text>
-        )}
-      </View>
-      <View style={styles.metricsElement}>
-        <View style={styles.metricsCircle}>
-          <Ticket color="black" />
+        <View style={styles.metricsElement}>
+          <View style={styles.metricsCircle}>
+            <Clock color="black" />
+          </View>
+          {selected == "personal" ? (
+            <Text style={styles.metricsElementText}>
+              A energia que poupaste equivale a carregar um portátil por{" "}
+              {((((150 * battery) / 100) * 0.15 * 24) / 0.23).toFixed(0)} horas.
+            </Text>
+          ) : (
+            <Text style={styles.metricsElementText}>
+              A energia que pouparam equivale a carregar um portátil por{" "}
+              {((((150 * batteryTeams) / 100) * 0.15 * 24) / 0.23).toFixed(0)}{" "}
+              horas.
+            </Text>
+          )}
         </View>
-        {selected == "personal" ? (
-          <Text style={styles.metricsElementText}>
-            O dinheiro que poupaste equivale a{" "}
-            {((((150 * battery) / 100) * 0.15 * 60) / 125).toFixed(2)}{" "}
-            refeições.
-          </Text>
-        ) : (
-          <Text style={styles.metricsElementText}>
-            O dinheiro que pouparam equivale a{" "}
-            {((((150 * batteryTeams) / 100) * 0.15 * 60) / 125).toFixed(2)}{" "}
-            refeições.
-          </Text>
-        )}
+        <View style={styles.metricsElement}>
+          <View style={styles.metricsCircle}>
+            <Ticket color="black" />
+          </View>
+          {selected == "personal" ? (
+            <Text style={styles.metricsElementText}>
+              O dinheiro que poupaste equivale a{" "}
+              {((((150 * battery) / 100) * 0.15 * 60) / 125).toFixed(2)}{" "}
+              refeições.
+            </Text>
+          ) : (
+            <Text style={styles.metricsElementText}>
+              O dinheiro que pouparam equivale a{" "}
+              {((((150 * batteryTeams) / 100) * 0.15 * 60) / 125).toFixed(2)}{" "}
+              refeições.
+            </Text>
+          )}
+        </View>
       </View>
     </>
   );
@@ -536,9 +643,15 @@ export default function Dashboard() {
   const [selected, setSelected] = useState("personal");
 
   return (
-    <SafeAreaView style={styles.mainContainerLight}>
+    <SafeAreaView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+      style={styles.mainContainerLight}>
       <StatusBar style="light" />
       <View
+
+
         style={[
           styles.dashboardContainer,
           selected == "personal"
@@ -585,7 +698,7 @@ export default function Dashboard() {
 
         {/* Battery */}
         <BatteryContainer selected={selected} />
-        
+
       </View>
     </SafeAreaView>
   );
