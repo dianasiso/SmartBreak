@@ -11,11 +11,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import {
-  Eye,
-  EyeSlash
-} from "iconsax-react-native";
-
+import { Eye, EyeSlash } from "iconsax-react-native";
 
 //redux
 import { useDispatch } from "react-redux";
@@ -61,6 +57,9 @@ export default function Login() {
         created: responseData.user.created,
         connected_in: responseData.user.connected_in,
         token: responseData.token,
+        battery_full: responseData.userOrganization.battery_full,
+        organization_name: responseData.userOrganization.name,
+        full: responseData.userOrganization.full,
       };
 
       dispatch(logUser(userData)); // dispatch the logUser action para Redux
@@ -112,7 +111,7 @@ export default function Login() {
           width: CONST.screenWidth / 4,
           marginLeft: "auto",
           marginRight: "auto",
-          marginTop: 'auto',
+          marginTop: "auto",
           marginBottom: CONST.screenHeight / 5,
         }}
       />
@@ -125,11 +124,17 @@ export default function Login() {
       <Text
         accessible={true}
         accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Login."
-        style={styles.titleTextWhite}>Login</Text>
+        style={styles.titleTextWhite}
+      >
+        Login
+      </Text>
       <Text
         accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Estamos contentes por continuares a melhorar o teu local de trabalho."
-
-        style={[styles.normalTextWhite, { paddingTop: CONST.boxPadding, paddingBottom: CONST.inputMargin }]}>
+        style={[
+          styles.normalTextWhite,
+          { paddingTop: CONST.boxPadding, paddingBottom: CONST.inputMargin },
+        ]}
+      >
         Estamos contentes por continuares a melhorar o teu local de trabalho.
       </Text>
       <View style={styles.imageLogo}>
@@ -139,7 +144,6 @@ export default function Login() {
         />
       </View>
 
-
       {loading ? (
         loadingScreen()
       ) : (
@@ -148,7 +152,10 @@ export default function Login() {
             <Text
               accessible={true}
               accessibilityLabel="Texto na cor preta num fundo branco escrito E-mail."
-              style={styles.inputLabel}>E-mail</Text>
+              style={styles.inputLabel}
+            >
+              E-mail
+            </Text>
             <TextInput
               accessible={true}
               accessibilityLabel="Campo para introdução do E-mail."
@@ -159,42 +166,46 @@ export default function Login() {
             <Text
               accessible={true}
               accessibilityLabel="Texto na cor preta num fundo branco escrito Palavra-passe."
-              style={styles.inputLabel}>Palavra-passe</Text>
-            <View style={{ flexDirection: 'row', width: '100%' }}>
+              style={styles.inputLabel}
+            >
+              Palavra-passe
+            </Text>
+            <View style={{ flexDirection: "row", width: "100%" }}>
               <TextInput
                 accessible={true}
                 accessibilityLabel="Campo para introdução da palavra-passe."
                 secureTextEntry={showPassword ? false : true}
-                style={[styles.inputField, { width: '90%' }]}
+                style={[styles.inputField, { width: "90%" }]}
                 onChangeText={(text) => setPassword(text)}
               />
-                {showPassword ?
-                  <EyeSlash
-                    style={{ marginLeft: 'auto', marginRight: 'auto' }}
-                    size={CONST.pageSubtitleSize}
-                    color={CONST.darkerColor}
-                    onPress={() => setShowPassword(!showPassword)}
-                  />
-                  :
-                  <Eye
-                    style={{ marginLeft: 'auto', marginRight: 'auto' }}
-                    size={CONST.pageSubtitleSize}
-                    color={CONST.darkerColor}
-                    onPress={() => setShowPassword(!showPassword)}
-                  />}
+              {showPassword ? (
+                <EyeSlash
+                  style={{ marginLeft: "auto", marginRight: "auto" }}
+                  size={CONST.pageSubtitleSize}
+                  color={CONST.darkerColor}
+                  onPress={() => setShowPassword(!showPassword)}
+                />
+              ) : (
+                <Eye
+                  style={{ marginLeft: "auto", marginRight: "auto" }}
+                  size={CONST.pageSubtitleSize}
+                  color={CONST.darkerColor}
+                  onPress={() => setShowPassword(!showPassword)}
+                />
+              )}
             </View>
             <Pressable onPress={() => navigation.navigate("Password")}>
               <Text
                 accessible={true}
                 accessibilityLabel="Texto na cor cinza num fundo branco escrito Esqueceu-se da palavra-passe?"
-                style={styles.forgotPasswordText}>
+                style={styles.forgotPasswordText}
+              >
                 Esqueceu-se da palavra-passe?
               </Text>
             </Pressable>
             <Pressable
               accessible={true}
               accessibilityLabel="Botão da cor azul escura num fundo branco com o objetivo de efetuar o Login. Tem escrito na cor branca a palavra Entrar."
-
               onPress={() => handleLogin()}
               style={styles.primaryButton}
             >
@@ -202,7 +213,6 @@ export default function Login() {
             </Pressable>
           </View>
         </ScrollView>
-
       )}
     </SafeAreaProvider>
   );

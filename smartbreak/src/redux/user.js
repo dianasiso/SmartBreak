@@ -44,6 +44,9 @@ export const userSlice = createSlice({
         created,
         connected_in,
         token,
+        battery_full,
+        organization_name,
+        full,
       } = action.payload;
 
       state.userID = userID;
@@ -64,6 +67,10 @@ export const userSlice = createSlice({
       state.created = created;
       state.connected_in = connected_in;
       state.token = token;
+      state.battery_full = battery_full;
+      state.organization_name = organization_name;
+      state.full = full;
+
       console.log("Login State:", state);
     },
     logoutUser: (state) => {
@@ -85,6 +92,9 @@ export const userSlice = createSlice({
       state.created = "";
       state.connected_in = "";
       state.token = "";
+      state.battery_full = 0;
+      state.organization_name = "";
+      state.full = 0;
       console.log("Logout State:", state);
     },
     updateBattery: (state, action) => {

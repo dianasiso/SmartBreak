@@ -25,7 +25,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 
-import * as Notifications from 'expo-notifications';
+import * as Notifications from "expo-notifications";
 
 //screenOrientation
 import * as ScreenOrientation from "expo-screen-orientation";
@@ -38,11 +38,9 @@ import * as CONST from "./../../styles/variables.js";
 import { useDispatch } from "react-redux";
 import { logUser } from "../../redux/user.js";
 
-
 //Preço kWh EDP segundo https://lojaluz.com/faq/preco-kwh a 13/06/2021
 const precoKwh = 0.1364;
 const apiURL = "https://sb-api.herokuapp.com/users/";
-
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -53,13 +51,12 @@ Notifications.setNotificationHandler({
 });
 
 const BatteryContainer = ({ selected }) => {
-
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const userData = useSelector((state) => state.user);
 
-  const [organization, setOrganization] = useState(userData.organization)
+  const [organization, setOrganization] = useState(userData.organization);
 
   const uid = userData.userID;
   const token = userData.token;
@@ -67,6 +64,7 @@ const BatteryContainer = ({ selected }) => {
   console.log("User Data:", userData);
   console.log("User ID:", userData.userID);
   console.log("User ORG:", userData.organization);
+  console.log("teste", userData.userOrganization);
 
   const [goals, setGoals] = useState();
   const [pause, setPause] = useState(userData.pause);
@@ -80,16 +78,15 @@ const BatteryContainer = ({ selected }) => {
 
   const [teams, setTeams] = useState();
 
-
   const heightAlgorithm = (full, value) => {
     if (value >= full / 2) {
-      setHappy(true)
+      setHappy(true);
     } else {
-      setHappy(false)
+      setHappy(false);
     }
     //max 160
-    return value * 163 / full;
-  }
+    return (value * 163) / full;
+  };
 
   const changePause = async () => {
     try {
@@ -97,7 +94,7 @@ const BatteryContainer = ({ selected }) => {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer " + token,
+          Authorization: "Bearer " + token,
         },
         body: JSON.stringify({
           pause: !pause,
@@ -118,23 +115,24 @@ const BatteryContainer = ({ selected }) => {
     }
   };
 
-
   useEffect(() => {
     // Calculate the height
     async function fetchData() {
       try {
-        const response = await fetch("https://sb-api.herokuapp.com/organizations/" + organization, {
-          method: "GET",
-          headers: {
-            "Authorization": "Bearer " + token,
-            "Content-Type": "application/json",
+        const response = await fetch(
+          "https://sb-api.herokuapp.com/organizations/" + organization,
+          {
+            method: "GET",
+            headers: {
+              Authorization: "Bearer " + token,
+              "Content-Type": "application/json",
+            },
           }
-        });
+        );
 
         if (response.ok) {
           const data = await response.json();
           setHeightBattery(heightAlgorithm(data.message.full, battery));
-
         } else {
           const errorData = await response.json();
           throw new Error(errorData.message);
@@ -144,18 +142,20 @@ const BatteryContainer = ({ selected }) => {
         Alert.alert("Error", error.message);
       }
       try {
-        const response = await fetch("https://sb-api.herokuapp.com/goals/destination/" + uid + "/active", {
-          method: "GET",
-          headers: {
-            "Authorization": "Bearer " + token,
-            "Content-Type": "application/json",
+        const response = await fetch(
+          "https://sb-api.herokuapp.com/goals/destination/" + uid + "/active",
+          {
+            method: "GET",
+            headers: {
+              Authorization: "Bearer " + token,
+              "Content-Type": "application/json",
+            },
           }
-        });
+        );
         if (response.ok) {
           const data = await response.json();
-          console.log("GOALS", data)
+          console.log("GOALS", data);
           setGoals(data.message.total);
-
         } else {
           const errorData = await response.json();
           throw new Error(errorData.message);
@@ -167,9 +167,7 @@ const BatteryContainer = ({ selected }) => {
     }
 
     fetchData();
-
   }, [userData]);
-
 
   return (
     <>
@@ -185,34 +183,50 @@ const BatteryContainer = ({ selected }) => {
           <View style={styles.modalView}>
             <View style={{ flexDirection: "column", marginTop: 5 }}>
               <Text style={styles.modalTextBold}>
-                {pause ? "Tem a certeza que pretende terminar a sua pausa?" : "Tem a certeza que pretende iniciar uma pausa?"}
+                {pause
+                  ? "Tem a certeza que pretende terminar a sua pausa?"
+                  : "Tem a certeza que pretende iniciar uma pausa?"}
               </Text>
               <Text style={styles.modalText}>
-                {pause ? "Bom regresso ao trabalho!" : "Não se esqueça de garantir que todos os equipamentos associados à sua conta estão devidamente desligados!"}
+                {pause
+                  ? "Bom regresso ao trabalho!"
+                  : "Não se esqueça de garantir que todos os equipamentos associados à sua conta estão devidamente desligados!"}
               </Text>
             </View>
-            <View style={{ flexDirection: "row", justifyContent: "center", marginTop: 10 }} >
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                marginTop: 10,
+              }}
+            >
               <Pressable
-                onPress={() => { setModalVisible(!modalVisible); }}
-                style={{ padding: 10, marginRight: 10 }} >
-                <Text style={{ color: "#0051ba", fontFamily: "GothamMedium" }} > Cancelar </Text>
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                }}
+                style={{ padding: 10, marginRight: 10 }}
+              >
+                <Text style={{ color: "#0051ba", fontFamily: "GothamMedium" }}>
+                  {" "}
+                  Cancelar{" "}
+                </Text>
               </Pressable>
               <Pressable
                 onPress={() => {
                   dispatch(logUser({ ...userData, pause: !pause }));
-                  changePause()
+                  changePause();
                 }}
                 style={styles.buttonAdd}
               >
-                {pause ?
+                {pause ? (
                   <Text style={{ color: "#FFF", fontFamily: "GothamMedium" }}>
                     Terminar
                   </Text>
-                  :
+                ) : (
                   <Text style={{ color: "#FFF", fontFamily: "GothamMedium" }}>
                     Iniciar
                   </Text>
-                }
+                )}
               </Pressable>
             </View>
           </View>
@@ -224,43 +238,47 @@ const BatteryContainer = ({ selected }) => {
             <Text
               accessible={true}
               accessibilityLabel="Texto na cor branca escrito a sua carga pessoal."
-              style={styles.batteryValuesTitle}>
+              style={styles.batteryValuesTitle}
+            >
               A sua carga pessoal
             </Text>
             <Text style={styles.batteryValuesCharge}>{battery} kWh</Text>
             <Text
               accessible={true}
               accessibilityLabel="Texto na cor branca escrito a sua carga pessoal."
-              style={styles.batteryValuesTitle}>
+              style={styles.batteryValuesTitle}
+            >
               Objetivos por cumprir
             </Text>
             <Text style={styles.batteryValuesGoals}>{goals ? goals : 0}</Text>
             <View style={styles.addPauseButtonContainer}>
-              {selected === "personal" ?
+              {selected === "personal" ? (
                 <Pressable
                   onPress={() => {
                     setModalVisible(true);
                   }}
-                  style={styles.pauseCircle}>
-                  {pause ?
+                  style={styles.pauseCircle}
+                >
+                  {pause ? (
                     <Pause variant="Bold" color="#07407B" size={20} />
-                    :
+                  ) : (
                     <Play variant="Bold" color="#07407B" size={20} />
-                  }
+                  )}
                 </Pressable>
-                :
+              ) : (
                 <Pressable
                   onPress={() =>
                     navigation.navigate("TeamDashboard", {
                       teamId: userData.department,
                     })
                   }
-                  style={styles.pauseCircle}>
+                  style={styles.pauseCircle}
+                >
                   <People color="#F57738" size={20} variant="Bold" />
                 </Pressable>
-              }
+              )}
               <View style={styles.buttonDashboardView}>
-                {selected === "personal" ?
+                {selected === "personal" ? (
                   <Pressable
                     onPress={() => {
                       setModalVisible(true);
@@ -271,18 +289,21 @@ const BatteryContainer = ({ selected }) => {
                       {pause ? "Terminar pausa" : "Iniciar pausa"}
                     </Text>
                   </Pressable>
-                  :
+                ) : (
                   <Pressable
                     onPress={() =>
                       navigation.navigate("TeamDashboard", {
                         teamId: userData.department,
                       })
                     }
-                    style={[styles.addPauseButton, { backgroundColor: CONST.thirdOrange }]}
+                    style={[
+                      styles.addPauseButton,
+                      { backgroundColor: CONST.thirdOrange },
+                    ]}
                   >
                     <Text style={styles.addPauseButtonText}>Ver equipa</Text>
                   </Pressable>
-                }
+                )}
               </View>
             </View>
           </View>
@@ -301,19 +322,15 @@ const BatteryContainer = ({ selected }) => {
                 />
               </View>
             </View>
-            {happy ?
+            {happy ? (
               <EmojiHappy
                 style={styles.batteryEmoji}
                 size="40"
                 color="#FEFEFE"
               />
-              :
-              <EmojiSad
-                style={styles.batteryEmoji}
-                size="40"
-                color="#FEFEFE"
-              />
-            }
+            ) : (
+              <EmojiSad style={styles.batteryEmoji} size="40" color="#FEFEFE" />
+            )}
           </View>
         </View>
       </View>
@@ -387,13 +404,11 @@ const BatteryContainer = ({ selected }) => {
       </View>
     </>
   );
-
-
 };
 
 const Metrics = ({ selected }) => {
   const userData = useSelector((state) => state.user.userID);
-  console.log(userData)
+  console.log(userData);
   const uid = userData;
   const [battery, setBattery] = useState(0);
   const [teams, setTeams] = useState([]);
@@ -409,7 +424,6 @@ const Metrics = ({ selected }) => {
     //   .onSnapshot((doc) => {
     //     setTeams(doc.data().teams);
     //     setBattery(doc.data().battery);
-
     //     if (doc.data().teams.length != 0) {
     //       firebase
     //         .firestore()
@@ -585,7 +599,6 @@ export default function Dashboard() {
 
         {/* Battery */}
         <BatteryContainer selected={selected} />
-        
       </View>
     </SafeAreaView>
   );
