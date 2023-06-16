@@ -783,16 +783,13 @@ export const styles = StyleSheet.create({
     marginBottom: 18,
   },
   metricsElement: {
-    width: CONST.screenWidth - 50,
     //backgroundColor: "#E3ECF7",
     borderRadius: 15,
-    marginBottom: 20,
-    marginTop: 20,
+    marginBottom: 30,
     flexDirection: "row",
     alignItems: "center",
   },
   metricsCircle: {
-    backgroundColor: CONST.thirdBlue,
     height: CONST.heightButton,
     width: CONST.heightButton,
     borderRadius: CONST.heightButton / 2,
