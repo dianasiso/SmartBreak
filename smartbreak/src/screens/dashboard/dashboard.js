@@ -63,7 +63,6 @@ export default function Dashboard() {
 
   const userData = useSelector((state) => state.user);
 
-
   const [selected, setSelected] = useState("personal");
 
   const uid = userData.userID;
@@ -77,10 +76,12 @@ export default function Dashboard() {
   const [happy, setHappy] = useState(false);
   const [heightBattery, setHeightBattery] = useState(0);
   const [batteryDep, setbatteryDep] = useState(0);
-  const [heightbatteryDep, setHeightBatteryDep] = useState(0);
+  const [startPause, setStartPause] = useState();
+  const [endPause, setEndPause] = useState();
+  const [differenceInHours, setDifferenceInHours] = useState()
 
   // ---- MÉTRICAS ----
-  const [price, setPrice] = useState(2);
+  const [price, setPrice] = useState();
   const fuel = 1.6; //TODO: change to db 
   // ? fuel = preço de 1 litro de combustível
   // ? carregar um pc durante 1 hora gasta +/- 200 wats ou seja 0.2 kwt
@@ -91,7 +92,6 @@ export default function Dashboard() {
 
   const [modalVisible, setModalVisible] = useState(false);
 
-  const [teams, setTeams] = useState();
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -146,13 +146,18 @@ export default function Dashboard() {
     `}
   })
   const heightAlgorithm = (full, value) => {
-    if (value >= full / 2) {
+    if (value >= full / 3) {
       setHappy(true);
     } else {
       setHappy(false);
     }
     //max 163
-    heightAnimated.value = (value * 163) / full + 20;
+    const x = (value * 163) / full
+    if (x < 20) {
+      heightAnimated.value = 20;
+    } else {
+      heightAnimated.value = (value * 163) / full;
+    }
 
     return (value * 163) / full;
   };
@@ -191,8 +196,39 @@ export default function Dashboard() {
 
   // ---- TERMINA ONDAS ----
 
+  const addPauseAPI = async () => {
+    console.log("vars: ", startPause, endPause, differenceInHours, uid)
+    try {
+      const response = await fetch("https://sb-api.herokuapp.com/pauses", {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          start_date : startPause,
+          end_date : endPause,
+          time : differenceInHours,
+          user: uid
+        }),
+      });
+      if (response.ok) {
+       //TODO : CALCULAR QUANTO POUPOU COM BASE NOS DEVICES
+      } else {
+        const errorData = await response.json();
+        Alert.alert("Falha no servidor!", errorData.message);
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Erro!", "Ocorreu um erro durante a mudança de estado.");
+    }
+  };
+  
+
   const changePause = async () => {
     try {
+      // ! ATUALIZAR O USERDATA NA PAUSE E DEPOIS NA BATTERY
+      // TODO: ADICIONAR UM IF E SE A PAUSA FOR TRUE SIGNIFICA QUE ELE VAI TERMINAR, PELO QUE TEM DE ATUALIZAR TBM O BATTERY COM O NOVO VALOR DO BATTERY
       const fetch_url = apiURL + uid
       const response = await fetch(fetch_url, {
         method: "PATCH",
@@ -219,8 +255,31 @@ export default function Dashboard() {
     }
   };
 
-  console.log("Selected value:", selected);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch("https://sb-api.herokuapp.com/values" , {
+          method: "GET",
+          headers: {
+            "Authorization": "Bearer " + token
+          }
+        });
+        if (response.ok) {
+          const data = await response.json();
+          console.log("PRICE", data.average.toFixed(2))
+          setPrice(data.average.toFixed(2));
 
+        } else {
+          const errorData = await response.json();
+          throw new Error(errorData.message);
+        }
+      } catch (error) {
+        console.error(error);
+        Alert.alert("Error", error.message);
+      }
+    }
+    fetchData();
+  }, [])
   useEffect(() => {
     ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
     ScreenOrientation.unlockAsync();
@@ -405,6 +464,14 @@ export default function Dashboard() {
                   onPress={() => {
                     dispatch(logUser({ ...userData, pause: !pause }));
                     changePause();
+                    if (pause) {
+                      setEndPause(Date.now())
+                      const timePause = ((startPause - endPause )/ (1000 * 60 * 60)).toFixed(2)
+                      setDifferenceInHours(timePause)
+                      addPauseAPI(endPause, differenceInHours, startPause);
+                    } else {
+                      setStartPause(Date.now())
+                    }
                   }}
                   style={styles.buttonAdd}
                 >
