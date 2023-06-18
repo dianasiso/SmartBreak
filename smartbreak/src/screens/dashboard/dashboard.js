@@ -35,7 +35,7 @@ import * as ScreenOrientation from "expo-screen-orientation";
 
 // CSS
 import { styles } from "./../../styles/css.js";
-import { dark_styles } from "./../../styles/darkcss.js"; 
+import { dark_styles } from "./../../styles/darkcss.js";
 import * as CONST from "./../../styles/variables.js";
 
 //REDUX
@@ -112,7 +112,7 @@ export default function Dashboard() {
   // ---- ONDAS ----
   const waveAnimated = useSharedValue(20);
   const waveAnimatedBackground = useSharedValue(20);
-  const heightAnimated = useSharedValue(20);
+  const heightAnimated = useSharedValue(40);
 
   const AnimatedPath = Animated.createAnimatedComponent(Path);
   const AnimatedSvg = Animated.createAnimatedComponent(Svg);
@@ -156,8 +156,8 @@ export default function Dashboard() {
     }
     //max 163
     const x = (value * 163) / full
-    if (x < 20) {
-      heightAnimated.value = 20;
+    if (x < 40) {
+      heightAnimated.value = 40;
     } else {
       heightAnimated.value = (value * 163) / full;
     }
@@ -209,14 +209,14 @@ export default function Dashboard() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          start_date : startPause,
-          end_date : endPause,
-          time : differenceInHours,
+          start_date: startPause,
+          end_date: endPause,
+          time: differenceInHours,
           user: uid
         }),
       });
       if (response.ok) {
-       //TODO : CALCULAR QUANTO POUPOU COM BASE NOS DEVICES
+        //TODO : CALCULAR QUANTO POUPOU COM BASE NOS DEVICES
       } else {
         const errorData = await response.json();
         Alert.alert("Falha no servidor!", errorData.message);
@@ -226,11 +226,10 @@ export default function Dashboard() {
       Alert.alert("Erro!", "Ocorreu um erro durante a mudança de estado.");
     }
   };
-  
+
 
   const changePause = async () => {
     try {
-      
       // ! ATUALIZAR O USERDATA NA PAUSE CADA VEZ QUE O VALOR MUDA E DEPOIS NA BATTERY (PRECISAMOS DO ALGORITMO PRIMEIRO) SÓ QUANDO O PAUSE VAI DE TRUE PARA FALSE, OU SEJA, IF PAUSE -> DO THAT
       // TODO: ADICIONAR UM IF E SE A PAUSA FOR TRUE SIGNIFICA QUE ELE VAI TERMINAR, PELO QUE TEM DE ATUALIZAR TBM O BATTERY COM O NOVO VALOR DO BATTERY NA API TBM
       const fetch_url = apiURL + uid
@@ -262,7 +261,7 @@ export default function Dashboard() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch("https://sb-api.herokuapp.com/values" , {
+        const response = await fetch("https://sb-api.herokuapp.com/values", {
           method: "GET",
           headers: {
             "Authorization": "Bearer " + token
@@ -358,12 +357,19 @@ export default function Dashboard() {
       style={dark_mode ? dark_styles.mainContainerDark : styles.mainContainerLight}>
       <StatusBar style="light" />
       <View
-
         style={[
           styles.dashboardContainer,
           selected == "personal"
-            ? { backgroundColor: CONST.mainBlue }
-            : { backgroundColor: CONST.mainOrange },
+            ? dark_mode
+              ?
+              { backgroundColor: CONST.thirdBlue }
+              :
+              { backgroundColor: CONST.mainBlue }
+            :
+            dark_mode ?
+              { backgroundColor: CONST.thirdOrange }
+              :
+              { backgroundColor: CONST.mainOrange },
         ]}
       >
         {/* Toggle */}
@@ -371,8 +377,15 @@ export default function Dashboard() {
           style={[
             styles.toggleContainer,
             selected == "personal"
-              ? { backgroundColor: CONST.thirdBlue }
-              : { backgroundColor: CONST.thirdOrange },
+              ? dark_mode ?
+                { backgroundColor: CONST.fadeBlue }
+                :
+                { backgroundColor: CONST.thirdBlue }
+              :
+              dark_mode ?
+                { backgroundColor: CONST.fadeOrange }
+                :
+                { backgroundColor: CONST.thirdOrange },
           ]}
         >
           <Pressable
@@ -450,7 +463,7 @@ export default function Dashboard() {
                     changePause();
                     if (pause) {
                       setEndPause(Date.now())
-                      const timePause = ((startPause - endPause )/ (1000 * 60 * 60)).toFixed(2)
+                      const timePause = ((startPause - endPause) / (1000 * 60 * 60)).toFixed(2)
                       setDifferenceInHours(timePause)
                       addPauseAPI(endPause, differenceInHours, startPause);
                     } else {
@@ -476,26 +489,37 @@ export default function Dashboard() {
         <View style={styles.dashboardContent}>
           <View style={styles.rowContainer}>
             <View style={styles.columnContainerLeft}>
-              <Text
-                accessible={true}
-                accessibilityLabel="Texto na cor branca escrito a sua carga pessoal."
-                style={styles.batteryValuesTitle}
-              >
-                A sua carga pessoal
-              </Text>
               {selected === "personal" ?
-                <Text style={styles.batteryValuesCharge}>{battery} kWh</Text>
+                <>
+                  <Text
+                    accessible={true}
+                    accessibilityLabel="Texto escrito a tua carga pessoal."
+                    style={dark_mode ? dark_styles.batteryValuesTitle : styles.batteryValuesTitle}
+                  >
+                    A tua carga pessoal
+                  </Text>
+                  <Text style={dark_mode ? dark_styles.batteryValuesCharge : styles.batteryValuesCharge}>{battery} kWh</Text>
+                </>
                 :
-                <Text style={styles.batteryValuesCharge}>{batteryDep} kWh</Text>
+                <>
+                  <Text
+                    accessible={true}
+                    accessibilityLabel="Texto escrito a tua carga pessoal."
+                    style={dark_mode ? dark_styles.batteryValuesTitle : styles.batteryValuesTitle}
+                  >
+                    A tua carga pessoal
+                  </Text>
+                  <Text style={dark_mode ? dark_styles.batteryValuesCharge : styles.batteryValuesCharge}>{batteryDep} kWh</Text>
+                </>
               }
               <Text
                 accessible={true}
-                accessibilityLabel="Texto na cor branca escrito a sua carga pessoal."
-                style={styles.batteryValuesTitle}
+                accessibilityLabel="Texto escrito a sua carga pessoal."
+                style={dark_mode ? dark_styles.batteryValuesTitle : styles.batteryValuesTitle}
               >
                 Objetivos por cumprir
               </Text>
-              <Text style={styles.batteryValuesGoals}>{goals}</Text>
+              <Text style={dark_mode ? dark_styles.batteryValuesGoals : styles.batteryValuesGoals}>{goals}</Text>
               <View style={styles.addPauseButtonContainer}>
                 {selected === "personal" ? (
                   <Pressable
@@ -505,9 +529,9 @@ export default function Dashboard() {
                     style={styles.pauseCircle}
                   >
                     {pause ? (
-                      <Pause variant="Bold" color="#07407B" size={20} />
+                      <Pause variant="Bold" color={dark_mode ? CONST.darkerColor : CONST.mainBlue} size={20} />
                     ) : (
-                      <Play variant="Bold" color="#07407B" size={20} />
+                      <Play variant="Bold" color={dark_mode ? CONST.darkerColor : CONST.mainBlue} size={20} />
                     )}
                   </Pressable>
                 ) : (
@@ -519,16 +543,16 @@ export default function Dashboard() {
                     }
                     style={styles.pauseCircle}
                   >
-                    <People color="#F57738" size={20} variant="Bold" />
+                    <People color={dark_mode ? CONST.darkerColor : CONST.mainOrange} size={20} variant="Bold" />
                   </Pressable>
                 )}
-                <View style={styles.buttonDashboardView}>
+                <View style={[styles.buttonDashboardView]}>
                   {selected === "personal" ? (
                     <Pressable
                       onPress={() => {
                         setModalVisible(true);
                       }}
-                      style={styles.addPauseButton}
+                      style={dark_mode ? dark_styles.addPauseButton : styles.addPauseButton}
                     >
                       <Text style={styles.addPauseButtonText}>
                         {pause ? "Terminar pausa" : "Iniciar pausa"}
@@ -541,10 +565,8 @@ export default function Dashboard() {
                           teamId: userData.department,
                         })
                       }
-                      style={[
-                        styles.addPauseButton,
-                        { backgroundColor: CONST.thirdOrange },
-                      ]}
+                      style={dark_mode ? dark_styles.viewTeamButton : styles.viewTeamButton}
+
                     >
                       <Text style={styles.addPauseButtonText}>Ver equipa</Text>
                     </Pressable>
@@ -554,38 +576,40 @@ export default function Dashboard() {
             </View>
             <View style={styles.columnContainerRight}>
               <View style={styles.batteryView}>
-                <View style={styles.batteryTip} />
-
-                  <View style={styles.batteryContainer}>
-                    <AnimatedSvg
-                      style={[
-                        styles.batteryFill,
-                      ]}
-                      width={82}
-                      height={heightAnimated.value}
-                      viewBox={`0 0 85 ${heightAnimated.value}`}
-                    >
-                      <AnimatedPath
-                        animatedProps={firstWaveProps}
-                        fill={selected === "personal" ? CONST.thirdBlue : CONST.thirdOrange}
-                        transform="translate(0, 9)"
-                      />
-                      <AnimatedPath
-                        animatedProps={secondWaveProps}
-                        fill={CONST.whiteText}
-                        transform="translate(0, 9)"
-                      />
-                    </AnimatedSvg>
-                  </View>
+                <View style={dark_mode ? dark_styles.batteryTip : styles.batteryTip} />
+                <View style={dark_mode ? dark_styles.batteryContainer : styles.batteryContainer}>
+                  <AnimatedSvg
+                    style={[
+                      styles.batteryFill,
+                    ]}
+                    width={82}
+                    height={heightAnimated.value}
+                    viewBox={`0 0 85 ${heightAnimated.value}`}
+                  >
+                    <AnimatedPath
+                      animatedProps={firstWaveProps}
+                      fill={selected === "personal" ?
+                        dark_mode ? CONST.fadeBlue : CONST.thirdBlue
+                        :
+                        dark_mode ? CONST.fadeOrange : CONST.thirdOrange}
+                      transform="translate(0, 9)"
+                    />
+                    <AnimatedPath
+                      animatedProps={secondWaveProps}
+                      fill={dark_mode ? CONST.darkerColor : CONST.whiteText}
+                      transform="translate(0, 9)"
+                    />
+                  </AnimatedSvg>
+                </View>
               </View>
               {happy ? (
                 <EmojiHappy
                   style={styles.batteryEmoji}
                   size="40"
-                  color="#FEFEFE"
+                  color={dark_mode ? CONST.darkerColor : CONST.lightBackgroundColor}
                 />
               ) : (
-                <EmojiSad style={styles.batteryEmoji} size="40" color="#FEFEFE" />
+                <EmojiSad style={styles.batteryEmoji} size="40" color={dark_mode ? CONST.darkerColor : CONST.lightBackgroundColor} />
               )}
             </View>
           </View>
@@ -594,16 +618,20 @@ export default function Dashboard() {
         }}>
           <ScrollView>
             <View style={styles.metricsElement}>
-              <View style={[styles.metricsCircle, selected === 'personal' ? { backgroundColor: CONST.thirdBlue } : { backgroundColor: CONST.thirdOrange }]}>
+              <View style={[styles.metricsCircle,
+              selected === 'personal' ?
+                { backgroundColor: CONST.thirdBlue }
+                :
+                { backgroundColor: CONST.thirdOrange }]}>
                 <MoneyRecive color="black" />
               </View>
 
               {selected == "personal" ? (
-                <Text style={styles.metricsElementText}>
+                <Text style={dark_mode ? dark_styles.metricsElementText : styles.metricsElementText}>
                   Poupaste {price * battery} euros.
                 </Text>
               ) : (
-                <Text style={styles.metricsElementText}>
+                <Text style={dark_mode ? dark_styles.metricsElementText : styles.metricsElementText}>
                   Pouparam {price * batteryDep} euros.
                 </Text>
               )}
@@ -613,11 +641,11 @@ export default function Dashboard() {
                 <Car color="black" />
               </View>
               {selected == "personal" ? (
-                <Text style={styles.metricsElementText}>
+                <Text style={dark_mode ? dark_styles.metricsElementText : styles.metricsElementText}>
                   Consegues colocar {(price * battery / fuel).toFixed(0)} litros de combustível.
                 </Text>
               ) : (
-                <Text style={styles.metricsElementText}>
+                <Text style={dark_mode ? dark_styles.metricsElementText : styles.metricsElementText}>
                   Conseguem colocar {(price * batteryDep / fuel).toFixed(0)} litros de combustível.
                 </Text>
               )}
@@ -627,11 +655,11 @@ export default function Dashboard() {
                 <Clock color="black" />
               </View>
               {selected == "personal" ? (
-                <Text style={styles.metricsElementText}>
+                <Text style={dark_mode ? dark_styles.metricsElementText : styles.metricsElementText}>
                   Consegues carregar um computador por {(battery / kw).toFixed(0)} horas.
                 </Text>
               ) : (
-                <Text style={styles.metricsElementText}>
+                <Text style={dark_mode ? dark_styles.metricsElementText : styles.metricsElementText}>
                   Conseguem carregar um computador por {(batteryDep / kw).toFixed(0)} horas.
                 </Text>
               )}
@@ -641,11 +669,11 @@ export default function Dashboard() {
                 <Ticket color="black" />
               </View>
               {selected == "personal" ? (
-                <Text style={styles.metricsElementText}>
+                <Text style={dark_mode ? dark_styles.metricsElementText : styles.metricsElementText}>
                   Poupaste o equivalente a {(price * battery / food).toFixed(0)} refeições.
                 </Text>
               ) : (
-                <Text style={styles.metricsElementText}>
+                <Text style={dark_mode ? dark_styles.metricsElementText : styles.metricsElementText}>
                   Pouparam o equivalente a {(price * batteryDep / food).toFixed(0)} refeições.
                 </Text>
               )}

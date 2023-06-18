@@ -12,12 +12,14 @@ import { useFonts } from "expo-font";
 
 // CSS
 import { styles } from "./../../styles/css.js";
+import { dark_styles } from "../../styles/darkcss.js";
 import * as CONST from "./../../styles/variables.js";
 
 
 const Info = ({ value }) => {
   const navigation = useNavigation();
   const userData = useSelector((state) => state.user);
+  const dark_mode = userData.accessibility[1]
 
   const [depID, setDepID] = useState(userData.department);
   const [userName, setUserName] = useState(value.name);
@@ -27,14 +29,14 @@ const Info = ({ value }) => {
   return (
     <>
       <View>
-        <Text style={styles.normalText}>{userName}</Text>
-        <Text style={[styles.smallText, {color: CONST.enableColor}]}>{userEmail}</Text>
+        <Text style={dark_mode ? dark_styles.normalText : styles.normalText}>{userName}</Text>
+        <Text style={dark_mode ? [dark_styles.smallText,  { color: CONST.greySoft}] :  [styles.smallText, {color: CONST.enableColor}]}>{userEmail}</Text>
       </View>
       {userRewards ?
         <ArrowCircleRight
           style={{ position: "absolute", right: 0, padding: CONST.boxPadding}}
           variant="Bold"
-          color={CONST.mainOrange}
+          color={dark_mode ? CONST.thirdOrange : CONST.mainOrange}
           onPress={() =>
             navigation.navigate("MembersRewardsDashboard", {
               username: userName,
@@ -57,12 +59,12 @@ export default function Team({ navigation }) {
   });
 
   const userData = useSelector((state) => state.user);
+  const dark_mode = userData.accessibility[1]
 
   const [depID, setDepID] = useState(userData.department);
   const [depName, setDepName] = useState();
   const [depDescription, setDepDescription] = useState();
   const [users, setUsers] = useState();
-
 
   useEffect(() => {
     async function fetchData() {
@@ -95,12 +97,12 @@ export default function Team({ navigation }) {
   return (
     <SafeAreaProvider
       showsVerticalScrollIndicator={false}
-      style={[styles.containerLight, { paddingTop: CONST.backgroundPaddingTop/2}]}
+      style={[dark_mode ?  dark_styles.containerLight : styles.containerLight, { paddingTop: CONST.backgroundPaddingTop/2}]}
     >
       
         <StatusBar style="dark" />
-        <Text style={[styles.titleText]}>{depName}</Text>
-        <Text style={styles.normalText}>{depDescription}</Text>
+        <Text style={dark_mode ? dark_styles.titleText : styles.titleText}>{depName}</Text>
+        <Text style={dark_mode ? dark_styles.normalText : styles.normalText}>{depDescription}</Text>
 
         <ScrollView>
         {users && users.map((callbackfn, id) => (

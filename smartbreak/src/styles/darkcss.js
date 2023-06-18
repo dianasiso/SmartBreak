@@ -531,7 +531,7 @@ export const dark_styles = StyleSheet.create({
   },
 
   addPauseButton: {
-    backgroundColor: CONST.thirdBlue,
+    backgroundColor: CONST.fadeBlue,
     color: CONST.darkerColor,
     borderBottomLeftRadius: 0,
     borderTopLeftRadius: 0,
@@ -540,6 +540,19 @@ export const dark_styles = StyleSheet.create({
     marginLeft: -CONST.heightButton / 2,
     height: CONST.heightButton,
     paddingLeft: CONST.iconPadding, //TODO: COLCOAR - 10
+    paddingRight: CONST.iconPadding + 10,
+    justifyContent: "center",
+  },
+  viewTeamButton: {
+    backgroundColor: CONST.fadeOrange,
+    color: CONST.darkerColor,
+    borderBottomLeftRadius: 0,
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: CONST.normalButtonRadius,
+    borderBottomRightRadius: CONST.normalButtonRadius,
+    marginLeft: -CONST.heightButton / 2,
+    height: CONST.heightButton,
+    paddingLeft: CONST.iconPadding, //TODO: COLOCAR - 10
     paddingRight: CONST.iconPadding + 10,
     justifyContent: "center",
   },
@@ -632,6 +645,24 @@ export const dark_styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: "center",
     marginLeft: 10,
+  },
+
+  batteryValuesTitle: {
+    fontFamily: "GothamBook",
+    fontSize: CONST.pageTextSize,
+    color: CONST.darkerColor,
+    paddingBottom: 10,
+  },
+  batteryValuesCharge: {
+    fontFamily: "GothamMedium",
+    fontSize: CONST.dashboardChargeSize,
+    color: CONST.darkerColor,
+    paddingBottom: 15,
+  },
+  batteryValuesGoals: {
+    fontFamily: "GothamMedium",
+    fontSize: CONST.dashboardGoalsSize,
+    color: CONST.darkerColor,
   },
 
   batteryView: {
@@ -733,17 +764,19 @@ export const dark_styles = StyleSheet.create({
     marginRight: 20,
   },
 
-  metricasElement: {
-    width: CONST.screenWidth - 50,
+  metricsText: {
+    fontSize: 20,
+    fontFamily: "GothamMedium",
+    marginBottom: 18,
+  },
+  metricsElement: {
     //backgroundColor: "#E3ECF7",
     borderRadius: 15,
-
-    marginTop: 20,
+    marginBottom: 30,
     flexDirection: "row",
     alignItems: "center",
   },
-  metricasCircle: {
-    backgroundColor: CONST.thirdBlue,
+  metricsCircle: {
     height: CONST.heightButton,
     width: CONST.heightButton,
     borderRadius: CONST.heightButton / 2,
@@ -751,7 +784,7 @@ export const dark_styles = StyleSheet.create({
     zIndex: 100,
     justifyContent: "center",
   },
-  metricasElementText: {
+  metricsElementText: {
     fontSize: CONST.pageSmallTextSize,
     color: CONST.whiteText,
     fontFamily: "GothamBook",

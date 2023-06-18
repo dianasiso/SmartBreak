@@ -563,7 +563,21 @@ export const styles = StyleSheet.create({
     borderBottomRightRadius: CONST.normalButtonRadius,
     marginLeft: -CONST.heightButton / 2,
     height: CONST.heightButton,
-    paddingLeft: CONST.iconPadding, //TODO: COLCOAR - 10
+    paddingLeft: CONST.iconPadding, //TODO: COLOCAR - 10
+    paddingRight: CONST.iconPadding + 10,
+    justifyContent: "center",
+  },
+
+  viewTeamButton: {
+    backgroundColor: CONST.thirdOrange,
+    color: CONST.darkerColor,
+    borderBottomLeftRadius: 0,
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: CONST.normalButtonRadius,
+    borderBottomRightRadius: CONST.normalButtonRadius,
+    marginLeft: -CONST.heightButton / 2,
+    height: CONST.heightButton,
+    paddingLeft: CONST.iconPadding, //TODO: COLOCAR - 10
     paddingRight: CONST.iconPadding + 10,
     justifyContent: "center",
   },

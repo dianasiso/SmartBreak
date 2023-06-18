@@ -202,6 +202,9 @@ const DashboardStackNavigation = ({ navigation, route }) => {
           headerShown: true,
           headerTitle: "",
           headerShadowVisible: false,
+          headerStyle: {
+            backgroundColor : dark_mode ? CONST.darkerColor : CONST.lightBackgroundColor
+          },
           headerLeft: () => (
             <View style={styles.returnTopButton}>
               <ArrowLeft2
@@ -221,6 +224,9 @@ const DashboardStackNavigation = ({ navigation, route }) => {
           headerShown: true,
           headerTitle: "",
           headerShadowVisible: false,
+          headerStyle: {
+            backgroundColor : dark_mode ? CONST.darkerColor : CONST.lightBackgroundColor
+          },
           headerLeft: () => (
             <View style={styles.returnTopButton}>
               <ArrowLeft2
@@ -261,6 +267,9 @@ const GoalsStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerStyle: {
+            backgroundColor : dark_mode ? CONST.darkerColor : CONST.lightBackgroundColor
+          },
           headerShadowVisible: false,
           headerLeft: () => (
             <View style={styles.returnTopButton}>
@@ -300,6 +309,9 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerStyle: {
+            backgroundColor : dark_mode ? CONST.darkerColor : CONST.lightBackgroundColor
+          },
           headerShadowVisible: false,
           headerLeft: () => (
             <View style={styles.returnTopButton}>
@@ -319,6 +331,9 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerStyle: {
+            backgroundColor : dark_mode ? CONST.darkerColor : CONST.lightBackgroundColor
+          },
           headerShadowVisible: false,
           headerLeft: () => (
             <View style={styles.returnTopButton}>
@@ -338,6 +353,9 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerStyle: {
+            backgroundColor : dark_mode ? CONST.darkerColor : CONST.lightBackgroundColor
+          },
           headerShadowVisible: false,
           headerLeft: () => (
             <View style={styles.returnTopButton}>
@@ -357,6 +375,9 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerStyle: {
+            backgroundColor : dark_mode ? CONST.darkerColor : CONST.lightBackgroundColor
+          },
           headerShadowVisible: false,
           headerLeft: () => (
             <View style={styles.returnTopButton}>
@@ -376,6 +397,9 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerStyle: {
+            backgroundColor : dark_mode ? CONST.darkerColor : CONST.lightBackgroundColor
+          },
           headerShadowVisible: false,
           headerLeft: () => (
             <View style={styles.returnTopButton}>
@@ -395,6 +419,9 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerStyle: {
+            backgroundColor : dark_mode ? CONST.darkerColor : CONST.lightBackgroundColor
+          },
           headerShadowVisible: false,
           headerLeft: () => (
             <View style={styles.returnTopButton}>
@@ -413,6 +440,9 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerStyle: {
+            backgroundColor : dark_mode ? CONST.darkerColor : CONST.lightBackgroundColor
+          },
           headerShadowVisible: false,
           headerLeft: () => (
             <View style={styles.returnTopButton}>
@@ -431,6 +461,9 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerStyle: {
+            backgroundColor : dark_mode ? CONST.darkerColor : CONST.lightBackgroundColor
+          },
           headerShadowVisible: false,
           headerLeft: () => (
             <View style={styles.returnTopButton}>
@@ -449,6 +482,9 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerStyle: {
+            backgroundColor : dark_mode ? CONST.darkerColor : CONST.lightBackgroundColor
+          },
           headerShadowVisible: false,
           headerLeft: () => (
             <View style={styles.returnTopButton}>
@@ -467,6 +503,9 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerStyle: {
+            backgroundColor : dark_mode ? CONST.darkerColor : CONST.lightBackgroundColor
+          },
           headerShadowVisible: false,
           headerLeft: () => (
             <View style={styles.returnTopButton}>
@@ -485,6 +524,9 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerStyle: {
+            backgroundColor : dark_mode ? CONST.darkerColor : CONST.lightBackgroundColor
+          },
           headerShadowVisible: false,
           headerLeft: () => (
             <View style={styles.returnTopButton}>
@@ -503,6 +545,9 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerStyle: {
+            backgroundColor : dark_mode ? CONST.darkerColor : CONST.lightBackgroundColor
+          },
           headerShadowVisible: false,
           headerLeft: () => (
             <View style={styles.returnTopButton}>
@@ -641,13 +686,10 @@ const TabRoutes = ( { }) => {
           headerShown: true,
           headerShadowVisible: false,
           headerTitle: "",
-          headerStyle: { backgroundColor: CONST.mainOrange },
           tabBarIcon: ({ focused, color }) => (
             <>
               <View style={{ opacity: focused ? 1 : 0 }}>
-                <RectangleIndicatorError
-                  style={{ backgroundColor: "#F5F5F5" }}
-                />
+                <RectangleIndicatorError />
               </View>
               <Icon name="stats" color={color} />
             </>

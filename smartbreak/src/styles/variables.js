@@ -4,13 +4,16 @@ import { Dimensions } from "react-native";
 export const mainBlue = "#07407B";
 export const lightBlue = "#7591AE";
 export const thirdBlue = "#B5C6D7";
+export const fadeBlue = "#E5EBF1";
 export const mainOrange = "#F57738";
 export const lightOrange = "#EBAC8D";
 export const thirdOrange = "#FCD6C3";
+export const fadeOrange= "#FDF0E9";
 export const lightBackgroundColor = "#FEFEFE";
 export const darkerColor = "#333333";
 export const enableColor = "#888";
 export const greyColor = "#555555";
+export const greySoft = "#AAA";
 export const whiteText = "#FEFEFE";
 export const dividerColor = "#D9D9D9";
 
