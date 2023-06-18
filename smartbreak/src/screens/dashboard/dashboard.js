@@ -5,11 +5,9 @@ import { Svg, Path } from "react-native-svg";
 import React, { useState, useEffect, useRef } from "react";
 import {
   Text,
-  Image,
   Alert,
   RefreshControl,
   View,
-  ToastAndroid,
   Pressable,
   SafeAreaView,
   Modal,
@@ -37,14 +35,13 @@ import * as ScreenOrientation from "expo-screen-orientation";
 
 // CSS
 import { styles } from "./../../styles/css.js";
+import { dark_styles } from "./../../styles/darkcss.js"; 
 import * as CONST from "./../../styles/variables.js";
 
 //REDUX
 import { useDispatch } from "react-redux";
 import { logUser } from "../../redux/user.js";
 
-//Preço kWh EDP segundo https://lojaluz.com/faq/preco-kwh a 13/06/2021
-const precoKwh = 0.1364;
 const apiURL = "https://sb-api.herokuapp.com/users/";
 
 Notifications.setNotificationHandler({
@@ -56,20 +53,26 @@ Notifications.setNotificationHandler({
 });
 
 export default function Dashboard() {
+
+  // ! ver porque o refresh não funciona, tem de funcionar ://
+
   const [refreshing, setRefreshing] = useState(false);
 
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
+  // ---- userData information
   const userData = useSelector((state) => state.user);
-
-  const [selected, setSelected] = useState("personal");
-
   const uid = userData.userID;
   const token = userData.token;
 
+  // ---- check if dark mode or high contrast mode is active
+  const dark_mode = userData.accessibility[1]
+  const high_contrast = userData.accessibility[0]
+
+  const [selected, setSelected] = useState("personal");
+
   const [goals, setGoals] = useState(0);
-  const [goalsDep, setGoalsDep] = useState(0);
   const [pause, setPause] = useState(userData.pause);
   const [battery, setBattery] = useState(userData.battery);
   const [batteryFull, setBatteryFull] = useState(userData.full);
@@ -281,11 +284,10 @@ export default function Dashboard() {
     }
     fetchData();
   }, [])
+
   useEffect(() => {
     ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
     ScreenOrientation.unlockAsync();
-
-
     moveWaves();
     const updateHeightAnimated = () => {
       if (selected === "personal") {
@@ -309,26 +311,6 @@ export default function Dashboard() {
         if (response.ok) {
           const data = await response.json();
           setGoals(data.total);
-
-        } else {
-          const errorData = await response.json();
-          throw new Error(errorData.message);
-        }
-      } catch (error) {
-        console.error(error);
-        Alert.alert("Error", error.message);
-      }
-
-      try {
-        const response = await fetch("https://sb-api.herokuapp.com/goals/destination/" + userData.department + "/active", {
-          method: "GET",
-          headers: {
-            "Authorization": "Bearer " + token
-          }
-        });
-        if (response.ok) {
-          const data = await response.json();
-          setGoalsDep(data.total);
 
         } else {
           const errorData = await response.json();
@@ -373,7 +355,7 @@ export default function Dashboard() {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
-      style={styles.mainContainerLight}>
+      style={dark_mode ? dark_styles.mainContainerDark : styles.mainContainerLight}>
       <StatusBar style="light" />
       <View
 

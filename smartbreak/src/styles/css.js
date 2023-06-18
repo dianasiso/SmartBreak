@@ -303,7 +303,6 @@ export const styles = StyleSheet.create({
   indicator: {
     width: 50,
     height: 3,
-    backgroundColor: CONST.mainBlue,
     borderRadius: 5,
     top: -15,
   },

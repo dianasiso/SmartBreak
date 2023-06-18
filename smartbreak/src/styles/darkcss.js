@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 // IMPORT VARIABLES FROM VARIABLES.JS FILE
 import * as CONST from "./variables.js";
 
-export const styles = StyleSheet.create({
+export const dark_styles = StyleSheet.create({
   // ---- GENERAL -----
   // ---- containers ----
   mainContainer: {
@@ -12,10 +12,11 @@ export const styles = StyleSheet.create({
     backgroundColor: CONST.mainBlue,
     width: CONST.screenWidth,
   },
-  mainContainerLight: {
+  mainContainerDark: {
     flex: 1,
     paddingTop: CONST.backgroundPaddingTop,
     backgroundColor: CONST.darkerColor,
+    marginBottom: 90,
     width: CONST.screenWidth,
   },
   container: {
@@ -294,7 +295,6 @@ export const styles = StyleSheet.create({
   indicator: {
     width: 50,
     height: 3,
-    backgroundColor: CONST.mainBlue,
     borderRadius: 5,
     top: -15,
   },
