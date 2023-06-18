@@ -82,7 +82,7 @@ export default function Dashboard() {
 
   // ---- MÉTRICAS ----
   const [price, setPrice] = useState();
-  const fuel = 1.6; //TODO: change to db 
+  const fuel = 1.6; // ! BUSCAR COMO SE FOSSE A ELETRECIDADE
   // ? fuel = preço de 1 litro de combustível
   // ? carregar um pc durante 1 hora gasta +/- 200 wats ou seja 0.2 kwt
   const kw = 0.2
@@ -227,8 +227,9 @@ export default function Dashboard() {
 
   const changePause = async () => {
     try {
-      // ! ATUALIZAR O USERDATA NA PAUSE E DEPOIS NA BATTERY
-      // TODO: ADICIONAR UM IF E SE A PAUSA FOR TRUE SIGNIFICA QUE ELE VAI TERMINAR, PELO QUE TEM DE ATUALIZAR TBM O BATTERY COM O NOVO VALOR DO BATTERY
+      
+      // ! ATUALIZAR O USERDATA NA PAUSE CADA VEZ QUE O VALOR MUDA E DEPOIS NA BATTERY (PRECISAMOS DO ALGORITMO PRIMEIRO) SÓ QUANDO O PAUSE VAI DE TRUE PARA FALSE, OU SEJA, IF PAUSE -> DO THAT
+      // TODO: ADICIONAR UM IF E SE A PAUSA FOR TRUE SIGNIFICA QUE ELE VAI TERMINAR, PELO QUE TEM DE ATUALIZAR TBM O BATTERY COM O NOVO VALOR DO BATTERY NA API TBM
       const fetch_url = apiURL + uid
       const response = await fetch(fetch_url, {
         method: "PATCH",
@@ -365,6 +366,7 @@ export default function Dashboard() {
 
 
   }, [userData, selected, pause]);
+
 
   return (
     <SafeAreaView
