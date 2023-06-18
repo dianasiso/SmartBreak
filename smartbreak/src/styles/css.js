@@ -12,10 +12,12 @@ export const styles = StyleSheet.create({
     backgroundColor: CONST.mainBlue,
     width: CONST.screenWidth,
   },
+
   mainContainerLight: {
     flex: 1,
     paddingTop: CONST.backgroundPaddingTop,
     backgroundColor: CONST.lightBackgroundColor,
+    marginBottom: 90,
     width: CONST.screenWidth,
   },
   container: {
@@ -27,12 +29,15 @@ export const styles = StyleSheet.create({
     backgroundColor: CONST.mainBlue,
     width: CONST.screenWidth,
   },
+   // ! CADA VEZ QUE SE USA O CONTAINER LIGHT NUMA PÁGINA QUE TEM < SETA PRA VOLTAR ATRÁS É PRECISO ALTERAR NA PRÓPRIA PÁGINA
+  // ! O VALOR DO PADDINGTOP PARA CONST.BACKGROUNDPADDINGTOP / 2
   containerLight: {
     flex: 1,
     flexDirection: "column",
     paddingLeft: CONST.backgroundPaddingLateral,
     paddingRight: CONST.backgroundPaddingLateral,
     paddingTop: CONST.backgroundPaddingTop,
+    marginBottom: 90,
     backgroundColor: CONST.lightBackgroundColor,
     width: CONST.screenWidth,
   },
