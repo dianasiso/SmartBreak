@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useSelector, useDispatch } from "react-redux";
+import { updateUserData } from "../../redux/user.js";
 
 // Font Gotham
 import { useFonts } from "expo-font";
@@ -34,17 +35,40 @@ export default function EditProfile({ navigation }) {
   const userData = useSelector((state) => state.user);
 
   const [name, setName] = useState(userData.name);
-  const [lastName, setLastName] = useState(userData.lastName);
+  const [surname, setSurname] = useState(userData.surname);
   const [email, setEmail] = useState(userData.email);
   const [rewards, setRewards] = useState(userData.rewards);
   const userID = userData.userID;
   const token = userData.token;
-  console.log(token);
+  //console.log(token);
 
+  /*
+  useEffect(() => {
+    if (responseData && responseData.message === "Logged in successfully") {
+      const userData = {
+      
+        email: email.trim(),
+   
+        name: responseData.user.name,
+        surname: responseData.user.surname,
+        
+        rewards: responseData.user.rewards,
+        e,
+        full: responseData.userOrganization.full,
+      };
+
+      dispatch(logUser(userData)); // dispatch the logUser action para Redux
+      handleNavigate(responseData.user._id); // navega para outra pagina
+    } else if (responseData && responseData.message) {
+      Alert.alert("Login failed", responseData.message);
+    }
+  }, [responseData]);*/
+
+  //API
   async function updateUserProfile(updatedProfileData) {
     try {
-      const apiURLUser = "https://sb-api.herokuapp.com/users/" + userID; // Replace with your API endpoint
-      console.log(apiURLUser);
+      const apiURLUser = "https://sb-api.herokuapp.com/users/" + userID;
+      //console.log(apiURLUser);
       const response = await fetch(apiURLUser, {
         method: "PATCH",
         headers: {
@@ -54,7 +78,7 @@ export default function EditProfile({ navigation }) {
         body: JSON.stringify(updatedProfileData),
       });
 
-      console.log(JSON.stringify(response));
+      //console.log(JSON.stringify(response));
 
       if (response.ok) {
         const data = await response.json();
@@ -70,18 +94,30 @@ export default function EditProfile({ navigation }) {
 
   const handleProfileUpdate = async () => {
     try {
-      const updatedProfileData = {
-        name: name,
-        lastName: lastName,
-        email: email,
-        rewards: rewards,
-      };
+      const updatedProfileData = {};
 
-      // chamar a funçao da api para atualizar o perfil
+      if (name !== userData.name) {
+        updatedProfileData.name = name;
+      }
+      if (surname !== userData.surname) {
+        updatedProfileData.surname = surname;
+      }
+      if (email !== userData.email) {
+        updatedProfileData.email = email;
+      }
+      if (rewards !== userData.rewards) {
+        updatedProfileData.rewards = rewards;
+      }
+
+      if (Object.keys(updatedProfileData).length === 0) {
+        Alert.alert("No Changes", "No changes made to the profile");
+        return;
+      }
+
       const response = await updateUserProfile(updatedProfileData);
-
-      // atualizar o redux com os dados do perfil novos
-      dispatch({ type: "UPDATE_USER_PROFILE", payload: response });
+      //guardar no redux
+      console.log("A RESPOSTA ATUAL É:", response);
+      dispatch(updateUserData(response));
 
       Alert.alert("Success", "Profile updated successfully");
       navigation.navigate("ProfilePage");
@@ -134,8 +170,8 @@ export default function EditProfile({ navigation }) {
             accessible={true}
             accessibilityLabel="Campo para introdução do Sobrenome."
             style={styles.inputField}
-            onChangeText={(text) => setLastName(text)}
-            value={lastName}
+            onChangeText={(text) => setSurname(text)}
+            value={surname}
           />
 
           <Text

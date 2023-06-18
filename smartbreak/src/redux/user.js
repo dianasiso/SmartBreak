@@ -97,6 +97,14 @@ export const userSlice = createSlice({
       state.full = 0;
       console.log("Logout State:", state);
     },
+    updateUserData: (state, action) => {
+      const { name, surname, email, rewards } = action.payload.message;
+      state.name = name;
+      state.surname = surname;
+      state.email = email;
+      state.rewards = rewards;
+    },
+
     updateBattery: (state, action) => {
       state.battery = action.payload;
       console.log("Battery State:", state);
@@ -108,7 +116,12 @@ export const userSlice = createSlice({
   },
 });
 
-export const { logUser, logoutUser, updateBattery, updatePause } =
-  userSlice.actions;
+export const {
+  logUser,
+  logoutUser,
+  updateUserData,
+  updateBattery,
+  updatePause,
+} = userSlice.actions;
 
 export default userSlice.reducer;

@@ -23,6 +23,7 @@ import { fetchData } from "../../config/api.js";
 
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { updateUserData } from "../../redux/user.js";
 
 // Font Gotham
 import { useFonts } from "expo-font";
@@ -35,18 +36,18 @@ import * as CONST from "./../../styles/variables.js";
 
 export default function ProfilePage({ navigation, route }) {
   const userData = useSelector((state) => state.user);
-  const uid = userData.userID;
-  const name = userData.name;
-  const organization = userData.organization;
-  console.log("User Data:", userData);
+  const { name, surname, userID, organization, department } = userData;
+  const [refreshing, setRefreshing] = useState(false);
+
+  useEffect(() => {
+    updateUserData(userData);
+  }, [userData]);
 
   // Loading Gotham font
   const [loaded] = useFonts({
     GothamMedium: "./../fonts/GothamMedium.ttf",
     GothamBook: "./../fonts/GothamBook.ttf",
   });
-
-  const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -61,6 +62,9 @@ export default function ProfilePage({ navigation, route }) {
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={styles.containerLight}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       >
         <View style={styles.profileInfo}>
           <Image
@@ -72,7 +76,7 @@ export default function ProfilePage({ navigation, route }) {
           <Text
             accessible={true}
             accessibilityLabel={
-              "Texto na cor preta num fundo branco escrito " + { name }
+              "Texto na cor preta num fundo branco escrito " + name
             }
             style={[styles.titleText, { marginTop: CONST.boxMargin }]}
           >
@@ -81,20 +85,20 @@ export default function ProfilePage({ navigation, route }) {
           <Text
             accessible={true}
             accessibilityLabel={
-              "Texto na cor preta num fundo branco escrito " + { organization }
+              "Texto na cor preta num fundo branco escrito " + department
             }
             style={[
               styles.normalText,
               { opacity: 0.5, marginTop: CONST.boxMargin },
             ]}
           >
-            {organization}
+            {department}
           </Text>
         </View>
 
         <Pressable
           accessible={true}
-          accessibilityLabel="Botão transparente com texto na cor preta num fundo branco escrito Editar perfil. É acompanhado por um icon de lápis."
+          accessibilityLabel="Botão transparente com texto na cor preta num fundo branco escrito Editar perfil. É acompanhado por um ícone de lápis."
           style={[
             styles.boxOptions,
             { paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding },
@@ -106,7 +110,7 @@ export default function ProfilePage({ navigation, route }) {
         </Pressable>
         <Pressable
           accessible={true}
-          accessibilityLabel="Botão transparente com texto na cor preta num fundo branco escrito Os meus equipamentos. É acompanhado por um icon de composto por 4 quadrados numa disposição 2 por 2."
+          accessibilityLabel="Botão transparente com texto na cor preta num fundo branco escrito Os meus equipamentos. É acompanhado por um ícone composto por 4 quadrados numa disposição 2 por 2."
           style={[
             styles.boxOptions,
             { paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding },
@@ -119,7 +123,7 @@ export default function ProfilePage({ navigation, route }) {
 
         <Pressable
           accessible={true}
-          accessibilityLabel="Botão transparente com texto na preta num fundo branco escrito As minhas rotinas. É acompanhado por um icon de calendário."
+          accessibilityLabel="Botão transparente com texto na cor preta num fundo branco escrito As minhas rotinas. É acompanhado por um ícone de calendário."
           style={[
             styles.boxOptions,
             { paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding },
@@ -131,7 +135,7 @@ export default function ProfilePage({ navigation, route }) {
         </Pressable>
         <Pressable
           accessible={true}
-          accessibilityLabel="Botão transparente com texto na preta num fundo branco escrito Histórico de pausas. É acompanhado por um icon de relógio."
+          accessibilityLabel="Botão transparente com texto na cor preta num fundo branco escrito Histórico de pausas. É acompanhado por um ícone de relógio."
           style={[
             styles.boxOptions,
             { paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding },
@@ -143,7 +147,7 @@ export default function ProfilePage({ navigation, route }) {
         </Pressable>
         <Pressable
           accessible={true}
-          accessibilityLabel="Botão transparente com texto na preta num fundo branco escrito As minhas recompensas. É acompanhado por um icon de medalha."
+          accessibilityLabel="Botão transparente com texto na cor preta num fundo branco escrito As minhas recompensas. É acompanhado por um ícone de medalha."
           style={[
             styles.boxOptions,
             { paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding },
@@ -155,7 +159,7 @@ export default function ProfilePage({ navigation, route }) {
         </Pressable>
         <Pressable
           accessible={true}
-          accessibilityLabel="Botão transparente com texto na preta num fundo branco escrito Definições. É acompanhado por um icon de roda dentada."
+          accessibilityLabel="Botão transparente com texto na cor preta num fundo branco escrito Definições. É acompanhado por um ícone de roda dentada."
           style={[
             styles.boxOptions,
             {
