@@ -30,7 +30,7 @@ import { useSelector } from "react-redux";
 
 import * as Notifications from "expo-notifications";
 
-//screenOrientation
+// screenOrientation
 import * as ScreenOrientation from "expo-screen-orientation";
 
 // CSS
@@ -38,7 +38,7 @@ import { styles } from "./../../styles/css.js";
 import { dark_styles } from "./../../styles/darkcss.js";
 import * as CONST from "./../../styles/variables.js";
 
-//REDUX
+// REDUX
 import { useDispatch } from "react-redux";
 import { logUser } from "../../redux/user.js";
 
@@ -53,9 +53,7 @@ Notifications.setNotificationHandler({
 });
 
 export default function Dashboard() {
-
   // ! ver porque o refresh não funciona, tem de funcionar ://
-
   const [refreshing, setRefreshing] = useState(false);
 
   const dispatch = useDispatch();
@@ -426,14 +424,14 @@ export default function Dashboard() {
           }}
         >
           <View style={styles.centeredView}>
-            <View style={styles.modalView}>
+            <View style={dark_mode ? dark_styles.modalView : styles.modalView}>
               <View style={{ flexDirection: "column", marginTop: 5 }}>
-                <Text style={styles.modalTextBold}>
+                <Text style={dark_mode ? dark_styles.modalTextBold : styles.modalTextBold}>
                   {pause
                     ? "Tem a certeza que pretende terminar a sua pausa?"
                     : "Tem a certeza que pretende iniciar uma pausa?"}
                 </Text>
-                <Text style={styles.modalText}>
+                <Text style={dark_mode ? dark_styles.modalText : styles.modalText}>
                   {pause
                     ? "Bom regresso ao trabalho!"
                     : "Não se esqueça de garantir que todos os equipamentos associados à sua conta estão devidamente desligados!"}
@@ -452,7 +450,7 @@ export default function Dashboard() {
                   }}
                   style={{ padding: 10, marginRight: 10 }}
                 >
-                  <Text style={{ color: "#0051ba", fontFamily: "GothamMedium" }}>
+                  <Text style={{ color: dark_mode ? CONST.thirdBlue : CONST.mainBlue, fontFamily: "GothamMedium" }}>
                     {" "}
                     Cancelar{" "}
                   </Text>
@@ -470,14 +468,14 @@ export default function Dashboard() {
                       setStartPause(Date.now())
                     }
                   }}
-                  style={styles.buttonAdd}
+                  style={dark_mode ? dark_styles.buttonAdd : styles.buttonAdd}
                 >
                   {pause ? (
-                    <Text style={{ color: "#FFF", fontFamily: "GothamMedium" }}>
+                    <Text style={{ color: dark_mode ? CONST.darkerColor : CONST.whiteText, fontFamily: "GothamMedium" }}>
                       Terminar
                     </Text>
                   ) : (
-                    <Text style={{ color: "#FFF", fontFamily: "GothamMedium" }}>
+                    <Text style={{ color: dark_mode ? CONST.darkerColor : CONST.whiteText, fontFamily: "GothamMedium" }}>
                       Iniciar
                     </Text>
                   )}
@@ -505,21 +503,21 @@ export default function Dashboard() {
                   <Text
                     accessible={true}
                     accessibilityLabel="Texto escrito a tua carga pessoal."
-                    style={dark_mode ? dark_styles.batteryValuesTitle : styles.batteryValuesTitle}
+                    style={dark_mode ? dark_styles.batteryValuesTitle : high_contrast ? dark_styles.batteryValuesTitle : styles.batteryValuesTitle}
                   >
-                    A tua carga pessoal
+                    A tua carga departamental
                   </Text>
-                  <Text style={dark_mode ? dark_styles.batteryValuesCharge : styles.batteryValuesCharge}>{batteryDep} kWh</Text>
+                  <Text style={dark_mode ? dark_styles.batteryValuesCharge : high_contrast ?  dark_styles.batteryValuesCharge : styles.batteryValuesCharge}>{batteryDep} kWh</Text>
                 </>
               }
               <Text
                 accessible={true}
                 accessibilityLabel="Texto escrito a sua carga pessoal."
-                style={dark_mode ? dark_styles.batteryValuesTitle : styles.batteryValuesTitle}
+                style={dark_mode ? dark_styles.batteryValuesTitle : (high_contrast && selected !== "personal" ?  dark_styles.batteryValuesTitle : styles.batteryValuesTitle)}
               >
                 Objetivos por cumprir
               </Text>
-              <Text style={dark_mode ? dark_styles.batteryValuesGoals : styles.batteryValuesGoals}>{goals}</Text>
+              <Text style={dark_mode ? dark_styles.batteryValuesGoals : (high_contrast && selected !== "personal" ?  dark_styles.batteryValuesGoals : styles.batteryValuesGoals)}>{goals}</Text>
               <View style={styles.addPauseButtonContainer}>
                 {selected === "personal" ? (
                   <Pressable
@@ -576,8 +574,8 @@ export default function Dashboard() {
             </View>
             <View style={styles.columnContainerRight}>
               <View style={styles.batteryView}>
-                <View style={dark_mode ? dark_styles.batteryTip : styles.batteryTip} />
-                <View style={dark_mode ? dark_styles.batteryContainer : styles.batteryContainer}>
+                <View style={dark_mode ? dark_styles.batteryTip : (high_contrast && selected !=="personal" ? dark_styles.batteryTip : styles.batteryTip)} />
+                <View style={dark_mode ? dark_styles.batteryContainer : (high_contrast && selected !=="personal" ? dark_styles.batteryContainer : styles.batteryContainer)}>
                   <AnimatedSvg
                     style={[
                       styles.batteryFill,
@@ -591,12 +589,12 @@ export default function Dashboard() {
                       fill={selected === "personal" ?
                         dark_mode ? CONST.fadeBlue : CONST.thirdBlue
                         :
-                        dark_mode ? CONST.fadeOrange : CONST.thirdOrange}
+                        dark_mode ? CONST.fadeOrange : high_contrast ? CONST.fadeOrange : CONST.thirdOrange}  // *
                       transform="translate(0, 9)"
                     />
                     <AnimatedPath
                       animatedProps={secondWaveProps}
-                      fill={dark_mode ? CONST.darkerColor : CONST.whiteText}
+                      fill={dark_mode ? CONST.darkerColor : (high_contrast && selected !== "personal" ? CONST.darkerColor : CONST.whiteText)}
                       transform="translate(0, 9)"
                     />
                   </AnimatedSvg>
@@ -606,10 +604,10 @@ export default function Dashboard() {
                 <EmojiHappy
                   style={styles.batteryEmoji}
                   size="40"
-                  color={dark_mode ? CONST.darkerColor : CONST.lightBackgroundColor}
+                  color={dark_mode ? CONST.darkerColor : (high_contrast && selected !=="personal" ? CONST.darkerColor : CONST.lightBackgroundColor)}
                 />
               ) : (
-                <EmojiSad style={styles.batteryEmoji} size="40" color={dark_mode ? CONST.darkerColor : CONST.lightBackgroundColor} />
+                <EmojiSad style={styles.batteryEmoji} size="40" color={dark_mode ? CONST.darkerColor : (high_contrast && selected !=="personal" ? CONST.darkerColor : CONST.lightBackgroundColor)} />
               )}
             </View>
           </View>

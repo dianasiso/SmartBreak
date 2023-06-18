@@ -627,7 +627,7 @@ const TabRoutes = ( { }) => {
           padding: 12,
         },
         tabBarStyle: {
-          backgroundColor: dark_mode ? CONST.darkerColor : lightBackgroundColor,
+          backgroundColor: dark_mode ? CONST.darkerColor : CONST.lightBackgroundColor,
           borderTopColor: "transparent",
           height: 90,
           borderTopLeftRadius: 0,

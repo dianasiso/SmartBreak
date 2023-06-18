@@ -638,31 +638,24 @@ export const styles = StyleSheet.create({
     paddingLeft: 25,
     paddingRight: 25,
   },
-  /*modalView: {
-    backgroundColor: "#E3ECF7",
-    borderRadius: 15,
-    padding: 25,
-    shadowColor: "#000",
-    shadowRadius: 5,
-    shadowOpacity: 0.5,
-    elevation: 10,
-  }, */
   modalTextBold: {
     fontFamily: "GothamMedium",
     fontSize: 16,
     textAlign: "left",
     marginBottom: 20,
     lineHeight: 22,
+    color: CONST.darkerColor
   },
   modalText: {
     fontFamily: "GothamBook",
     fontSize: 16,
     textAlign: "left",
     marginBottom: 20,
+    color: CONST.darkerColor,
     lineHeight: 22,
   },
   buttonAdd: {
-    backgroundColor: "#0051ba",
+    backgroundColor: CONST.mainBlue,
     paddingTop: 10,
     paddingBottom: 10,
     paddingLeft: 20,
