@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     paddingTop: CONST.backgroundPaddingTop,
     backgroundColor: CONST.mainBlue,
-    paddingBottom: CONST.backgroundPaddingTop/2,
+    paddingBottom: CONST.backgroundPaddingTop / 2,
     width: CONST.screenWidth,
   },
 
@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     paddingTop: CONST.backgroundPaddingTop,
     backgroundColor: CONST.lightBackgroundColor,
-    paddingBottom: CONST.backgroundPaddingTop/2,
+    paddingBottom: CONST.backgroundPaddingTop / 2,
     marginBottom: 90,
     width: CONST.screenWidth,
   },
@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
     backgroundColor: CONST.mainBlue,
     width: CONST.screenWidth,
   },
-   // ! CADA VEZ QUE SE USA O CONTAINER LIGHT NUMA PÁGINA QUE TEM < SETA PRA VOLTAR ATRÁS É PRECISO ALTERAR NA PRÓPRIA PÁGINA
+  // ! CADA VEZ QUE SE USA O CONTAINER LIGHT NUMA PÁGINA QUE TEM < SETA PRA VOLTAR ATRÁS É PRECISO ALTERAR NA PRÓPRIA PÁGINA
   // ! O VALOR DO PADDINGTOP PARA CONST.BACKGROUNDPADDINGTOP / 2
   containerLight: {
     flex: 1,
@@ -40,8 +40,7 @@ export const styles = StyleSheet.create({
     paddingRight: CONST.backgroundPaddingLateral,
     paddingTop: CONST.backgroundPaddingTop,
     backgroundColor: CONST.lightBackgroundColor,
-    paddingBottom: CONST.backgroundPaddingTop/2,
-    marginBottom: 90,
+    paddingBottom: CONST.backgroundPaddingTop / 2,
     width: CONST.screenWidth,
   },
   dashboardContainer: {
@@ -494,9 +493,11 @@ export const styles = StyleSheet.create({
   // ---- PROFILE ----
   profileInfo: {
     alignItems: "center",
-    marginBottom: CONST.inputMargin,
+    //marginBottom: CONST.inputMargin,
     flex: 1,
     justifyContent: "center",
+    flexDirection: "column",
+    marginBottom: CONST.backgroundPaddingTop ,
   },
   profileImage: {
     width: 100,
@@ -647,7 +648,7 @@ export const styles = StyleSheet.create({
     textAlign: "left",
     marginBottom: 20,
     lineHeight: 22,
-    color: CONST.darkerColor
+    color: CONST.darkerColor,
   },
   modalText: {
     fontFamily: "GothamBook",
@@ -726,7 +727,7 @@ export const styles = StyleSheet.create({
   batteryFill: {
     position: "absolute",
     marginRight: CONST.cardPadding,
-    background: 'transparent',
+    background: "transparent",
     // width: 90, //máximo 163
     borderTopRightRadius: 0,
     borderTopLeftRadius: 0,
@@ -851,12 +852,6 @@ export const styles = StyleSheet.create({
     paddingTop: CONST.backgroundPaddingTop,
   },
 
-  profileInfo: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: CONST.inputMargin,
-  },
   // ---- REWARDS PROFILE ----
   editprofileRewards: {
     flexDirection: "row",

@@ -60,6 +60,8 @@ export default function Login() {
         battery_full: responseData.userOrganization.battery_full,
         organization_name: responseData.userOrganization.name,
         full: responseData.userOrganization.full,
+        department_name: responseData.userDepartment.name,
+        department_description: responseData.userDepartment.description,
       };
 
       dispatch(logUser(userData)); // dispatch the logUser action para Redux

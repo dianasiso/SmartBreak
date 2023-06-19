@@ -35,7 +35,7 @@ export default function EditProfile({ navigation }) {
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.user);
 
-  const dark_mode = userData.accessibility[1]
+  const dark_mode = userData.accessibility[1];
 
   const [name, setName] = useState(userData.name);
   const [surname, setSurname] = useState(userData.surname);
@@ -115,15 +115,21 @@ export default function EditProfile({ navigation }) {
   };
 
   return (
-    <SafeAreaProvider style={[dark_mode ? dark_styles.containerLight : styles.containerLight, { paddingTop: CONST.backgroundPaddingTop / 2 }]}>
+    <SafeAreaProvider
+      style={[
+        dark_mode ? dark_styles.containerLight : styles.containerLight,
+        { paddingTop: CONST.backgroundPaddingTop / 2 },
+      ]}
+    >
       <StatusBar style={dark_mode ? "light" : "dark"} />
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-      >
-        <Text 
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Text
           accessible={true}
           accessibilityLabel="Texto escrito Editar Perfil. É o título da página."
-          style={ dark_mode ? dark_styles.titleText : styles.titleText}>Editar perfil{"\n"}</Text>
+          style={dark_mode ? dark_styles.titleText : styles.titleText}
+        >
+          Editar perfil{"\n"}
+        </Text>
         <Text
           accessible={true}
           accessibilityLabel="Texto escrito Nome."
@@ -135,7 +141,7 @@ export default function EditProfile({ navigation }) {
           accessible={true}
           accessibilityLabel="Campo para introdução do Nome."
           style={dark_mode ? dark_styles.inputField : styles.inputField}
-          onChangeText={(text) => setName(text)}
+          onChangeText={(text) => setName(text.trim())}
           value={name}
         />
 
@@ -150,7 +156,7 @@ export default function EditProfile({ navigation }) {
           accessible={true}
           accessibilityLabel="Campo para introdução do Sobrenome."
           style={dark_mode ? dark_styles.inputField : styles.inputField}
-          onChangeText={(text) => setSurname(text)}
+          onChangeText={(text) => setSurname(text.trim())}
           value={surname}
         />
 
@@ -164,25 +170,37 @@ export default function EditProfile({ navigation }) {
         <TextInput
           accessible={true}
           accessibilityLabel="Campo para introdução do E-mail."
-          style={[dark_mode ? dark_styles.inputField : styles.inputField, {marginBottom: CONST.backgroundPaddingTop}]}
+          style={[
+            dark_mode ? dark_styles.inputField : styles.inputField,
+            { marginBottom: CONST.backgroundPaddingTop },
+          ]}
           onChangeText={(text) => setEmail(text.trim())}
           value={email}
         />
 
-
-        <View style={styles.editprofileRewards} >
+        <View style={styles.editprofileRewards}>
           <Text
             accessible={true}
             accessibilityLabel="Texto Tornar as recompensas públicas. Possui um switch à frente para ativar ou desativar a opção."
-            style={dark_mode ? dark_styles.normalText : styles.normalText}>
+            style={dark_mode ? dark_styles.normalText : styles.normalText}
+          >
             Tornar as recompensas públicas
           </Text>
           <Switch
             accessible={true}
             accessibilityLabel={rewards ? "Ativado" : "Desativado"}
-              trackColor={{ false: CONST.switchOffColor, true: dark_mode ? CONST.lightBlue : CONST.switchOnColor }}
-              thumbColor={rewards ? CONST.switchIndicatorColor : dark_mode ? CONST.lightBlue: CONST.mainBlue}
-              value={rewards}
+            trackColor={{
+              false: CONST.switchOffColor,
+              true: dark_mode ? CONST.lightBlue : CONST.switchOnColor,
+            }}
+            thumbColor={
+              rewards
+                ? CONST.switchIndicatorColor
+                : dark_mode
+                ? CONST.lightBlue
+                : CONST.mainBlue
+            }
+            value={rewards}
             onValueChange={(value) => setRewards(value)}
           />
         </View>
@@ -192,8 +210,18 @@ export default function EditProfile({ navigation }) {
             accessible={true}
             accessibilityLabel="Botão para salvar as alterações no perfil do utilizador."
             onPress={handleProfileUpdate}
-            style={[dark_mode ? dark_styles.primaryButton : styles.primaryButton, { marginTop: CONST.backgroundPaddingLateral }]}>
-            <Text style={dark_mode ? dark_styles.primaryButtonText : styles.primaryButtonText}>
+            style={[
+              dark_mode ? dark_styles.primaryButton : styles.primaryButton,
+              { marginTop: CONST.backgroundPaddingLateral },
+            ]}
+          >
+            <Text
+              style={
+                dark_mode
+                  ? dark_styles.primaryButtonText
+                  : styles.primaryButtonText
+              }
+            >
               Guardar
             </Text>
           </Pressable>

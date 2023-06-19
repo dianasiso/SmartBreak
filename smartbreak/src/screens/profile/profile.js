@@ -36,8 +36,17 @@ import * as CONST from "./../../styles/variables.js";
 
 export default function ProfilePage({ navigation, route }) {
   const userData = useSelector((state) => state.user);
-  const { name, surname, userID, organization, department } = userData;
+  const {
+    name,
+    surname,
+    userID,
+    organization,
+    department,
+    organization_name,
+    department_name,
+  } = userData;
   const [refreshing, setRefreshing] = useState(false);
+  console.log("AQUI" + userData.organization_name);
 
   useEffect(() => {
     updateUserData(userData);
@@ -70,23 +79,35 @@ export default function ProfilePage({ navigation, route }) {
           <Text
             accessible={true}
             accessibilityLabel={
-              "Texto na cor preta num fundo branco escrito " + name
+              "Texto na cor preta num fundo branco escrito " + name + surname
             }
             style={[styles.titleText, { marginTop: CONST.boxMargin }]}
           >
-            {name}
+            {name + " " + surname}
           </Text>
           <Text
             accessible={true}
             accessibilityLabel={
-              "Texto na cor preta num fundo branco escrito " + department
+              "Texto na cor preta num fundo branco escrito " + department_name
             }
             style={[
               styles.normalText,
               { opacity: 0.5, marginTop: CONST.boxMargin },
             ]}
           >
-            {department}
+            {department_name}
+          </Text>
+          <Text
+            accessible={true}
+            accessibilityLabel={
+              "Texto na cor preta num fundo branco escrito " + organization_name
+            }
+            style={[
+              styles.normalText,
+              { opacity: 0.5, marginTop: CONST.boxMargin },
+            ]}
+          >
+            {organization_name}
           </Text>
         </View>
 
