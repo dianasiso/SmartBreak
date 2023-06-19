@@ -269,7 +269,7 @@ export const dark_styles = StyleSheet.create({
     paddingBottom: CONST.boxPadding,
     flex: 1,
     borderBottomWidth: 1,
-    borderBottomColor: CONST.dividerColor,
+    borderBottomColor: CONST.greyColor,
     flexDirection: "row",
     alignItems: "center",
   },

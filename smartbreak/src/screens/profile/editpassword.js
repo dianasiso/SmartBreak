@@ -13,9 +13,6 @@ import { useSelector } from "react-redux";
 import { Eye, EyeSlash } from "iconsax-react-native";
 
 
-// Firebase
-import firebase from "./../../config/firebase.js";
-
 // CSS
 import { styles } from "./../../styles/css.js";
 import { dark_styles } from "../../styles/darkcss.js";
@@ -35,6 +32,8 @@ export default function EditPassword({ navigation }) {
 
   // ---- userData information
   const userData = useSelector((state) => state.user);
+  const dark_mode = userData.accessibility[1]
+
   const uid = userData.userID;
   const password = userData.password;
 
@@ -52,7 +51,6 @@ export default function EditPassword({ navigation }) {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const dark_mode = userData.accessibility[1]
 
   useEffect(() => {
     

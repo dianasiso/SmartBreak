@@ -24,7 +24,6 @@ import {
 import { useFonts } from "expo-font";
 
 // Firebase
-import firebase from "./../../config/firebase.js";
 import { getAuth, deleteUser } from "firebase/auth";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -33,6 +32,7 @@ import * as SecureStore from "expo-secure-store";
 
 // CSS
 import { styles } from "./../../styles/css.js";
+import { dark_styles } from "../../styles/darkcss.js";
 
 // Variables
 import * as CONST from "./../../styles/variables.js";
@@ -45,8 +45,10 @@ export default function ProfileSettings({ navigation }) {
     GothamBook: "./../fonts/GothamBook.ttf",
   });
 
-  const userData = useSelector((state) => state.user.userID);
-  const uid = userData;
+  
+  const userData = useSelector((state) => state.user);
+  const dark_mode = userData.accessibility[1]
+  const uid = userData.userID;
 
   const apagarconta = () => {
     Alert.alert("Atenção", "Deseja apagar a sua conta permanentemente?", [
