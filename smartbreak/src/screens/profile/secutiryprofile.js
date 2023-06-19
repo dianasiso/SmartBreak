@@ -11,8 +11,6 @@ import {
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
 
-// Firebase
-import firebase from "./../../config/firebase.js";
 
 // Font Gotham
 import { useFonts } from "expo-font";
@@ -26,9 +24,7 @@ import * as CONST from "./../../styles/variables.js";
 
 
 
-export default function SecurityProfile({ navigation }) {
-
-  
+export default function SecurityProfile({ navigation }) {  
   const userData = useSelector((state) => state.user);
   const dark_mode = userData.accessibility[1]
   // Loading Gotham font

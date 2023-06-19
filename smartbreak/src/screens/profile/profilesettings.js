@@ -97,10 +97,10 @@ export default function ProfileSettings({ navigation }) {
 
   return (
     <SafeAreaProvider
-      showsVerticalScrollIndicator={false}
       style={styles.containerLight}
     >
-      <ScrollView>
+      <ScrollView
+      showsHorizontalScrollIndicator={false}>
         <StatusBar style="dark" />
         <Text 
           accessible={true}

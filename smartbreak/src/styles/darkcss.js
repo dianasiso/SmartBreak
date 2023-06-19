@@ -34,7 +34,9 @@ export const dark_styles = StyleSheet.create({
     paddingLeft: CONST.backgroundPaddingLateral,
     paddingRight: CONST.backgroundPaddingLateral,
     paddingTop: CONST.backgroundPaddingTop,
+    paddingBottom: CONST.backgroundPaddingTop,
     backgroundColor: CONST.darkerColor,
+    marginBottom: 90,
     width: CONST.screenWidth,
   },
   dashboardContainer: {
@@ -474,7 +476,7 @@ export const dark_styles = StyleSheet.create({
     justifyContent: "flex-end",
     position: "absolute",
     right: CONST.backgroundPaddingLateral,
-    bottom: CONST.backgroundPaddingTop * 3,
+    bottom: CONST.backgroundPaddingTop ,
     zIndex: 10,
     backgroundColor: CONST.darkerColor,
     borderRadius: 50,
