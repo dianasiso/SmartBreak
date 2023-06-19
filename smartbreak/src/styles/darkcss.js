@@ -71,13 +71,13 @@ export const dark_styles = StyleSheet.create({
   // ---- buttons ----
   primaryButtonText: {
     fontFamily: "GothamMedium",
-    color: CONST.primaryButtonTextColor,
+    color: CONST.darkerColor,
     fontSize: CONST.normalButtonSize,
     textAlign: "center",
   },
   smallPrimaryButtonText: {
     fontFamily: "GothamMedium",
-    color: CONST.primaryButtonTextColor,
+    color: CONST.darkerColor,
     fontSize: CONST.smallButtonSize,
     textAlign: "center",
   },
@@ -100,7 +100,7 @@ export const dark_styles = StyleSheet.create({
     textAlign: "center",
   },
   primaryButton: {
-    backgroundColor: CONST.primaryButtonBackground,
+    backgroundColor: CONST.thirdBlue,
     justifyContent: "center",
     flex: 1,
     flexDirection: "row",
@@ -109,10 +109,10 @@ export const dark_styles = StyleSheet.create({
     borderRadius: CONST.normalButtonRadius,
     margin: 5,
     borderWidth: 1,
-    borderColor: CONST.primaryButtonBorderColor,
+    borderColor: CONST.thirdBlue,
   },
   smallPrimaryButton: {
-    backgroundColor: CONST.primaryButtonBackground,
+    backgroundColor: CONST.thirdBlue,
     justifyContent: "center",
     flex: 1,
     flexDirection: "row",
@@ -121,7 +121,7 @@ export const dark_styles = StyleSheet.create({
     borderRadius: CONST.smallButtonRadius,
     margin: 5,
     borderWidth: 1,
-    borderColor: CONST.primaryButtonBorderColor,
+    borderColor: CONST.thirdBlue,
   },
   buttonWhite: {
     backgroundColor: CONST.lightBackgroundColor,
