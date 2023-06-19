@@ -61,6 +61,8 @@
     "react-wavify": "^1.7.0",
     "realm": "^11.5.1",
     "redux": "^4.2.0",
+    "redux-persist": "^6.0.0",
+    "reduxjs-toolkit-persist": "^7.2.1",
     "styled-components": "^5.3.6"
   },
   "devDependencies": {
