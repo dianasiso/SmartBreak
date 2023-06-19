@@ -10,10 +10,18 @@ import { useFonts } from "expo-font";
 
 // CSS
 import { styles } from "./../../styles/css.js";
+import { dark_styles } from "../../styles/darkcss.js";
+
 // Variables
 import * as CONST from "./../../styles/variables.js";
 
+import { useSelector } from "react-redux";
+
+
 export default function TermsofUseProfile() {
+  const userData = useSelector((state) => state.user);
+  const dark_mode = userData.accessibility[1]
+
   // Loading Gotham font
   const [loaded] = useFonts({
     GothamMedium: "./../fonts/GothamMedium.ttf",
@@ -30,25 +38,25 @@ export default function TermsofUseProfile() {
   }
 
   return (
-    <SafeAreaProvider style={styles.containerLight}>
-      <StatusBar style="dark" />
+    <SafeAreaProvider style={[dark_mode ? dark_styles.containerLight : styles.containerLight, {paddingTop: CONST.backgroundPaddingTop/2}]}>
+      <StatusBar style={dark_mode ? "light" : "dark" } />
       <Pressable 
         accessible={true}
-        accessibilityLabel="Botão circular na cor azul escura num fundo branco com o objetivo de regressar ao topo do ecrã. Tem uma seta a apontar para o topo na cor branca."
-        style={styles.arrow} onPress={onPressTouch} >
-        <ArrowCircleUp variant="Bold" color={CONST.mainBlue} size="50" />
+        accessibilityLabel="Botão circular na cor azul com o objetivo de regressar ao topo do ecrã. Tem uma seta a apontar para o topo na cor branca."
+        style={dark_mode ? dark_styles.arrow : styles.arrow} onPress={onPressTouch} >
+        <ArrowCircleUp variant="Bold" color={dark_mode ? CONST.thirdBlue : CONST.mainBlue} size="50" />
       </Pressable>
      
       <ScrollView ref={content} showsVerticalScrollIndicator={false}>
       <Text 
         accessible={true}
-        accessibilityLabel="Texto na cor preta num fundo branco escrito Centro de Ajuda. É o título da página."
-        style={styles.titleText}>Centro de ajuda</Text>
+        accessibilityLabel="Texto escrito Centro de Ajuda. É o título da página."
+        style={dark_mode ? dark_styles.titleText : styles.titleText}>Centro de ajuda</Text>
         
         <Text 
           accessible={true}
           accessibilityLabel="Como utilizar a Smart Break."
-          style={[styles.normalText, {fontFamily: 'GothamMedium',marginTop: CONST.textPadding}]}>
+          style={[dark_mode ? dark_styles.normalText : styles.normalText, {fontFamily: 'GothamMedium',marginTop: CONST.textPadding}]}>
           Como utilizar a Smart Break{"\n"}
         </Text>
         <Text 
@@ -83,7 +91,7 @@ export default function TermsofUseProfile() {
           a contribuir para a diminuição do desperdício e excesso de energia.
           Em caso de dúvidas, contacta-nos através de suporte@smarkbreak.pt.
           Smart Break. Converte o teu tempo em lucro e lazer."
-          style={styles.normalText}>
+          style={dark_mode ? dark_styles.normalText : styles.normalText}>
             Esta página serve como guia para o uso da Smart Break!
             {"\n"}{"\n"}Após o login, és redirecionado para a página do Painel, onde vais
             encontrar a tua bateria pessoal. Para a ver encher, podes adicionar
@@ -120,54 +128,3 @@ export default function TermsofUseProfile() {
   );
 }
 
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#fff",
-//     paddingLeft: 25,
-//     paddingRight: 25,
-//     paddingBottom: 90,
-//   },
-
-//   arrow: {
-//     flexDirection: "row",
-//     justifyContent: "flex-end",
-//     position: 'absolute',
-//     right: 25,
-//     bottom: 115,
-//     zIndex: 10,
-//     backgroundColor: '#FFF',
-//     borderRadius: 50,
-//   },
-
-//   title: {
-//     fontFamily: "GothamMedium",
-//     fontSize: 24,
-//     marginTop: 30,
-//   },
-
-//   subtitle: {
-//     fontFamily: "GothamMedium",
-//     fontSize: 16,
-//     marginTop: 30,
-//     lineHeight: 24,
-//   },
-
-//   text: {
-//     fontFamily: "GothamBook",
-//     fontSize: 16,
-//     lineHeight: 24,
-//     marginTop: 10,
-//     color: "#444444",
-//   },
-
-//   text2: {
-//     fontFamily: "GothamBook",
-//     fontSize: 16,
-//     lineHeight: 24,
-//     marginTop: 10,
-//     color: "#444444",
-//     paddingBottom: 25,
-//   },
-// });

@@ -10,6 +10,8 @@ export const styles = StyleSheet.create({
     flex: 1,
     paddingTop: CONST.backgroundPaddingTop,
     backgroundColor: CONST.mainBlue,
+    paddingBottom: CONST.backgroundPaddingTop/2,
+    marginBottom: 90,
     width: CONST.screenWidth,
   },
 
@@ -17,6 +19,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     paddingTop: CONST.backgroundPaddingTop,
     backgroundColor: CONST.lightBackgroundColor,
+    paddingBottom: CONST.backgroundPaddingTop/2,
     marginBottom: 90,
     width: CONST.screenWidth,
   },
@@ -27,6 +30,8 @@ export const styles = StyleSheet.create({
     paddingRight: CONST.backgroundPaddingLateral,
     paddingTop: CONST.backgroundPaddingTop,
     backgroundColor: CONST.mainBlue,
+    paddingBottom: CONST.backgroundPaddingTop/2,
+    marginBottom: 90,
     width: CONST.screenWidth,
   },
    // ! CADA VEZ QUE SE USA O CONTAINER LIGHT NUMA PÁGINA QUE TEM < SETA PRA VOLTAR ATRÁS É PRECISO ALTERAR NA PRÓPRIA PÁGINA
@@ -38,9 +43,9 @@ export const styles = StyleSheet.create({
     paddingRight: CONST.backgroundPaddingLateral,
     paddingTop: CONST.backgroundPaddingTop,
     backgroundColor: CONST.lightBackgroundColor,
-    width: CONST.screenWidth,
-    paddingBottom: CONST.backgroundPaddingTop,
+    paddingBottom: CONST.backgroundPaddingTop/2,
     marginBottom: 90,
+    width: CONST.screenWidth,
   },
   dashboardContainer: {
     position: "absolute",
