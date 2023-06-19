@@ -173,7 +173,7 @@ export const dark_styles = StyleSheet.create({
     borderRadius: CONST.smallButtonRadius,
     margin: 5,
     borderWidth: 1,
-    borderColor: CONST.secondaryButtonBorderColor,
+    borderColor: CONST.thirdOrange,
   },
 
   // ---- texts ----
@@ -285,7 +285,7 @@ export const dark_styles = StyleSheet.create({
     flex: 1,
     opacity: 0.8,
     borderBottomWidth: 1,
-    borderBottomColor: CONST.dividerColor,
+    borderBottomColor: CONST.greyColor,
     flexDirection: "row",
     alignItems: "center",
   },
@@ -365,7 +365,7 @@ export const dark_styles = StyleSheet.create({
 
   modalDeviceTypeButtonPressed: {
     backgroundColor: "transparent",
-    borderColor: CONST.darkerColor,
+    borderColor: CONST.lightBackgroundColor,
     borderWidth: 1,
     borderRadius: CONST.smallButtonRadius,
     padding: CONST.smallButtonRadius,
@@ -839,43 +839,6 @@ export const dark_styles = StyleSheet.create({
   },
 
   // ---- TIPS ---- //
-  smallSecondaryButton: {
-    backgroundColor: CONST.secondaryButtonBackground,
-    justifyContent: "center",
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    height: CONST.heightButton,
-    borderRadius: CONST.smallButtonRadius,
-    margin: 5,
-    borderWidth: 1,
-    borderColor: CONST.secondaryButtonBorderColor,
-  },
-  smallPrimaryButton: {
-    backgroundColor: CONST.primaryButtonBackground,
-    justifyContent: "center",
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    height: CONST.heightButton,
-    borderRadius: CONST.smallButtonRadius,
-    margin: 5,
-    borderWidth: 1,
-    borderColor: CONST.primaryButtonBorderColor,
-  },
-  smallPrimaryButtonText: {
-    fontFamily: "GothamMedium",
-    color: CONST.darkerColor,
-    fontSize: CONST.smallButtonSize,
-    textAlign: "center",
-  },
-
-  smallSecondaryButtonText: {
-    fontFamily: "GothamMedium",
-    color: CONST.secondaryButtonTextColor,
-    fontSize: CONST.smallButtonSize,
-    textAlign: "center",
-  },
 
   optionsTips: {
     marginLeft: CONST.backgroundPaddingLateral,

@@ -67,12 +67,6 @@ export default function ProfilePage({ navigation, route }) {
         }
       >
         <View style={styles.profileInfo}>
-          <Image
-            accessible={true}
-            accessibilityLabel="Foto de perfil."
-            style={styles.profileImage}
-            source={require("../../imgs/img_register_photo_default.png")}
-          />
           <Text
             accessible={true}
             accessibilityLabel={
