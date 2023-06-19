@@ -25,7 +25,7 @@ import { dark_styles } from "../../styles/darkcss.js";
 export default function MembersRewards({ route, navigation }) {
 
   const userData = useSelector((state) => state.user);
-  
+
   const dark_mode = userData.accessibility[1]
   const [rewards, setRewards] = useState([])
 
@@ -79,18 +79,18 @@ export default function MembersRewards({ route, navigation }) {
   return (
     <SafeAreaProvider
       showsVerticalScrollIndicator={false}
-      style={[dark_mode ? dark_styles.containerLight : styles.containerLight, { paddingTop: CONST.backgroundPaddingTop/2}]}
+      style={[dark_mode ? dark_styles.containerLight : styles.containerLight, { paddingTop: CONST.backgroundPaddingTop / 2 }]}
     >
-      <StatusBar style="dark" />
+      <StatusBar style={dark_mode ? "light" : "dark"} />
       <Text style={dark_mode ? dark_styles.titleText : styles.titleText}>Recompensas de {userData.name}</Text>
-      <ScrollView style={{marginTop: 30}}>
+      <ScrollView style={{ marginTop: 30 }}>
         {rewards && rewards.length > 0 && rewards.map((callbackfn, id) => (
           <View key={rewards[id]._id} style={styles.metricsElement}>
-            <View style={[styles.metricsCircle, {backgroundColor: CONST.thirdOrange}]}>
+            <View style={[styles.metricsCircle, { backgroundColor: CONST.thirdOrange }]}>
               {renderRewardIcon(rewards[id].type)}
             </View>
-          <Text style={dark_mode ? dark_styles.metricsElementText : styles.metricsElementText}> {rewards[id].description} </Text>
-          </View> 
+            <Text style={dark_mode ? dark_styles.metricsElementText : styles.metricsElementText}> {rewards[id].description} </Text>
+          </View>
         ))}
       </ScrollView>
     </SafeAreaProvider>

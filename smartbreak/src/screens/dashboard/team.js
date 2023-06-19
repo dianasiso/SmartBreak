@@ -99,8 +99,7 @@ export default function Team({ navigation }) {
       showsVerticalScrollIndicator={false}
       style={[dark_mode ?  dark_styles.containerLight : styles.containerLight, { paddingTop: CONST.backgroundPaddingTop/2}]}
     >
-      
-        <StatusBar style="dark" />
+        <StatusBar style={dark_mode ? "light" : "dark" } />
         <Text style={dark_mode ? dark_styles.titleText : styles.titleText}>{depName}</Text>
         <Text style={dark_mode ? dark_styles.normalText : styles.normalText}>{depDescription}</Text>
 

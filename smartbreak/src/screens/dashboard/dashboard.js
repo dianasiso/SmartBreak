@@ -353,7 +353,7 @@ export default function Dashboard() {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
       style={dark_mode ? dark_styles.mainContainerDark : styles.mainContainerLight}>
-      <StatusBar style="light" />
+      <StatusBar style={!dark_mode ? "light" : "dark"} />
       <View
         style={[
           styles.dashboardContainer,

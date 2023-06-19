@@ -123,7 +123,7 @@ export default function EditPassword({ navigation }) {
       style={[dark_mode ? dark_styles.containerLight : styles.containerLight, {paddingTop: CONST.backgroundPaddingTop/2}]}
     >
       <ScrollView>
-        <StatusBar style="dark" />
+        <StatusBar style={dark_mode ? "light" : "dark" } />
         <Text 
           accessible={true}
           accessibilityLabel="Textoescrito Alterar Palavra-passe. É o título da página."

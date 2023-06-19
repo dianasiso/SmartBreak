@@ -73,7 +73,7 @@ export default function NotificationsProfile({ navigation }) {
       style={[dark_mode ? dark_styles.containerLight : styles.containerLight, { paddingTop: CONST.backgroundPaddingTop / 2 }]}
     >
       <ScrollView>
-        <StatusBar style="dark" />
+        <StatusBar style={dark_mode ? "light" : "dark" } />
         <Text
           accessible={true}
           accessibilityLabel="Texto escrito Notificações. É o título da página."
