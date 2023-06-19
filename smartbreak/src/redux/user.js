@@ -47,6 +47,8 @@ export const userSlice = createSlice({
         battery_full,
         organization_name,
         full,
+        department_name,
+        department_description,
       } = action.payload;
 
       state.userID = userID;
@@ -70,7 +72,8 @@ export const userSlice = createSlice({
       state.battery_full = battery_full;
       state.organization_name = organization_name;
       state.full = full;
-
+      state.department_name = department_name;
+      state.department_description = department_description;
       console.log("Login State:", state);
     },
     logoutUser: (state) => {
@@ -95,6 +98,8 @@ export const userSlice = createSlice({
       state.battery_full = 0;
       state.organization_name = "";
       state.full = 0;
+      state.department_name = "";
+      state.department_description = "";
       console.log("Logout State:", state);
     },
     updateUserData: (state, action) => {
