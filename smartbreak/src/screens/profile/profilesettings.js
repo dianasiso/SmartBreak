@@ -97,87 +97,87 @@ export default function ProfileSettings({ navigation }) {
 
   return (
     <SafeAreaProvider
-      style={styles.containerLight}
+      showsVerticalScrollIndicator={false}
+      style={[dark_mode ? dark_styles.containerLight : styles.containerLight, { paddingTop: CONST.backgroundPaddingTop / 2 }]}
     >
-      <ScrollView
-      showsHorizontalScrollIndicator={false}>
-        <StatusBar style="dark" />
+      <ScrollView>
+      <StatusBar style={dark_mode ? "light" : "dark" } />
         <Text 
           accessible={true}
           accessibilityLabel="Texto na cor preta num fundo branco escrito Definições. É o título da página."
-          style={styles.titleText}>Definições{"\n"}</Text>
+          style={dark_mode ? dark_styles.titleText : styles.titleText}>Definições{"\n"}</Text>
 
         <Pressable
           accessible={true}
           accessibilityLabel="Botão transparente com texto na preta num fundo branco escrito Alterar palavra-passe. É acompanhado por um icon de cadeado trancado."
-          style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
+          style={[dark_mode ? dark_styles.boxOptions : styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
           onPress={() => navigation.navigate("EditPassword")}
         >
-          <Lock1 variant="Bold" style={styles.boxIcon} />
-          <Text style={styles.normalText}> Alterar palavra-passe</Text>
+          <Lock1 variant="Bold" style={dark_mode ? dark_styles.boxIcon : styles.boxIcon} />
+          <Text style={dark_mode ? dark_styles.normalText : styles.normalText}> Alterar palavra-passe</Text>
         </Pressable>
         <Pressable
           accessible={true}
           accessibilityLabel="Botão transparente com texto na preta num fundo branco escrito Notificações. É acompanhado por um icon de sino."
-          style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
+          style={[dark_mode ? dark_styles.boxOptions :styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
           onPress={() => navigation.navigate("NotificationsProfile")}
         >
-          <Notification variant="Bold" style={styles.boxIcon} />
-          <Text style={styles.normalText}> Notificações</Text>
+          <Notification variant="Bold" style={dark_mode ? dark_styles.boxIcon : styles.boxIcon} />
+          <Text style={dark_mode ? dark_styles.normalText : styles.normalText}> Notificações</Text>
         </Pressable>
         <Pressable
           accessible={true}
           accessibilityLabel="Botão transparente com texto na preta num fundo branco escrito Segurança. É acompanhado por um icon de escudo com uma pessoa estampada."
-         style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
+         style={[dark_mode ? dark_styles.boxOptions : styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
           onPress={() => navigation.navigate("SecurityProfile")}>
-          <SecurityUser variant="Bold" style={styles.boxIcon} />
-          <Text style={styles.normalText}> Segurança</Text>
+          <SecurityUser variant="Bold" style={dark_mode ? dark_styles.boxIcon : styles.boxIcon} />
+          <Text style={dark_mode ? dark_styles.normalText : styles.normalText}> Segurança</Text>
         </Pressable>
         <Pressable
           accessible={true}
           accessibilityLabel="Botão transparente com texto na preta num fundo branco escrito Acessibilidade. É acompanhado por um icon da letra A."
-         style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
+         style={[dark_mode ? dark_styles.boxOptions : styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
           onPress={() => navigation.navigate("Accessibility")}>
-          <Autobrightness variant="Bold" style={styles.boxIcon} />
-          <Text style={styles.normalText}> Acessibilidade</Text>
+          <Autobrightness variant="Bold" style={dark_mode ? dark_styles.boxIcon : styles.boxIcon} />
+          <Text style={dark_mode ? dark_styles.normalText : styles.normalText}> Acessibilidade</Text>
         </Pressable>
         <Pressable
           accessible={true}
           accessibilityLabel="Botão transparente com texto na preta num fundo branco escrito Termos de utilização. É acompanhado por um icon de folha de bloco de notas."
-          style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
+          style={[dark_mode ? dark_styles.boxOptions : styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
           onPress={() => navigation.navigate("TermsofUseProfile")}>
-          <DocumentText1 variant="Bold" style={styles.boxIcon} />
-          <Text style={styles.normalText}> Termos de utilização</Text>
+          <DocumentText1 variant="Bold" style={dark_mode ? dark_styles.boxIcon : styles.boxIcon} />
+          <Text style={dark_mode ? dark_styles.normalText : styles.normalText}> Termos de utilização</Text>
         </Pressable>
         <Pressable
           accessible={true}
           accessibilityLabel="Botão transparente com texto na preta num fundo branco escrito Centro de Ajuda. É acompanhado por um icon de ponto de interrogação."
-          style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
+          style={[dark_mode ? dark_styles.boxOptions : styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
           onPress={() => navigation.navigate("HelpCenterProfile")}>
-          <MessageQuestion variant="Bold" style={styles.boxIcon} />
-          <Text style={styles.normalText}> Centro de ajuda</Text>
+          <MessageQuestion variant="Bold" style={dark_mode ? dark_styles.boxIcon : styles.boxIcon} />
+          <Text style={dark_mode ? dark_styles.normalText : styles.normalText}> Centro de ajuda</Text>
         </Pressable>
         <Pressable 
           accessible={true}
           accessibilityLabel="Botão transparente com texto na preta num fundo branco escrito Aapgar conta. É acompanhado por um icon de caixote de lixo."
-          style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
+          style={[dark_mode ? dark_styles.boxOptions : styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding}]}
           onPress={apagarconta}>
           <Trash
             variant="Bold"
-            style={styles.boxIcon}
+            style={dark_mode ? dark_styles.boxIcon : styles.boxIcon}
             onPress={apagarconta}/>
-          <Text style={styles.normalText}> Apagar conta</Text>
+          <Text style={dark_mode ? dark_styles.normalText : styles.normalText}> Apagar conta</Text>
         </Pressable>
         <Pressable 
           accessible={true}
           accessibilityLabel="Botão transparente com texto na preta num fundo branco escrito Terminar sessão. É acompanhado por um icon de porta com indicação de saída."
-          style={[styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding, borderBottomWidth: 0}]}
+          style={[dark_mode ? dark_styles.boxOptions : styles.boxOptions, {paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding, borderBottomWidth: 0}]}
           onPress={terminarsessao}>
           <Logout
             variant="Bold"
-            style={styles.boxIcon}
+            style={dark_mode ? dark_styles.boxIcon : styles.boxIcon}
             onPress={terminarsessao}/>
-          <Text style={styles.normalText}> Terminar sessão</Text>
+          <Text style={dark_mode ? dark_styles.normalText : styles.normalText}> Terminar sessão</Text>
         </Pressable>
       </ScrollView>
     </SafeAreaProvider>
