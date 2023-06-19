@@ -23,6 +23,7 @@ import { styles } from "./../../styles/css.js";
 
 // Variables
 import * as CONST from "./../../styles/variables.js";
+import { dark_styles } from "../../styles/darkcss.js";
 
 export default function EditProfile({ navigation }) {
   // Loading Gotham font
@@ -34,35 +35,14 @@ export default function EditProfile({ navigation }) {
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.user);
 
+  const dark_mode = userData.accessibility[1]
+
   const [name, setName] = useState(userData.name);
   const [surname, setSurname] = useState(userData.surname);
   const [email, setEmail] = useState(userData.email);
-  const [rewards, setRewards] = useState(userData.rewards);
+  const [rewards, setRewards] = useState(userData.permissions[0]);
   const userID = userData.userID;
   const token = userData.token;
-  //console.log(token);
-
-  /*
-  useEffect(() => {
-    if (responseData && responseData.message === "Logged in successfully") {
-      const userData = {
-      
-        email: email.trim(),
-   
-        name: responseData.user.name,
-        surname: responseData.user.surname,
-        
-        rewards: responseData.user.rewards,
-        e,
-        full: responseData.userOrganization.full,
-      };
-
-      dispatch(logUser(userData)); // dispatch the logUser action para Redux
-      handleNavigate(responseData.user._id); // navega para outra pagina
-    } else if (responseData && responseData.message) {
-      Alert.alert("Login failed", responseData.message);
-    }
-  }, [responseData]);*/
 
   //API
   async function updateUserProfile(updatedProfileData) {
@@ -105,12 +85,19 @@ export default function EditProfile({ navigation }) {
       if (email !== userData.email) {
         updatedProfileData.email = email;
       }
-      if (rewards !== userData.rewards) {
-        updatedProfileData.rewards = rewards;
-      }
+      // ! DANIEL NÃO É REWARDS, OS REWARDS É UM ARRAY COM OS IDS DAS RECOMPENSAS QUE ELE JA GANHOU. É PERMISSIONS[0]
+      // if (rewards !== userData.rewards) {
+      //   updatedProfileData.rewards = rewards;
+      // }
 
       if (Object.keys(updatedProfileData).length === 0) {
-        Alert.alert("No Changes", "No changes made to the profile");
+        Alert.alert("Erro!", "Nenhuma alteração foi feita.");
+        return;
+      }
+
+      let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+      if (reg.test(email) === false) {
+        Alert.alert("Erro!", "O formato do e-mail introduzido não é válido.");
         return;
       }
 
@@ -119,7 +106,7 @@ export default function EditProfile({ navigation }) {
       console.log("A RESPOSTA ATUAL É:", response);
       dispatch(updateUserData(response));
 
-      Alert.alert("Success", "Profile updated successfully");
+      Alert.alert("Sucesso", "Alterações efetuadas com sucesso!");
       navigation.navigate("ProfilePage");
     } catch (error) {
       console.error(error);
@@ -128,90 +115,87 @@ export default function EditProfile({ navigation }) {
   };
 
   return (
-    <SafeAreaProvider>
-      <StatusBar style="dark" />
+    <SafeAreaProvider style={[dark_mode ? dark_styles.containerLight : styles.containerLight, { paddingTop: CONST.backgroundPaddingTop / 2 }]}>
+      <StatusBar style={dark_mode ? "light" : "dark"} />
       <ScrollView
         showsVerticalScrollIndicator={false}
-        style={[styles.containerLight]}
       >
-        <View style={styles.profileInfo}>
-          <Image
-            accessible={true}
-            accessibilityLabel="Foto de perfil."
-            source={require("../../imgs/ester.png")}
-            style={styles.profileImage}
-          />
-        </View>
+        <Text 
+          accessible={true}
+          accessibilityLabel="Texto escrito Editar Perfil. É o título da página."
+          style={ dark_mode ? dark_styles.titleText : styles.titleText}>Editar perfil{"\n"}</Text>
+        <Text
+          accessible={true}
+          accessibilityLabel="Texto escrito Nome."
+          style={dark_mode ? dark_styles.inputLabel : styles.inputLabel}
+        >
+          {"\n"}Nome
+        </Text>
+        <TextInput
+          accessible={true}
+          accessibilityLabel="Campo para introdução do Nome."
+          style={dark_mode ? dark_styles.inputField : styles.inputField}
+          onChangeText={(text) => setName(text)}
+          value={name}
+        />
 
-        <View>
+        <Text
+          accessible={true}
+          accessibilityLabel="Texto escrito Sobrenome."
+          style={dark_mode ? dark_styles.inputLabel : styles.inputLabel}
+        >
+          {"\n"}Sobrenome
+        </Text>
+        <TextInput
+          accessible={true}
+          accessibilityLabel="Campo para introdução do Sobrenome."
+          style={dark_mode ? dark_styles.inputField : styles.inputField}
+          onChangeText={(text) => setSurname(text)}
+          value={surname}
+        />
+
+        <Text
+          accessible={true}
+          accessibilityLabel="Texto escrito E-mail."
+          style={dark_mode ? dark_styles.inputLabel : styles.inputLabel}
+        >
+          {"\n"}E-mail
+        </Text>
+        <TextInput
+          accessible={true}
+          accessibilityLabel="Campo para introdução do E-mail."
+          style={[dark_mode ? dark_styles.inputField : styles.inputField, {marginBottom: CONST.backgroundPaddingTop}]}
+          onChangeText={(text) => setEmail(text.trim())}
+          value={email}
+        />
+
+
+        <View style={styles.editprofileRewards} >
           <Text
             accessible={true}
-            accessibilityLabel="Texto na cor preta num fundo branco escrito Nome."
-            style={styles.inputLabel}
-          >
-            Nome
-          </Text>
-          <TextInput
-            accessible={true}
-            accessibilityLabel="Campo para introdução do Nome."
-            style={styles.inputField}
-            onChangeText={(text) => setName(text)}
-            value={name}
-          />
-
-          <Text
-            accessible={true}
-            accessibilityLabel="Texto na cor preta num fundo branco escrito Sobrenome."
-            style={styles.inputLabel}
-          >
-            Sobrenome
-          </Text>
-          <TextInput
-            accessible={true}
-            accessibilityLabel="Campo para introdução do Sobrenome."
-            style={styles.inputField}
-            onChangeText={(text) => setSurname(text)}
-            value={surname}
-          />
-
-          <Text
-            accessible={true}
-            accessibilityLabel="Texto na cor preta num fundo branco escrito E-mail."
-            style={styles.inputLabel}
-          >
-            Email
-          </Text>
-          <TextInput
-            accessible={true}
-            accessibilityLabel="Campo para introdução do E-mail."
-            style={styles.inputField}
-            onChangeText={(text) => setEmail(text)}
-            value={email}
-          />
-
-          <Text
-            accessible={true}
-            accessibilityLabel="Texto na cor preta num fundo branco escrito Recompensas."
-            style={styles.inputLabel}
-          >
-            Recompensas
+            accessibilityLabel="Texto Tornar as recompensas públicas. Possui um switch à frente para ativar ou desativar a opção."
+            style={dark_mode ? dark_styles.normalText : styles.normalText}>
+            Tornar as recompensas públicas
           </Text>
           <Switch
             accessible={true}
-            accessibilityLabel="Interruptor para ativar ou desativar as Recompensas."
-            value={rewards}
+            accessibilityLabel={rewards ? "Ativado" : "Desativado"}
+              trackColor={{ false: CONST.switchOffColor, true: dark_mode ? CONST.lightBlue : CONST.switchOnColor }}
+              thumbColor={rewards ? CONST.switchIndicatorColor : dark_mode ? CONST.lightBlue: CONST.mainBlue}
+              value={rewards}
             onValueChange={(value) => setRewards(value)}
           />
         </View>
 
-        <View style={styles.buttonContainer}>
+        <View>
           <Pressable
             accessible={true}
-            accessibilityLabel="Botão para salvar as alterações no perfil do usuário."
-            style={[styles.primaryButton, styles.button]}
+            accessibilityLabel="Botão para salvar as alterações no perfil do utilizador."
             onPress={handleProfileUpdate}
-          >
-            <Text style={styles.buttonText}>Salvar</Text>
+            style={[dark_mode ? dark_styles.primaryButton : styles.primaryButton, { marginTop: CONST.backgroundPaddingLateral }]}>
+            <Text style={dark_mode ? dark_styles.primaryButtonText : styles.primaryButtonText}>
+              Guardar
+            </Text>
           </Pressable>
         </View>
       </ScrollView>

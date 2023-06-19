@@ -19,7 +19,6 @@ export const dark_styles = StyleSheet.create({
     paddingTop: CONST.backgroundPaddingTop,
     backgroundColor: CONST.darkerColor,
     paddingBottom: CONST.backgroundPaddingTop/2,
-    marginBottom: 90,
     width: CONST.screenWidth,
   },
   container: {
@@ -29,8 +28,6 @@ export const dark_styles = StyleSheet.create({
     paddingRight: CONST.backgroundPaddingLateral,
     paddingTop: CONST.backgroundPaddingTop,
     backgroundColor: CONST.mainBlue,
-    paddingBottom: CONST.backgroundPaddingTop/2,
-    marginBottom: 90,
     width: CONST.screenWidth,
   },
   containerLight: {
