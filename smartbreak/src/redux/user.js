@@ -109,7 +109,10 @@ export const userSlice = createSlice({
       state.email = email;
       state.rewards = rewards;
     },
-
+    updatePassword: (state, action) => {
+      const { password } = action.payload;
+      state.password = password;
+    },
     updateBattery: (state, action) => {
       state.battery = action.payload;
       console.log("Battery State:", state);
@@ -127,6 +130,7 @@ export const {
   updateUserData,
   updateBattery,
   updatePause,
+  updatePassword,
 } = userSlice.actions;
 
 export default userSlice.reducer;
