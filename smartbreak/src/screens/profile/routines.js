@@ -37,7 +37,7 @@ export default function Routines({ navigation }) {
   });
 
   const userData = useSelector((state) => state.user);
-  const dark_mode = !userData.accessibility[1]
+  const dark_mode = userData.accessibility[1]
 
   // Var modal
   const [modalVisible, setModalVisible] = useState(false);
@@ -181,7 +181,7 @@ export default function Routines({ navigation }) {
     }
   }
 
-  
+
   async function updateStatus(status, id) {
     try {
       const response = await fetch("https://sb-api.herokuapp.com/routines/" + id, {
@@ -281,8 +281,8 @@ export default function Routines({ navigation }) {
         console.error(error);
         Alert.alert("Error", error.message);
       }
-  
-     
+
+
       ToastAndroid.show("Rotina adicionada!", ToastAndroid.SHORT);
       setModalVisible(!modalVisible);
       clearFields();
@@ -306,7 +306,7 @@ export default function Routines({ navigation }) {
       } else if (valueMinutesStart == valueMinutesEnd) {
         Alert.alert(
           "Erro!",
-          "As h de início e de término não podem ser semelhantes."
+          "As horas de início e de término não podem ser semelhantes."
         );
         return false;
       }
@@ -336,30 +336,30 @@ export default function Routines({ navigation }) {
 
   return (
     <SafeAreaProvider
-    showsVerticalScrollIndicator={false}
-    style={[dark_mode ? dark_styles.containerLight : styles.containerLight, { paddingTop: CONST.backgroundPaddingTop / 2 }]}
-  >
-    <StatusBar style={dark_mode ? "light" : "dark"} />
-    <Modal
-      animationType="fade"
-      transparent={true}
-      visible={modalVisible}
-      onRequestClose={() => {
-        setModalVisible(!modalVisible);
-      }}
+      showsVerticalScrollIndicator={false}
+      style={[dark_mode ? dark_styles.containerLight : styles.containerLight, { paddingTop: CONST.backgroundPaddingTop / 2 }]}
+    >
+      <StatusBar style={dark_mode ? "light" : "dark"} />
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
       >
         <View style={dark_mode ? dark_styles.modalBackgroundView : styles.modalBackgroundView}>
           <View style={dark_mode ? dark_styles.modalView : styles.modalView}>
-            <View style={{ flexDirection: "column"}}>
-              <Text 
+            <View style={{ flexDirection: "column" }}>
+              <Text
                 accessible={true}
-                accessibilityLabel="Texto escrito Hora de início. Em baixo segue-se 2 menus dropdown alinhados um ao lado do outro para definição da hora de início da pausa. O primeiro é referente às horas e o segundo referente aos minutos."  
+                accessibilityLabel="Texto escrito Hora de início. Em baixo segue-se 2 menus dropdown alinhados um ao lado do outro para definição da hora de início da pausa. O primeiro é referente às horas e o segundo referente aos minutos."
                 style={dark_mode ? dark_styles.normalText : styles.normalText}>Hora de início</Text>
               <View style={dark_mode ? dark_styles.hoursContainer : styles.hoursContainer}>
                 <DropDownPicker
-                  arrowStyle ={{color: 'red'}}
+                  arrowIconStyle={{ tintColor: dark_mode ? CONST.whiteText : CONST.darkerColor }}
                   accessible={true}
-                  accessibilityLabel={valueHoursStart}  
+                  accessibilityLabel={valueHoursStart}
                   maxHeight={80}
                   open={openHoursStart}
                   value={valueHoursStart}
@@ -374,10 +374,11 @@ export default function Routines({ navigation }) {
                   textStyle={dark_mode ? dark_styles.hoursTextStyle : styles.hoursTextStyle}
                   dropDownContainerStyle={dark_mode ? dark_styles.dropwdownBoxRoutines : styles.dropwdownBoxRoutines}
                 />
-                <View style={{width: 20}}></View>
+                <View style={{ width: 20 }}></View>
                 <DropDownPicker
+                  arrowIconStyle={{ tintColor: dark_mode ? CONST.whiteText : CONST.darkerColor }}
                   accessible={true}
-                  accessibilityLabel={valueMinutesStart}  
+                  accessibilityLabel={valueMinutesStart}
                   maxHeight={80}
                   open={openMinutesStart}
                   value={valueMinutesStart}
@@ -393,14 +394,15 @@ export default function Routines({ navigation }) {
                   dropDownContainerStyle={dark_mode ? dark_styles.dropwdownBoxRoutines : styles.dropwdownBoxRoutines}
                 />
               </View>
-              <Text 
+              <Text
                 accessible={true}
-                accessibilityLabel="Texto escrito Hora de término. Em baixo segue-se 2 menus dropdown alinhados um ao lado do outro para definição da hora de término da pausa. O primeiro é referente às horas e o segundo referente aos minutos."  
+                accessibilityLabel="Texto escrito Hora de término. Em baixo segue-se 2 menus dropdown alinhados um ao lado do outro para definição da hora de término da pausa. O primeiro é referente às horas e o segundo referente aos minutos."
                 style={dark_mode ? dark_styles.normalText : styles.normalText}>Hora de término</Text>
               <View style={dark_mode ? dark_styles.hoursContainer : styles.hoursContainer}>
                 <DropDownPicker
+                  arrowIconStyle={{ tintColor: dark_mode ? CONST.whiteText : CONST.darkerColor }}
                   accessible={true}
-                  accessibilityLabel={valueHoursEnd}  
+                  accessibilityLabel={valueHoursEnd}
                   maxHeight={80}
                   open={openHoursEnd}
                   value={valueHoursEnd}
@@ -415,10 +417,11 @@ export default function Routines({ navigation }) {
                   textStyle={dark_mode ? dark_styles.hoursTextStyle : styles.hoursTextStyle}
                   dropDownContainerStyle={dark_mode ? dark_styles.dropwdownBoxRoutines : styles.dropwdownBoxRoutines}
                 />
-                <View style={{width: 20}}></View>
+                <View style={{ width: 20 }}></View>
                 <DropDownPicker
+                  arrowIconStyle={{ tintColor: dark_mode ? CONST.whiteText : CONST.darkerColor }}
                   accessible={true}
-                  accessibilityLabel={valueMinutesEnd}  
+                  accessibilityLabel={valueMinutesEnd}
                   maxHeight={80}
                   open={openMinutesEnd}
                   value={valueMinutesEnd}
@@ -434,115 +437,115 @@ export default function Routines({ navigation }) {
                   dropDownContainerStyle={dark_mode ? dark_styles.dropwdownBoxRoutines : styles.dropwdownBoxRoutines}
                 />
               </View>
-              <Text 
+              <Text
                 accessible={true}
-                accessibilityLabel="Texto escrito Dias da semana. Em baixo segue-se 7 botões alinhados um ao lado do outro simbolizando os dias da semana e começando pelo domingo. Clique neles para definir em que dias a rotina acontece."  
+                accessibilityLabel="Texto escrito Dias da semana. Em baixo segue-se 7 botões alinhados um ao lado do outro simbolizando os dias da semana e começando pelo domingo. Clique neles para definir em que dias a rotina acontece."
                 style={dark_mode ? dark_styles.normalText : styles.normalText}>Dias da semana</Text>
               <View style={dark_mode ? dark_styles.daysContainer : styles.daysContainer} >
                 <Pressable
                   accessible={true}
-                  accessibilityLabel="Domingo."  
+                  accessibilityLabel="Domingo."
                   onPress={() => dayPressed(sunday, setSunday)}
                   style={
                     sunday
-                      ? dark_mode ? 
-                      dark_styles.modalRoutineButtonPressed : styles.modalRoutineButtonPressed
-                      : dark_mode ? 
-                      dark_styles.modalRoutineButton : styles.modalRoutineButton
+                      ? dark_mode ?
+                        dark_styles.modalRoutineButtonPressed : styles.modalRoutineButtonPressed
+                      : dark_mode ?
+                        dark_styles.modalRoutineButton : styles.modalRoutineButton
                   }
                 >
                   <Text style={dark_mode ? dark_styles.normalText : styles.normalText}>D</Text>
                 </Pressable>
                 <Pressable
                   accessible={true}
-                  accessibilityLabel="Segunda."  
+                  accessibilityLabel="Segunda."
                   onPress={() => dayPressed(monday, setMonday)}
                   style={
                     monday
-                    ? dark_mode ? 
-                    dark_styles.modalRoutineButtonPressed : styles.modalRoutineButtonPressed
-                    : dark_mode ? 
-                    dark_styles.modalRoutineButton : styles.modalRoutineButton
-                 }
+                      ? dark_mode ?
+                        dark_styles.modalRoutineButtonPressed : styles.modalRoutineButtonPressed
+                      : dark_mode ?
+                        dark_styles.modalRoutineButton : styles.modalRoutineButton
+                  }
                 >
                   <Text style={dark_mode ? dark_styles.normalText : styles.normalText}>S</Text>
                 </Pressable>
                 <Pressable
                   accessible={true}
-                  accessibilityLabel="Terça."  
+                  accessibilityLabel="Terça."
                   onPress={() => dayPressed(tuesday, setTuesday)}
                   style={
                     tuesday
-                    ? dark_mode ? 
-                    dark_styles.modalRoutineButtonPressed : styles.modalRoutineButtonPressed
-                    : dark_mode ? 
-                    dark_styles.modalRoutineButton : styles.modalRoutineButton
-                }
+                      ? dark_mode ?
+                        dark_styles.modalRoutineButtonPressed : styles.modalRoutineButtonPressed
+                      : dark_mode ?
+                        dark_styles.modalRoutineButton : styles.modalRoutineButton
+                  }
                 >
                   <Text style={dark_mode ? dark_styles.normalText : styles.normalText}>T</Text>
                 </Pressable>
                 <Pressable
                   accessible={true}
-                  accessibilityLabel="Quarta."  
+                  accessibilityLabel="Quarta."
                   onPress={() => dayPressed(wednesday, setWednesday)}
                   style={
                     wednesday
-                    ? dark_mode ? 
-                    dark_styles.modalRoutineButtonPressed : styles.modalRoutineButtonPressed
-                    : dark_mode ? 
-                    dark_styles.modalRoutineButton : styles.modalRoutineButton
-                }
+                      ? dark_mode ?
+                        dark_styles.modalRoutineButtonPressed : styles.modalRoutineButtonPressed
+                      : dark_mode ?
+                        dark_styles.modalRoutineButton : styles.modalRoutineButton
+                  }
                 >
                   <Text style={dark_mode ? dark_styles.normalText : styles.normalText}>Q</Text>
                 </Pressable>
                 <Pressable
                   accessible={true}
-                  accessibilityLabel="Quinta."  
+                  accessibilityLabel="Quinta."
                   onPress={() => dayPressed(thursday, setThursday)}
                   style={
                     thursday
-                    ? dark_mode ? 
-                    dark_styles.modalRoutineButtonPressed : styles.modalRoutineButtonPressed
-                    : dark_mode ? 
-                    dark_styles.modalRoutineButton : styles.modalRoutineButton
-                }
+                      ? dark_mode ?
+                        dark_styles.modalRoutineButtonPressed : styles.modalRoutineButtonPressed
+                      : dark_mode ?
+                        dark_styles.modalRoutineButton : styles.modalRoutineButton
+                  }
                 >
                   <Text style={dark_mode ? dark_styles.normalText : styles.normalText}>Q</Text>
                 </Pressable>
                 <Pressable
                   accessible={true}
-                  accessibilityLabel="Sexta."  
+                  accessibilityLabel="Sexta."
                   onPress={() => dayPressed(friday, setFriday)}
                   style={
                     friday
-                    ? dark_mode ? 
-                    dark_styles.modalRoutineButtonPressed : styles.modalRoutineButtonPressed
-                    : dark_mode ? 
-                    dark_styles.modalRoutineButton : styles.modalRoutineButton
-                 }
+                      ? dark_mode ?
+                        dark_styles.modalRoutineButtonPressed : styles.modalRoutineButtonPressed
+                      : dark_mode ?
+                        dark_styles.modalRoutineButton : styles.modalRoutineButton
+                  }
                 >
                   <Text style={dark_mode ? dark_styles.normalText : styles.normalText}>S</Text>
                 </Pressable>
                 <Pressable
                   accessible={true}
-                  accessibilityLabel="Sabado."  
+                  accessibilityLabel="Sabado."
                   onPress={() => dayPressed(saturday, setSaturday)}
                   style={
                     saturday
-                    ? dark_mode ? 
-                    dark_styles.modalRoutineButtonPressed : styles.modalRoutineButtonPressed
-                    : dark_mode ? 
-                    dark_styles.modalRoutineButton : styles.modalRoutineButton
-                }
+                      ? dark_mode ?
+                        dark_styles.modalRoutineButtonPressed : styles.modalRoutineButtonPressed
+                      : dark_mode ?
+                        dark_styles.modalRoutineButton : styles.modalRoutineButton
+                  }
                 >
                   <Text style={dark_mode ? dark_styles.normalText : styles.normalText}>S</Text>
                 </Pressable>
               </View>
             </View>
-            <View style={{flexDirection: "row", justifyContent: "space-evenly"}}>
+            <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
               <Pressable
                 accessible={true}
-                accessibilityLabel="Botão com o objetivo de cancelar a adição da rotina. Tem escrito na cor laranja a palavra Cancelar."    
+                accessibilityLabel="Botão com o objetivo de cancelar a adição da rotina. Tem escrito na cor laranja a palavra Cancelar."
                 onPress={() => {
                   setModalVisible(!modalVisible);
                   clearFields();
@@ -553,13 +556,13 @@ export default function Routines({ navigation }) {
                   Cancelar
                 </Text>
               </Pressable>
-              <Pressable 
+              <Pressable
                 accessible={true}
-                accessibilityLabel="Botão com o objetivo de adicionar a rotina configurada. Tem escrito na cor branca a palavra Adicionar."  
+                accessibilityLabel="Botão com o objetivo de adicionar a rotina configurada. Tem escrito na cor branca a palavra Adicionar."
                 onPress={() => {
                   addRoutine()
                   setReload(true)
-                }} 
+                }}
                 style={dark_mode ? dark_styles.smallPrimaryButton : styles.smallPrimaryButton}>
                 <Text style={dark_mode ? dark_styles.smallPrimaryButtonText : styles.smallPrimaryButtonText}>
                   Adicionar
@@ -569,7 +572,7 @@ export default function Routines({ navigation }) {
           </View>
         </View>
       </Modal>
-      <View style={{flexDirection: 'column'}}>
+      <View style={{ flexDirection: 'column' }}>
         <ScrollView
           showsVerticalScrollIndicator={false}>
           <Pressable
@@ -579,22 +582,22 @@ export default function Routines({ navigation }) {
             onPress={() => { setModalVisible(true); }}
             underlayColor={"transparent"}
           >
-          <Text style={[dark_mode ? dark_styles.primaryButtonText : styles.primaryButtonText, {paddingLeft: CONST.textPadding}]}>Adicionar rotina</Text>
-          <AddCircle
+            <Text style={[dark_mode ? dark_styles.primaryButtonText : styles.primaryButtonText, { paddingLeft: CONST.textPadding }]}>Adicionar rotina</Text>
+            <AddCircle
               color={dark_mode ? CONST.darkerColor : CONST.whiteText}
               variant="Bold"
-              style={{marginLeft: "auto", marginRight: CONST.iconPadding}}
-              onPress={() => { setModalVisible(true);}}
+              style={{ marginLeft: "auto", marginRight: CONST.iconPadding }}
+              onPress={() => { setModalVisible(true); }}
             />
           </Pressable>
-          <Text 
+          <Text
             accessible={true}
-            accessibilityLabel="Texto escrito Clique continuamente nas suas rotinas se as desejar eliminar." 
-            style={[dark_mode ? dark_styles.smallText : styles.smallText, {opacity: 0.5, paddingBottom: CONST.textPadding}]}>
+            accessibilityLabel="Texto escrito Clique continuamente nas suas rotinas se as desejar eliminar."
+            style={[dark_mode ? dark_styles.smallText : styles.smallText, { opacity: 0.5, paddingBottom: CONST.textPadding }]}>
             Clique continuamente nas suas rotinas se as desejar eliminar.
           </Text>
         </ScrollView>
-        <ScrollView 
+        <ScrollView
           showsVerticalScrollIndicator={false}
           style={{ marginBottom: CONST.backgroundPaddingTop * 5, marginTop: 5 }}>
           {routinesArray &&
@@ -638,17 +641,17 @@ export default function Routines({ navigation }) {
                 }}
               >
                 <View style={dark_mode ? dark_styles.boxRoutine : styles.boxRoutine}>
-                  <View style={[dark_mode ? dark_styles.rowRoutine : styles.rowRoutine, {paddingBottom: CONST.boxMargin}]}>
-                    <Text 
+                  <View style={[dark_mode ? dark_styles.rowRoutine : styles.rowRoutine, { paddingBottom: CONST.boxMargin }]}>
+                    <Text
                       accessible={true}
-                      accessibilityLabel="" 
+                      accessibilityLabel=""
                       // TODO: DESCOBRIR COMO PASSAR VARIAVEIS PRAI
                       style={dark_mode ? dark_styles.normalText : styles.normalText}>
-                      {String(routinesArray[id].start).substring(0, 2)}:{String(routinesArray[id].start).substring(2, 4)}h - {String(routinesArray[id].end).substring(0, 2)}:{String(routinesArray[id].end).substring(2, 4)}h
+                      {routinesArray[id].start}h - {routinesArray[id].end}h
                     </Text>
                     <Switch
                       accessible={true}
-                      accessibilityLabel={routinesArray[id].using ?  "Dispositivo em uso." : "Dispositivo desativado."}     
+                      accessibilityLabel={routinesArray[id].using ? "Dispositivo em uso." : "Dispositivo desativado."}
                       style={{ marginLeft: "auto", marginRight: CONST.iconPadding }}
                       thumbColor={routinesArray[id].state ? CONST.switchIndicatorColor : dark_mode ? CONST.lightBlue : CONST.mainBlue}
                       trackColor={{ false: CONST.switchOffColor, true: dark_mode ? CONST.lightBlue : CONST.switchOnColor }}
@@ -658,88 +661,88 @@ export default function Routines({ navigation }) {
                       }}
                     />
                   </View>
-                  <View style={[dark_mode ? dark_styles.rowRoutine : styles.rowRoutine, {paddingTop: CONST.boxMargin}]}>
+                  <View style={[dark_mode ? dark_styles.rowRoutine : styles.rowRoutine, { paddingTop: CONST.boxMargin }]}>
                     <Text
                       accessible={true}
-                      accessibilityLabel={ routinesArray[id].days[1]
-                        ?  "Alarme programado para domingo." : "Alarme não programado para domingo"}     
+                      accessibilityLabel={routinesArray[id].days[1]
+                        ? "Alarme programado para domingo." : "Alarme não programado para domingo"}
                       style={
                         routinesArray[id].days[1]
-                        ? dark_mode ? [dark_styles.normalText, {fontFamily: 'GothamMedium',color: CONST.thirdBlue, marginRight: 5, marginLeft: 5}] : [styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
-                        : [dark_mode ? dark_styles.normalText : styles.normalText, {marginRight: 5, marginLeft: 5}]
+                          ? dark_mode ? [dark_styles.normalText, { fontFamily: 'GothamMedium', color: CONST.thirdBlue, marginRight: 5, marginLeft: 5 }] : [styles.normalText, { fontFamily: 'GothamMedium', color: CONST.mainBlue, marginRight: 5, marginLeft: 5 }]
+                          : [dark_mode ? dark_styles.normalText : styles.normalText, { opacity: 0.6, marginRight: 5, marginLeft: 5 }]
                       }
                     >
                       D
                     </Text>
                     <Text
                       accessible={true}
-                      accessibilityLabel={ routinesArray[id].days[2]
-                         ?  "Alarme programado para segunda-feira." : "Alarme não programado para segunda-feira."}     
+                      accessibilityLabel={routinesArray[id].days[2]
+                        ? "Alarme programado para segunda-feira." : "Alarme não programado para segunda-feira."}
                       style={
                         routinesArray[id].days[2]
-                        ? dark_mode ? [dark_styles.normalText, {fontFamily: 'GothamMedium',color: CONST.thirdBlue, marginRight: 5, marginLeft: 5}] : [styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
-                        : [dark_mode ? dark_styles.normalText : styles.normalText, {marginRight: 5, marginLeft: 5}]
-                      }
+                          ? dark_mode ? [dark_styles.normalText, { fontFamily: 'GothamMedium', color: CONST.thirdBlue, marginRight: 5, marginLeft: 5 }] : [styles.normalText, { fontFamily: 'GothamMedium', color: CONST.mainBlue, marginRight: 5, marginLeft: 5 }]
+                          : [dark_mode ? dark_styles.normalText : styles.normalText, { opacity: 0.6, marginRight: 5, marginLeft: 5 }]
+                        }
                     >
                       S
                     </Text>
                     <Text
                       accessible={true}
-                      accessibilityLabel={ routinesArray[id].days[3]
-                         ?  "Alarme programado para terça-feira." : "Alarme não programado para terça-feira."}     
+                      accessibilityLabel={routinesArray[id].days[3]
+                        ? "Alarme programado para terça-feira." : "Alarme não programado para terça-feira."}
                       style={
                         routinesArray[id].days[3]
-                        ? dark_mode ? [dark_styles.normalText, {fontFamily: 'GothamMedium',color: CONST.thirdBlue, marginRight: 5, marginLeft: 5}] : [styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
-                        : [dark_mode ? dark_styles.normalText : styles.normalText, {marginRight: 5, marginLeft: 5}]
-                      }
+                          ? dark_mode ? [dark_styles.normalText, { fontFamily: 'GothamMedium', color: CONST.thirdBlue, marginRight: 5, marginLeft: 5 }] : [styles.normalText, { fontFamily: 'GothamMedium', color: CONST.mainBlue, marginRight: 5, marginLeft: 5 }]
+                          : [dark_mode ? dark_styles.normalText : styles.normalText, { opacity: 0.6, marginRight: 5, marginLeft: 5 }]
+                        }
                     >
                       T
                     </Text>
                     <Text
                       accessible={true}
-                      accessibilityLabel={ routinesArray[id].days[4]
-                        ?  "Alarme programado para quarta-feira." : "Alarme não programado para quarta-feira."}     
+                      accessibilityLabel={routinesArray[id].days[4]
+                        ? "Alarme programado para quarta-feira." : "Alarme não programado para quarta-feira."}
                       style={
                         routinesArray[id].days[4]
-                        ? dark_mode ? [dark_styles.normalText, {fontFamily: 'GothamMedium',color: CONST.thirdBlue, marginRight: 5, marginLeft: 5}] : [styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
-                        : [dark_mode ? dark_styles.normalText : styles.normalText, {marginRight: 5, marginLeft: 5}]
-                       }
+                          ? dark_mode ? [dark_styles.normalText, { fontFamily: 'GothamMedium', color: CONST.thirdBlue, marginRight: 5, marginLeft: 5 }] : [styles.normalText, { fontFamily: 'GothamMedium', color: CONST.mainBlue, marginRight: 5, marginLeft: 5 }]
+                          : [dark_mode ? dark_styles.normalText : styles.normalText, { opacity: 0.6, marginRight: 5, marginLeft: 5 }]
+                        }
                     >
                       Q
                     </Text>
                     <Text
                       accessible={true}
-                      accessibilityLabel={ routinesArray[id].days[5]
-                        ?  "Alarme programado para quinta-feira." : "Alarme não programado para quinta-feira."}     
+                      accessibilityLabel={routinesArray[id].days[5]
+                        ? "Alarme programado para quinta-feira." : "Alarme não programado para quinta-feira."}
                       style={
                         routinesArray[id].days[5]
-                        ? dark_mode ? [dark_styles.normalText, {fontFamily: 'GothamMedium',color: CONST.thirdBlue, marginRight: 5, marginLeft: 5}] : [styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
-                        : [dark_mode ? dark_styles.normalText : styles.normalText, {marginRight: 5, marginLeft: 5}]
-                       }
+                          ? dark_mode ? [dark_styles.normalText, { fontFamily: 'GothamMedium', color: CONST.thirdBlue, marginRight: 5, marginLeft: 5 }] : [styles.normalText, { fontFamily: 'GothamMedium', color: CONST.mainBlue, marginRight: 5, marginLeft: 5 }]
+                          : [dark_mode ? dark_styles.normalText : styles.normalText, { opacity: 0.6, marginRight: 5, marginLeft: 5 }]
+                        }
                     >
                       Q
                     </Text>
                     <Text
                       accessible={true}
-                      accessibilityLabel={ routinesArray[id].days[6]
-                        ?  "Alarme programado para sexta-feira." : "Alarme não programado para sexta-feira."}     
+                      accessibilityLabel={routinesArray[id].days[6]
+                        ? "Alarme programado para sexta-feira." : "Alarme não programado para sexta-feira."}
                       style={
                         routinesArray[id].days[6]
-                        ? dark_mode ? [dark_styles.normalText, {fontFamily: 'GothamMedium',color: CONST.thirdBlue, marginRight: 5, marginLeft: 5}] : [styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
-                        : [dark_mode ? dark_styles.normalText : styles.normalText, {marginRight: 5, marginLeft: 5}]
-                      }
+                          ? dark_mode ? [dark_styles.normalText, { fontFamily: 'GothamMedium', color: CONST.thirdBlue, marginRight: 5, marginLeft: 5 }] : [styles.normalText, { fontFamily: 'GothamMedium', color: CONST.mainBlue, marginRight: 5, marginLeft: 5 }]
+                          : [dark_mode ? dark_styles.normalText : styles.normalText, { opacity: 0.6, marginRight: 5, marginLeft: 5 }]
+                        }
                     >
                       S
                     </Text>
                     <Text
                       accessible={true}
-                      accessibilityLabel={ routinesArray[id].days[0]
-                        ?  "Alarme programado para sábado." : "Alarme não programado para sábado."}     
+                      accessibilityLabel={routinesArray[id].days[0]
+                        ? "Alarme programado para sábado." : "Alarme não programado para sábado."}
                       style={
                         routinesArray[id].days[0]
-                        ? dark_mode ? [dark_styles.normalText, {fontFamily: 'GothamMedium',color: CONST.thirdBlue, marginRight: 5, marginLeft: 5}] : [styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
-                        : [dark_mode ? dark_styles.normalText : styles.normalText, {marginRight: 5, marginLeft: 5}]
-                      }
+                          ? dark_mode ? [dark_styles.normalText, { fontFamily: 'GothamMedium', color: CONST.thirdBlue, marginRight: 5, marginLeft: 5 }] : [styles.normalText, { fontFamily: 'GothamMedium', color: CONST.mainBlue, marginRight: 5, marginLeft: 5 }]
+                          : [dark_mode ? dark_styles.normalText : styles.normalText, { opacity: 0.6, marginRight: 5, marginLeft: 5 }]
+                        }
                     >
                       S
                     </Text>
