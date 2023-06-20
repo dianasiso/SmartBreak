@@ -60,14 +60,14 @@ export default function Devices({ navigation }) {
   const dark_mode = userData.accessibility[1]
 
   const [devicesEnergy, setDevicesEnergy] = useState({
-    "Video" : 0.15,
-    "Monitor" : 0.2,
-    "Mobile" : 0.02,
-    "Printer" : 0.06,
-    "Call" : 0.005,
-    "Headphone" : 0.002,
-    "TableLamp" : 0.03,
-    "Eletricity" : 0.5,
+    "Video": 0.15,
+    "Monitor": 0.2,
+    "Mobile": 0.02,
+    "Printer": 0.06,
+    "Call": 0.005,
+    "Headphone": 0.002,
+    "TableLamp": 0.03,
+    "Eletricity": 0.5,
   })
 
   const [devicesArray, setDevicesArray] = useState([])
@@ -187,9 +187,10 @@ export default function Devices({ navigation }) {
     });
   };
 
- 
+
   const addDevice = async () => {
     const initialState = true
+    let energy = 0
     if (addType == null) {
       Alert.alert(
         "Atenção!",
@@ -204,20 +205,16 @@ export default function Devices({ navigation }) {
       );
       return false;
     }
-    if (addEnergy == "") {
-      Alert.alert("NÃO MUDEI", addEnergy)
-      console.log(devicesEnergy[addType]);
-setAddEnergy(devicesEnergy[addType]);
-    } else {
-      if (!/^\d+$/.test(addEnergy)) {
-            Alert.alert(
-              "Atenção!",
-              "Preencha corretamente o campo Consumo com o consumo do seu equipamento por dia. Introduza apenas números."
-            );
-            return false;
-          }
-    }  
-      try {
+    if (addEnergy != "") {
+      if (!/^\d+(\.\d+)?$/.test(addEnergy)) {
+        Alert.alert(
+          "Atenção!",
+          "Preencha corretamente o campo Consumo com o consumo do seu equipamento por dia. Introduza apenas números."
+        );
+        return false;
+      }
+    }
+    try {
       const response = await fetch("https://sb-api.herokuapp.com/devices/", {
         method: "POST",
         headers: {
@@ -226,7 +223,7 @@ setAddEnergy(devicesEnergy[addType]);
         },
         body: JSON.stringify({
           name: addName,
-          energy: addEnergy,
+          energy: addEnergy == "" ? devicesEnergy[addType] : addEnergy,
           type: addType,
           state: initialState,
           user: userData.userID
@@ -245,10 +242,10 @@ setAddEnergy(devicesEnergy[addType]);
     }
 
     ToastAndroid.show("Equipamento adicionado!", ToastAndroid.SHORT);
-    
+
     setModalVisible(!modalVisible);
     clearFields();
-    };
+  };
 
   async function deleteDevice(id) {
     try {
@@ -269,7 +266,7 @@ setAddEnergy(devicesEnergy[addType]);
     }
   }
 
-  
+
   useEffect(() => {
     setReload(false)
     async function fetchData() {
@@ -489,8 +486,8 @@ setAddEnergy(devicesEnergy[addType]);
               <Pressable
                 accessible={true}
                 accessibilityLabel="Botão com o objetivo de adicionar o equipamento configurado. Tem escrito na cor branca a palavra Adicionar."
-                onPress={() =>{ 
-                  addDevice() 
+                onPress={() => {
+                  addDevice()
                   setReload(true)
                 }}
                 style={dark_mode ? dark_styles.smallPrimaryButton : styles.smallPrimaryButton}>
@@ -529,7 +526,7 @@ setAddEnergy(devicesEnergy[addType]);
         </ScrollView>
         <ScrollView
           showsVerticalScrollIndicator={false}
-          style={{ marginBottom: CONST.backgroundPaddingTop*5, marginTop: 5}}>
+          style={{ marginBottom: CONST.backgroundPaddingTop * 5, marginTop: 5 }}>
           {devicesArray &&
             devicesArray.length > 0 &&
             devicesArray.map((callbackfn, id) => (
