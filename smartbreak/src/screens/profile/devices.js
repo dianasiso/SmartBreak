@@ -58,6 +58,18 @@ export default function Devices({ navigation }) {
 
   const userData = useSelector((state) => state.user);
   const dark_mode = userData.accessibility[1]
+
+  const [devicesEnergy, setDevicesEnergy] = useState({
+    "Video" : 0.15,
+    "Monitor" : 0.2,
+    "Mobile" : 0.02,
+    "Printer" : 0.06,
+    "Call" : 0.005,
+    "Headphone" : 0.002,
+    "TableLamp" : 0.03,
+    "Eletricity" : 0.5,
+  })
+
   const [devicesArray, setDevicesArray] = useState([])
   // Var modal
   const [modalVisible, setModalVisible] = useState(false);
@@ -81,7 +93,7 @@ export default function Devices({ navigation }) {
   ];
   const [addType, setAddType] = useState(null);
   const [addName, setAddName] = useState("");
-  const [addEnergy, setAddEnergy] = useState(0);
+  const [addEnergy, setAddEnergy] = useState("");
 
   const [longPress, setLongPress] = useState(false);
   const [reload, setReload] = useState(false);
@@ -120,19 +132,19 @@ export default function Devices({ navigation }) {
     let nameType2 = ""
     switch (nameType) {
       case "Printer":
-        nameType2 = "Impressora";
+        nameType2 = "Impressora/Scanner";
         break;
       case "Headphone":
         nameType2 = "Fones de Ouvido";
         break;
       case "Mobile":
-        nameType2 = "Tablet";
+        nameType2 = "Tablet/Telemóvel";
         break;
       case "Call":
-        nameType2 = "Telemóvel";
+        nameType2 = "Telefone/Fax";
         break;
       case "Electricity":
-        nameType2 = "Tomada";
+        nameType2 = "Tomada/Outros equipamentos";
         break;
       case "TableLamp":
         nameType2 = "Lâmpada de Mesa";
@@ -155,7 +167,7 @@ export default function Devices({ navigation }) {
       changeType(true);
       setAddType(nameType);
       ToastAndroid.show(
-        "Dispositivo: " + nameType + " escolhido!",
+        "Dispositivo: " + nameType2 + " escolhido!",
         ToastAndroid.SHORT
       );
     }
@@ -168,13 +180,14 @@ export default function Devices({ navigation }) {
 
   const clearFields = () => {
     setAddName("");
-    setAddEnergy(0);
+    setAddEnergy(0)
     setAddType(null);
     arrayTypes.forEach(function (x) {
       x(false);
     });
   };
 
+ 
   const addDevice = async () => {
     const initialState = true
     if (addType == null) {
@@ -191,14 +204,20 @@ export default function Devices({ navigation }) {
       );
       return false;
     }
-    if (!/^\d+$/.test(addEnergy)) {
-      Alert.alert(
-        "Atenção!",
-        "Preencha corretamente o campo Consumo com o consumo do seu equipamento por dia. Introduza apenas números."
-      );
-      return false;
-    }
-    try {
+    if (addEnergy == "") {
+      Alert.alert("NÃO MUDEI", addEnergy)
+      console.log(devicesEnergy[addType]);
+setAddEnergy(devicesEnergy[addType]);
+    } else {
+      if (!/^\d+$/.test(addEnergy)) {
+            Alert.alert(
+              "Atenção!",
+              "Preencha corretamente o campo Consumo com o consumo do seu equipamento por dia. Introduza apenas números."
+            );
+            return false;
+          }
+    }  
+      try {
       const response = await fetch("https://sb-api.herokuapp.com/devices/", {
         method: "POST",
         headers: {
@@ -214,6 +233,8 @@ export default function Devices({ navigation }) {
         }),
       });
       if (response.ok) {
+        const data = await response.json();
+        // console.log(data)
       } else {
         const errorData = await response.json();
         throw new Error(errorData.message);
@@ -224,11 +245,31 @@ export default function Devices({ navigation }) {
     }
 
     ToastAndroid.show("Equipamento adicionado!", ToastAndroid.SHORT);
+    
     setModalVisible(!modalVisible);
     clearFields();
-  };
+    };
 
+  async function deleteDevice(id) {
+    try {
+      const response = await fetch("https://sb-api.herokuapp.com/devices/" + id, {
+        method: "DELETE",
+        headers: {
+          "Authorization": "Bearer " + userData.token,
+        }
+      });
+      if (response.ok) {
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.message);
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Error", error.message);
+    }
+  }
 
+  
   useEffect(() => {
     setReload(false)
     async function fetchData() {
@@ -252,30 +293,10 @@ export default function Devices({ navigation }) {
       }
     }
     fetchData();
-    console.log(devicesArray)
+    // console.log(devicesArray)
   }, [userData, reload]);
 
 
-  async function deleteDevice(id) {
-    try {
-      const response = await fetch("https://sb-api.herokuapp.com/devices/" + id, {
-        method: "DELETE",
-        headers: {
-          "Authorization": "Bearer " + userData.token,
-        }
-      });
-      if (response.ok) {
-      } else {
-        const errorData = await response.json();
-        throw new Error(errorData.message);
-      }
-    } catch (error) {
-      console.error(error);
-      Alert.alert("Error", error.message);
-    }
-  }
-
-  // TODO: CHECK
   async function updateStatus(status, id) {
     try {
       const response = await fetch("https://sb-api.herokuapp.com/devices/" + id, {
@@ -289,6 +310,11 @@ export default function Devices({ navigation }) {
         }),
       });
       if (response.ok) {
+        ToastAndroid.show(
+          "Estado do equipamento alterado!",
+          ToastAndroid.SHORT
+        );
+        setReload(true)
       } else {
         const errorData = await response.json();
         throw new Error(errorData.message);
@@ -435,7 +461,7 @@ export default function Devices({ navigation }) {
                 accessible={true}
                 accessibilityLabel="Texto na cor preta num fundo branco escrito Consumo. Em baixo segue-se um campo de preenchimento opcional para introdução do consumo em watts do equipamento que pretende adicionar."
                 style={[dark_mode ? dark_styles.normalText : styles.normalText, { marginBottom: CONST.inputPadding }]}>
-                Consumo{" "}
+                Consumo kwh{" "}
                 <Text style={{ fontFamily: "GothamBook" }}>(Opcional)</Text>
               </Text>
               <TextInput
@@ -503,7 +529,7 @@ export default function Devices({ navigation }) {
         </ScrollView>
         <ScrollView
           showsVerticalScrollIndicator={false}
-          style={{ marginBottom: 110, marginTop: 20}}>
+          style={{ marginBottom: CONST.backgroundPaddingTop*5, marginTop: 5}}>
           {devicesArray &&
             devicesArray.length > 0 &&
             devicesArray.map((callbackfn, id) => (
@@ -554,15 +580,11 @@ export default function Devices({ navigation }) {
                   accessible={true}
                   accessibilityLabel={devicesArray[id].state ? "Dispositivo em uso." : "Dispositivo desativado."}
                   style={{ marginLeft: "auto", marginRight: CONST.iconPadding }}
-                  trackColor={{ false: CONST.switchOffColor, true: dark_mode ? CONST.lightBlue : CONST.switchOnColor }}
                   thumbColor={devicesArray[id].state ? CONST.switchIndicatorColor : dark_mode ? CONST.lightBlue : CONST.mainBlue}
-                  onValueChange={(newValue) => {
-                    updateStatus(newValue, devicesArray[id]._id)
-                    setReload(true)
-                    ToastAndroid.show(
-                      "Estado do equipamento alterado!",
-                      ToastAndroid.SHORT
-                    );
+                  trackColor={{ false: CONST.switchOffColor, true: dark_mode ? CONST.lightBlue : CONST.switchOnColor }}
+                  value={devicesArray[id].state}
+                  onValueChange={() => {
+                    updateStatus(!devicesArray[id].state, devicesArray[id]._id)
                   }}
                 />
               </Pressable>

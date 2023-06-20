@@ -25,13 +25,13 @@ import store from "./src/redux/store";
 
 //export da app
 export default function App() {
-  firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-      console.log("user logged");
-    }
-  });
-  const user = firebase.auth().currentUser;
-  console.log("user logged? ", user);
+  // firebase.auth().onAuthStateChanged((user) => {
+  //   if (user) {
+  //     console.log("user logged");
+  //   }
+  // });
+  // const user = firebase.auth().currentUser;
+  // console.log("user logged? ", user);
 
   const [loaded] = useFonts({
     GothamMedium: require("./src/fonts/GothamMedium.ttf"),

@@ -348,7 +348,7 @@ export default function Register() {
                       // Alert.alert(JSON.stringify(data));
                       const message = data.message;
                       for (let i = 0; i < message.length; i++) {
-                        const newItem = { label: message[i].name, value: message[i].name };
+                        const newItem = { label: message[i].name, value: message[i]._id };
                         setItemsDep(prevItems => [...prevItems, newItem]);
                       }
 
