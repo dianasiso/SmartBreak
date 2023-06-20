@@ -17,11 +17,11 @@ import { updateSecurity } from "../../redux/user.js";
 import { useFonts } from "expo-font";
 
 // CSS
-import { styles } from "../../styles/css.js";
+import { styles } from "./../../styles/css.js";
 import { dark_styles } from "../../styles/darkcss.js";
 
 // Variables
-import * as CONST from "../../styles/variables.js";
+import * as CONST from "./../../styles/variables.js";
 
 export default function SecurityProfile({ navigation }) {
   const dispatch = useDispatch();
