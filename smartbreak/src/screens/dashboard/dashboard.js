@@ -83,7 +83,7 @@ export default function Dashboard() {
 
   // ---- MÉTRICAS ----
   const [price, setPrice] = useState();
-  const fuel = 1.6; // ! BUSCAR COMO SE FOSSE A ELETRECIDADE
+  const [fuel, setFuel] = useState(); // ! BUSCAR COMO SE FOSSE A ELETRECIDADE
   // ? fuel = preço de 1 litro de combustível
   // ? carregar um pc durante 1 hora gasta +/- 200 wats ou seja 0.2 kwt
   const kw = 0.2
@@ -267,8 +267,10 @@ export default function Dashboard() {
         });
         if (response.ok) {
           const data = await response.json();
-          console.log("PRICE", data.average.toFixed(2))
-          setPrice(data.average.toFixed(2));
+          console.log("PRICE", data.averageElectricity.toFixed(2))
+          console.log("FUEL", data.averageFuel.toFixed(2))
+          setPrice(data.averageElectricity.toFixed(2));
+          setFuel(data.averageFuel.toFixed(2));
 
         } else {
           const errorData = await response.json();
