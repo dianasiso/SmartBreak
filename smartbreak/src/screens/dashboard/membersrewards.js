@@ -38,7 +38,7 @@ export default function MembersRewards({ route, navigation }) {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch("https://sb-api.herokuapp.com/users/rewards", {
+        const response = await fetch("https://sb-api.herokuapp.com/users/rewards/" + route.params.userID, {
           method: "GET",
           headers: {
             "Authorization": "Bearer " + userData.token
@@ -86,7 +86,7 @@ export default function MembersRewards({ route, navigation }) {
       style={[dark_mode ? dark_styles.containerLight : styles.containerLight, { paddingTop: CONST.backgroundPaddingTop / 2 }]}
     >
       <StatusBar style={dark_mode ? "light" : "dark"} />
-      <Text style={dark_mode ? dark_styles.titleText : styles.titleText}>Recompensas de {userData.name}</Text>
+      <Text style={dark_mode ? dark_styles.titleText : styles.titleText}>Recompensas de {route.params.userName}</Text>
       <ScrollView style={{ marginTop: 30 }}>
         {rewards && rewards.length > 0 && rewards.map((callbackfn, id) => (
           <View key={rewards[id]._id} style={styles.metricsElement}>

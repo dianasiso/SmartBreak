@@ -35,7 +35,7 @@ export default function ProfileRewards() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch("https://sb-api.herokuapp.com/users/rewards", {
+        const response = await fetch("https://sb-api.herokuapp.com/users/rewards/" + userData.userID, {
           method: "GET",
           headers: {
             "Authorization": "Bearer " + userData.token
