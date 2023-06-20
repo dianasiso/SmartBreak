@@ -206,7 +206,8 @@ export default function Devices({ navigation }) {
     }
     if (addEnergy == "") {
       Alert.alert("NÃO MUDEI", addEnergy)
-      setAddEnergy(devicesEnergy[addType])
+      console.log(devicesEnergy[addType]);
+setAddEnergy(devicesEnergy[addType]);
     } else {
       if (!/^\d+$/.test(addEnergy)) {
             Alert.alert(
@@ -215,21 +216,7 @@ export default function Devices({ navigation }) {
             );
             return false;
           }
-    }
-
-    // if (!/^\d+$/.test(addEnergy)) {
-    //     Alert.alert(
-    //       "Atenção!",
-    //       "Preencha corretamente o campo Consumo com o consumo do seu equipamento por dia. Introduza apenas números."
-    //     );
-    //     return false;
-    //   }
-    // } else {
-    //   console.log("Campo NAO preenchido" , addEnergy)
-    //   setAddEnergy(devicesEnergy[addType])
-    //   Alert.alert("energy", " " + devicesEnergy[addType])
-    // }
-  
+    }  
       try {
       const response = await fetch("https://sb-api.herokuapp.com/devices/", {
         method: "POST",
