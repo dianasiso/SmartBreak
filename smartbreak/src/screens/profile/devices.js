@@ -93,8 +93,7 @@ export default function Devices({ navigation }) {
   ];
   const [addType, setAddType] = useState(null);
   const [addName, setAddName] = useState("");
-  const [addEnergy, setAddEnergy] = useState(0);
-  const [energyField, setEnergyField] = useState(0)
+  const [addEnergy, setAddEnergy] = useState("");
 
   const [longPress, setLongPress] = useState(false);
   const [reload, setReload] = useState(false);
@@ -181,7 +180,6 @@ export default function Devices({ navigation }) {
 
   const clearFields = () => {
     setAddName("");
-    setEnergyField(0);
     setAddEnergy(0)
     setAddType(null);
     arrayTypes.forEach(function (x) {
@@ -206,17 +204,28 @@ export default function Devices({ navigation }) {
       );
       return false;
     }
-    
-    if (!/^\d+$/.test(energyField)) {
-        Alert.alert(
-          "Atenção!",
-          "Preencha corretamente o campo Consumo com o consumo do seu equipamento por dia. Introduza apenas números."
-        );
-        return false;
-      }
-      setAddEnergy(energyField)
+    if (addEnergy == "") {
+      Alert.alert("NÃO MUDEI", addEnergy)
+      setAddEnergy(devicesEnergy[addType])
+    } else {
+      if (!/^\d+$/.test(addEnergy)) {
+            Alert.alert(
+              "Atenção!",
+              "Preencha corretamente o campo Consumo com o consumo do seu equipamento por dia. Introduza apenas números."
+            );
+            return false;
+          }
+    }
+
+    // if (!/^\d+$/.test(addEnergy)) {
+    //     Alert.alert(
+    //       "Atenção!",
+    //       "Preencha corretamente o campo Consumo com o consumo do seu equipamento por dia. Introduza apenas números."
+    //     );
+    //     return false;
+    //   }
     // } else {
-    //   console.log("Campo NAO preenchido" , energyField)
+    //   console.log("Campo NAO preenchido" , addEnergy)
     //   setAddEnergy(devicesEnergy[addType])
     //   Alert.alert("energy", " " + devicesEnergy[addType])
     // }
@@ -472,7 +481,7 @@ export default function Devices({ navigation }) {
                 accessible={true}
                 accessibilityLabel="Campo para introdução do Consumo do equipamento."
                 style={dark_mode ? dark_styles.inputField : styles.inputField}
-                onChangeText={(text) => setEnergyField(text)}
+                onChangeText={(text) => setAddEnergy(text)}
                 value={addEnergy}
               />
             </View>
