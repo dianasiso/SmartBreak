@@ -545,7 +545,7 @@ export default function Routines({ navigation }) {
             <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
               <Pressable
                 accessible={true}
-                accessibilityLabel="Botão com o objetivo de cancelar a adição da rotina. Tem escrito na cor laranja a palavra Cancelar."
+                accessibilityLabel="Botão com o objetivo de cancelar a adição da rotina. Tem escrito a palavra Cancelar."
                 onPress={() => {
                   setModalVisible(!modalVisible);
                   clearFields();
@@ -558,7 +558,7 @@ export default function Routines({ navigation }) {
               </Pressable>
               <Pressable
                 accessible={true}
-                accessibilityLabel="Botão com o objetivo de adicionar a rotina configurada. Tem escrito na cor branca a palavra Adicionar."
+                accessibilityLabel="Botão com o objetivo de adicionar a rotina configurada. Tem escrito a palavra Adicionar."
                 onPress={() => {
                   addRoutine()
                   setReload(true)
@@ -577,7 +577,7 @@ export default function Routines({ navigation }) {
           showsVerticalScrollIndicator={false}>
           <Pressable
             accessible={true}
-            accessibilityLabel="Botão com o objetivo de Adicionar uma nova rotina. Tem escrito na cor branca a frase Adicionar rotina e está acompanhado por um icon redondo com o símbolo de mais. Ao clicar nele abrirá um modal branco com três campos de preenchimento para registo de uma rotina."
+            accessibilityLabel="Botão com o objetivo de Adicionar uma nova rotina. Tem escrito a frase Adicionar rotina e está acompanhado por um icon redondo com o símbolo de mais. Ao clicar nele abrirá um modal branco com três campos de preenchimento para registo de uma rotina."
             style={dark_mode ? dark_styles.primaryButton : styles.primaryButton}
             onPress={() => { setModalVisible(true); }}
             underlayColor={"transparent"}

@@ -30,6 +30,7 @@ import { useFonts } from "expo-font";
 
 // CSS
 import { styles } from "./../../styles/css.js";
+import { dark_styles } from "../../styles/darkcss.js";
 
 // Variables
 import * as CONST from "./../../styles/variables.js";
@@ -50,6 +51,9 @@ export default function ProfilePage({ navigation, route }) {
   console.log("AQUI" + userData.organization_name);
   console.log("mudou?" + userData.permissions[0]);
 
+
+  const dark_mode = userData.accessibility[1]
+
   useEffect(() => {
     updateUserData(userData);
   }, [userData]);
@@ -68,32 +72,32 @@ export default function ProfilePage({ navigation, route }) {
   }, []);
 
   return (
-    <SafeAreaProvider style={styles.mainContainerLight}>
-      <StatusBar style="dark" />
+    <SafeAreaProvider style={dark_mode ? dark_styles.mainContainerDark : styles.mainContainerLight}>
+      <StatusBar style={dark_mode ? "light" : "dark"} />
+
       <ScrollView
         showsVerticalScrollIndicator={false}
-        style={styles.containerLight}
+        style={dark_mode ? dark_styles.containerLight : styles.containerLight}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        <View style={styles.profileInfo}>
+        <View style={dark_mode ? dark_styles.profileInfo : styles.profileInfo}>
           <Text
             accessible={true}
             accessibilityLabel={
-              "Texto na cor preta num fundo branco escrito " + name + surname
+              "Texto escrito " + name + surname
             }
-            style={[styles.titleText, { marginTop: CONST.boxMargin }]}
+            style={[dark_mode ? dark_styles.titleText : styles.titleText, { marginTop: CONST.boxMargin }]}
           >
             {name + " " + surname}
           </Text>
           <Text
             accessible={true}
             accessibilityLabel={
-              "Texto na cor preta num fundo branco escrito " + department_name
+              "Texto branco escrito " + department_name
             }
-            style={[
-              styles.normalText,
+            style={[ dark_mode ? dark_styles.normalText : styles.normalText,
               { opacity: 0.5, marginTop: CONST.boxMargin },
             ]}
           >
@@ -102,10 +106,9 @@ export default function ProfilePage({ navigation, route }) {
           <Text
             accessible={true}
             accessibilityLabel={
-              "Texto na cor preta num fundo branco escrito " + organization_name
+              "Texto escrito " + organization_name
             }
-            style={[
-              styles.normalText,
+            style={[ dark_mode ? dark_styles.normalText : styles.normalText,
               { opacity: 0.5, marginTop: CONST.boxMargin },
             ]}
           >
@@ -115,70 +118,64 @@ export default function ProfilePage({ navigation, route }) {
 
         <Pressable
           accessible={true}
-          accessibilityLabel="Botão transparente com texto na cor preta num fundo branco escrito Editar perfil. É acompanhado por um ícone de lápis."
-          style={[
-            styles.boxOptions,
+          accessibilityLabel="Botão escrito Editar perfil. É acompanhado por um ícone de lápis."
+          style={[ dark_mode ? dark_styles.boxOptions : styles.boxOptions,
             { paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding },
           ]}
           onPress={() => navigation.navigate("EditProfile")}
         >
-          <Edit2 variant="Bold" style={styles.boxIcon} />
-          <Text style={styles.normalText}> Editar perfil</Text>
+          <Edit2 variant="Bold" style={dark_mode ? dark_styles.boxIcon : styles.boxIcon} />
+          <Text style={dark_mode ? dark_styles.normalText : styles.normalText}> Editar perfil</Text>
         </Pressable>
         <Pressable
           accessible={true}
-          accessibilityLabel="Botão transparente com texto na cor preta num fundo branco escrito Os meus equipamentos. É acompanhado por um ícone composto por 4 quadrados numa disposição 2 por 2."
-          style={[
-            styles.boxOptions,
+          accessibilityLabel="Botão escrito Os meus equipamentos. É acompanhado por um ícone composto por 4 quadrados numa disposição 2 por 2."
+          style={[ dark_mode ? dark_styles.boxOptions : styles.boxOptions,
             { paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding },
           ]}
           onPress={() => navigation.navigate("MyDevices")}
         >
-          <Category variant="Bold" style={styles.boxIcon} />
-          <Text style={styles.normalText}> Os meus equipamentos</Text>
+          <Category variant="Bold" style={dark_mode ? dark_styles.boxIcon : styles.boxIcon} />
+          <Text style={dark_mode ? dark_styles.boxIcon : styles.normalText}> Os meus equipamentos</Text>
         </Pressable>
 
         <Pressable
           accessible={true}
-          accessibilityLabel="Botão transparente com texto na cor preta num fundo branco escrito As minhas rotinas. É acompanhado por um ícone de calendário."
-          style={[
-            styles.boxOptions,
+          accessibilityLabel="Botão escrito As minhas rotinas. É acompanhado por um ícone de calendário."
+          style={[ dark_mode ? dark_styles.boxOptions : styles.boxOptions,
             { paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding },
           ]}
           onPress={() => navigation.navigate("MyRoutines")}
         >
-          <Calendar variant="Bold" style={styles.boxIcon} />
-          <Text style={styles.normalText}> As minhas rotinas</Text>
+          <Calendar variant="Bold" style={dark_mode ? dark_styles.boxIcon : styles.boxIcon} />
+          <Text style={dark_mode ? dark_styles.normalText : styles.normalText}> As minhas rotinas</Text>
         </Pressable>
         <Pressable
           accessible={true}
-          accessibilityLabel="Botão transparente com texto na cor preta num fundo branco escrito Histórico de pausas. É acompanhado por um ícone de relógio."
-          style={[
-            styles.boxOptions,
+          accessibilityLabel="Botão escrito Histórico de pausas. É acompanhado por um ícone de relógio."
+          style={[dark_mode ? dark_styles.boxOptions : styles.boxOptions,
             { paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding },
           ]}
           onPress={() => navigation.navigate("historicoPausas")}
         >
-          <Clock variant="Bold" style={styles.boxIcon} />
-          <Text style={styles.normalText}> Histórico de pausas</Text>
+          <Clock variant="Bold" style={dark_mode ? dark_styles.boxIcon : styles.boxIcon} />
+          <Text style={dark_mode ? dark_styles.normalText : styles.normalText}> Histórico de pausas</Text>
         </Pressable>
         <Pressable
           accessible={true}
-          accessibilityLabel="Botão transparente com texto na cor preta num fundo branco escrito As minhas recompensas. É acompanhado por um ícone de medalha."
-          style={[
-            styles.boxOptions,
+          accessibilityLabel="Botão escrito As minhas recompensas. É acompanhado por um ícone de medalha."
+          style={[ dark_mode ? dark_styles.boxOptions : styles.boxOptions,
             { paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding },
           ]}
           onPress={() => navigation.navigate("ProfileRewards")}
         >
-          <MedalStar variant="Bold" style={styles.boxIcon} />
-          <Text style={styles.normalText}> As minhas recompensas</Text>
+          <MedalStar variant="Bold" style={dark_mode ? dark_styles.boxIcon : styles.boxIcon} />
+          <Text style={dark_mode ? dark_styles.normalText : styles.normalText}> As minhas recompensas</Text>
         </Pressable>
         <Pressable
           accessible={true}
-          accessibilityLabel="Botão transparente com texto na cor preta num fundo branco escrito Definições. É acompanhado por um ícone de roda dentada."
-          style={[
-            styles.boxOptions,
+          accessibilityLabel="Botão escrito Definições. É acompanhado por um ícone de roda dentada."
+          style={[ dark_mode ? dark_styles.boxOptions : styles.boxOptions,
             {
               paddingTop: CONST.textPadding,
               paddingBottom: CONST.textPadding,
@@ -187,8 +184,8 @@ export default function ProfilePage({ navigation, route }) {
           ]}
           onPress={() => navigation.navigate("ProfileSettings")}
         >
-          <Setting2 variant="Bold" style={styles.boxIcon} />
-          <Text style={styles.normalText}> Definições</Text>
+          <Setting2 variant="Bold" style={dark_mode ? dark_styles.boxIcon : styles.boxIcon} />
+          <Text style={dark_mode ? dark_styles.normalText : styles.normalText}> Definições</Text>
         </Pressable>
       </ScrollView>
     </SafeAreaProvider>

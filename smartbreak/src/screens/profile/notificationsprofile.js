@@ -277,7 +277,7 @@ export default function NotificationsProfile({ navigation }) {
         </View>
         <Pressable
           accessible={true}
-          accessibilityLabel="Botão da cor azul escura num fundo branco com o objetivo de guardar as alterações. Tem escrito na cor branca a palavra Concluído."
+          accessibilityLabel="Botão com o objetivo de guardar as alterações. Tem escrito a palavra Concluído."
           onPress={() => update()}
           style={[
             dark_mode ? dark_styles.primaryButton : styles.primaryButton,

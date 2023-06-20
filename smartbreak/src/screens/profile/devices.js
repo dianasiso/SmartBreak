@@ -440,7 +440,7 @@ export default function Devices({ navigation }) {
             <View style={{ flexDirection: "column" }}>
               <Text
                 accessible={true}
-                accessibilityLabel="Texto na cor preta num fundo branco escrito Nome. Em baixo segue-se um campo para introdução do nome do equipamento que pretende adicionar."
+                accessibilityLabel="Texto escrito Nome. Em baixo segue-se um campo para introdução do nome do equipamento que pretende adicionar."
                 style={[dark_mode ? dark_styles.normalText : styles.normalText, { marginBottom: CONST.inputPadding }]}>{"\n"}Nome</Text>
               <TextInput
                 accessible={true}
@@ -453,7 +453,7 @@ export default function Devices({ navigation }) {
             <View style={{ flexDirection: "column" }}>
               <Text
                 accessible={true}
-                accessibilityLabel="Texto na cor preta num fundo branco escrito Consumo. Em baixo segue-se um campo de preenchimento opcional para introdução do consumo em watts do equipamento que pretende adicionar."
+                accessibilityLabel="Texto escrito Consumo. Em baixo segue-se um campo de preenchimento opcional para introdução do consumo em watts do equipamento que pretende adicionar."
                 style={[dark_mode ? dark_styles.normalText : styles.normalText, { marginBottom: CONST.inputPadding }]}>
                 Consumo kwh{" "}
                 <Text style={{ fontFamily: "GothamBook" }}>(Opcional)</Text>
@@ -469,7 +469,7 @@ export default function Devices({ navigation }) {
             <View style={{ flexDirection: "row", justifyContent: "space-evenly", marginTop: 20 }}>
               <Pressable
                 accessible={true}
-                accessibilityLabel="Botão com o objetivo de cancelar a adição do equipamento. Tem escrito na cor laranja a palavra Cancelar."
+                accessibilityLabel="Botão com o objetivo de cancelar a adição do equipamento. Tem escrito a palavra Cancelar."
                 onPress={() => {
                   setModalVisible(!modalVisible);
                   clearFields();
@@ -482,7 +482,7 @@ export default function Devices({ navigation }) {
               </Pressable>
               <Pressable
                 accessible={true}
-                accessibilityLabel="Botão com o objetivo de adicionar o equipamento configurado. Tem escrito na cor branca a palavra Adicionar."
+                accessibilityLabel="Botão com o objetivo de adicionar o equipamento configurado. Tem escrito a palavra Adicionar."
                 onPress={() => {
                   addDevice()
                   setReload(true)
@@ -501,7 +501,7 @@ export default function Devices({ navigation }) {
           showsVerticalScrollIndicator={false}>
           <Pressable
             accessible={true}
-            accessibilityLabel="Botão com o objetivo de Adicionar um novo equipamento. Tem escrito na cor branca a frase Adicionar equipamento e está acompanhado por um icon redondo com o símbolo de mais. Ao clicar nele abrirá um modal branco com três campos de preenchimento para registo de um dispositivo."
+            accessibilityLabel="Botão com o objetivo de Adicionar um novo equipamento. Tem escrito a frase Adicionar equipamento e está acompanhado por um icon redondo com o símbolo de mais. Ao clicar nele abrirá um modal branco com três campos de preenchimento para registo de um dispositivo."
             style={dark_mode ? dark_styles.primaryButton : styles.primaryButton}
             onPress={() => { setModalVisible(true); }}
             underlayColor={"transparent"} >
@@ -516,7 +516,7 @@ export default function Devices({ navigation }) {
 
           <Text
             accessible={true}
-            accessibilityLabel="Texto na cor cinza num fundo branco escrito Clique continuamente nos seus equipamentos se os desejar eliminar."
+            accessibilityLabel="Texto escrito Clique continuamente nos seus equipamentos se os desejar eliminar."
             style={[dark_mode ? dark_styles.smallText : styles.smallText, { opacity: 0.5, paddingBottom: CONST.textPadding }]}>
             Clique continuamente nos seus equipamentos se os desejar eliminar.
           </Text>
@@ -529,7 +529,7 @@ export default function Devices({ navigation }) {
             devicesArray.map((callbackfn, id) => (
               <Pressable
                 accessible={true}
-                accessibilityLabel="Botão transparente com texto na cor preta num fundo branco com a denominação do dispositivo. Ao pressionar continuamente irá ativar um alerta que lhe pergunta se tem a certeza que deseja eliminar o equipamento."
+                accessibilityLabel="Botão transparente com texto com a denominação do dispositivo. Ao pressionar continuamente irá ativar um alerta que lhe pergunta se tem a certeza que deseja eliminar o equipamento."
                 key={devicesArray[id]._id}
                 style={longPress ? dark_mode ? dark_styles.boxOptionsPressed : styles.boxOptionsPressed :
                   dark_mode ? dark_styles.boxOptions : styles.boxOptions}
