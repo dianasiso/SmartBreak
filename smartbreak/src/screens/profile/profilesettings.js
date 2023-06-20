@@ -67,6 +67,8 @@ export default function ProfileSettings({ route, navigation }) {
   }, [route.params]);
 
   console.log("Password stored in Redux:", password);
+  console.log("Notifications:", userData.notifications);
+  console.log("Accessibility:", userData.accessibility);
 
   const apagarconta = () => {
     Alert.alert("Atenção", "Deseja apagar a sua conta permanentemente?", [
@@ -87,7 +89,7 @@ export default function ProfileSettings({ route, navigation }) {
 
   const handleLogout = async () => {
     try {
-      await SecureStore.deleteItemAsync("uid");
+      dispatch(logoutUser());
       navigation.navigate("Welcome");
     } catch (err) {
       console.error(err);
@@ -95,18 +97,11 @@ export default function ProfileSettings({ route, navigation }) {
   };
 
   const terminarsessao = () => {
-    // if (!uid) {
-    //   console.error("UID is undefined");
-    //   return;
-    // }
     Alert.alert("Atenção", "Tem a certeza que deseja terminar a sessão? ", [
       { text: "Cancelar" },
       {
         text: "Confirmar",
         onPress: () => {
-          firebase.firestore().collection("users_data").doc(uid).update({
-            pause: false,
-          });
           handleLogout();
         },
       },
