@@ -392,7 +392,7 @@ export const dark_styles = StyleSheet.create({
 
   modalRoutineButtonPressed: {
     backgroundColor: "transparent",
-    borderColor: CONST.darkerColor,
+    borderColor: CONST.lightBackgroundColor,
     borderWidth: 1,
     borderRadius: CONST.smallButtonRadius,
     padding: CONST.smallButtonRadius,
@@ -432,14 +432,14 @@ export const dark_styles = StyleSheet.create({
     borderWidth: 0,
     paddingBottom: 0,
     borderBottomWidth: 1,
-    borderBottomColor: CONST.darkerColor,
-    color: CONST.darkerColor,
+    borderBottomColor: CONST.lightBackgroundColor,
+    color: CONST.whiteText,
     fontFamily: "GothamBook",
     fontSize: CONST.pageTextSize,
   },
   dropwdownBoxRoutines: {
-    backgroundColor: CONST.dividerColor,
-    borderColor: CONST.whiteText,
+    backgroundColor: CONST.greyColor,
+    borderColor: CONST.lightBackgroundColor,
     color: CONST.darkerColor,
     fontSize: CONST.pageSmallTextSize,
     fontFamily: "GothamBook",

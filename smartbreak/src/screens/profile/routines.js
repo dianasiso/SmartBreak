@@ -17,8 +17,6 @@ import { useSelector } from "react-redux";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { AddCircle } from "iconsax-react-native";
 
-// Firebase
-import firebase from "./../../config/firebase.js";
 
 // Font Gotham
 import { useFonts } from "expo-font";
@@ -252,7 +250,6 @@ export default function Routines({ navigation }) {
     });
   };
 
-  // ! PENDENTE
   const addRoutine = async () => {
     const initialState = true
 
@@ -360,6 +357,7 @@ export default function Routines({ navigation }) {
                 style={dark_mode ? dark_styles.normalText : styles.normalText}>Hora de início</Text>
               <View style={dark_mode ? dark_styles.hoursContainer : styles.hoursContainer}>
                 <DropDownPicker
+                  arrowStyle ={{color: 'red'}}
                   accessible={true}
                   accessibilityLabel={valueHoursStart}  
                   maxHeight={80}
@@ -646,7 +644,7 @@ export default function Routines({ navigation }) {
                       accessibilityLabel="" 
                       // TODO: DESCOBRIR COMO PASSAR VARIAVEIS PRAI
                       style={dark_mode ? dark_styles.normalText : styles.normalText}>
-                      {routinesArray[id].start}h - {routinesArray[id].end}h
+                      {String(routinesArray[id].start).substring(0, 2)}:{String(routinesArray[id].start).substring(2, 4)}h - {String(routinesArray[id].end).substring(0, 2)}:{String(routinesArray[id].end).substring(2, 4)}h
                     </Text>
                     <Switch
                       accessible={true}
@@ -667,7 +665,7 @@ export default function Routines({ navigation }) {
                         ?  "Alarme programado para domingo." : "Alarme não programado para domingo"}     
                       style={
                         routinesArray[id].days[1]
-                        ? dark_mode ? [dark_styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] : [styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
+                        ? dark_mode ? [dark_styles.normalText, {fontFamily: 'GothamMedium',color: CONST.thirdBlue, marginRight: 5, marginLeft: 5}] : [styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
                         : [dark_mode ? dark_styles.normalText : styles.normalText, {marginRight: 5, marginLeft: 5}]
                       }
                     >
@@ -679,7 +677,7 @@ export default function Routines({ navigation }) {
                          ?  "Alarme programado para segunda-feira." : "Alarme não programado para segunda-feira."}     
                       style={
                         routinesArray[id].days[2]
-                        ? dark_mode ? [dark_styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] : [styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
+                        ? dark_mode ? [dark_styles.normalText, {fontFamily: 'GothamMedium',color: CONST.thirdBlue, marginRight: 5, marginLeft: 5}] : [styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
                         : [dark_mode ? dark_styles.normalText : styles.normalText, {marginRight: 5, marginLeft: 5}]
                       }
                     >
@@ -691,7 +689,7 @@ export default function Routines({ navigation }) {
                          ?  "Alarme programado para terça-feira." : "Alarme não programado para terça-feira."}     
                       style={
                         routinesArray[id].days[3]
-                        ? dark_mode ? [dark_styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] : [styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
+                        ? dark_mode ? [dark_styles.normalText, {fontFamily: 'GothamMedium',color: CONST.thirdBlue, marginRight: 5, marginLeft: 5}] : [styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
                         : [dark_mode ? dark_styles.normalText : styles.normalText, {marginRight: 5, marginLeft: 5}]
                       }
                     >
@@ -703,7 +701,7 @@ export default function Routines({ navigation }) {
                         ?  "Alarme programado para quarta-feira." : "Alarme não programado para quarta-feira."}     
                       style={
                         routinesArray[id].days[4]
-                        ? dark_mode ? [dark_styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] : [styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
+                        ? dark_mode ? [dark_styles.normalText, {fontFamily: 'GothamMedium',color: CONST.thirdBlue, marginRight: 5, marginLeft: 5}] : [styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
                         : [dark_mode ? dark_styles.normalText : styles.normalText, {marginRight: 5, marginLeft: 5}]
                        }
                     >
@@ -715,7 +713,7 @@ export default function Routines({ navigation }) {
                         ?  "Alarme programado para quinta-feira." : "Alarme não programado para quinta-feira."}     
                       style={
                         routinesArray[id].days[5]
-                        ? dark_mode ? [dark_styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] : [styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
+                        ? dark_mode ? [dark_styles.normalText, {fontFamily: 'GothamMedium',color: CONST.thirdBlue, marginRight: 5, marginLeft: 5}] : [styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
                         : [dark_mode ? dark_styles.normalText : styles.normalText, {marginRight: 5, marginLeft: 5}]
                        }
                     >
@@ -727,7 +725,7 @@ export default function Routines({ navigation }) {
                         ?  "Alarme programado para sexta-feira." : "Alarme não programado para sexta-feira."}     
                       style={
                         routinesArray[id].days[6]
-                        ? dark_mode ? [dark_styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] : [styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
+                        ? dark_mode ? [dark_styles.normalText, {fontFamily: 'GothamMedium',color: CONST.thirdBlue, marginRight: 5, marginLeft: 5}] : [styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
                         : [dark_mode ? dark_styles.normalText : styles.normalText, {marginRight: 5, marginLeft: 5}]
                       }
                     >
@@ -739,7 +737,7 @@ export default function Routines({ navigation }) {
                         ?  "Alarme programado para sábado." : "Alarme não programado para sábado."}     
                       style={
                         routinesArray[id].days[0]
-                        ? dark_mode ? [dark_styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] : [styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
+                        ? dark_mode ? [dark_styles.normalText, {fontFamily: 'GothamMedium',color: CONST.thirdBlue, marginRight: 5, marginLeft: 5}] : [styles.normalText, {fontFamily: 'GothamMedium',color: CONST.mainBlue, marginRight: 5, marginLeft: 5}] 
                         : [dark_mode ? dark_styles.normalText : styles.normalText, {marginRight: 5, marginLeft: 5}]
                       }
                     >
