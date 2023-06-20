@@ -3,8 +3,6 @@ import React, { useState, useEffect } from "react";
 import { Alert } from "react-native";
 import {
   Modal,
-  Dimensions,
-  StyleSheet,
   ScrollView,
   View,
   Text,
@@ -60,14 +58,14 @@ export default function Devices({ navigation }) {
   const dark_mode = userData.accessibility[1]
 
   const [devicesEnergy, setDevicesEnergy] = useState({
-    "Video" : 0.15,
-    "Monitor" : 0.2,
-    "Mobile" : 0.02,
-    "Printer" : 0.06,
-    "Call" : 0.005,
-    "Headphone" : 0.002,
-    "TableLamp" : 0.03,
-    "Eletricity" : 0.5,
+    "Video": 0.15,
+    "Monitor": 0.2,
+    "Mobile": 0.02,
+    "Printer": 0.06,
+    "Call": 0.005,
+    "Headphone": 0.002,
+    "TableLamp": 0.03,
+    "Eletricity": 0.5,
   })
 
   const [devicesArray, setDevicesArray] = useState([])
@@ -187,7 +185,7 @@ export default function Devices({ navigation }) {
     });
   };
 
- 
+
   const addDevice = async () => {
     const initialState = true
     if (addType == null) {
@@ -204,20 +202,16 @@ export default function Devices({ navigation }) {
       );
       return false;
     }
-    if (addEnergy == "") {
-      Alert.alert("NÃO MUDEI", addEnergy)
-      console.log(devicesEnergy[addType]);
-setAddEnergy(devicesEnergy[addType]);
-    } else {
-      if (!/^\d+$/.test(addEnergy)) {
-            Alert.alert(
-              "Atenção!",
-              "Preencha corretamente o campo Consumo com o consumo do seu equipamento por dia. Introduza apenas números."
-            );
-            return false;
-          }
-    }  
-      try {
+    if (addEnergy != "") {
+      if (!/^\d+(\.\d+)?$/.test(addEnergy)) {
+        Alert.alert(
+          "Atenção!",
+          "Preencha corretamente o campo Consumo com o consumo do seu equipamento por dia. Introduza apenas números."
+        );
+        return false;
+      }
+    }
+    try {
       const response = await fetch("https://sb-api.herokuapp.com/devices/", {
         method: "POST",
         headers: {
@@ -226,7 +220,7 @@ setAddEnergy(devicesEnergy[addType]);
         },
         body: JSON.stringify({
           name: addName,
-          energy: addEnergy,
+          energy: addEnergy == "" ? devicesEnergy[addType] : addEnergy,
           type: addType,
           state: initialState,
           user: userData.userID
@@ -245,10 +239,10 @@ setAddEnergy(devicesEnergy[addType]);
     }
 
     ToastAndroid.show("Equipamento adicionado!", ToastAndroid.SHORT);
-    
+
     setModalVisible(!modalVisible);
     clearFields();
-    };
+  };
 
   async function deleteDevice(id) {
     try {
@@ -269,7 +263,7 @@ setAddEnergy(devicesEnergy[addType]);
     }
   }
 
-  
+
   useEffect(() => {
     setReload(false)
     async function fetchData() {
@@ -446,7 +440,7 @@ setAddEnergy(devicesEnergy[addType]);
             <View style={{ flexDirection: "column" }}>
               <Text
                 accessible={true}
-                accessibilityLabel="Texto na cor preta num fundo branco escrito Nome. Em baixo segue-se um campo para introdução do nome do equipamento que pretende adicionar."
+                accessibilityLabel="Texto escrito Nome. Em baixo segue-se um campo para introdução do nome do equipamento que pretende adicionar."
                 style={[dark_mode ? dark_styles.normalText : styles.normalText, { marginBottom: CONST.inputPadding }]}>{"\n"}Nome</Text>
               <TextInput
                 accessible={true}
@@ -459,7 +453,7 @@ setAddEnergy(devicesEnergy[addType]);
             <View style={{ flexDirection: "column" }}>
               <Text
                 accessible={true}
-                accessibilityLabel="Texto na cor preta num fundo branco escrito Consumo. Em baixo segue-se um campo de preenchimento opcional para introdução do consumo em watts do equipamento que pretende adicionar."
+                accessibilityLabel="Texto escrito Consumo. Em baixo segue-se um campo de preenchimento opcional para introdução do consumo em watts do equipamento que pretende adicionar."
                 style={[dark_mode ? dark_styles.normalText : styles.normalText, { marginBottom: CONST.inputPadding }]}>
                 Consumo kwh{" "}
                 <Text style={{ fontFamily: "GothamBook" }}>(Opcional)</Text>
@@ -475,7 +469,7 @@ setAddEnergy(devicesEnergy[addType]);
             <View style={{ flexDirection: "row", justifyContent: "space-evenly", marginTop: 20 }}>
               <Pressable
                 accessible={true}
-                accessibilityLabel="Botão com o objetivo de cancelar a adição do equipamento. Tem escrito na cor laranja a palavra Cancelar."
+                accessibilityLabel="Botão com o objetivo de cancelar a adição do equipamento. Tem escrito a palavra Cancelar."
                 onPress={() => {
                   setModalVisible(!modalVisible);
                   clearFields();
@@ -488,9 +482,9 @@ setAddEnergy(devicesEnergy[addType]);
               </Pressable>
               <Pressable
                 accessible={true}
-                accessibilityLabel="Botão com o objetivo de adicionar o equipamento configurado. Tem escrito na cor branca a palavra Adicionar."
-                onPress={() =>{ 
-                  addDevice() 
+                accessibilityLabel="Botão com o objetivo de adicionar o equipamento configurado. Tem escrito a palavra Adicionar."
+                onPress={() => {
+                  addDevice()
                   setReload(true)
                 }}
                 style={dark_mode ? dark_styles.smallPrimaryButton : styles.smallPrimaryButton}>
@@ -507,7 +501,7 @@ setAddEnergy(devicesEnergy[addType]);
           showsVerticalScrollIndicator={false}>
           <Pressable
             accessible={true}
-            accessibilityLabel="Botão com o objetivo de Adicionar um novo equipamento. Tem escrito na cor branca a frase Adicionar equipamento e está acompanhado por um icon redondo com o símbolo de mais. Ao clicar nele abrirá um modal branco com três campos de preenchimento para registo de um dispositivo."
+            accessibilityLabel="Botão com o objetivo de Adicionar um novo equipamento. Tem escrito a frase Adicionar equipamento e está acompanhado por um icon redondo com o símbolo de mais. Ao clicar nele abrirá um modal branco com três campos de preenchimento para registo de um dispositivo."
             style={dark_mode ? dark_styles.primaryButton : styles.primaryButton}
             onPress={() => { setModalVisible(true); }}
             underlayColor={"transparent"} >
@@ -522,20 +516,20 @@ setAddEnergy(devicesEnergy[addType]);
 
           <Text
             accessible={true}
-            accessibilityLabel="Texto na cor cinza num fundo branco escrito Clique continuamente nos seus equipamentos se os desejar eliminar."
+            accessibilityLabel="Texto escrito Clique continuamente nos seus equipamentos se os desejar eliminar."
             style={[dark_mode ? dark_styles.smallText : styles.smallText, { opacity: 0.5, paddingBottom: CONST.textPadding }]}>
             Clique continuamente nos seus equipamentos se os desejar eliminar.
           </Text>
         </ScrollView>
         <ScrollView
           showsVerticalScrollIndicator={false}
-          style={{ marginBottom: CONST.backgroundPaddingTop*5, marginTop: 5}}>
+          style={{ marginBottom: CONST.backgroundPaddingTop * 5, marginTop: 5 }}>
           {devicesArray &&
             devicesArray.length > 0 &&
             devicesArray.map((callbackfn, id) => (
               <Pressable
                 accessible={true}
-                accessibilityLabel="Botão transparente com texto na cor preta num fundo branco com a denominação do dispositivo. Ao pressionar continuamente irá ativar um alerta que lhe pergunta se tem a certeza que deseja eliminar o equipamento."
+                accessibilityLabel="Botão transparente com texto com a denominação do dispositivo. Ao pressionar continuamente irá ativar um alerta que lhe pergunta se tem a certeza que deseja eliminar o equipamento."
                 key={devicesArray[id]._id}
                 style={longPress ? dark_mode ? dark_styles.boxOptionsPressed : styles.boxOptionsPressed :
                   dark_mode ? dark_styles.boxOptions : styles.boxOptions}

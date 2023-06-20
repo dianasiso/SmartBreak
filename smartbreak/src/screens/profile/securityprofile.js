@@ -17,11 +17,11 @@ import { updateSecurity } from "../../redux/user.js";
 import { useFonts } from "expo-font";
 
 // CSS
-import { styles } from "../../styles/css.js";
+import { styles } from "./../../styles/css.js";
 import { dark_styles } from "../../styles/darkcss.js";
 
 // Variables
-import * as CONST from "../../styles/variables.js";
+import * as CONST from "./../../styles/variables.js";
 
 export default function SecurityProfile({ navigation }) {
   const dispatch = useDispatch();
@@ -118,7 +118,7 @@ export default function SecurityProfile({ navigation }) {
         >
           <Text
             accessible={true}
-            accessibilityLabel="Texto na cor preta num fundo branco escrito Partilha de dados. Possui um switch à frente para ativar ou desativar a opção."
+            accessibilityLabel="Texto escrito Partilha de dados. Possui um switch à frente para ativar ou desativar a opção."
             style={dark_mode ? dark_styles.normalText : styles.normalText}
           >
             Partilha de dados

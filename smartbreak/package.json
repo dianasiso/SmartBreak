@@ -67,7 +67,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
-    "@react-native-async-storage/async-storage": "1.18.1",
+    "@react-native-async-storage/async-storage": "^1.18.2",
     "@react-native-community/slider": "4.4.2",
     "@storybook/addon-actions": "6.5.16",
     "@storybook/addon-controls": "6.5.16",

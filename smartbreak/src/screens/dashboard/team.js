@@ -39,8 +39,8 @@ const Info = ({ value }) => {
           color={dark_mode ? CONST.thirdOrange : CONST.mainOrange}
           onPress={() =>
             navigation.navigate("MembersRewardsDashboard", {
-              username: userName,
-              teamId: depID,
+              userID : value._id,
+              userName : userName
             })
           }
         />

@@ -42,7 +42,7 @@ export default function TermsofUseProfile() {
       <StatusBar style={dark_mode ? "light" : "dark" } />
       <Pressable 
         accessible={true}
-        accessibilityLabel="Botão circular na cor azul com o objetivo de regressar ao topo do ecrã. Tem uma seta a apontar para o topo na cor branca."
+        accessibilityLabel="Botão circular na cor azul com o objetivo de regressar ao topo do ecrã. Tem uma seta a apontar para o topo."
         style={dark_mode ? dark_styles.arrow : styles.arrow} onPress={onPressTouch} >
         <ArrowCircleUp variant="Bold" color={dark_mode ? CONST.thirdBlue : CONST.mainBlue} size="50" />
       </Pressable>

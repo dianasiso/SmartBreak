@@ -17,6 +17,9 @@ import { Eye, EyeSlash } from "iconsax-react-native";
 import { useDispatch } from "react-redux";
 import { logUser } from "../../redux/user.js";
 
+//storage
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 // Variables
 import * as CONST from "./../../styles/variables.js";
 
@@ -56,7 +59,6 @@ export default function Login() {
         notifications: responseData.user.notifications,
         created: responseData.user.created,
         connected_in: responseData.user.connected_in,
-        token: responseData.token,
         battery_full: responseData.userOrganization.battery_full,
         organization_name: responseData.userOrganization.name,
         full: responseData.userOrganization.full,
@@ -89,6 +91,42 @@ export default function Login() {
       if (response.ok) {
         const data = await response.json();
         setResponseData(data);
+
+        // Save user data to AsyncStorage
+        const userData = {
+          userID: data.user._id,
+          token: data.token,
+          email: email.trim(),
+          password: password,
+          name: data.user.name,
+          surname: data.user.surname,
+          admin: data.user.admin,
+          organization: data.user.organization,
+          department: data.user.department,
+          battery: data.user.battery,
+          total_battery: data.user.total_battery,
+          pause: data.user.pause,
+          rewards: data.user.rewards,
+          accessibility: data.user.accessibility,
+          permissions: data.user.permissions,
+          notifications: data.user.notifications,
+          created: data.user.created,
+          connected_in: data.user.connected_in,
+          battery_full: data.userOrganization.battery_full,
+          organization_name: data.userOrganization.name,
+          full: data.userOrganization.full,
+          department_name: data.userDepartment.name,
+          department_description: data.userDepartment.description,
+        };
+
+        await AsyncStorage.setItem("userData", JSON.stringify(userData));
+        console.log("User data saved to AsyncStorage");
+
+        const storedData = await AsyncStorage.getItem("userData");
+        console.log("Retrieved data from AsyncStorage:", storedData);
+
+        dispatch(logUser(userData));
+        handleNavigate(data.user._id);
       } else {
         const errorData = await response.json();
         throw new Error(errorData.message);
@@ -100,6 +138,7 @@ export default function Login() {
       setLoading(false);
     }
   };
+
   const handleNavigate = (uid) => {
     navigation.navigate("TabRoutes");
   };

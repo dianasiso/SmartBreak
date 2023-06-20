@@ -120,7 +120,7 @@ export default function ProfileSettings({ route, navigation }) {
         <StatusBar style={dark_mode ? "light" : "dark"} />
         <Text
           accessible={true}
-          accessibilityLabel="Texto na cor preta num fundo branco escrito Definições. É o título da página."
+          accessibilityLabel="Texto escrito Definições. É o título da página."
           style={dark_mode ? dark_styles.titleText : styles.titleText}
         >
           Definições{"\n"}

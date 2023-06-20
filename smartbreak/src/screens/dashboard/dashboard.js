@@ -78,12 +78,10 @@ export default function Dashboard() {
   const [heightBattery, setHeightBattery] = useState(0);
   const [batteryDep, setbatteryDep] = useState(0);
   const [startPause, setStartPause] = useState();
-  const [endPause, setEndPause] = useState();
-  const [differenceInHours, setDifferenceInHours] = useState()
 
   // ---- MÉTRICAS ----
   const [price, setPrice] = useState();
-  const fuel = 1.6; // ! BUSCAR COMO SE FOSSE A ELETRECIDADE
+  const [fuel, setFuel] = useState(); // ! BUSCAR COMO SE FOSSE A ELETRECIDADE
   // ? fuel = preço de 1 litro de combustível
   // ? carregar um pc durante 1 hora gasta +/- 200 wats ou seja 0.2 kwt
   const kw = 0.2
@@ -197,8 +195,9 @@ export default function Dashboard() {
 
   // ---- TERMINA ONDAS ----
 
-  const addPauseAPI = async () => {
-    console.log("vars: ", startPause, endPause, differenceInHours, uid)
+  const addPauseAPI = async (start, end) => {
+    console.log("vars: ", start, end, uid)
+    const timePause = ((start - end) / (1000 * 60 * 60)).toFixed(2)
     try {
       const response = await fetch("https://sb-api.herokuapp.com/pauses", {
         method: "POST",
@@ -207,13 +206,16 @@ export default function Dashboard() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          start_date: startPause,
-          end_date: endPause,
-          time: differenceInHours,
+          start_date: start,
+          end_date: end,
+          time: ((end - start)/(1000 * 60)).toFixed(2),
           user: uid
         }),
       });
       if (response.ok) {
+        const data = await response.json();
+
+        console.log(data)
         //TODO : CALCULAR QUANTO POUPOU COM BASE NOS DEVICES
       } else {
         const errorData = await response.json();
@@ -224,7 +226,6 @@ export default function Dashboard() {
       Alert.alert("Erro!", "Ocorreu um erro durante a mudança de estado.");
     }
   };
-
 
   const changePause = async () => {
     try {
@@ -267,8 +268,10 @@ export default function Dashboard() {
         });
         if (response.ok) {
           const data = await response.json();
-          console.log("PRICE", data.average.toFixed(2))
-          setPrice(data.average.toFixed(2));
+          // console.log("PRICE", data.averageElectricity.toFixed(2))
+          // console.log("FUEL", data.averageFuel.toFixed(2))
+          setPrice(data.averageElectricity.toFixed(2));
+          setFuel(data.averageFuel.toFixed(2));
 
         } else {
           const errorData = await response.json();
@@ -460,10 +463,9 @@ export default function Dashboard() {
                     dispatch(logUser({ ...userData, pause: !pause }));
                     changePause();
                     if (pause) {
-                      setEndPause(Date.now())
-                      const timePause = ((startPause - endPause) / (1000 * 60 * 60)).toFixed(2)
-                      setDifferenceInHours(timePause)
-                      addPauseAPI(endPause, differenceInHours, startPause);
+                      addPauseAPI(startPause, Date.now());
+
+                      
                     } else {
                       setStartPause(Date.now())
                     }
