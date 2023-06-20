@@ -7,7 +7,7 @@ import {
   Alert
 } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Car, Coffee, DollarCircle } from "iconsax-react-native";
+import { Car, Coffee, DollarCircle, Airplane, CardAdd } from "iconsax-react-native";
 import { useSelector } from "react-redux";
 
 
@@ -71,6 +71,10 @@ export default function MembersRewards({ route, navigation }) {
         return <Coffee color={CONST.darkerColor} />;
       case "DollarCircle":
         return <DollarCircle color={CONST.darkerColor} />;
+      case "Airplane":
+        return <Airplane color={CONST.darkerColor} />;
+      case "CardAdd":
+        return <CardAdd color={CONST.darkerColor} />;
       default:
         return null;
     }
