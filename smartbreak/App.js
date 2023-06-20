@@ -31,7 +31,7 @@ export default function App() {
   //   }
   // });
   // const user = firebase.auth().currentUser;
-  console.log("user logged? ", user);
+  // console.log("user logged? ", user);
 
   const [loaded] = useFonts({
     GothamMedium: require("./src/fonts/GothamMedium.ttf"),

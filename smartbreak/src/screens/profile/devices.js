@@ -94,7 +94,7 @@ export default function Devices({ navigation }) {
   const [addType, setAddType] = useState(null);
   const [addName, setAddName] = useState("");
   const [addEnergy, setAddEnergy] = useState(0);
-  const [energyField, setEnergyField] = useState("")
+  const [energyField, setEnergyField] = useState(0)
 
   const [longPress, setLongPress] = useState(false);
   const [reload, setReload] = useState(false);
@@ -181,7 +181,7 @@ export default function Devices({ navigation }) {
 
   const clearFields = () => {
     setAddName("");
-    setEnergyField("");
+    setEnergyField(0);
     setAddEnergy(0)
     setAddType(null);
     arrayTypes.forEach(function (x) {
@@ -207,9 +207,7 @@ export default function Devices({ navigation }) {
       return false;
     }
     
-    if (energyField == "") {
-      console.log("Campo preenchido" , energyField)
-      if (!/^\d+$/.test(energyField)) {
+    if (!/^\d+$/.test(energyField)) {
         Alert.alert(
           "Atenção!",
           "Preencha corretamente o campo Consumo com o consumo do seu equipamento por dia. Introduza apenas números."
@@ -217,11 +215,11 @@ export default function Devices({ navigation }) {
         return false;
       }
       setAddEnergy(energyField)
-    } else {
-      console.log("Campo NAO preenchido" , energyField)
-      setAddEnergy(devicesEnergy[addType])
-      Alert.alert("energy", " " + devicesEnergy[addType])
-    }
+    // } else {
+    //   console.log("Campo NAO preenchido" , energyField)
+    //   setAddEnergy(devicesEnergy[addType])
+    //   Alert.alert("energy", " " + devicesEnergy[addType])
+    // }
   
       try {
       const response = await fetch("https://sb-api.herokuapp.com/devices/", {
@@ -467,7 +465,7 @@ export default function Devices({ navigation }) {
                 accessible={true}
                 accessibilityLabel="Texto na cor preta num fundo branco escrito Consumo. Em baixo segue-se um campo de preenchimento opcional para introdução do consumo em watts do equipamento que pretende adicionar."
                 style={[dark_mode ? dark_styles.normalText : styles.normalText, { marginBottom: CONST.inputPadding }]}>
-                Consumo{" "}
+                Consumo kwh{" "}
                 <Text style={{ fontFamily: "GothamBook" }}>(Opcional)</Text>
               </Text>
               <TextInput
