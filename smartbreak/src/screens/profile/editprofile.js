@@ -73,9 +73,8 @@ export default function EditProfile({ navigation }) {
   }
 
   const handleProfileUpdate = async () => {
+    const updatedProfileData = {};
     try {
-      const updatedProfileData = {};
-
       if (name !== userData.name) {
         updatedProfileData.name = name;
       }
@@ -85,10 +84,9 @@ export default function EditProfile({ navigation }) {
       if (email !== userData.email) {
         updatedProfileData.email = email;
       }
-      // ! DANIEL NÃO É REWARDS, OS REWARDS É UM ARRAY COM OS IDS DAS RECOMPENSAS QUE ELE JA GANHOU. É PERMISSIONS[0]
-      // if (rewards !== userData.rewards) {
-      //   updatedProfileData.rewards = rewards;
-      // }
+      if (rewards !== userData.permissions[0]) {
+        updatedProfileData.permissions = [rewards, userData.permissions[1]];
+      }
 
       if (Object.keys(updatedProfileData).length === 0) {
         Alert.alert("Erro!", "Nenhuma alteração foi feita.");

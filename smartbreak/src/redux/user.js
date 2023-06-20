@@ -13,9 +13,9 @@ const initialState = {
   total_battery: 0,
   pause: false,
   rewards: [],
-  accessibility: [],
-  permissions: [],
-  notifications: [],
+  accessibility: [false, false],
+  permissions: [false, true],
+  notifications: [false, true, true, true],
   created: "",
   connected_in: "",
 };
@@ -103,19 +103,34 @@ export const userSlice = createSlice({
       console.log("Logout State:", state);
     },
     updateUserData: (state, action) => {
-      const { name, surname, email, rewards } = action.payload.message;
+      const { name, surname, email, permissions } = action.payload.message;
       state.name = name;
       state.surname = surname;
       state.email = email;
-      state.rewards = rewards;
+      state.permissions = permissions;
+      console.log("Updated user data state:", state);
     },
     updatePassword: (state, action) => {
       const { password } = action.payload;
       state.password = password;
+      console.log("Updated password state:", state);
+    },
+    updateNotifications: (state, action) => {
+      const { notifications } = action.payload;
+      state.notifications = notifications;
+      console.log("Updated notifications state:", state);
     },
     updateBattery: (state, action) => {
       state.battery = action.payload;
-      console.log("Battery State:", state);
+      console.log("Updated Battery State:", state);
+    },
+    updateAccessibility: (state, action) => {
+      state.accessibility = action.payload;
+      console.log("Updated accessibility State:", state);
+    },
+    updateSecurity: (state, action) => {
+      state.permissions = action.payload;
+      console.log("Updated security State:", state);
     },
     updatePause: (state, action) => {
       state.pause = action.payload;
@@ -131,6 +146,9 @@ export const {
   updateBattery,
   updatePause,
   updatePassword,
+  updateNotifications,
+  updateAccessibility,
+  updateSecurity,
 } = userSlice.actions;
 
 export default userSlice.reducer;

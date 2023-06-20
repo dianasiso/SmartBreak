@@ -67,6 +67,8 @@ export default function ProfileSettings({ route, navigation }) {
   }, [route.params]);
 
   console.log("Password stored in Redux:", password);
+  console.log("Notifications:", userData.notifications);
+  console.log("Accessibility:", userData.accessibility);
 
   const apagarconta = () => {
     Alert.alert("Atenção", "Deseja apagar a sua conta permanentemente?", [

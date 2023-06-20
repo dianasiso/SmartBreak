@@ -44,9 +44,11 @@ export default function ProfilePage({ navigation, route }) {
     department,
     organization_name,
     department_name,
+    permissions,
   } = userData;
   const [refreshing, setRefreshing] = useState(false);
   console.log("AQUI" + userData.organization_name);
+  console.log("mudou?" + userData.permissions[0]);
 
   useEffect(() => {
     updateUserData(userData);
