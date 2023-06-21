@@ -964,7 +964,7 @@ export const styles = StyleSheet.create({
   // --- GOALS --- //
 
   modalAlign: {
-    flexDirection: "row",
+    flexDirection: "column",
     paddingTop: CONST.iconPadding,
     paddingBottom: CONST.iconPadding + 10,
   },
@@ -972,13 +972,23 @@ export const styles = StyleSheet.create({
   modal: {
     marginRight: 0,
     marginLeft: "auto",
+    marginBottom: 20,
     padding: CONST.boxMargin,
     borderRadius: CONST.smallButtonRadius,
   },
 
+  viewPriority: {
+    borderRadius: CONST.circleRadius,
+    marginBottom: 15,
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingBottom: 5,
+    paddingTop: 5, 
+  },
+
   goals: {
     flex: 1,
-    marginBottom: CONST.inputMargin - 10,
+    marginBottom: CONST.inputMargin,
     borderTopRightRadius: CONST.normalButtonRadius,
     borderBottomRightRadius: CONST.normalButtonRadius,
     paddingTop: CONST.boxPadding,
@@ -990,13 +1000,13 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     textAlign: "left",
     borderLeftWidth: 3,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowColor: "rgba(0, 0, 0, 0.1)",
+ 
+
+    backgroundColor: "transparent",
+    shadowColor: "rgba(0, 0, 0, 0.5)",
+    shadowRadius: CONST.shadowRadius,
     shadowOpacity: 1,
-    shadowRadius: 10,
+    elevation: 1,
   },
 
   shadowColor: CONST.enableColor,
@@ -1025,12 +1035,12 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 40,
   },
-  /*  ESTILOS ONDE APARECEM OS FILTROS SELECIONADOS
+
   textPriority: {
     fontFamily: "GothamBook",
-    color: "#FFF",
-    fontSize: 12,
-  }, */
+    fontSize: CONST.pageSmallTextSize,
+    color: CONST.whiteText
+  }, 
 
   modalFilter: {
     marginRight: "auto",

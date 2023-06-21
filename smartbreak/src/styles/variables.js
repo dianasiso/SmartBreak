@@ -20,8 +20,8 @@ export const dividerColor = "#D9D9D9";
 
 // ---- GOALS COLORS ----
 export const lowPriorityColor = "#07407B";
-export const mediumPriorityColor = "#F57738";
-export const highPriorityColor = "#F55038";
+export const mediumPriorityColor = "#DD6427";
+export const highPriorityColor = "#AA0000";
 export const lowPriorityColorDark = "#B5C6D7";
 export const mediumPriorityColorDark = "#FFA06A";
 export const highPriorityColorDark = "#FF7A7A";
