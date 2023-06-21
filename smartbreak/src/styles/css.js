@@ -1023,7 +1023,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     flex: 1,
     alignItems: "center",
-    marginTop: 20,
+    marginTop: 40,
   },
   /*  ESTILOS ONDE APARECEM OS FILTROS SELECIONADOS
   textPriority: {
