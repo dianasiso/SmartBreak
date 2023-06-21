@@ -40,17 +40,9 @@ import * as CONST from "./../../styles/variables.js";
 
 // REDUX
 import { useDispatch } from "react-redux";
-import { logUser } from "../../redux/user.js";
+import { logUser, updateBattery, updatePause } from "../../redux/user.js";
 
 const apiURL = "https://sb-api.herokuapp.com/users/";
-
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: false,
-    shouldSetBadge: false,
-  }),
-});
 
 export default function Dashboard() {
   // ! ver porque o refresh não funciona, tem de funcionar ://
@@ -145,6 +137,7 @@ export default function Dashboard() {
     `}
   })
   const heightAlgorithm = (full, value) => {
+    console.log("ENTREI AQUI COM ESTE VALOR NA BATTERY", value)
     if (value >= full / 3) {
       setHappy(true);
     } else {
@@ -156,6 +149,8 @@ export default function Dashboard() {
       heightAnimated.value = 40;
     } else {
       heightAnimated.value = (value * 163) / full;
+      console.log("Altura", (value * 163) / full)
+      console.log("Altura_",  heightAnimated.value)
     }
 
     return (value * 163) / full;
@@ -195,9 +190,42 @@ export default function Dashboard() {
 
   // ---- TERMINA ONDAS ----
 
+  
+
+  // ---- ADD BATTERY ----
+
+  // ! VERIFICAR SE A BATERIA ENCHEU PARA ADICIONAR +1 NO TOTAL BATTERIES E POR O HEIGHT E O BATTERY A 0
+  const algorithmBattery = async (time) => {
+    try {
+      const response = await fetch("https://sb-api.herokuapp.com/devices/active/user", {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        // --- Algoritmo ---
+        // energy_total ---> 60 hr
+        // x ---> time
+        let plus = parseFloat((time * data.energy_total / 60).toFixed(2))
+        // console.log("devices ativos" , data.energy_total)
+        // console.log("plus", plus)
+        let value = plus + battery
+        editUser(value)
+
+      } else {
+        const errorData = await response.json();
+        Alert.alert("Falha no servidor!", errorData.message);
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Erro!", "Ocorreu um erro durante a mudança de estado.");
+    }
+  }
+
   const addPauseAPI = async (start, end) => {
-    console.log("vars: ", start, end, uid)
-    const timePause = ((start - end) / (1000 * 60 * 60)).toFixed(2)
+    // console.log("vars: ", start, end, uid)
     try {
       const response = await fetch("https://sb-api.herokuapp.com/pauses", {
         method: "POST",
@@ -213,10 +241,8 @@ export default function Dashboard() {
         }),
       });
       if (response.ok) {
-        const data = await response.json();
-
-        console.log(data)
-        //TODO : CALCULAR QUANTO POUPOU COM BASE NOS DEVICES
+         algorithmBattery(((end - start)/(1000 * 60)).toFixed(2))
+        // * CALCULAR QUANTO POUPOU COM BASE NOS DEVICES
       } else {
         const errorData = await response.json();
         Alert.alert("Falha no servidor!", errorData.message);
@@ -227,10 +253,8 @@ export default function Dashboard() {
     }
   };
 
-  const changePause = async () => {
+  const editUser = async (valueBattery) => {
     try {
-      // ! ATUALIZAR O USERDATA NA PAUSE CADA VEZ QUE O VALOR MUDA E DEPOIS NA BATTERY (PRECISAMOS DO ALGORITMO PRIMEIRO) SÓ QUANDO O PAUSE VAI DE TRUE PARA FALSE, OU SEJA, IF PAUSE -> DO THAT
-      // TODO: ADICIONAR UM IF E SE A PAUSA FOR TRUE SIGNIFICA QUE ELE VAI TERMINAR, PELO QUE TEM DE ATUALIZAR TBM O BATTERY COM O NOVO VALOR DO BATTERY NA API TBM
       const fetch_url = apiURL + uid
       const response = await fetch(fetch_url, {
         method: "PATCH",
@@ -240,13 +264,16 @@ export default function Dashboard() {
         },
         body: JSON.stringify({
           pause: !pause,
+          battery: valueBattery
         }),
       });
       if (response.ok) {
+        // ! ATUALIZAR O USERDATA NA PAUSE CADA VEZ QUE O VALOR MUDA E DEPOIS NA BATTERY (PRECISAMOS DO ALGORITMO PRIMEIRO) SÓ QUANDO O PAUSE VAI DE TRUE PARA FALSE, OU SEJA, IF PAUSE -> DO THAT
+        dispatch(updatePause(!pause));
+        dispatch(updateBattery(valueBattery));
+        setBattery(valueBattery);
         setPause(!pause);
         setModalVisible(!modalVisible);
-        // if (pause)
-        //   await schedulePushNotification();
       } else {
         const errorData = await response.json();
         Alert.alert("Falha no servidor!", errorData.message);
@@ -268,8 +295,6 @@ export default function Dashboard() {
         });
         if (response.ok) {
           const data = await response.json();
-          // console.log("PRICE", data.averageElectricity.toFixed(2))
-          // console.log("FUEL", data.averageFuel.toFixed(2))
           setPrice(data.averageElectricity.toFixed(2));
           setFuel(data.averageFuel.toFixed(2));
 
@@ -288,13 +313,17 @@ export default function Dashboard() {
   useEffect(() => {
     ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
     ScreenOrientation.unlockAsync();
+
     moveWaves();
+    
     const updateHeightAnimated = () => {
       if (selected === "personal") {
         setHeightBattery(heightAlgorithm(batteryFull, battery));
       } else {
         setHeightBattery(heightAlgorithm(batteryFull, batteryDep));
       }
+    console.log("hei: ", heightAnimated.value)
+
     };
 
     // Call the updateHeightAnimated function when selected changes
@@ -344,10 +373,9 @@ export default function Dashboard() {
     }
 
     fetchData();
-    console.log("hei: ", heightAnimated.value)
 
 
-  }, [userData, selected, pause]);
+  }, [userData, selected, pause, heightAnimated.value]);
 
 
   return (
@@ -461,13 +489,11 @@ export default function Dashboard() {
                 <Pressable
                   onPress={() => {
                     dispatch(logUser({ ...userData, pause: !pause }));
-                    changePause();
                     if (pause) {
                       addPauseAPI(startPause, Date.now());
-
-                      
                     } else {
                       setStartPause(Date.now())
+                      editUser(battery)
                     }
                   }}
                   style={dark_mode ? dark_styles.buttonAdd : styles.buttonAdd}
@@ -498,7 +524,7 @@ export default function Dashboard() {
                   >
                     A tua carga pessoal
                   </Text>
-                  <Text style={dark_mode ? dark_styles.batteryValuesCharge : styles.batteryValuesCharge}>{battery} kWh</Text>
+                  <Text style={dark_mode ? dark_styles.batteryValuesCharge : styles.batteryValuesCharge}>{battery.toFixed(0)} kWh</Text>
                 </>
                 :
                 <>
@@ -509,7 +535,7 @@ export default function Dashboard() {
                   >
                     A tua carga departamental
                   </Text>
-                  <Text style={dark_mode ? dark_styles.batteryValuesCharge : high_contrast ?  dark_styles.batteryValuesCharge : styles.batteryValuesCharge}>{batteryDep} kWh</Text>
+                  <Text style={dark_mode ? dark_styles.batteryValuesCharge : high_contrast ?  dark_styles.batteryValuesCharge : styles.batteryValuesCharge}>{batteryDep.toFixed(0)} kWh</Text>
                 </>
               }
               <Text
@@ -628,11 +654,11 @@ export default function Dashboard() {
 
               {selected == "personal" ? (
                 <Text style={dark_mode ? dark_styles.metricsElementText : styles.metricsElementText}>
-                  Poupaste {price * battery} euros.
+                  Poupaste {(price * battery).toFixed(2)} euros.
                 </Text>
               ) : (
                 <Text style={dark_mode ? dark_styles.metricsElementText : styles.metricsElementText}>
-                  Pouparam {price * batteryDep} euros.
+                  Pouparam {(price * batteryDep).toFixed(2)} euros.
                 </Text>
               )}
             </View>
