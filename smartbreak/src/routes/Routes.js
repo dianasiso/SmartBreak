@@ -88,7 +88,7 @@ const AuthStack = createStackNavigator();
 const MainStack = createStackNavigator();
 
 //nav stack de autenticacao
-const AuthStackNavigation = ({ navigation }) => {
+export const AuthStackNavigation = ({ navigation }) => {
   console.log("Entrei no authstack!!!");
   return (
     <AuthStack.Navigator
@@ -182,7 +182,7 @@ const AuthStackNavigation = ({ navigation }) => {
 };
 
 //navegação stack na dashboard
-const DashboardStackNavigation = ({ navigation, route }) => {
+export const DashboardStackNavigation = ({ navigation, route }) => {
   // ---- userData information
   const userData = useSelector((state) => state.user);
 
@@ -258,7 +258,7 @@ const DashboardStackNavigation = ({ navigation, route }) => {
 };
 
 //navegação stack nos objetivos
-const GoalsStackNavigation = ({ navigation }) => {
+export const GoalsStackNavigation = ({ navigation }) => {
   // ---- userData information
   const userData = useSelector((state) => state.user);
 
@@ -304,7 +304,7 @@ const GoalsStackNavigation = ({ navigation }) => {
 };
 
 //navegação stack no perfil
-const ProfileStackNavigation = ({ navigation }) => {
+export const ProfileStackNavigation = ({ navigation }) => {
   // ---- userData information
   const userData = useSelector((state) => state.user);
 
@@ -669,7 +669,9 @@ function Icon({ name, color }) {
 }
 
 //routes da barra de navegação
-const TabRoutes = ({}) => {
+export const TabRoutes = ({}) => {
+  console.log("//   entrou no TabRoutes!    //");
+
   // ---- userData information
   const userData = useSelector((state) => state.user);
 
@@ -804,7 +806,7 @@ const TabRoutes = ({}) => {
   );
 };
 
-const MainStackNavigation = ({ authStatus }) => {
+export const MainStackNavigation = ({ authStatus }) => {
   const dispatch = useDispatch();
   // guardar no redux
   if (authStatus === "true") {
@@ -817,7 +819,6 @@ const MainStackNavigation = ({ authStatus }) => {
         component={AuthStackNavigation}
         options={{ headerShown: false }}
       />
-
       <MainStack.Screen
         name="TabRoutes"
         component={TabRoutes}

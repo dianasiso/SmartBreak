@@ -3,6 +3,9 @@ import Animated, {
   Easing,
   useAnimatedProps,
   useSharedValue,
+  EasingNode,
+  FadeIn,
+  FadeOut,
   withRepeat,
   withTiming,
 } from "react-native-reanimated";
@@ -46,7 +49,12 @@ import * as CONST from "./../../styles/variables.js";
 
 // REDUX
 import { useDispatch } from "react-redux";
-import user, { logUser } from "../../redux/user.js";
+import {
+  logUser,
+  updateBattery,
+  updatePause,
+  updateTotalBattery,
+} from "../../redux/user.js";
 
 const apiURL = "https://sb-api.herokuapp.com/users/";
 
@@ -77,8 +85,6 @@ export default function Dashboard() {
   const [heightBattery, setHeightBattery] = useState(0);
   const [batteryDep, setbatteryDep] = useState(0);
   const [startPause, setStartPause] = useState();
-  const [endPause, setEndPause] = useState();
-  const [differenceInHours, setDifferenceInHours] = useState();
 
   // ---- MÉTRICAS ----
   const [price, setPrice] = useState();
@@ -207,8 +213,47 @@ export default function Dashboard() {
 
   // ---- TERMINA ONDAS ----
 
-  const addPauseAPI = async () => {
-    console.log("vars: ", startPause, endPause, differenceInHours, uid);
+  // ---- ADD BATTERY ----
+
+  const algorithmBattery = async (time) => {
+    try {
+      const response = await fetch(
+        "https://sb-api.herokuapp.com/devices/active/user",
+        {
+          method: "GET",
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      if (response.ok) {
+        const data = await response.json();
+        // --- Algoritmo ---
+        // energy_total ---> 60 hr
+        // x ---> time
+        let plus = parseFloat(((time * data.energy_total) / 60).toFixed(2));
+        // console.log("devices ativos" , data.energy_total)
+        // console.log("plus", plus)
+        let value = plus + battery;
+        let compare = value;
+        let flag = false;
+        if (compare > batteryFull) {
+          value = parseFloat(compare - batteryFull);
+          flag = true;
+        }
+        editUser(value, flag);
+      } else {
+        const errorData = await response.json();
+        Alert.alert("Falha no servidor!", errorData.message);
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Erro!", "Ocorreu um erro durante a mudança de estado.");
+    }
+  };
+
+  const addPauseAPI = async (start, end) => {
+    // console.log("vars: ", start, end, uid)
     try {
       const response = await fetch("https://sb-api.herokuapp.com/pauses", {
         method: "POST",
@@ -217,14 +262,14 @@ export default function Dashboard() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          start_date: startPause,
-          end_date: endPause,
-          time: differenceInHours,
+          start_date: start,
+          end_date: end,
+          time: ((end - start) / (1000 * 60)).toFixed(2),
           user: uid,
         }),
       });
       if (response.ok) {
-        algorithmBattery(((end - start) / (1000 * 60)).toFixed(2))
+        algorithmBattery(((end - start) / (1000 * 60)).toFixed(2));
         // * CALCULAR QUANTO POUPOU COM BASE NOS DEVICES
       } else {
         const errorData = await response.json();
@@ -236,10 +281,8 @@ export default function Dashboard() {
     }
   };
 
-  const changePause = async () => {
+  const editUser = async (valueBattery, updateTotalBatteries) => {
     try {
-      // ! ATUALIZAR O USERDATA NA PAUSE CADA VEZ QUE O VALOR MUDA E DEPOIS NA BATTERY (PRECISAMOS DO ALGORITMO PRIMEIRO) SÓ QUANDO O PAUSE VAI DE TRUE PARA FALSE, OU SEJA, IF PAUSE -> DO THAT
-      // TODO: ADICIONAR UM IF E SE A PAUSA FOR TRUE SIGNIFICA QUE ELE VAI TERMINAR, PELO QUE TEM DE ATUALIZAR TBM O BATTERY COM O NOVO VALOR DO BATTERY NA API TBM
       const fetch_url = apiURL + uid;
       const response = await fetch(fetch_url, {
         method: "PATCH",
@@ -250,13 +293,15 @@ export default function Dashboard() {
         body: JSON.stringify({
           pause: !pause,
           battery: valueBattery,
-          total_battery: updateTotalBatteries ? parseInt(totalBattery + 1) : totalBattery
+          total_battery: updateTotalBatteries
+            ? parseInt(totalBattery + 1)
+            : totalBattery,
         }),
       });
       if (response.ok) {
         if (updateTotalBatteries) {
-          dispatch(updateTotalBattery(totalBattery + 1))
-          setTotalBattery(parseInt(totalBattery + 1))
+          dispatch(updateTotalBattery(totalBattery + 1));
+          setTotalBattery(parseInt(totalBattery + 1));
         }
         dispatch(updatePause(!pause));
         dispatch(updateBattery(valueBattery));
@@ -284,8 +329,6 @@ export default function Dashboard() {
         });
         if (response.ok) {
           const data = await response.json();
-          console.log("PRICE", data.averageElectricity.toFixed(2));
-          console.log("FUEL", data.averageFuel.toFixed(2));
           setPrice(data.averageElectricity.toFixed(2));
           setFuel(data.averageFuel.toFixed(2));
         } else {
@@ -312,7 +355,6 @@ export default function Dashboard() {
       } else {
         setHeightBattery(heightAlgorithm(batteryFull, batteryDep));
       }
-
     };
 
     // Call the updateHeightAnimated function when selected changes
@@ -365,9 +407,7 @@ export default function Dashboard() {
     }
 
     fetchData();
-    console.log("userData: ", userData);
-    console.log("hei: ", heightAnimated.value);
-  }, [userData, selected, pause]);
+  }, [userData, selected, pause, heightAnimated.value]);
 
   return (
     <SafeAreaView
@@ -487,15 +527,10 @@ export default function Dashboard() {
                   onPress={() => {
                     dispatch(logUser({ ...userData, pause: !pause }));
                     if (pause) {
-                      setEndPause(Date.now());
-                      const timePause = (
-                        (startPause - endPause) /
-                        (1000 * 60 * 60)
-                      ).toFixed(2);
-                      setDifferenceInHours(timePause);
-                      addPauseAPI(endPause, differenceInHours, startPause);
+                      addPauseAPI(startPause, Date.now());
                     } else {
                       setStartPause(Date.now());
+                      editUser(battery, false);
                     }
                   }}
                   style={dark_mode ? dark_styles.buttonAdd : styles.buttonAdd}
@@ -547,7 +582,7 @@ export default function Dashboard() {
                         : styles.batteryValuesCharge
                     }
                   >
-                    {battery} kWh
+                    {battery.toFixed(0)} kWh
                   </Text>
                 </>
               ) : (
@@ -758,8 +793,9 @@ export default function Dashboard() {
             </View>
           </View>
         </View>
+
         <View style={{}}>
-          <ScrollView>
+          <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.metricsElement}>
               <View
                 style={[
@@ -780,7 +816,7 @@ export default function Dashboard() {
                       : styles.metricsElementText
                   }
                 >
-                  Poupaste {price * battery} euros.
+                  Poupaste {(price * battery).toFixed(2)} euros.
                 </Text>
               ) : (
                 <Text
@@ -790,7 +826,7 @@ export default function Dashboard() {
                       : styles.metricsElementText
                   }
                 >
-                  Pouparam {price * batteryDep} euros.
+                  Pouparam {(price * batteryDep).toFixed(2)} euros.
                 </Text>
               )}
             </View>

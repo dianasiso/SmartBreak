@@ -29,8 +29,10 @@ import { useFonts } from "expo-font";
 import { getAuth, deleteUser } from "firebase/auth";
 
 import { useDispatch, useSelector } from "react-redux";
-import { logoutUser } from "../../redux/user.js";
-import * as SecureStore from "expo-secure-store";
+import user, { logoutUser } from "../../redux/user.js";
+
+// Import AsyncStorage
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // CSS
 import { styles } from "./../../styles/css.js";
@@ -38,6 +40,13 @@ import { dark_styles } from "../../styles/darkcss.js";
 
 // Variables
 import * as CONST from "./../../styles/variables.js";
+
+const cleanUserData = async () => {
+  const userStorage = await AsyncStorage.removeItem("userStorage");
+  const authStatus = await AsyncStorage.removeItem("authStatus");
+  console.log("cleaned user and auth", authStatus + userStorage);
+  return authStatus, userStorage;
+};
 
 export default function ProfileSettings({ route, navigation }) {
   const dispatch = useDispatch();
@@ -89,6 +98,7 @@ export default function ProfileSettings({ route, navigation }) {
 
   const handleLogout = async () => {
     try {
+      await cleanUserData();
       dispatch(logoutUser());
       navigation.navigate("Welcome");
     } catch (err) {
