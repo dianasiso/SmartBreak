@@ -906,6 +906,7 @@ export const dark_styles = StyleSheet.create({
 
   modal: {
     marginRight: 0,
+    flexDirection: 'row',
     marginLeft: "auto",
     marginBottom: 20,
     padding: CONST.boxMargin,
@@ -930,7 +931,7 @@ export const dark_styles = StyleSheet.create({
     shadowColor: "#000",
     shadowRadius: CONST.shadowRadius,
     shadowOpacity: 1,
-    elevation: 3,
+    elevation: 6,
   },
 
   shadowColor: CONST.enableColor,

@@ -972,6 +972,7 @@ export const styles = StyleSheet.create({
   modal: {
     marginRight: 0,
     marginLeft: "auto",
+    flexDirection: 'row',
     marginBottom: 20,
     padding: CONST.boxMargin,
     borderRadius: CONST.smallButtonRadius,
@@ -999,7 +1000,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     textAlign: "left",
-    borderLeftWidth: 3,
+    borderLeftWidth: 6,
  
 
     backgroundColor: "transparent",

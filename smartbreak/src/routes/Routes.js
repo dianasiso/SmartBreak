@@ -26,9 +26,6 @@ import MembersRewards from "../screens/dashboard/membersrewards";
 //ojbetivos
 import Goals from "../screens/goals/goals";
 
-//subpágina dos objetivos
-import Tips from "../screens/goals/tips";
-
 //estatísticas
 import Stats from "../screens/stats/stats";
 
@@ -273,31 +270,6 @@ const GoalsStackNavigation = ({ navigation }) => {
         name="GoalsOverview"
         component={Goals}
         options={{ headerShown: false }}
-      />
-      <GoalsStack.Screen
-        name="Tips"
-        component={Tips}
-        options={{
-          headerShown: true,
-          headerTitle: "",
-          headerStyle: {
-            backgroundColor: dark_mode
-              ? CONST.darkerColor
-              : CONST.lightBackgroundColor,
-          },
-          headerShadowVisible: false,
-          headerLeft: () => (
-            <View style={styles.returnTopButton}>
-              <ArrowLeft2
-                size="24"
-                color={
-                  dark_mode ? CONST.lightBackgroundColor : CONST.darkerColor
-                }
-                onPress={() => navigation.navigate("GoalsOverview")} //não esquecer de colocar sempre a pagina para onde queremos voltar!
-              />
-            </View>
-          ),
-        }}
       />
     </GoalsStack.Navigator>
   );

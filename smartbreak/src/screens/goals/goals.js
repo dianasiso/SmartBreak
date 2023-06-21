@@ -10,18 +10,15 @@ import {
   Dimensions,
 } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import DropDownPicker from "react-native-dropdown-picker";
 import { useNavigation } from "@react-navigation/native";
 
 // Icons
-import { Candle2, ArrowCircleRight } from "iconsax-react-native";
+import { Candle2 } from "iconsax-react-native";
 
 // Font Gotham
 import { useFonts } from "expo-font";
 import { useSelector } from "react-redux";
 
-// Firebase
-import firebase from "./../../config/firebase.js";
 
 // CSS
 import { styles } from "./../../styles/css.js";
@@ -160,7 +157,7 @@ export default function Goals() {
       showsVerticalScrollIndicator={false}
       style={[
         dark_mode ? dark_styles.mainContainerDark : styles.mainContainerLight,
-        { paddingTop: CONST.backgroundPaddingTop / 2 },
+        { paddingTop: 0},
       ]}
     >
       <View
@@ -270,10 +267,12 @@ export default function Goals() {
               onPress={() => {
                 setModalVisible(true);
               }}
+             
               style={[dark_mode ? dark_styles.modal : styles.modal, dark_mode ? { backgroundColor: CONST.thirdBlue }
                 : { backgroundColor: CONST.mainBlue }]}
             >
               <Candle2 color={dark_mode ? CONST.darkerColor : CONST.whiteText} size="24" />
+              <Text style={[!dark_mode ? dark_styles.normalText : styles.normalText, {marginLeft: 10, fontFamily: 'GothamMedium'}]}>Filtrar objetivos</Text>
             </Pressable>
           </View>
           <View
@@ -310,14 +309,6 @@ export default function Goals() {
                       </View>
                     </View>
                   </View>
-                  <Pressable
-                    style={{ marginLeft: CONST.boxPadding }}
-                    onPress={() =>
-                      navigation.navigate("Tips", { goalId: docs[id].id })
-                    }
-                  >
-                    <ArrowCircleRight variant="Bold" color={whichPriorityColor(docs[id].priority)} size="30" />
-                  </Pressable>
                 </View>
               </Pressable>
             ))}
