@@ -795,8 +795,8 @@ export const dark_styles = StyleSheet.create({
     color: CONST.whiteText,
     fontFamily: "GothamBook",
     paddingLeft: 15,
-    paddingRight: 25,
     lineHeight: 20,
+    flex: 1,
   },
 
   membrosView: {
@@ -925,13 +925,11 @@ export const dark_styles = StyleSheet.create({
     alignItems: "center",
     textAlign: "left",
     borderLeftWidth: 3,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowColor: "rgba(0, 0, 0, 0.1)",
+    backgroundColor: CONST.greyColor,
+    shadowColor: "#000",
+    shadowRadius: CONST.shadowRadius,
     shadowOpacity: 1,
-    shadowRadius: 10,
+    elevation: 3,
   },
 
   shadowColor: CONST.enableColor,
@@ -958,7 +956,7 @@ export const dark_styles = StyleSheet.create({
     flexDirection: "row",
     flex: 1,
     alignItems: "center",
-    marginTop: 20,
+    marginTop: 40,
   },
   /*  ESTILOS ONDE APARECEM OS FILTROS SELECIONADOS
   textPriority: {

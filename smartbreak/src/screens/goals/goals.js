@@ -6,6 +6,7 @@ import {
   View,
   ScrollView,
   Pressable,
+  Alert,
   Dimensions,
 } from "react-native";
 import Modal from "react-native-modal";
@@ -25,22 +26,24 @@ import firebase from "./../../config/firebase.js";
 
 // CSS
 import { styles } from "./../../styles/css.js";
+import { dark_styles } from "../../styles/darkcss.js";
 
 // CSS
 import * as CONST from "./../../styles/variables.js";
 
 export default function Goals() {
+  
+  const userData = useSelector((state) => state.user);
+  const dark_mode = !userData.accessibility[1];
+
   const [loaded] = useFonts({
     GothamMedium: "./../fonts/GothamMedium.ttf",
     GothamBook: "./../fonts/GothamBook.ttf",
   });
 
-  const userData = useSelector((state) => state.user.userID);
   const uid = userData;
   const navigation = useNavigation();
 
-  const [, updateState] = useState();
-  const forceUpdate = React.useCallback(() => updateState({}), []);
   const [docs, setDocs] = useState([]);
   const [filtersSelected, setFiltersSelected] = useState([
     false,
@@ -61,24 +64,29 @@ export default function Goals() {
   ]);
 
   useEffect(() => {
-    try {
-      firebase
-        .firestore()
-        .collection("goals")
-        .get()
-        .then((documents) => {
-          let arrayTemp = [];
-          documents.forEach((doc) => {
-            // console.log(doc.id)
-            // console.log(doc.data())
-            arrayTemp.push(doc.data());
-          });
-          setDocs(arrayTemp);
-          // console.log(docs)
+    async function fetchData() {
+      try {
+        const response = await fetch("https://sb-api.herokuapp.com/goals/destination/" + userData.userID + "/active", {
+          method: "GET",
+          headers: {
+            "Authorization": "Bearer " + userData.token
+          }
         });
-    } catch {
-      setDocs([]);
+        if (response.ok) {
+          const data = await response.json();
+          console.log("Data: ", data)
+          setDocs(data.message);
+
+        } else {
+          const errorData = await response.json();
+          throw new Error(errorData.message);
+        }
+      } catch (error) {
+        console.error(error);
+        Alert.alert("Error", error.message);
+      }
     }
+    fetchData();
   }, []);
   // // MODAL FILTERS SELECTED
   // const [selectedIds, setSelectedIds] = useState([]);
@@ -152,25 +160,24 @@ export default function Goals() {
     } else {
       filtersSelected[x] = true;
     }
-    forceUpdate();
   };
   const whichPriorityText = (priorityNumber) => {
     if (priorityNumber == 1) {
-      return <Text style={[styles.smallText, { fontFamily: "GothamMedium" }]}>Baixa Prioridade</Text>;
+      return <Text style={[dark_mode ? dark_styles.smallText : styles.smallText, { fontFamily: "GothamMedium" }]}>Baixa Prioridade</Text>;
     } else if (priorityNumber == 2) {
-      return <Text style={[styles.smallText, { fontFamily: "GothamMedium" }]}>Média Prioridade</Text>;
+      return <Text style={[dark_mode ? dark_styles.smallText : styles.smallText, { fontFamily: "GothamMedium" }]}>Média Prioridade</Text>;
     } else {
-      return <Text style={[styles.smallText, { fontFamily: "GothamMedium" }]}>Alta Prioridade</Text>;
+      return <Text style={[dark_mode ? dark_styles.smallText : styles.smallText, { fontFamily: "GothamMedium" }]}>Alta Prioridade</Text>;
     }
   };
 
   const whichPriorityColor = (priorityNumber) => {
     if (priorityNumber == 1) {
-      return CONST.lowPriorityColor; // default color
+      return dark_mode ? CONST.lowPriorityColorDark : CONST.lowPriorityColor; // default color
     } else if (priorityNumber == 2) {
-      return CONST.mediumPriorityColor; // medium priority color
+      return dark_mode ? CONST.mediumPriorityColorDark : CONST.mediumPriorityColor; // medium priority color
     } else {
-      return CONST.highPriorityColor; // high priority color
+      return dark_mode ? CONST.highPriorityColorDark : CONST.highPriorityColor; // high priority color
     }
   };
 
@@ -178,24 +185,27 @@ export default function Goals() {
   const showFilters = (i) => {
     console.log("index ", i);
     if (i == 0) {
-      return "<View style={styles.viewPriority}><Text style={styles.textPriority}>Prioridade Crescente</Text></View>";
+      return "<View style={dark_mode ? dark_styles.viewPriority : styles.viewPriority}><Text style={dark_mode ? dark_styles.textPriority : styles.textPriority}>Prioridade Crescente</Text></View>";
     } else if (i == 1) {
-      return "<View style={styles.viewPriority}><Text style={styles.textPriority}>Prioridade Decrescente</Text></View>";
+      return "<View style={dark_mode ? dark_styles.viewPriority : styles.viewPriority}><Text style={dark_mode ? dark_styles.textPriority : styles.textPriority}>Prioridade Decrescente</Text></View>";
     } else if (i == 2) {
-      return "<View style={styles.viewPriority}><Text style={styles.textPriority}>Data Crescente</Text></View>";
+      return "<View style={dark_mode ? dark_styles.viewPriority : styles.viewPriority}><Text style={dark_mode ? dark_styles.textPriority : styles.textPriority}>Data Crescente</Text></View>";
     }
-    return "<View style={styles.viewPriority}><Text style={styles.textPriority}>Data Decrescente</Text></View>";
+    return "<View style={dark_mode ? dark_styles.viewPriority : styles.viewPriority}><Text style={dark_mode ? dark_styles.textPriority : styles.textPriority}>Data Decrescente</Text></View>";
   };
 
-  const [selected, setSelected] = useState("personal");
 
   return (
-    <SafeAreaProvider style={styles.mainContainerLight}>
-      <StatusBar style="dark" />
-
+    <SafeAreaProvider
+    showsVerticalScrollIndicator={false}
+    style={[
+      dark_mode ? dark_styles.mainContainerDark : styles.mainContainerLight,
+      { paddingTop: CONST.backgroundPaddingTop / 2 },
+    ]}
+  >
       <View
-        style={styles.containerLight}>
-        {/* Toggle */}
+        style={ dark_mode ? dark_styles.containerLight : styles.containerLight}>
+        {/* Toggle
         <View
           style={[
             styles.toggleContainer,
@@ -368,7 +378,7 @@ export default function Goals() {
             </View>
 
           </Modal>
-        </View>
+        </View> */}
 
 
         {/*<DropDownPicker
@@ -400,7 +410,7 @@ export default function Goals() {
         }}
       />*/}
         <View
-          style={styles.modalAlign}
+          style={dark_mode ? dark_styles.modalAlign : styles.modalAlign}
         >
           {/* <View style={{flex: 1,  alignItems: 'center', marginLeft: 0, marginRight: 'auto'}}>
         <View style={styles.viewPriority}><Text style={styles.textPriority}>Urgente</Text></View>
@@ -417,11 +427,10 @@ export default function Goals() {
               onPress={() => {
                 setModalVisible(true);
               }}
-              style={[styles.modal, selected == "personal"
-                ? { backgroundColor: CONST.mainBlue }
-                : { backgroundColor: CONST.mainOrange }]}
+              style={[dark_mode ? dark_styles.modal : styles.modal, dark_mode ? { backgroundColor: CONST.thirdBlue }
+                : { backgroundColor: CONST.mainBlue }]}
             >
-              <Candle2 color="#FFF" size="24" />
+              <Candle2 color={dark_mode ? CONST.darkerColor : CONST.whiteText} size="24" />
             </Pressable>
           </View>
         </View>
@@ -434,19 +443,19 @@ export default function Goals() {
           {docs &&
             docs.length > 0 &&
             docs.map((callbackfn, id) => (
-              <Pressable style={[styles.goals, { borderLeftColor: whichPriorityColor(docs[id].priority) }]} key={id}>
-                <View style={styles.goalsBox}>
-                  <View style={styles.goalsBoxContent}>
-                    <Text style={styles.normalText}>
+              <Pressable style={[dark_mode ? dark_styles.goals : styles.goals, { borderLeftColor: whichPriorityColor(docs[id].priority) }]} key={docs[id]._id}>
+                <View style={dark_mode ? dark_styles.goalsBox : styles.goalsBox}>
+                  <View style={dark_mode ? dark_styles.goalsBoxContent : styles.goalsBoxContent}>
+                    <Text style={dark_mode ? dark_styles.normalText : styles.normalText}>
                       {docs[id].description}
                     </Text>
 
-                    <View style={styles.goalsBoxPriority}>
+                    <View style={dark_mode ? dark_styles.goalsBoxPriority : styles.goalsBoxPriority}>
                       <View>
                         {whichPriorityText(docs[id].priority)}
                       </View>
                       <View style={{ marginRight: 0, marginLeft: "auto" }}>
-                        <Text style={[styles.smallText, { fontFamily: "GothamMedium" }]}>{docs[id].date}</Text>
+                        <Text style={[dark_mode ? dark_styles.smallText : styles.smallText, { fontFamily: "GothamMedium" }]}>{(docs[id].date).substring(0,10)}</Text>
                       </View>
                     </View>
                   </View>

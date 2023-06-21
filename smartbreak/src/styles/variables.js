@@ -22,6 +22,9 @@ export const dividerColor = "#D9D9D9";
 export const lowPriorityColor = "#07407B";
 export const mediumPriorityColor = "#F57738";
 export const highPriorityColor = "#F55038";
+export const lowPriorityColorDark = "#B5C6D7";
+export const mediumPriorityColorDark = "#FFA06A";
+export const highPriorityColorDark = "#FF7A7A";
 
 // ---- FONT SIZES ----
 export const dashboardChargeSize = 40; //gotham medium 40

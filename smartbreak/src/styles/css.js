@@ -817,8 +817,8 @@ export const styles = StyleSheet.create({
     color: CONST.darkerColor,
     fontFamily: "GothamBook",
     paddingLeft: 15,
-    paddingRight: 25,
     lineHeight: 20,
+    flex: 1,
   },
 
   membersView: {
@@ -1023,7 +1023,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     flex: 1,
     alignItems: "center",
-    marginTop: 20,
+    marginTop: 40,
   },
   /*  ESTILOS ONDE APARECEM OS FILTROS SELECIONADOS
   textPriority: {
