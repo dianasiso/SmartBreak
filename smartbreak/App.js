@@ -55,8 +55,8 @@ const clearAuthStatus = async () => {
 export default function App() {
   console.log("carregou?");
   const [loaded] = useFonts({
-    GothamMedium: require("./src/fonts/GothamMedium.ttf"),
-    GothamBook: require("./src/fonts/GothamBook.ttf"),
+    GothamMedium: "./src/fonts/GothamMedium.ttf",
+    GothamBook: "./src/fonts/GothamBook.ttf",
   });
 
   return (

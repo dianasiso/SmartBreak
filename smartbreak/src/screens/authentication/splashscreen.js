@@ -22,16 +22,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch } from "react-redux";
 import { logUser } from "../../redux/user.js";
 
-import * as SecureStore from "expo-secure-store";
-
 export default function SplashScreen({ navigation }) {
   const dispatch = useDispatch();
-
-  const handleNavigate = (value) => {
-    let id = value;
-    navigation.navigate("TabRoutes");
-    dispatch(logUser(id));
-  };
 
   const getAuthStatus = async () => {
     const authStatus = await AsyncStorage.getItem("authStatus");
@@ -45,19 +37,6 @@ export default function SplashScreen({ navigation }) {
     return userStorage;
   };
 
-  /*
-  useEffect(() => {
-    SecureStore.getItemAsync("uid").then((value) => {
-      if (!value) {
-        setTimeout(() => {
-          navigation.navigate("Welcome");
-        }, 3500); // delay for 3.5 seconds before navigating
-      } else {
-        handleNavigate(value);
-      }
-    }, []);
-  });*/
-
   useEffect(() => {
     const checkAuthStatus = async () => {
       const status = await getAuthStatus();
@@ -65,6 +44,8 @@ export default function SplashScreen({ navigation }) {
         const userStorage = await getUserStorage();
         dispatch(logUser(JSON.parse(userStorage))); // Parse the JSON string
         navigation.navigate("TabRoutes");
+      } else {
+        navigation.navigate("Welcome");
       }
       console.log("authStatus no useEffect !!!", status);
     };

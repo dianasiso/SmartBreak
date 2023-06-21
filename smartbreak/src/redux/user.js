@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const initialState = {
   userID: "",
@@ -31,7 +32,7 @@ const userSlice = createSlice({
     },
     logoutUser: () => initialState,
     updateUserData: (state, action) => {
-      const { name, surname, email, permissions } = action.payload.message;
+      const { name, surname, email, permissions } = action.payload;
       state.name = name;
       state.surname = surname;
       state.email = email;
@@ -83,5 +84,20 @@ export const {
   updateAccessibility,
   updateSecurity,
 } = userSlice.actions;
+
+export const saveUserDataToAsyncStorage = async (data) => {
+  console.log(data);
+  try {
+    const dataString = JSON.stringify(data); // Convert the data object to a string
+    await AsyncStorage.setItem("userStorage", dataString);
+    console.log("User data saved to AsyncStorage");
+
+    // Retrieve the saved data for debugging
+    const savedData = await AsyncStorage.getItem("userStorage");
+    console.log("Saved data in AsyncStorage:", savedData);
+  } catch (error) {
+    console.error("Error saving user data to AsyncStorage:", error);
+  }
+};
 
 export default userSlice.reducer;

@@ -13,7 +13,10 @@ import {
 } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useSelector, useDispatch } from "react-redux";
-import { updateUserData } from "../../redux/user.js";
+import {
+  updateUserData,
+  saveUserDataToAsyncStorage,
+} from "../../redux/user.js";
 
 // Font Gotham
 import { useFonts } from "expo-font";
@@ -62,7 +65,7 @@ export default function EditProfile({ navigation }) {
 
       if (response.ok) {
         const data = await response.json();
-        return data; // retorna os dados do perfil atualizado
+        return data.message; // retorna os dados do perfil atualizado
       } else {
         const errorData = await response.json();
         throw new Error(errorData.message);
@@ -101,8 +104,18 @@ export default function EditProfile({ navigation }) {
 
       const response = await updateUserProfile(updatedProfileData);
       //guardar no redux
-      console.log("A RESPOSTA ATUAL É:", response);
+
       dispatch(updateUserData(response));
+      console.log("A RESPOSTA ATUAL É:", response);
+
+      //guardar no async storage
+      try {
+        // Save the data to AsyncStorage
+        saveUserDataToAsyncStorage(response);
+        console.log("User data saved to AsyncStorage:", response);
+      } catch (error) {
+        console.error("Error saving user data to AsyncStorage:", error);
+      }
 
       Alert.alert("Sucesso", "Alterações efetuadas com sucesso!");
       navigation.navigate("ProfilePage");

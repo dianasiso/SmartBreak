@@ -728,33 +728,18 @@ export const TabRoutes = ({}) => {
 
       <Tab.Screen
         name="Stats"
-        component={AvailableSoon}
+        component={Stats}
         options={{
           tabBarLabel: "Estatísticas",
           tabBarActiveTintColor: dark_mode ? CONST.thirdBlue : CONST.mainBlue,
-          headerShown: true,
-          headerShadowVisible: false,
-          headerTitle: "",
           tabBarIcon: ({ focused, color }) => (
             <>
               <View style={{ opacity: focused ? 1 : 0 }}>
-                <RectangleIndicatorError />
+                <RectangleIndicator />
               </View>
               <Icon name="stats" color={color} />
             </>
           ),
-          tabBarStyle: {
-            backgroundColor: CONST.mainOrange,
-            borderTopColor: "transparent",
-            height: 90,
-            borderTopLeftRadius: 0,
-            borderTopRightRadius: 0,
-            borderTopColor: "#F5F5F5",
-            borderTopWidth: 0,
-            position: "absolute",
-            elevation: 0,
-            color: "#F5F5F5",
-          },
         }}
       />
 
