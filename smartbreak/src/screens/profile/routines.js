@@ -550,12 +550,12 @@ export default function Routines({ navigation }) {
                   setModalVisible(!modalVisible);
                   clearFields();
                 }}
-                style={dark_mode ? dark_styles.smallSecondaryButton : styles.smallSecondaryButton}
-              >
-                <Text style={dark_mode ? dark_styles.smallSecondaryButtonText : styles.smallSecondaryButtonText}>
-                  Cancelar
-                </Text>
-              </Pressable>
+                style={{ padding: 10, justifyContent: "center", flex: 1,}}
+                >
+                 <Text style={{ color: dark_mode ? CONST.thirdBlue : CONST.mainBlue, fontFamily: "GothamMedium" }}>
+                      {" "} Cancelar{" "}
+                  </Text>
+                </Pressable>
               <Pressable
                 accessible={true}
                 accessibilityLabel="Botão com o objetivo de adicionar a rotina configurada. Tem escrito a palavra Adicionar."

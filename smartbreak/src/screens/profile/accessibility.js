@@ -34,29 +34,24 @@ export default function Accessibility({ navigation }) {
     GothamBook: "./../fonts/GothamBook.ttf",
   });
 
-  let accessibilityArray = userData.accessibility;
-  //antes estava assim let accessibilityArray = [...userData.accessibility];
-  //e dava problemas com o redux
-  //!! Mas agora tem um problema:
-  //!! quando mudamos o estado, atualiza no redux, mas quando voltamos à página de acessibilidade os valores não estão corretos?
+  const [accessibilityContrast, setAccessibilityContrast] = useState(userData.accessibility[0])
+  const [accessibilityMode, setAccessibilityMode] = useState(userData.accessibility[1])
 
-  console.log(accessibilityArray + "aqui");
-  const [accessibilityContrast, setAccessibilityContrast] = useState(
-    accessibilityArray[0]
-  );
-  const [accessibilityMode, setAccessibilityMode] = useState(
-    accessibilityArray[1]
-  );
-
-  async function update(value) {
-    const updatedAccessibilityArray = [...accessibilityArray];
-    if (value == 0) {
-      updatedAccessibilityArray[0] = !accessibilityContrast;
-      setAccessibilityContrast(!accessibilityContrast);
+  async function update(position, value) {
+    let accessibilityArray = []
+    if (position == 0) {
+      setAccessibilityContrast(!accessibilityContrast)
+      accessibilityArray = [value, accessibilityMode]
+      if (value) {
+        accessibilityArray = [value, false]
+        setAccessibilityMode(false)
+      }
     } else {
-      updatedAccessibilityArray[1] = !accessibilityMode;
-      setAccessibilityMode(!accessibilityMode);
+      setAccessibilityMode(!accessibilityMode)
+      accessibilityArray = [accessibilityContrast, value]
     }
+
+    console.log("aaaa", accessibilityArray)
 
     try {
       const response = await fetch(
@@ -68,15 +63,19 @@ export default function Accessibility({ navigation }) {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            accessibility: updatedAccessibilityArray,
+            accessibility: accessibilityArray,
           }),
         }
       );
       if (response.ok) {
-        const updatedAccessbility = {
-          accessibility: updatedAccessibilityArray,
-        };
-        dispatch(updateAccessibility(updatedAccessbility));
+        const updateArray = accessibilityArray
+        console.log("............", updateArray)
+        dispatch(updateAccessibility(updateArray));
+        console.log(userData)
+        ToastAndroid.show(
+          "Alterações efetuadas com sucesso!",
+          ToastAndroid.SHORT
+        );
       } else {
         const errorData = await response.json();
         Alert.alert("Erro!", errorData.message);
@@ -86,6 +85,10 @@ export default function Accessibility({ navigation }) {
       Alert.alert("Erro!", "Ocorreu um erro durante a mudança de estado.");
     }
   }
+
+  useEffect(() => {
+
+  }, [accessibilityContrast, accessibilityMode])
 
   return (
     <SafeAreaProvider
@@ -117,13 +120,9 @@ export default function Accessibility({ navigation }) {
                 ? CONST.lightBlue
                 : CONST.mainBlue
             }
-            value={accessibilityContrast}
+            value={ accessibilityContrast}
             onValueChange={() => {
-              update(0);
-              ToastAndroid.show(
-                "Alterações efetuadas com sucesso!",
-                ToastAndroid.SHORT
-              );
+              update(0, !accessibilityContrast);
             }}
           />
         </View>
@@ -144,13 +143,9 @@ export default function Accessibility({ navigation }) {
                 ? CONST.lightBlue
                 : CONST.mainBlue
             }
-            value={accessibilityMode}
+            value={ accessibilityMode}
             onValueChange={() => {
-              update(1);
-              ToastAndroid.show(
-                "Alterações efetuadas com sucesso!",
-                ToastAndroid.SHORT
-              );
+              update(1, !accessibilityMode);
             }}
           />
         </View>

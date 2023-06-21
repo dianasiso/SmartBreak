@@ -899,21 +899,23 @@ export const dark_styles = StyleSheet.create({
   // --- GOALS --- //
 
   modalAlign: {
-    flexDirection: "row",
+    flexDirection: "column",
     paddingTop: CONST.iconPadding,
     paddingBottom: CONST.iconPadding + 10,
   },
 
   modal: {
     marginRight: 0,
+    flexDirection: 'row',
     marginLeft: "auto",
+    marginBottom: 20,
     padding: CONST.boxMargin,
     borderRadius: CONST.smallButtonRadius,
   },
 
   goals: {
     flex: 1,
-    marginBottom: CONST.inputMargin - 10,
+    marginBottom: CONST.inputMargin,
     borderTopRightRadius: CONST.normalButtonRadius,
     borderBottomRightRadius: CONST.normalButtonRadius,
     paddingTop: CONST.boxPadding,
@@ -929,7 +931,7 @@ export const dark_styles = StyleSheet.create({
     shadowColor: "#000",
     shadowRadius: CONST.shadowRadius,
     shadowOpacity: 1,
-    elevation: 3,
+    elevation: 6,
   },
 
   shadowColor: CONST.enableColor,
@@ -958,12 +960,20 @@ export const dark_styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 40,
   },
-  /*  ESTILOS ONDE APARECEM OS FILTROS SELECIONADOS
   textPriority: {
     fontFamily: "GothamBook",
-    color: "#FFF",
-    fontSize: 12,
-  }, */
+    fontSize: CONST.pageSmallTextSize,
+    color: CONST.darkerColor,
+  }, 
+
+  viewPriority: {
+    borderRadius: CONST.circleRadius,
+    marginBottom: 15,
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingBottom: 5,
+    paddingTop: 5, 
+  },
 
   modalFilter: {
     marginRight: "auto",
