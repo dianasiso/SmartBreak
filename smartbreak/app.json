@@ -5,9 +5,9 @@
     "userInterfaceStyle": "automatic",
     "version": "1.0.0",
     "splash": {
-      "image": "src/imgs/default_splash.png",
+      "image": "src/imgs/text_splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#0051BA"
+      "backgroundColor": "#07407B"
     },
     "assetBundlePatterns": [
       "**/*"

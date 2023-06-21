@@ -28,9 +28,9 @@ const apiURL = "https://sb-api.herokuapp.com/auth/login";
 // STYLES -- CSS
 import { styles } from "./../../styles/css.js";
 
-export default function Login() {
+export default function Login({ navigation }) {
   const dispatch = useDispatch();
-  const navigation = useNavigation();
+  //const navigation = useNavigation();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -119,11 +119,19 @@ export default function Login() {
           department_description: data.userDepartment.description,
         };
 
-        await AsyncStorage.setItem("userData", JSON.stringify(userData));
+        await AsyncStorage.setItem("userStorage", JSON.stringify(userData));
         console.log("User data saved to AsyncStorage");
 
-        const storedData = await AsyncStorage.getItem("userData");
+        const storedData = await AsyncStorage.getItem("userStorage");
         console.log("Retrieved data from AsyncStorage:", storedData);
+
+        const authStatus = "true";
+
+        await AsyncStorage.setItem("authStatus", authStatus);
+        console.log("User data saved to AsyncStorage");
+
+        const strotedStatus = await AsyncStorage.getItem("authStatus");
+        console.log("Retrieved data from AsyncStorage:", strotedStatus);
 
         dispatch(logUser(userData));
         handleNavigate(data.user._id);
@@ -140,7 +148,7 @@ export default function Login() {
   };
 
   const handleNavigate = (uid) => {
-    navigation.navigate("TabRoutes");
+    navigation.navigate("TabRoutes", { screen: "TabRoutes" });
   };
 
   const loadingScreen = () => {

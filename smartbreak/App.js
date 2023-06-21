@@ -10,6 +10,8 @@ import { NavigationContainer } from "@react-navigation/native";
 
 //import TabRoutes from "./src/routes/Routes";
 import MainStackNavigation from "./src/routes/Routes";
+import DashboardStackNavigation from "./src/routes/Routes";
+import AuthStackNavigation from "./src/routes/Routes";
 
 //funções navegação
 const Stack = createStackNavigator();
@@ -23,41 +25,72 @@ import firebase from "./src/config/firebase.js";
 import { Provider } from "react-redux";
 import store from "./src/redux/store";
 
+// Import AsyncStorage
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+//import useEffect
+import { useState, useEffect } from "react";
+
+const clearAuthStatus = async () => {
+  await AsyncStorage.removeItem("authStatus");
+};
+
+const getAuthStatus = async () => {
+  const authStatus = await AsyncStorage.getItem("authStatus");
+  console.log("authStatus", authStatus);
+  return authStatus;
+};
+
+const getUserStorage = async () => {
+  const userStorage = await AsyncStorage.getItem("userStorage");
+  console.log("userStorage", userStorage);
+  return userStorage;
+};
+
 //export da app
+
 export default function App() {
-  // firebase.auth().onAuthStateChanged((user) => {
-  //   if (user) {
-  //     console.log("user logged");
-  //   }
-  // });
-  // const user = firebase.auth().currentUser;
-  // console.log("user logged? ", user);
+  const [authStatus, setAuthStatus] = useState(null);
+  const [flag, setFlag] = useState(false);
+  //console.log("AQUI CRL!!!!!", getAuthStatus());
+
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      const status = await getAuthStatus();
+      //const clean = await clearAuthStatus();
+      setAuthStatus(status);
+      setFlag(true);
+      /*
+      if (authStatus === "true") {
+        dispatch(logUser(JSON.stringify(getUserStorage())));
+      }*/
+      console.log("authStatus no useEffect !!!", status);
+    };
+
+    checkAuthStatus();
+  }, []);
 
   const [loaded] = useFonts({
     GothamMedium: require("./src/fonts/GothamMedium.ttf"),
     GothamBook: require("./src/fonts/GothamBook.ttf"),
   });
 
-  return (
+  console.log("aqui!", authStatus, flag);
+  return flag ? (
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
             name="Home"
-            component={MainStackNavigation}
+            component={
+              authStatus === "true"
+                ? DashboardStackNavigation
+                : AuthStackNavigation
+            }
             options={{ headerShown: false }}
           />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
-  );
+  ) : null;
 }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
