@@ -62,9 +62,8 @@ export default function SplashScreen({ navigation }) {
     const checkAuthStatus = async () => {
       const status = await getAuthStatus();
       if (status === "true") {
-        // temos redux, nao precisamos de nos preocupar com por o localstorage no redux
-        // const userStorage = await getUserStorage();
-       // dispatch(logUser(JSON.parse(userStorage))); // Parse the JSON string
+        const userStorage = await getUserStorage();
+        dispatch(logUser(JSON.parse(userStorage))); // Parse the JSON string
         navigation.navigate("TabRoutes");
       }
       console.log("authStatus no useEffect !!!", status);
