@@ -61,10 +61,10 @@ export default function SplashScreen({ navigation }) {
       <StatusBar style="light" />
       <View style={styles.splashImage}>
         <Image
-          source={require("./../../imgs/gif_battery_white_v2.gif")}
+          source={require("./../../imgs/white-gif-jun.gif")}
           style={{
-            width: width * 0.5,
-            height: width * 0.5,
+            width: width * 0.7,
+            height: width * 0.7,
             resizeMode: "contain",
           }}
         />
@@ -78,7 +78,7 @@ const { width, height } = Dimensions.get("screen");
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0051BA",
+    backgroundColor: "#07407B",
     position: "relative",
   },
   splashImage: {
@@ -87,8 +87,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: "50%",
     left: "50%",
-    marginTop: -(width * 0.5) / 2,
-    marginLeft: -(width * 0.5) / 2,
+    marginTop: -(width * 0.7) / 2,
+    marginLeft: -(width * 0.7) / 2,
     alignSelf: "center",
   },
 });
