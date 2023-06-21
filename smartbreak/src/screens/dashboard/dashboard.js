@@ -40,7 +40,7 @@ import * as CONST from "./../../styles/variables.js";
 
 // REDUX
 import { useDispatch } from "react-redux";
-import { logUser, updateBattery, updatePause } from "../../redux/user.js";
+import { logUser, updateBattery, updatePause, updateTotalBattery } from "../../redux/user.js";
 
 const apiURL = "https://sb-api.herokuapp.com/users/";
 
@@ -66,6 +66,7 @@ export default function Dashboard() {
   const [pause, setPause] = useState(userData.pause);
   const [battery, setBattery] = useState(userData.battery);
   const [batteryFull, setBatteryFull] = useState(userData.full);
+  const [totalBattery, setTotalBattery] = useState(userData.total_battery);
   const [happy, setHappy] = useState(false);
   const [heightBattery, setHeightBattery] = useState(0);
   const [batteryDep, setbatteryDep] = useState(0);
@@ -73,7 +74,7 @@ export default function Dashboard() {
 
   // ---- MÉTRICAS ----
   const [price, setPrice] = useState();
-  const [fuel, setFuel] = useState(); // ! BUSCAR COMO SE FOSSE A ELETRECIDADE
+  const [fuel, setFuel] = useState();
   // ? fuel = preço de 1 litro de combustível
   // ? carregar um pc durante 1 hora gasta +/- 200 wats ou seja 0.2 kwt
   const kw = 0.2
@@ -137,7 +138,7 @@ export default function Dashboard() {
     `}
   })
   const heightAlgorithm = (full, value) => {
-    console.log("ENTREI AQUI COM ESTE VALOR NA BATTERY", value)
+    // console.log("ENTREI AQUI COM ESTE VALOR NA BATTERY", value)
     if (value >= full / 3) {
       setHappy(true);
     } else {
@@ -149,8 +150,7 @@ export default function Dashboard() {
       heightAnimated.value = 40;
     } else {
       heightAnimated.value = (value * 163) / full;
-      console.log("Altura", (value * 163) / full)
-      console.log("Altura_",  heightAnimated.value)
+      // console.log("Altura_",  heightAnimated.value)
     }
 
     return (value * 163) / full;
@@ -190,11 +190,10 @@ export default function Dashboard() {
 
   // ---- TERMINA ONDAS ----
 
-  
+
 
   // ---- ADD BATTERY ----
 
-  // ! VERIFICAR SE A BATERIA ENCHEU PARA ADICIONAR +1 NO TOTAL BATTERIES E POR O HEIGHT E O BATTERY A 0
   const algorithmBattery = async (time) => {
     try {
       const response = await fetch("https://sb-api.herokuapp.com/devices/active/user", {
@@ -212,7 +211,13 @@ export default function Dashboard() {
         // console.log("devices ativos" , data.energy_total)
         // console.log("plus", plus)
         let value = plus + battery
-        editUser(value)
+        let compare = value
+        let flag = false
+        if (compare > batteryFull) {
+          value = parseFloat(compare - batteryFull)
+          flag = true
+        }
+        editUser(value, flag)
 
       } else {
         const errorData = await response.json();
@@ -236,12 +241,12 @@ export default function Dashboard() {
         body: JSON.stringify({
           start_date: start,
           end_date: end,
-          time: ((end - start)/(1000 * 60)).toFixed(2),
+          time: ((end - start) / (1000 * 60)).toFixed(2),
           user: uid
         }),
       });
       if (response.ok) {
-         algorithmBattery(((end - start)/(1000 * 60)).toFixed(2))
+        algorithmBattery(((end - start) / (1000 * 60)).toFixed(2))
         // * CALCULAR QUANTO POUPOU COM BASE NOS DEVICES
       } else {
         const errorData = await response.json();
@@ -253,7 +258,7 @@ export default function Dashboard() {
     }
   };
 
-  const editUser = async (valueBattery) => {
+  const editUser = async (valueBattery, updateTotalBatteries) => {
     try {
       const fetch_url = apiURL + uid
       const response = await fetch(fetch_url, {
@@ -264,11 +269,15 @@ export default function Dashboard() {
         },
         body: JSON.stringify({
           pause: !pause,
-          battery: valueBattery
+          battery: valueBattery,
+          total_battery: updateTotalBatteries ? parseInt(totalBattery + 1) : totalBattery
         }),
       });
       if (response.ok) {
-        // ! ATUALIZAR O USERDATA NA PAUSE CADA VEZ QUE O VALOR MUDA E DEPOIS NA BATTERY (PRECISAMOS DO ALGORITMO PRIMEIRO) SÓ QUANDO O PAUSE VAI DE TRUE PARA FALSE, OU SEJA, IF PAUSE -> DO THAT
+        if (updateTotalBatteries) {
+          dispatch(updateTotalBattery(totalBattery + 1))
+          setTotalBattery(parseInt(totalBattery + 1))
+        }
         dispatch(updatePause(!pause));
         dispatch(updateBattery(valueBattery));
         setBattery(valueBattery);
@@ -315,14 +324,13 @@ export default function Dashboard() {
     ScreenOrientation.unlockAsync();
 
     moveWaves();
-    
+
     const updateHeightAnimated = () => {
       if (selected === "personal") {
         setHeightBattery(heightAlgorithm(batteryFull, battery));
       } else {
         setHeightBattery(heightAlgorithm(batteryFull, batteryDep));
       }
-    console.log("hei: ", heightAnimated.value)
 
     };
 
@@ -444,7 +452,6 @@ export default function Dashboard() {
             </Text>
           </Pressable>
         </View>
-
         {/* Battery */}
         <Modal
           animationType="fade"
@@ -493,7 +500,7 @@ export default function Dashboard() {
                       addPauseAPI(startPause, Date.now());
                     } else {
                       setStartPause(Date.now())
-                      editUser(battery)
+                      editUser(battery, false)
                     }
                   }}
                   style={dark_mode ? dark_styles.buttonAdd : styles.buttonAdd}
@@ -535,17 +542,17 @@ export default function Dashboard() {
                   >
                     A tua carga departamental
                   </Text>
-                  <Text style={dark_mode ? dark_styles.batteryValuesCharge : high_contrast ?  dark_styles.batteryValuesCharge : styles.batteryValuesCharge}>{batteryDep.toFixed(0)} kWh</Text>
+                  <Text style={dark_mode ? dark_styles.batteryValuesCharge : high_contrast ? dark_styles.batteryValuesCharge : styles.batteryValuesCharge}>{batteryDep} kWh</Text>
                 </>
               }
               <Text
                 accessible={true}
                 accessibilityLabel="Texto escrito a sua carga pessoal."
-                style={dark_mode ? dark_styles.batteryValuesTitle : (high_contrast && selected !== "personal" ?  dark_styles.batteryValuesTitle : styles.batteryValuesTitle)}
+                style={dark_mode ? dark_styles.batteryValuesTitle : (high_contrast && selected !== "personal" ? dark_styles.batteryValuesTitle : styles.batteryValuesTitle)}
               >
                 Objetivos por cumprir
               </Text>
-              <Text style={dark_mode ? dark_styles.batteryValuesGoals : (high_contrast && selected !== "personal" ?  dark_styles.batteryValuesGoals : styles.batteryValuesGoals)}>{goals}</Text>
+              <Text style={dark_mode ? dark_styles.batteryValuesGoals : (high_contrast && selected !== "personal" ? dark_styles.batteryValuesGoals : styles.batteryValuesGoals)}>{goals}</Text>
               <View style={styles.addPauseButtonContainer}>
                 {selected === "personal" ? (
                   <Pressable
@@ -602,8 +609,8 @@ export default function Dashboard() {
             </View>
             <View style={styles.columnContainerRight}>
               <View style={styles.batteryView}>
-                <View style={dark_mode ? dark_styles.batteryTip : (high_contrast && selected !=="personal" ? dark_styles.batteryTip : styles.batteryTip)} />
-                <View style={dark_mode ? dark_styles.batteryContainer : (high_contrast && selected !=="personal" ? dark_styles.batteryContainer : styles.batteryContainer)}>
+                <View style={dark_mode ? dark_styles.batteryTip : (high_contrast && selected !== "personal" ? dark_styles.batteryTip : styles.batteryTip)} />
+                <View style={dark_mode ? dark_styles.batteryContainer : (high_contrast && selected !== "personal" ? dark_styles.batteryContainer : styles.batteryContainer)}>
                   <AnimatedSvg
                     style={[
                       styles.batteryFill,
@@ -632,17 +639,18 @@ export default function Dashboard() {
                 <EmojiHappy
                   style={styles.batteryEmoji}
                   size="40"
-                  color={dark_mode ? CONST.darkerColor : (high_contrast && selected !=="personal" ? CONST.darkerColor : CONST.lightBackgroundColor)}
+                  color={dark_mode ? CONST.darkerColor : (high_contrast && selected !== "personal" ? CONST.darkerColor : CONST.lightBackgroundColor)}
                 />
               ) : (
-                <EmojiSad style={styles.batteryEmoji} size="40" color={dark_mode ? CONST.darkerColor : (high_contrast && selected !=="personal" ? CONST.darkerColor : CONST.lightBackgroundColor)} />
+                <EmojiSad style={styles.batteryEmoji} size="40" color={dark_mode ? CONST.darkerColor : (high_contrast && selected !== "personal" ? CONST.darkerColor : CONST.lightBackgroundColor)} />
               )}
             </View>
           </View>
         </View>
-        <View style={{
-        }}>
-          <ScrollView>
+
+        <View style={{}}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}>
             <View style={styles.metricsElement}>
               <View style={[styles.metricsCircle,
               selected === 'personal' ?

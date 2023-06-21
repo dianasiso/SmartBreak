@@ -52,6 +52,10 @@ const userSlice = createSlice({
       state.battery = action.payload;
       console.log("Updated Battery State:", state);
     },
+    updateTotalBattery: (state, action) => {
+      state.total_battery = action.payload;
+      console.log("Updated Battery State:", state);
+    },
     updateAccessibility: (state, action) => {
       state.accessibility = action.payload;
       console.log("Updated accessibility State:", state);
@@ -73,6 +77,7 @@ export const {
   updateUserData,
   updateBattery,
   updatePause,
+  updateTotalBattery,
   updatePassword,
   updateNotifications,
   updateAccessibility,

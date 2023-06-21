@@ -817,8 +817,8 @@ export const styles = StyleSheet.create({
     color: CONST.darkerColor,
     fontFamily: "GothamBook",
     paddingLeft: 15,
-    paddingRight: 25,
     lineHeight: 20,
+    flex: 1,
   },
 
   membersView: {

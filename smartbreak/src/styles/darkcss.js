@@ -795,8 +795,8 @@ export const dark_styles = StyleSheet.create({
     color: CONST.whiteText,
     fontFamily: "GothamBook",
     paddingLeft: 15,
-    paddingRight: 25,
     lineHeight: 20,
+    flex: 1,
   },
 
   membrosView: {
