@@ -142,7 +142,7 @@ export default function HistoricoPausas({ navigation }) {
                 }
             } catch (error) {
                 console.error(error);
-                Alert.alert("Error", error.message);
+              //  Alert.alert("Error", error.message);
             }
         }
         fetchData();

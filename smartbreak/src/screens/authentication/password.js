@@ -53,7 +53,7 @@ export default function Password() {
         }
       } catch (error) {
         console.error(error);
-        Alert.alert("Error", error.message);
+        //Alert.alert("Error", error.message);
       }
     }
 

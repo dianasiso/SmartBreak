@@ -55,7 +55,7 @@ export default function MembersRewards({ route, navigation }) {
         }
       } catch (error) {
         console.error(error);
-        Alert.alert("Error", error.message);
+       // Alert.alert("Error", error.message);
       }
     }
 

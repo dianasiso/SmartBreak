@@ -17,7 +17,6 @@ import { Eye, EyeSlash } from "iconsax-react-native";
 import { useDispatch } from "react-redux";
 import { logUser } from "../../redux/user.js";
 
-
 import { useFonts } from "expo-font";
 
 //storage
@@ -39,14 +38,11 @@ export default function Login({ navigation }) {
     GothamBook: require("./../../fonts/GothamBook.ttf"),
   });
 
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [responseData, setResponseData] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
-
-  
 
   useEffect(() => {
     if (responseData && responseData.message === "Logged in successfully") {
@@ -149,7 +145,7 @@ export default function Login({ navigation }) {
       }
     } catch (error) {
       console.error(error);
-      Alert.alert("Error", error.message);
+      //Alert.alert("Error", error.message);
     } finally {
       setLoading(false);
     }
@@ -162,7 +158,7 @@ export default function Login({ navigation }) {
   const loadingScreen = () => {
     return (
       <Image
-      source={require("./../../imgs/white-gif-jun.gif")}
+        source={require("./../../imgs/white-gif-jun.gif")}
         style={{
           height: CONST.screenWidth / 4,
           width: CONST.screenWidth / 4,

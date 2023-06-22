@@ -178,5 +178,19 @@ export const saveNewBatteryToAsyncStorage = async (battery) => {
   }
 };
 
+export const saveNewTotalBatteryToAsyncStorage = async (total_battery) => {
+  try {
+    const savedData = await AsyncStorage.getItem("userStorage");
+    const userData = JSON.parse(savedData);
+    const updatedUserData = { ...userData, total_battery: total_battery };
+    const updatedDataString = JSON.stringify(updatedUserData);
+    await AsyncStorage.setItem("userStorage", updatedDataString);
+    console.log("User data saved to AsyncStorage:", updatedUserData);
+  } catch (error) {
+    console.error("Error saving user data to AsyncStorage:", error);
+  }
+};
+
+
 
 export default userSlice.reducer;

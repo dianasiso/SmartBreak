@@ -177,7 +177,7 @@ export default function Routines({ navigation }) {
       }
     } catch (error) {
       console.error(error);
-      Alert.alert("Error", error.message);
+      //Alert.alert("Error", error.message);
     }
   }
 
@@ -206,7 +206,7 @@ export default function Routines({ navigation }) {
       }
     } catch (error) {
       console.error(error);
-      Alert.alert("Error", error.message);
+      //Alert.alert("Error", error.message);
     }
   }
 
@@ -231,7 +231,7 @@ export default function Routines({ navigation }) {
         }
       } catch (error) {
         console.error(error);
-        Alert.alert("Error", error.message);
+       // Alert.alert("Error", error.message);
       }
     }
     fetchData();
@@ -279,7 +279,7 @@ export default function Routines({ navigation }) {
         }
       } catch (error) {
         console.error(error);
-        Alert.alert("Error", error.message);
+        //Alert.alert("Error", error.message);
       }
 
 

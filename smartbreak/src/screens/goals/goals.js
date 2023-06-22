@@ -73,7 +73,7 @@ export default function Goals() {
         }
       } catch (error) {
         console.error(error);
-        Alert.alert("Error", error.message);
+       // Alert.alert("Error", error.message);
       }
     }
     fetchData();
@@ -99,7 +99,7 @@ export default function Goals() {
         }
       } catch (error) {
         console.error(error);
-        Alert.alert("Error", error.message);
+        //Alert.alert("Error", error.message);
       }
     } else {
       try {
@@ -119,7 +119,7 @@ export default function Goals() {
         }
       } catch (error) {
         console.error(error);
-        Alert.alert("Error", error.message);
+       // Alert.alert("Error", error.message);
       }
     }
   }

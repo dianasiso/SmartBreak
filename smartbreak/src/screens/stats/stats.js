@@ -106,7 +106,7 @@ export default function Stats() {
         }
       } catch (error) {
         console.error(error);
-        Alert.alert("Error", error.message);
+       // Alert.alert("Error", error.message);
       }
 
       try {
@@ -127,7 +127,7 @@ export default function Stats() {
         }
       } catch (error) {
         console.error(error);
-        Alert.alert("Error", error.message);
+       // Alert.alert("Error", error.message);
       }
     }
     fetchData();

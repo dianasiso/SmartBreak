@@ -231,7 +231,7 @@ export default function Devices({ navigation }) {
       }
     } catch (error) {
       console.error(error);
-      Alert.alert("Error", error.message);
+      //Alert.alert("Error", error.message);
     }
 
     ToastAndroid.show("Equipamento adicionado!", ToastAndroid.SHORT);
@@ -255,7 +255,7 @@ export default function Devices({ navigation }) {
       }
     } catch (error) {
       console.error(error);
-      Alert.alert("Error", error.message);
+     // Alert.alert("Error", error.message);
     }
   }
 
@@ -279,7 +279,7 @@ export default function Devices({ navigation }) {
         }
       } catch (error) {
         console.error(error);
-        Alert.alert("Error", error.message);
+       // Alert.alert("Error", error.message);
       }
     }
     fetchData();
@@ -310,7 +310,7 @@ export default function Devices({ navigation }) {
       }
     } catch (error) {
       console.error(error);
-      Alert.alert("Error", error.message);
+     // Alert.alert("Error", error.message);
     }
   }
 

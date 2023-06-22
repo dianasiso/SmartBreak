@@ -100,7 +100,7 @@ export default function Register() {
         }
       } catch (error) {
         console.error(error);
-        Alert.alert("Error", error.message);
+       // Alert.alert("Error", error.message);
       } finally {
         setLoading(false);
       }
@@ -358,7 +358,7 @@ export default function Register() {
                     }
                   } catch (error) {
                     console.error(error);
-                    Alert.alert("Error", error.message);
+                    //Alert.alert("Error", error.message);
                   }
                 }
 

@@ -25,7 +25,6 @@ import { useRoute } from "@react-navigation/native";
 // Font Gotham
 import { useFonts } from "expo-font";
 
-
 import { useDispatch, useSelector } from "react-redux";
 import user, { logoutUser } from "../../redux/user.js";
 
@@ -39,15 +38,16 @@ import { dark_styles } from "../../styles/darkcss.js";
 // Variables
 import * as CONST from "./../../styles/variables.js";
 
-const cleanUserData = async () => {
-  const userStorage = await AsyncStorage.removeItem("userStorage");
-  const authStatus = await AsyncStorage.removeItem("authStatus");
-  console.log("cleaned user and auth", authStatus + userStorage);
-  return authStatus, userStorage;
-};
-
-
 export default function ProfileSettings({ route, navigation }) {
+  let flag = false;
+
+  const cleanUserData = async () => {
+    const userStorage = await AsyncStorage.removeItem("userStorage");
+    const authStatus = await AsyncStorage.removeItem("authStatus");
+    console.log("cleaned user and auth", authStatus + userStorage);
+    flag = true;
+    return authStatus, userStorage;
+  };
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.user);
 
@@ -64,14 +64,17 @@ export default function ProfileSettings({ route, navigation }) {
   const [reload, setReload] = useState(false);
 
   const deleteAccount = async () => {
-    console.log("user data id", userData.userID)
+    console.log("user data id", userData.userID);
     try {
-      const response = await fetch("https://sb-api.herokuapp.com/users/" + userData.userID, {
-        method: "DELETE",
-        headers: {
-          Authorization: "Bearer " + userData.token,
+      const response = await fetch(
+        "https://sb-api.herokuapp.com/users/" + userData.userID,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: "Bearer " + userData.token,
+          },
         }
-      });
+      );
       if (response.ok) {
         handleLogout();
       } else {
@@ -83,7 +86,7 @@ export default function ProfileSettings({ route, navigation }) {
       Alert.alert("Erro!", "Ocorreu um erro durante a mudança de estado.");
     }
   };
-
+  /*
   useEffect(() => {
     if (route.params && route.params.reload) {
       if (props !== undefined) {
@@ -94,7 +97,7 @@ export default function ProfileSettings({ route, navigation }) {
         setReload(false);
       }
     }
-  }, [route.params]);
+  }, [route.params]);*/
 
   console.log("Password stored in Redux:", password);
   console.log("Notifications:", userData.notifications);
@@ -106,7 +109,7 @@ export default function ProfileSettings({ route, navigation }) {
       {
         text: "Confirmar",
         onPress: () => {
-          deleteAccount()
+          deleteAccount();
         },
       },
     ]);
@@ -116,7 +119,9 @@ export default function ProfileSettings({ route, navigation }) {
     try {
       await cleanUserData();
       dispatch(logoutUser());
-      navigation.navigate("Login");
+      if (flag) {
+        navigation.navigate("Welcome");
+      }
     } catch (err) {
       console.error(err);
     }

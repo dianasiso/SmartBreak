@@ -52,6 +52,9 @@ import {
   updateBattery,
   updatePause,
   updateTotalBattery,
+  saveNewPauseToAsyncStorage,
+  saveNewBatteryToAsyncStorage,
+  saveNewTotalBatteryToAsyncStorage,
 } from "../../redux/user.js";
 
 import * as Device from "expo-device";
@@ -313,9 +316,27 @@ export default function Dashboard() {
         if (updateTotalBatteries) {
           dispatch(updateTotalBattery(totalBattery + 1));
           setTotalBattery(parseInt(totalBattery + 1));
+          try {
+            await saveNewBatteryToAsyncStorage(totalBattery + 1);
+            console.log("Battery saved to async storage");
+          } catch (error) {
+            console.log("Error saving battery to async storage", error);
+          }
         }
         dispatch(updatePause(!pause));
+        try {
+          await saveNewPauseToAsyncStorage(!pause);
+          console.log("Pause saved to async storage");
+        } catch (error) {
+          console.log("Error saving pause to async storage", error);
+        }
         dispatch(updateBattery(valueBattery));
+        try {
+          await saveNewTotalBatteryToAsyncStorage(valueBattery);
+          console.log("Battery saved to async storage");
+        } catch (error) {
+          console.log("Error saving battery to async storage", error);
+        }
         setBattery(valueBattery);
         setPause(!pause);
         setModalVisible(!modalVisible);
@@ -369,7 +390,7 @@ export default function Dashboard() {
         }
       } catch (error) {
         console.error(error);
-        Alert.alert("Error", error.message);
+       // Alert.alert("Error", error.message);
       }
     }
     fetchValues();
@@ -394,7 +415,7 @@ export default function Dashboard() {
         }
       } catch (error) {
         console.error(error);
-        Alert.alert("Error", error.message);
+        //Alert.alert("Error", error.message);
       }
 
       try {
@@ -416,7 +437,7 @@ export default function Dashboard() {
         }
       } catch (error) {
         console.error(error);
-        Alert.alert("Error", error.message);
+       // Alert.alert("Error", error.message);
       }
     }
 

@@ -52,7 +52,7 @@ export default function ProfileRewards() {
         }
       } catch (error) {
         console.error(error);
-        Alert.alert("Error", error.message);
+       // Alert.alert("Error", error.message);
       }
     }
 
