@@ -1,26 +1,36 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
 import { Alert } from "react-native";
-import {
-  Dimensions,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  TextInput,
-  Pressable,
-} from "react-native";
+import { ScrollView, View, Text, TextInput, Pressable } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { useSelector } from "react-redux";
+import { Eye, EyeSlash } from "iconsax-react-native";
 
-// Firebase
-import firebase from "./../../config/firebase.js";
+// CSS
+import { styles } from "./../../styles/css.js";
+import { dark_styles } from "../../styles/darkcss.js";
 
+// Variables
+import * as CONST from "./../../styles/variables.js";
 
 // Font Gotham
 import { useFonts } from "expo-font";
 
+import { useDispatch, useSelector } from "react-redux";
+import {
+  updatePassword,
+  saveNewPasswordToAsyncStorage,
+} from "../../redux/user.js";
+
 export default function EditPassword({ navigation }) {
+  // ---- userData information ----
+  const dispatch = useDispatch();
+  const userData = useSelector((state) => state.user);
+
+  const dark_mode = userData.accessibility[1];
+
+  const uid = userData.userID;
+  const password = userData.password;
+
   // Loading Gotham font
   const [loaded] = useFonts({
     GothamMedium: "./../fonts/GothamMedium.ttf",
@@ -28,25 +38,14 @@ export default function EditPassword({ navigation }) {
   });
 
   const [passwordStored, setPasswordStored] = useState();
-  const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
   const [newPassword, setNewPassword] = useState();
 
-  const userData = useSelector((state) => state.user.userID);
-  const uid = userData;
-  
-  useEffect(() => {
-    firebase
-    .firestore()
-    .collection("users_data")
-    .doc(uid)
-    .get()
-    .then((doc) => {
-      setPasswordStored(doc.data().password);
-    });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  },[])
-
+  useEffect(() => {}, []);
 
   const validate_password = (pass) => {
     if (pass.length < 8) {
@@ -57,13 +56,7 @@ export default function EditPassword({ navigation }) {
   };
 
   const validate = () => {
-    if (passwordStored != password) {
-      Alert.alert(
-        "Falha de autenticação!",
-        "Insira corretamente a sua palavra-passe atual."
-      );
-      return false;
-    } else if (newPassword != confirmPassword) {
+    if (newPassword != confirmPassword) {
       Alert.alert(
         "Erro!",
         "Digite corretamente a confirmação da palavra-passe."
@@ -77,17 +70,61 @@ export default function EditPassword({ navigation }) {
     }
   };
 
-  const editarpasse = () => {
+  const changePassword = async () => {
     Alert.alert("Atenção", "Deseja confirmar as alterações?", [
       { text: "Cancelar" },
       {
         text: "Confirmar",
-        onPress: () => {
+        onPress: async () => {
           if (validate()) {
-            firebase.firestore().collection("users_data").doc(uid).update({
-              password: password,
-            });
-            navigation.navigate("ProfileSettings");
+            try {
+              const response = await fetch(
+                "https://sb-api.herokuapp.com/auth/password",
+                {
+                  method: "POST",
+                  headers: {
+                    Authorization: "Bearer " + userData.token,
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    password: passwordStored,
+                    new_password: newPassword,
+                  }),
+                }
+              );
+
+              if (response.ok) {
+                const updatedPassword = { password: newPassword };
+                dispatch(updatePassword(updatedPassword));
+
+                try {
+                  await saveNewPasswordToAsyncStorage(updatedPassword);
+                  console.log(
+                    "Password data saved to AsyncStorage:",
+                    updatedPassword
+                  );
+                } catch (error) {
+                  console.error(
+                    "Error saving user data to AsyncStorage:",
+                    error
+                  );
+                }
+
+                Alert.alert("Sucesso!", "Palavra-passe alterada com sucesso.");
+                navigation.navigate("ProfileSettings", {
+                  reload: true,
+                });
+              } else {
+                const errorData = await response.json();
+                Alert.alert("Erro!", errorData.message);
+              }
+            } catch (error) {
+              console.error(error);
+              Alert.alert(
+                "Erro!",
+                "Ocorreu um erro durante a mudança de estado."
+              );
+            }
           }
         },
       },
@@ -95,115 +132,150 @@ export default function EditPassword({ navigation }) {
   };
 
   return (
-    <SafeAreaProvider style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <StatusBar style="auto" />
-        <Text style={styles.title}>Alterar palavra-passe</Text>
-        <View style={{ alignItems: "center" }}>
-          <View style={styles.edit}>
-            <Text style={styles.text}>Palavra-passe atual</Text>
-            <TextInput
-              secureTextEntry={true}
-              placeholder=""
-              style={styles.input}
-              onChangeText={(text) => setPassword(text)}
-              value={password}
+    <SafeAreaProvider
+      showsVerticalScrollIndicator={false}
+      style={[
+        dark_mode ? dark_styles.containerLight : styles.containerLight,
+        { paddingTop: CONST.backgroundPaddingTop / 2 },
+      ]}
+    >
+      <ScrollView>
+        <StatusBar style={dark_mode ? "light" : "dark"} />
+        <Text
+          accessible={true}
+          accessibilityLabel="Textoescrito Alterar Palavra-passe. É o título da página."
+          style={dark_mode ? dark_styles.titleText : styles.titleText}
+        >
+          Alterar palavra-passe{"\n"}
+        </Text>
+        <Text
+          accessible={true}
+          accessibilityLabel="Texto escrito Palavra-passe atual."
+          style={dark_mode ? dark_styles.inputLabel : styles.inputLabel}
+        >
+          {"\n"}Palavra-passe atual
+        </Text>
+
+        <View style={{ flexDirection: "row", width: "100%" }}>
+          <TextInput
+            accessible={true}
+            accessibilityLabel="Campo para introdução da palavra-passe."
+            secureTextEntry={showPassword ? false : true}
+            style={[
+              dark_mode ? dark_styles.inputField : styles.inputField,
+              { width: "90%" },
+            ]}
+            onChangeText={(text) => setPasswordStored(text)}
+          />
+          {showPassword ? (
+            <EyeSlash
+              style={{ marginLeft: "auto", marginRight: "auto" }}
+              size={CONST.pageSubtitleSize}
+              color={dark_mode ? CONST.whiteText : CONST.darkerColor}
+              onPress={() => setShowPassword(!showPassword)}
             />
-            <Text style={styles.text}>Nova palavra-passe</Text>
-            <TextInput
-              secureTextEntry={true}
-              placeholder=""
-              style={styles.input}
-              onChangeText={(text) => setNewPassword(text)}
-              value={newPassword}
+          ) : (
+            <Eye
+              style={{ marginLeft: "auto", marginRight: "auto" }}
+              size={CONST.pageSubtitleSize}
+              color={dark_mode ? CONST.whiteText : CONST.darkerColor}
+              onPress={() => setShowPassword(!showPassword)}
             />
-            <Text style={styles.text}>Confirmar nova palavra-passe</Text>
-            <TextInput
-              secureTextEntry={true}
-              placeholder=""
-              style={styles.input}
-              onChangeText={(text) => setConfirmPassword(text)}
-              value={confirmPassword}
+          )}
+        </View>
+
+        <Text
+          accessible={true}
+          accessibilityLabel="Texto escrito Nova palavra-passe."
+          style={dark_mode ? dark_styles.inputLabel : styles.inputLabel}
+        >
+          {"\n"}Nova palavra-passe
+        </Text>
+        <View style={{ flexDirection: "row", width: "100%" }}>
+          <TextInput
+            accessible={true}
+            accessibilityLabel="Campo para introdução da nova palavra-passe."
+            secureTextEntry={showNewPassword ? false : true}
+            style={[
+              dark_mode ? dark_styles.inputField : styles.inputField,
+              { width: "90%" },
+            ]}
+            onChangeText={(text) => setNewPassword(text)}
+          />
+          {showNewPassword ? (
+            <EyeSlash
+              style={{ marginLeft: "auto", marginRight: "auto" }}
+              size={CONST.pageSubtitleSize}
+              color={dark_mode ? dark_styles.whiteText : CONST.darkerColor}
+              onPress={() => setShowNewPassword(!showNewPassword)}
             />
-          </View>
-          <View>
-            <Pressable onPress={() => editarpasse()} style={styles.button}>
-              <Text 
-                style={{
-                  color: "#FFFFFF",
-                  fontFamily: "GothamBook",
-                  fontSize: 16,
-                  textAlign: "center",
-                }}
-              >
-                Concluído
-              </Text>
-            </Pressable>
-          </View>
+          ) : (
+            <Eye
+              style={{ marginLeft: "auto", marginRight: "auto" }}
+              size={CONST.pageSubtitleSize}
+              color={dark_mode ? CONST.whiteText : CONST.darkerColor}
+              onPress={() => setShowNewPassword(!showNewPassword)}
+            />
+          )}
+        </View>
+
+        <Text
+          accessible={true}
+          accessibilityLabel="Texto escrito Confirmar nova palavra-passe."
+          style={dark_mode ? dark_styles.inputLabel : styles.inputLabel}
+        >
+          {"\n"}Confirmar nova palavra-passe
+        </Text>
+        <View style={{ flexDirection: "row", width: "100%" }}>
+          <TextInput
+            accessible={true}
+            accessibilityLabel="Campo para introdução da confirmação da nova palavra-passe."
+            secureTextEntry={showConfirmPassword ? false : true}
+            style={[
+              dark_mode ? dark_styles.inputField : styles.inputField,
+              { width: "90%" },
+            ]}
+            onChangeText={(text) => setConfirmPassword(text)}
+          />
+          {showConfirmPassword ? (
+            <EyeSlash
+              style={{ marginLeft: "auto", marginRight: "auto" }}
+              size={CONST.pageSubtitleSize}
+              color={dark_mode ? CONST.whiteText : CONST.darkerColor}
+              onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+            />
+          ) : (
+            <Eye
+              style={{ marginLeft: "auto", marginRight: "auto" }}
+              size={CONST.pageSubtitleSize}
+              color={dark_mode ? CONST.whiteText : CONST.darkerColor}
+              onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+            />
+          )}
+        </View>
+
+        <View>
+          <Pressable
+            accessible={true}
+            accessibilityLabel="Botão com o objetivo de guardar as alterações. Tem escrito a palavra Concluído."
+            onPress={() => changePassword()}
+            style={[
+              dark_mode ? dark_styles.primaryButton : styles.primaryButton,
+              { marginTop: CONST.backgroundPaddingLateral },
+            ]}
+          >
+            <Text
+              style={
+                dark_mode
+                  ? dark_styles.primaryButtonText
+                  : styles.primaryButtonText
+              }
+            >
+              Concluído
+            </Text>
+          </Pressable>
         </View>
       </ScrollView>
     </SafeAreaProvider>
   );
 }
-
-const screenWidth = Dimensions.get("window").width;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    paddingLeft: 25,
-    paddingRight: 25,
-    paddingBottom: 90,
-  },
-
-  edit: {
-    marginTop: 30,
-    width: "100%",
-  },
-
-  input: {
-    marginTop: 0,
-    borderBottomWidth: 1,
-    paddingTop: 5,
-    paddingBottom: 5,
-    fontFamily: "GothamBook",
-    fontSize: 16,
-    lineHeight: 16,
-  },
-
-  options: {
-    marginTop: 30,
-    borderRadius: 15,
-    paddingTop: 15,
-    paddingBottom: 15,
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "center",
-    backgroundColor: "#0051BA",
-  },
-
-  title: {
-    fontFamily: "GothamMedium",
-    fontSize: 24,
-    marginTop: 30,
-  },
-
-  text: {
-    fontFamily: "GothamMedium",
-    fontSize: 16,
-    marginTop: 40,
-    lineHeight: 24,
-  },
-  button: {
-    alignSelf: "stretch",
-    marginTop: 40,
-    borderRadius: 15,
-    paddingTop: 15,
-    paddingBottom: 15,
-    marginBottom: 20,
-    justifyContent: "center",
-    backgroundColor: "#0051BA",
-    width: screenWidth - 50,
-  },
-});

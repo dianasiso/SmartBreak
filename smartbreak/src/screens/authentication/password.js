@@ -1,204 +1,170 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import {KeyboardAvoidingView, Alert, TextInput, StyleSheet, Text, View, ScrollView, Image, Dimensions, TouchableHighlight, TouchableOpacity, Pressable  } from 'react-native';
+import { Alert, TextInput, Text, Linking, ScrollView, Pressable } from 'react-native';
+import { SafeAreaProvider } from "react-native-safe-area-context";
+
 
 // Font Gotham
 import { useFonts } from 'expo-font';
-
-// Firebase
-import firebase from "./../../config/firebase.js"
-import {doc, updateDoc, collection, where, query, getDocs } from "firebase/firestore"; 
 
 //redux
 import { useDispatch } from "react-redux";
 import { logUser } from "../../redux/user.js";
 import { useNavigation } from "@react-navigation/native";
 
-// Password meter
-import PassMeter from "react-native-passmeter";
+// CSS
+import { styles } from "./../../styles/css.js";
+
+// Variables
+import * as CONST from "./../../styles/variables.js";
+
 
 export default function Password() {
 
+  const apiURL = "https://sb-api.herokuapp.com/emails/recover";
   const navigation = useNavigation();
   const dispatch = useDispatch();
-     // Loading Gotham font
-    const [loaded] = useFonts({
-        GothamMedium: require('./../../fonts/GothamMedium.ttf'),
-        GothamBook: require('./../../fonts/GothamBook.ttf'),
-    });
+  // Loading Gotham font
+  const [loaded] = useFonts({
+    GothamMedium: require('./../../fonts/GothamMedium.ttf'),
+    GothamBook: require('./../../fonts/GothamBook.ttf'),
+  });
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [emails, setEmails] = useState({});
 
-    const updateData = async () => {
-      const user = query(collection(firebase.firestore(), 'users_data'), where("email", "==", email.trim() ));
-      const querySnapshot = await getDocs(user);
-      var uid = null;
-      var emailCheck = false;
-      querySnapshot.forEach((doc) => {
-        if (typeof(doc.data()) == 'object') {
-          emailCheck = true;
-          uid = doc.data().uid;
-        } 
-      })
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch("https://sb-api.herokuapp.com/emails", {
+          method: "GET"
+        });
 
-      if (!emailCheck) {
-        Alert.alert("Email não registado!", "Por favor, registe-se primeiro na aplicação.");
-      } else {
-        // Update 
-        // const docRef = doc(firebase.firestore(), "users_data", uid);
-        // updateDoc(docRef, {
-        //   password : password,
-        // })
-        const docRef = firebase.firestore().collection('users_data').doc(uid);
-        docRef.update({
-          password : password,
-        })
+        if (response.ok) {
+          const data = await response.json();
+          const message = data.message;
+          for (let i = 0; i < message.length; i++) {
+            emails[message[i].email] = message[i].date_created;
+          }
 
-         Alert.alert("Atualizado!", "Informações atualizadas com sucesso.")
+        } else {
+          const errorData = await response.json();
+          throw new Error(errorData.message);
+        }
+      } catch (error) {
+        console.error(error);
+        //Alert.alert("Error", error.message);
       }
     }
 
-    const validate_password = (pass, pass2) => {
-        if (pass != pass2) {
-          Alert.alert('As palavras-passe não coincidem.')
-          return false;
-        }
-        if (pass.length < 8) {
-          Alert.alert('A palavra-passe deve ter no mínimo 8 caracteres.')
-          return false;
-        }
-        return true;
-    }
+    fetchData();
+  }, []);
 
-    const submit = () => {
-        if (email.length == 0) {
-          Alert.alert('Preencha corretamente o campo E-mail');
-          return false;
-        } 
-        if (password.length == 0 ) {
-          Alert.alert('Preencha corretamente o campo Palavra-passe');
-          return false;
-        }
-        if (confirmPassword.length == 0 ) {
-          Alert.alert('Preencha corretamente o campo Confirmar palavra-passe');
-          return false;
-        } 
-        if (!validate_password(password, confirmPassword)) {
-          return false;
-        }  
-        updateData();
+  const updateData = async () => {
+    if (email.trim() in emails) {
+      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      let password = '';
+
+      for (let i = 0; i < 8; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        password += characters[randomIndex];
+      }
+
+      const response = await fetch(apiURL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email.trim(),
+          pass: password,
+        }),
+      });
+
+      if (response.ok) {
+        Alert.alert("E-mail enviado!", "Enviamos uma nova palavra-passe por e-mail.");
         navigation.navigate("Login");
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.message);
+      }
+
+    } else {
+      Alert.alert("Email não registado!", "Por favor, registe-se primeiro na aplicação.");
+    }
+  }
+
+
+  const submit = () => {
+    if (email.length == 0) {
+      Alert.alert('Preencha corretamente o campo E-mail');
+      return false;
     }
 
-    return (
-      <View style={styles.container}>
-          <StatusBar style="light" />
-            <Text style={styles.textMessageTitle}><Text style={{fontFamily: 'GothamMedium'}}>Esqueceu-se da palavra-passe?</Text></Text> 
-            <Text style={styles.textMessageBody}>Introduza uma nova palavra passe e de seguida volte a confirmá-la.</Text>
+    updateData();
+  }
 
-        <KeyboardAvoidingView 
-              behavior={Platform.OS === "ios" ? "padding" : "height"}>
-          <View>   
-          <ScrollView style={{marginTop: 80}}>            
-            <Text style={styles.textMessageBody}>Email</Text> 
-            <TextInput style={styles.inputField} onChangeText={(text) => setEmail(text)}/>      
-            <Text style={styles.textMessageBody}>Nova palavra-passe</Text>
-            <TextInput  secureTextEntry={true} style={styles.inputFieldPass} onChangeText={(text) => setPassword(text)}/>
-            <View style={{overflow: 'hidden', width: '100%', borderRadius: 8, marginLeft: 'auto', marginRight: 'auto', marginBottom: 30}}>
-                    <PassMeter
-                      showLabels={false}
-                      password={password}
-                      maxLength={15}
-                      minLength={8}
-                      labels={[]}
-                    /> 
-            </View>
-            <Text style={styles.textMessageBody}>Confirmar nova palavra-passe</Text> 
-            <TextInput  secureTextEntry={true} style={styles.inputField} onChangeText={(text) => setConfirmPassword(text)}/>    
-            <Pressable onPress={() => submit()} style={styles.button}><Text style={styles.buttonText}>Redefinir palavra-passe</Text></Pressable>
-          </ScrollView>
-          </View>
-        </KeyboardAvoidingView>
-      </View>   
+  return (
+    <SafeAreaProvider style={styles.container}>
+      <StatusBar style="light" />
+      <Text
+        accessible={true}
+        accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Esqueceu-se da palavra-passe?"
+        style={styles.titleTextWhite}>Esqueceu-se da palavra-passe?</Text>
+      <Text
+        accessible={true}
+        accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Introduza o seu e-mail para que possa recuperar a sua palavra-passe."
+        style={[styles.normalTextWhite, { paddingTop: CONST.boxPadding, paddingBottom: CONST.inputMargin }]}>
+        Introduza o seu e-mail para que possa recuperar a sua palavra-passe.</Text>
+
+      <ScrollView style={{ marginTop: CONST.backgroundPaddingTop }}>
+        <Text
+          accessible={true}
+          accessibilityLabel="Texto na cor branca num fundo azul escuro escrito E-mail."
+          style={styles.inputLabelWhite}>E-mail</Text>
+        <TextInput
+          accessible={true}
+          accessibilityLabel="Campo para introdução do E-mail."
+          style={styles.inputFieldWhite}
+          onChangeText={(text) => setEmail(text)} />
+        {/* <Text
+          accessible={true}
+          accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Nova palavra-passe."
+          style={styles.inputLabelWhite}>Nova palavra-passe</Text>
+        <TextInput
+          secureTextEntry={true}
+          style={styles.inputFieldWhite}
+          accessible={true}
+          accessibilityLabel="Campo para introdução da Nova palavra-passe."
+          onChangeText={(text) => setPassword(text)} />
+        <View style={styles.passwordProgressBar}>
+          <PassMeter
+            showLabels={false}
+            password={password}
+            maxLength={15}
+            minLength={8}
+            labels={[]}
+          />
+        </View>
+        <Text
+          accessible={true}
+          accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Confirmar nova palavra-passe."
+          style={styles.inputLabelWhite}>Confirmar nova palavra-passe</Text>
+        <TextInput
+          accessible={true}
+          accessibilityLabel="Campo para introdução da Confirmação da nova palavra-passe."
+          secureTextEntry={true}
+          style={styles.inputFieldWhite}
+          onChangeText={(text) => setConfirmPassword(text)} /> */}
+        <Pressable
+          accessible={true}
+          accessibilityLabel="Botão da cor branca num fundo azul escuro com o objetivo de efetuar a redefinição da palavra-passe. Tem escrito na cor azul escuro Redefinir palavra-passe."
+          onPress={() => submit()} style={[styles.buttonWhite, { marginBottom: CONST.backgroundPaddingLateral, marginTop: CONST.backgroundPaddingLateral }]}>
+          <Text style={styles.buttonWhiteText}>Redefinir palavra-passe</Text>
+        </Pressable>
+      </ScrollView>
+
+    </SafeAreaProvider>
   );
 }
 
-// Get screen dimensions
-const screenWidth = Dimensions.get('window').width;
-const screenHeight = Dimensions.get('window').height - 50;
-
-const styles = StyleSheet.create({
-container: {
-  flex: 1,
-  paddingTop: 65,
-  backgroundColor: '#0051BA',
-  flexDirection: "column",
-  paddingLeft: 25,
-  paddingRight: 25,
-},
-subContainer: {
-  backgroundColor: '#FFF',
-  borderBottomLeftRadius: 0,
-  borderBottomRightRadius: 0,
-  borderTopRightRadius: 50,
-  borderTopLeftRadius: 50,
-  paddingLeft: 25,
-  paddingRight: 25,
-  paddingTop: 65,
-  height: screenHeight/2,
-},
-inputField: {
-  borderBottomColor: '#FFF',
-  borderBottomWidth: 1,
-  marginBottom: 40,
-  borderTopWidth: 0,
-  borderLeftWidth: 0,
-  borderRightWidth: 0,
-  borderRadius: 0,
-  color: '#FFF'
-},
-inputFieldPass: {
-  borderBottomColor: '#FFF',
-  borderBottomWidth: 1,
-  marginBottom: 10,
-  borderTopWidth: 0,
-  borderLeftWidth: 0,
-  borderRightWidth: 0,
-  borderRadius: 0,
-  color: '#FFF'
-},
-buttonText: {
-  fontFamily: 'GothamBook',
-  color: '#0051BA',
-  fontSize: 18,
-  textAlign: 'center',
-},
-button: {
-  backgroundColor: '#FFF',
-  justifyContent: 'center',
-  height: 48,
-  borderRadius: 8,
-  marginBottom: 40,
-  marginTop: 10,
-},
-textMessageTitle: {
-  fontSize: 24,
-  textAlign: 'left',
-  paddingTop: 40,
-  fontFamily: 'GothamBook',
-  color: '#FFFFFF',
-},
-textMessageBody: {
-  fontSize: 16,
-  textAlign: 'left',
-  paddingTop: 15,
-  fontFamily: 'GothamBook',
-  color: '#FFFFFF',
-},
-imageLogo: {
-  alignItems: 'center',
-  paddingTop: 65,
-}, 
-});

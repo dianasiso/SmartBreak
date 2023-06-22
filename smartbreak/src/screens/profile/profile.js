@@ -1,8 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import {
   RefreshControl,
-  Dimensions,
-  StyleSheet,
   ScrollView,
   View,
   Text,
@@ -20,43 +18,48 @@ import {
   Setting2,
 } from "iconsax-react-native";
 
+// API
+import { fetchData } from "../../config/api.js";
+
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-
-// Firebase
-import firebase from "./../../config/firebase.js";
+import { updateUserData } from "../../redux/user.js";
 
 // Font Gotham
 import { useFonts } from "expo-font";
 
+// CSS
+import { styles } from "./../../styles/css.js";
+import { dark_styles } from "../../styles/darkcss.js";
+
+// Variables
+import * as CONST from "./../../styles/variables.js";
+
 export default function ProfilePage({ navigation, route }) {
-  const userData = useSelector((state) => state.user.userID);
+  const userData = useSelector((state) => state.user);
+  const {
+    name,
+    surname,
+    userID,
+    organization,
+    department,
+    organization_name,
+    department_name,
+    permissions,
+  } = userData;
+  const [refreshing, setRefreshing] = useState(false);
+
+  const dark_mode = userData.accessibility[1];
+
   useEffect(() => {
-    firebase
-      .firestore()
-      .collection("users_data")
-      .doc(uid)
-      .get()
-      .then((doc) => {
-        let getName = doc.data().name;
-        let getLastName = doc.data().lastName;
-        let getOrganization = doc.data().organization;
-        setName(getName + " " + getLastName);
-        setOrganization(getOrganization);
-      });
-  }, [route.params?.updatedUserData, userData]);
+    updateUserData(userData);
+  }, [userData]);
 
   // Loading Gotham font
   const [loaded] = useFonts({
     GothamMedium: "./../fonts/GothamMedium.ttf",
     GothamBook: "./../fonts/GothamBook.ttf",
   });
-
-  const [refreshing, setRefreshing] = useState(false);
-  const [name, setName] = useState();
-  const [organization, setOrganization] = useState();
-  const uid = userData;
-  
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -66,126 +69,167 @@ export default function ProfilePage({ navigation, route }) {
   }, []);
 
   return (
-    <SafeAreaProvider style={styles.container}>
-      <StatusBar style="auto" />
+    <SafeAreaProvider
+      style={
+        dark_mode ? dark_styles.mainContainerDark : styles.mainContainerLight
+      }
+    >
+      <StatusBar style={dark_mode ? "light" : "dark"} />
+
       <ScrollView
         showsVerticalScrollIndicator={false}
-        style={{ height: "100%", overflow: "scroll" }}
+        style={dark_mode ? dark_styles.containerLight : styles.containerLight}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        <View style={{ alignItems: "center" }}>
-          <Text style={styles.name}>{name}</Text>
-          <Text style={styles.organization}>{organization}</Text>
+        <View style={dark_mode ? dark_styles.profileInfo : styles.profileInfo}>
+          <Text
+            accessible={true}
+            accessibilityLabel={"Texto escrito " + name + surname}
+            style={[
+              dark_mode ? dark_styles.titleText : styles.titleText,
+              { marginTop: CONST.boxMargin },
+            ]}
+          >
+            {name + " " + surname}
+          </Text>
+          <Text
+            accessible={true}
+            accessibilityLabel={"Texto branco escrito " + department_name}
+            style={[
+              dark_mode ? dark_styles.normalText : styles.normalText,
+              { opacity: 0.5, marginTop: CONST.boxMargin },
+            ]}
+          >
+            {department_name}
+          </Text>
+          <Text
+            accessible={true}
+            accessibilityLabel={"Texto escrito " + organization_name}
+            style={[
+              dark_mode ? dark_styles.normalText : styles.normalText,
+              { opacity: 0.5, marginTop: CONST.boxMargin },
+            ]}
+          >
+            {organization_name}
+          </Text>
         </View>
 
         <Pressable
-          style={styles.options}
+          accessible={true}
+          accessibilityLabel="Botão escrito Editar perfil. É acompanhado por um ícone de lápis."
+          style={[
+            dark_mode ? dark_styles.boxOptions : styles.boxOptions,
+            { paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding },
+          ]}
           onPress={() => navigation.navigate("EditProfile")}
         >
-          <Edit2 color="#000000" />
-          <Text style={styles.text}> Editar perfil</Text>
+          <Edit2
+            variant="Bold"
+            style={dark_mode ? dark_styles.boxIcon : styles.boxIcon}
+          />
+          <Text style={dark_mode ? dark_styles.normalText : styles.normalText}>
+            {" "}
+            Editar perfil
+          </Text>
         </Pressable>
-
         <Pressable
-          style={styles.options}
+          accessible={true}
+          accessibilityLabel="Botão escrito Os meus equipamentos. É acompanhado por um ícone composto por 4 quadrados numa disposição 2 por 2."
+          style={[
+            dark_mode ? dark_styles.boxOptions : styles.boxOptions,
+            { paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding },
+          ]}
           onPress={() => navigation.navigate("MyDevices")}
         >
-          <Category color="#000000" />
-          <Text style={styles.text}> Os meus equipamentos</Text>
+          <Category
+            variant="Bold"
+            style={dark_mode ? dark_styles.boxIcon : styles.boxIcon}
+          />
+          <Text style={dark_mode ? dark_styles.boxIcon : styles.normalText}>
+            {" "}
+            Os meus equipamentos
+          </Text>
         </Pressable>
 
         <Pressable
-          style={styles.options}
+          accessible={true}
+          accessibilityLabel="Botão escrito As minhas rotinas. É acompanhado por um ícone de calendário."
+          style={[
+            dark_mode ? dark_styles.boxOptions : styles.boxOptions,
+            { paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding },
+          ]}
           onPress={() => navigation.navigate("MyRoutines")}
         >
-          <Calendar color="#000000" />
-          <Text style={styles.text}> As minhas rotinas</Text>
+          <Calendar
+            variant="Bold"
+            style={dark_mode ? dark_styles.boxIcon : styles.boxIcon}
+          />
+          <Text style={dark_mode ? dark_styles.normalText : styles.normalText}>
+            {" "}
+            As minhas rotinas
+          </Text>
         </Pressable>
-
         <Pressable
-          style={styles.options}
-          onPress={() => navigation.navigate("historicoPausas")}
+          accessible={true}
+          accessibilityLabel="Botão escrito Histórico de pausas. É acompanhado por um ícone de relógio."
+          style={[
+            dark_mode ? dark_styles.boxOptions : styles.boxOptions,
+            { paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding },
+          ]}
+          onPress={() => navigation.navigate("HistoricoPausas")}
         >
-          <Clock color="#000000" />
-          <Text style={styles.text}> Histórico de pausas</Text>
+          <Clock
+            variant="Bold"
+            style={dark_mode ? dark_styles.boxIcon : styles.boxIcon}
+          />
+          <Text style={dark_mode ? dark_styles.normalText : styles.normalText}>
+            {" "}
+            Histórico de pausas
+          </Text>
         </Pressable>
-
         <Pressable
-          style={styles.options}
+          accessible={true}
+          accessibilityLabel="Botão escrito As minhas recompensas. É acompanhado por um ícone de medalha."
+          style={[
+            dark_mode ? dark_styles.boxOptions : styles.boxOptions,
+            { paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding },
+          ]}
           onPress={() => navigation.navigate("ProfileRewards")}
         >
-          <MedalStar color="#000000" />
-          <Text style={styles.text}> As minhas recompensas</Text>
+          <MedalStar
+            variant="Bold"
+            style={dark_mode ? dark_styles.boxIcon : styles.boxIcon}
+          />
+          <Text style={dark_mode ? dark_styles.normalText : styles.normalText}>
+            {" "}
+            As minhas recompensas
+          </Text>
         </Pressable>
-
         <Pressable
-          style={styles.options}
+          accessible={true}
+          accessibilityLabel="Botão escrito Definições. É acompanhado por um ícone de roda dentada."
+          style={[
+            dark_mode ? dark_styles.boxOptions : styles.boxOptions,
+            {
+              paddingTop: CONST.textPadding,
+              paddingBottom: CONST.textPadding,
+              borderBottomWidth: 0,
+            },
+          ]}
           onPress={() => navigation.navigate("ProfileSettings")}
         >
-          <Setting2 color="#000000" />
-          <Text style={styles.text}> Definições</Text>
+          <Setting2
+            variant="Bold"
+            style={dark_mode ? dark_styles.boxIcon : styles.boxIcon}
+          />
+          <Text style={dark_mode ? dark_styles.normalText : styles.normalText}>
+            {" "}
+            Definições
+          </Text>
         </Pressable>
       </ScrollView>
     </SafeAreaProvider>
   );
 }
-
-const screenWidth = Dimensions.get("window").width;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    paddingLeft: 25,
-    paddingRight: 25,
-    paddingTop: 100,
-  },
-
-  profilepicture: {
-    backgroundColor: "#F5F5F5",
-    height: 170,
-    width: 170,
-    borderRadius: 100,
-    marginTop: 65,
-  },
-
-  name: {
-    marginTop: 30,
-    marginBottom: 0,
-    fontFamily: "GothamMedium",
-    fontSize: 24,
-    textTransform: "capitalize",
-  },
-
-  organization: {
-    marginTop: 5,
-    marginBottom: 10,
-    fontFamily: "GothamBook",
-    fontSize: 16,
-    lineHeight: 24,
-    textAlign: "center",
-  },
-
-  options: {
-    flex: 1,
-    marginTop: 20,
-    marginBottom: 10,
-    borderRadius: 15,
-    paddingTop: 15,
-    paddingBottom: 15,
-    paddingLeft: 25,
-    width: screenWidth - 50,
-    flexDirection: "row",
-    alignItems: "center",
-    textAlign: "left",
-    backgroundColor: "#E3ECF7",
-  },
-
-  text: {
-    marginLeft: 10,
-    fontFamily: "GothamBook",
-    fontSize: 16,
-  },
-});

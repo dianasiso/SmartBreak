@@ -1,17 +1,17 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useRef } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  Image,
-  TouchableHighlight,
-  Dimensions,
-} from "react-native";
+import {Text, View, ScrollView, Image, Pressable } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 // Icons
 import { Ionicons } from "@expo/vector-icons";
+
+// CSS
+import { styles } from "./../styles/css.js";
+
+// Variables
+import * as CONST from "./../styles/variables.js";
+
 
 // Font Gotham
 import { useFonts } from "expo-font";
@@ -188,15 +188,14 @@ export default function Onboarding() {
   };
 
   return (
-    <View>
+    <SafeAreaProvider>
       <StatusBar style="light" />
-      <View style={styles.textSkipBox}>
+      <View style={styles.skipBox}>
         <Text
+          accessible={true}
+          accessibilityLabel="Texo na cor branca num fundo azul escuro escrito Saltar." 
           onPress={SkipOption}
-          style={[styles.textSkip, { opacity: isVisible ? 1 : 0 }]}
-        >
-          Saltar
-        </Text>
+          style={[styles.skipText, { opacity: isVisible ? 1 : 0 }]}>Saltar</Text>
       </View>
       <ScrollView
         ref={scrollViewRef}
@@ -208,13 +207,13 @@ export default function Onboarding() {
           if (x == 0) {
             setPage(1);
             setIsVisible(true);
-          } else if (x < screenWidth + 1) {
+          } else if (x < CONST.screenWidth + 1) {
             setPage(2);
             setIsVisible(true);
-          } else if (x < screenWidth * 2 + 1) {
+          } else if (x < CONST.screenWidth * 2 + 1) {
             setPage(3);
             setIsVisible(true);
-          } else if (x < screenWidth * 3 + 1) {
+          } else if (x < CONST.screenWidth * 3 + 1) {
             setPage(4);
             setIsVisible(true);
           } else {
@@ -223,228 +222,148 @@ export default function Onboarding() {
           }
           // alert(screenWidth*2)
           // alert(e.nativeEvent.contentOffset.x)
-        }}
-        style={{ backgroundColor: "#0051BA" }}
-      >
+        }}>
         <View style={styles.container}>
-          <ScrollView>
-            <Text style={styles.textMessageTitle}>
+          <Text 
+            accessible={true}
+            accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Bem vindo à Smart Break." 
+            style={[styles.titleTextWhite, {fontFamily: "GothamBook", textAlign: "center"}]}>
               Bem-vindo à{" "}
               <Text style={{ fontFamily: "GothamMedium" }}>Smart Break</Text>
-            </Text>
-            <Text style={styles.textMessageBody}>
-              Carregue a sua{" "}
-              <Text style={{ fontFamily: "GothamMedium" }}>bateria</Text> e
-              aprenda a converter tempo em{" "}
-              <Text style={{ fontFamily: "GothamMedium" }}>lucro</Text> e{" "}
-              <Text style={{ fontFamily: "GothamMedium" }}>lazer</Text>
-            </Text>
-          </ScrollView>
+          </Text>
+          <Text 
+            accessible={true}
+            accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Carrega a tua bateria e aprende a converter tempo em lucro e lazer." 
+            style={[styles.normalTextWhite, {textAlign: 'center', paddingTop: CONST.backgroundPaddingTop}]}>
+              Carrega a tua{" "}
+            <Text style={{ fontFamily: "GothamMedium" }}>bateria</Text> e
+              aprende a converter tempo em{" "}
+            <Text style={{ fontFamily: "GothamMedium" }}>lucro</Text> e{" "}
+            <Text style={{ fontFamily: "GothamMedium" }}>lazer</Text>
+          </Text>
           <Image
-            style={styles.imageBackground}
-            source={require("./../imgs/img_onboarding_first_screen.png")}
+            accessible={true}
+            accessibilityLabel="Imagem na cor azul num fundo azul escuro. É o logótipo da marca. Uma bateria semi preenchida com um caule à volta, terminando numa folha."
+            style={styles.firstImage}
+            source={require("./../imgs/smartbreak_logotipo_onboarding.png")}
           />
         </View>
         <View style={styles.container}>
-          <ScrollView>
-            <Text style={styles.textMessageTitle}>
-              <Text style={{ fontFamily: "GothamMedium" }}>Energia</Text>
+            <Text 
+              accessible={true}
+              accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Energia." 
+              style={[styles.titleTextWhite, { textAlign: "center"}]}>
+                Energia</Text>
+              <Text  
+                accessible={true}
+                accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Toma as decisões mais acertadas, poupa e ganha energia numa pausa." 
+                style={[styles.normalTextWhite, {textAlign: 'center', paddingTop: CONST.backgroundPaddingTop}]}>
+                Toma as decisões mais acertadas,{" "}
+              <Text style={{ fontFamily: "GothamMedium" }}>poupa</Text> e{" "}
+              <Text style={{ fontFamily: "GothamMedium" }}>ganha</Text> energia
+                numa pausa{" "}
             </Text>
-            <Text style={styles.textMessageBody}>
-              Tome as decisões mais acertadas,{" "}
-              <Text style={{ fontFamily: "GothamMedium" }}>poupe</Text> e{" "}
-              <Text style={{ fontFamily: "GothamMedium" }}>ganhe</Text> energia
-              numa pausa{" "}
-            </Text>
-          </ScrollView>
-          <View style={styles.imageOnboarding}>
-            <Image source={require("./../imgs/onboarding_battery.gif")} />
+          <View 
+            accessible={true}
+            accessibilityLabel="Imagem na cor azul num fundo azul escuro. É uma bateria com a sua carga a aumentar em loop."
+            style={styles.imageLogo}>
+            <Image source={require("./../imgs/smartbreak_battery_onboarding.png")} />
           </View>
         </View>
         <View style={styles.container}>
-          <ScrollView>
-            <Text style={styles.textMessageTitle}>
-              <Text style={{ fontFamily: "GothamMedium" }}>Produtividade</Text>
-            </Text>
-            <Text style={styles.textMessageBody}>
-              Aumente a sua{" "}
+            <Text 
+              accessible={true}
+              accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Produtividade." 
+              style={[styles.titleTextWhite, {textAlign: "center"}]}>
+              Produtividade</Text>
+            <Text 
+              accessible={true}
+              accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Aumenta a tua produtividade e o teu contributo para a empresa através de estatísticas." 
+              style={[styles.normalTextWhite, {textAlign: 'center', paddingTop: CONST.backgroundPaddingTop}]}>
+              Aumenta a tua{" "}
               <Text style={{ fontFamily: "GothamMedium" }}>produtividade</Text>{" "}
-              e o seu contributo para a empresa através de{" "}
+              e o teu contributo para a empresa através de{" "}
               <Text style={{ fontFamily: "GothamMedium" }}>estatísticas</Text>{" "}
             </Text>
-          </ScrollView>
-          <View style={styles.imageOnboarding}>
-            <Image source={require("./../imgs/onboarding_graphs.png")} />
+          <View 
+            accessible={true}
+            accessibilityLabel="Imagem em tons azuis num fundo azul escuro. Representa um gráfico de barras."
+            style={styles.imageLogo}>
+            <Image source={require("./../imgs/smartbreak_stats_onboarding.png")} />
           </View>
         </View>
         <View style={styles.container}>
-          <ScrollView>
-            <Text style={styles.textMessageTitle}>
-              <Text style={{ fontFamily: "GothamMedium" }}>
+            <Text 
+              accessible={true}
+              accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Consciencialização." 
+              style={[styles.titleTextWhite, {textAlign: "center"}]}>
                 Consciencialização
-              </Text>
             </Text>
-            <Text style={styles.textMessageBody}>
-              Auxilie-se de{" "}
+            <Text 
+              accessible={true}
+              accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Auxilia-te de dicas para melhorar hábitos de consumo energético mais conscientes." 
+              style={[styles.normalTextWhite, {textAlign: 'center', paddingTop: CONST.backgroundPaddingTop}]}>
+              Auxilia-te de{" "}
               <Text style={{ fontFamily: "GothamMedium" }}>dicas</Text> para
               melhorar hábitos de consumo energético mais{" "}
               <Text style={{ fontFamily: "GothamMedium" }}>conscientes</Text>{" "}
             </Text>
-          </ScrollView>
-          <View style={styles.imageOnboarding}>
-            <Image source={require("./../imgs/onboarding_lamp.png")} />
+          <View 
+            accessible={true}
+            accessibilityLabel="Imagem em tons azuis num fundo azul escuro. É uma lâmpada com um caule dentro, simbolizando o crescimento do conhecimento." 
+            style={styles.imageLogo}>
+            <Image source={require("./../imgs/smartbreak_lamp_onboarding.png")} />
           </View>
         </View>
-        <View style={styles.containerFifthScreen}>
+        <View style={styles.mainContainer}>
           <ScrollView>
-            <View style={styles.imageLogo}>
-              <Image source={require("./../imgs/logo_white.png")} />
+            <View style={[styles.imageLogo, {marginTop: 0}]}>
+              <Image
+                accessible={true}
+                accessibilityLabel="Imagem na cor branca num fundo azul escuro. É o logótipo da marca. Uma bateria semi preenchida com um caule à volta, terminando numa folha."
+                style={{ width: 180, height: 180 }}
+                source={require("./../imgs/smartbreak_logotipo_white.png")}
+              />
             </View>
-            <Text style={styles.textMessageTitleLogo}>
-              <Text style={{ fontFamily: "GothamMedium" }}>Smart Break</Text>
-            </Text>
+            <Text
+              accessible={true}
+              accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Smart Break."
+              style={styles.logoText}>Smart Break</Text>
           </ScrollView>
-          <ScrollView style={styles.containerWelcome}>
-            <Text style={styles.textWelcomeTitle}>Bem-vindo!</Text>
-            <Text style={styles.textWelcomeText}>
-              Faz pausas no trabalho, desliga os teus equipamentos, e contribui
-              para a redução do desperdício energético. Aumenta a tua
-              produtividade e eficiência energética!
-            </Text>
-            <TouchableHighlight
-              onPress={() => navigation.navigate("Register")}
-              style={styles.buttonWelcome}
-            >
-              <Text style={styles.buttonText}>Registar</Text>
-            </TouchableHighlight>
+
+          <ScrollView style={styles.subContainer}>
+            <View>
+              <Text 
+                accessible={true}
+                accessibilityLabel="Texto na cor preta num fundo branco escrito Bem-vindo!"
+                style={styles.titleText}>Bem-vindo!</Text>
+              <Text 
+                accessible={true}
+                accessibilityLabel="Texto na cor preta num fundo branco escrito Faz pausas no trabalho, desliga os teus equipamentos, e contribui para
+                a redução do desperdício energético. Aumenta a tua produtividade e eficiência energética!"
+                style={[styles.normalText, {paddingTop: CONST.boxPadding, paddingBottom: CONST.inputMargin}]}>
+                Faz pausas no trabalho, desliga os teus equipamentos, e contribui para
+                a redução do desperdício energético. Aumenta a tua produtividade e eficiência energética!
+              </Text>
+              <Pressable
+                accessible={true}
+                accessibilityLabel="Botão da cor azul escura num fundo branco com o objetivo de efetuar o Login. Tem escrito na cor branca a palavra Entrar."
+                onPress={() => navigation.navigate("Login")}
+                style={styles.primaryButton}>
+                <Text style={styles.primaryButtonText}>Entrar</Text>
+              </Pressable>
+              <Pressable
+                accessible={true}
+                accessibilityLabel="Botão branco com borda da cor laranja num fundo branco com o objetivo de efetuar o Registo. Tem escrito na cor laranja a palavra Registar"
+                onPress={() => navigation.navigate("Register")}
+                style={styles.secondaryButton}>
+                <Text style={styles.secondaryButtonText}>Registar</Text>
+              </Pressable>
+            </View>
           </ScrollView>
         </View>
       </ScrollView>
       {NavigatorScreen(page)}
-    </View>
+    </SafeAreaProvider>
   );
 }
-
-// Get screen dimensions
-const screenWidth = Dimensions.get("window").width;
-const screenHeight = Dimensions.get("window").height - 50;
-
-const styles = StyleSheet.create({
-  container: {
-    width: screenWidth,
-    height: screenHeight,
-    paddingLeft: 25,
-    paddingRight: 25,
-    flex: 1,
-    backgroundColor: "#0051BA",
-  },
-  containerFifthScreen: {
-    width: screenWidth,
-    height: screenHeight,
-    flex: 1,
-    backgroundColor: "#0051BA",
-  },
-  containerWelcome: {
-    backgroundColor: "#FFF",
-    flex: 1,
-    flexDirection: "column",
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0,
-    borderTopRightRadius: 50,
-    borderTopLeftRadius: 50,
-    paddingLeft: 25,
-    paddingRight: 25,
-    paddingTop: 10,
-    paddingBottom: 120,
-  },
-  imageBackground: {
-    position: "absolute",
-    top: undefined,
-    bottom: 0,
-    right: 0,
-    left: undefined,
-  },
-  imageOnboarding: {
-    justifyContent: "center",
-    alignItems: "center",
-    paddingBottom: screenHeight / 4,
-  },
-  imageLogo: {
-    alignItems: "center",
-    paddingTop: 65,
-  },
-  buttonText: {
-    fontFamily: "GothamBook",
-    color: "#FFF",
-    fontSize: 18,
-    textAlign: "center",
-  },
-  buttonWelcome: {
-    backgroundColor: "#0051BA",
-    justifyContent: "center",
-    height: 48,
-    borderRadius: 8,
-    marginBottom: 10,
-    marginTop: 10,
-  },
-  textSkipBox: {
-    paddingLeft: 25,
-    paddingRight: 25,
-    paddingTop: 65,
-    fontSize: 20,
-    backgroundColor: "#0051BA",
-  },
-  textSkip: {
-    fontSize: 20,
-    textAlign: "right",
-    fontFamily: "GothamBook",
-    color: "#FFFFFF",
-  },
-  textMessageTitle: {
-    fontSize: 26,
-    textAlign: "center",
-    paddingTop: 120,
-    fontFamily: "GothamBook",
-    color: "#FFFFFF",
-  },
-  textWelcomeTitle: {
-    fontSize: 24,
-    textAlign: "left",
-    paddingTop: 20,
-    fontFamily: "GothamMedium",
-    color: "#001025",
-  },
-  textWelcomeText: {
-    fontSize: 16,
-    textAlign: "left",
-    paddingTop: 15,
-    paddingBottom: 40,
-    fontFamily: "GothamBook",
-    lineHeight: 20,
-    color: "#001025",
-  },
-  textMessageTitleLogo: {
-    fontSize: 40,
-    textAlign: "center",
-    paddingTop: 40,
-    fontFamily: "GothamBook",
-    color: "#FFFFFF",
-  },
-  textMessageBody: {
-    fontSize: 20,
-    textAlign: "center",
-    paddingTop: 50,
-    lineHeight: 22,
-    fontFamily: "GothamBook",
-    color: "#FFFFFF",
-  },
-  navigator: {
-    position: "relative",
-    top: -85,
-    paddingLeft: 25,
-    paddingRight: 25,
-    flexDirection: "row",
-    justifyContent: "center",
-    paddingBottom: 65,
-  },
-});

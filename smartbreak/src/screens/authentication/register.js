@@ -1,24 +1,21 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
-  KeyboardAvoidingView,
   TextInput,
-  StyleSheet,
   Text,
   View,
+  KeyboardAvoidingView,
   ScrollView,
-  Dimensions,
-  TouchableOpacity,
   Alert,
   Image,
-  Animated,
   Pressable,
 } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
+import {
+  Eye,
+  EyeSlash
+} from "iconsax-react-native";
 
-import { LogBox } from "react-native";
-LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
-LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 // Password meter
 import PassMeter from "react-native-passmeter";
@@ -26,21 +23,26 @@ import PassMeter from "react-native-passmeter";
 // Font Gotham
 import { useFonts } from "expo-font";
 
-// Firebase
-import firebase from "./../../config/firebase.js";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-
 import { useNavigation } from "@react-navigation/native";
 
 //redux
 import { useDispatch } from "react-redux";
 import { logUser } from "../../redux/user.js";
 
+// Variables
+import * as CONST from "./../../styles/variables.js";
+
+// CSS
+import { styles } from "./../../styles/css.js";
+
+// ---------- CODE ----------
+
+const apiURL = "https://sb-api.herokuapp.com/auth/register";
+
 export default function Register() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  // Loading Gotham font
   const [loaded] = useFonts({
     GothamMedium: require("./../../fonts/GothamMedium.ttf"),
     GothamBook: require("./../../fonts/GothamBook.ttf"),
@@ -49,18 +51,22 @@ export default function Register() {
   // select items
   const [open, setOpen] = useState(false);
   const [valueOrg, setValueOrg] = useState("");
-  const [items, setItems] = useState([
-    { label: "Universidade de Aveiro", value: "Universidade de Aveiro" },
-    { label: "Universidade de Coimbra", value: "Universidade de Coimbra" },
-  ]);
+  const [items, setItems] = useState([]);
+  const [orgId, setOrgId] = useState("");
+
+  const [openDep, setOpenDep] = useState(false);
+  const [valueDep, setValueDep] = useState("");
+  const [itemsDep, setItemsDep] = useState([]);
 
   // fields
   const [name, setName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [organization, setOrganization] = useState("");
+  const [department, setDepartment] = useState("");
   const [notifications, setNotifications] = useState([
     true,
     false,
@@ -68,66 +74,93 @@ export default function Register() {
     false,
   ]);
 
-  // Firebase store data
-  const firestoreUserData = firebase.firestore().collection("users_data");
-  const firestoreUserDevices = firebase.firestore().collection("users_devices");
-  const firestoreUserRoutines = firebase
-    .firestore()
-    .collection("users_routines");
 
-  // Firebase authentication
-  const auth = getAuth();
-  const registerFirebase = () => {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        firestoreUserData.doc(userCredential.user.uid).set({
-          name: name,
-          lastName: lastName,
-          email: email.trim().toLowerCase(),
-          password: password.trim(),
-          organization: valueOrg,
-          uid: userCredential.user.uid,
-          rewards: false,
-          notifications: notifications,
-          shareData: true,
-          pause: false,
-          battery: 0,
-          teams: [],
-          admin: false,
-        });
-        firestoreUserRoutines.doc(userCredential.user.uid).set({
-          routines: [],
-        });
-        firestoreUserDevices.doc(userCredential.user.uid).set({
-          devices: [],
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        setLoading(true);
+        const response = await fetch("https://sb-api.herokuapp.com/organizations", {
+          method: "GET"
         });
 
-        dispatch(logUser(userCredential.user.uid));
-        Alert.alert("Sucesso", "Utilizador registado com sucesso.");
-        // navigate.navigate("Painel", {idUser: userCredential.user.uid})
-      })
-      .catch((error) => {
-        Alert.alert("Erro", "O e-mail já está em uso.");
+        if (response.ok) {
+          const data = await response.json();
+          const message = data.message;
+          for (let i = 0; i < message.length; i++) {
+            const newItem = { label: message[i].name, value: message[i]._id };
+            setItems(prevItems => [...prevItems, newItem]);
+          }
+
+        } else {
+          const errorData = await response.json();
+          throw new Error(errorData.message);
+        }
+      } catch (error) {
+        console.error(error);
+       // Alert.alert("Error", error.message);
+      } finally {
         setLoading(false);
-      });
-  };
+      }
+    }
+
+    fetchData();
+  }, [setItemsDep]);
+
+
 
   const loadingScreen = () => {
     return (
       <Image
-        source={require("./../../imgs/img_loading_v2.gif")}
+      source={require("./../../imgs/white-gif-jun.gif")}
         style={{
-          height: screenWidth / 3.4,
-          width: screenWidth / 4,
+          height: CONST.screenWidth / 4,
+          width: CONST.screenWidth / 4,
           marginLeft: "auto",
           marginRight: "auto",
-          marginTop: "auto",
-          marginBottom: "auto",
+          marginTop: 'auto',
+          marginBottom: CONST.screenHeight / 2,
         }}
       />
     );
   };
 
+  const handleRegister = async () => {
+    try {
+      const response = await fetch(
+        "https://sb-api.herokuapp.com/auth/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: name,
+            surname: surname,
+            email: email.trim(),
+            password: password,
+            admin: false,
+            department: department.replace(/"/g, ''),
+            organization: organization.replace(/"/g, ''),
+          }),
+        }
+      );
+
+      if (response.ok) {
+        // registo com sucesso
+        // Alert.alert("Registration successful");
+        // --->  redireccionar para outra pagina
+      } else {
+        const errorData = await response.json();
+        Alert.alert("Falha no registo!", errorData.message);
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Erro!", "Ocorreu um erro durante o registo.");
+    }
+  };
 
   const validate_email = (text) => {
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -152,17 +185,17 @@ export default function Register() {
   const submit = () => {
     setLoading(true);
 
-    if (email.length == 0 || validate_email(email.trim()) == false) {
+    if (email.trim().length === 0 || validate_email(email.trim()) === false) {
       Alert.alert("Preencha corretamente o campo E-mail");
       setLoading(false);
       return false;
     }
-    if (name.length == 0) {
+    if (name.trim().length === 0) {
       Alert.alert("Preencha corretamente o campo Nome");
       setLoading(false);
       return false;
     }
-    if (lastName.length == 0) {
+    if (surname.trim().length === 0) {
       Alert.alert("Preencha corretamente o campo Apelido");
       setLoading(false);
       return false;
@@ -172,12 +205,17 @@ export default function Register() {
       setLoading(false);
       return false;
     }
-    if (password.length == 0) {
+    if (valueDep == null) {
+      Alert.alert("Preencha corretamente o campo Departamento");
+      setLoading(false);
+      return false;
+    }
+    if (password.length === 0) {
       Alert.alert("Preencha corretamente o campo Palavra-passe");
       setLoading(false);
       return false;
     }
-    if (confirmPassword.length == 0) {
+    if (confirmPassword.length === 0) {
       Alert.alert("Preencha corretamente o campo Confirmar palavra-passe");
       setLoading(false);
       return false;
@@ -186,187 +224,257 @@ export default function Register() {
       setLoading(false);
       return false;
     }
-    registerFirebase();
+    handleRegister();
     navigation.navigate("Login");
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
       <StatusBar style="light" />
-      <ScrollView style={styles.groupContainer}>
-        <Text style={styles.textMessageTitle}>
-          <Text style={{ fontFamily: "GothamMedium" }}>Regista-te</Text>
+      <ScrollView>
+        <Text
+          accessible={true}
+          accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Regista-te."
+          style={styles.titleTextWhite}
+        >
+          Regista-te
         </Text>
-        <Text style={styles.textMessageBody}>
+        <Text
+          accessible={true}
+          accessibilityLabel="Texto na cor branca num fundo azul escuro escrito  Estamos contentes por teres tomado esta iniciativa. Vem fazer energy breaks."
+          style={[styles.normalTextWhite, { paddingTop: CONST.boxPadding, paddingBottom: CONST.inputMargin }]}>
           Estamos contentes por teres tomado esta iniciativa. Vem fazer energy
           breaks.
         </Text>
       </ScrollView>
 
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.subContainer}
-      >
-        {loading == true ? (
-          loadingScreen()
-        ) : (
-          <View>
-            <ScrollView showsVerticalScrollIndicator={false}>
-              <Text>Nome</Text>
-              <TextInput
-                style={styles.inputField}
-                onChangeText={(text) => setName(text)}
-              />
-              <Text>Apelido</Text>
-              <TextInput
-                style={styles.inputField}
-                onChangeText={(text) => setLastName(text)}
-              />
-              <Text>Email</Text>
-              <TextInput
-                style={styles.inputField}
-                onChangeText={(text) => setEmail(text)}
-              />
-              <Text>Empresa</Text>
-              <DropDownPicker
-                autoScroll={true}
-                open={open}
-                value={valueOrg}
-                items={items}
-                setOpen={setOpen}
-                setValue={setValueOrg}
-                setItems={setItems}
-                style={styles.inputField}
-                placeholder="" 
-                multiple={false}
-                showTickIcon={false}
-                closeAfterSelecting={true}
-                onChangeText={(text) => setOrganization(text)}
-              />
+      {loading ? (
+        loadingScreen()
+      ) : (
+        <View style={styles.subContainer}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={{ paddingBottom: CONST.cardPadding }}
+          >
+            <Text
+              accessible={true}
+              accessibilityLabel="Texto na cor preta num fundo branco escrito Nome."
+              style={styles.inputLabel}
+            >
+              Nome
+            </Text>
+            <TextInput
+              accessible={true}
+              accessibilityLabel="Campo para introdução do Nome."
+              style={styles.inputField}
+              onChangeText={(text) => setName(text)}
+            />
 
-              <Text>Palavra-passe</Text>
+            <Text
+              accessible={true}
+              accessibilityLabel="Texto na cor preta num fundo branco escrito Sobrenome."
+              style={styles.inputLabel}
+            >
+              Sobrenome
+            </Text>
+            <TextInput
+              accessible={true}
+              accessibilityLabel="Campo para introdução do Sobrenome."
+              style={styles.inputField}
+              onChangeText={(text) => setSurname(text)}
+            />
+
+            <Text
+              accessible={true}
+              accessibilityLabel="Texto na cor preta num fundo branco escrito E-mail."
+              style={styles.inputLabel}
+            >
+              E-mail
+            </Text>
+            <TextInput
+              accessible={true}
+              accessibilityLabel="Campo para introdução do E-mail."
+              style={styles.inputField}
+              onChangeText={(text) => setEmail(text.toLowerCase())}
+            />
+
+            <Text
+              accessible={true}
+              accessibilityLabel="Texto na cor preta num fundo branco escrito Empresa."
+              style={[styles.inputLabel, { paddingBottom: 0 }]}
+            >
+              Empresa
+            </Text>
+            <DropDownPicker
+              selectedItemContainerStyle={{
+
+                fontFamily: "GothamBook",
+                fontSize: CONST.pageSmallTextSize,
+                color: CONST.darkerColor
+              }}
+              zIndex={1000}
+              autoScroll={true}
+              open={open}
+              value={valueOrg}
+              items={items}
+              setOpen={setOpen}
+              setValue={setValueOrg}
+              setItems={setItems}
+              style={styles.inputField}
+              placeholder=""
+              multiple={false}
+              showTickIcon={false}
+              textStyle={{
+                fontFamily: "GothamBook",
+                fontSize: CONST.pageSmallTextSize,
+              }}
+              closeAfterSelecting={true}
+              onSelectItem={(item) => {
+                setOrganization(JSON.stringify(item.value));
+
+                const apiURLDep = "https://sb-api.herokuapp.com/departments/organization/" + JSON.stringify(item.value).replace(/"/g, '');
+
+                async function fetchDataDep() {
+                  try {
+                    const response = await fetch(apiURLDep, {
+                      method: "GET"
+                    });
+
+                    if (response.ok) {
+                      const data = await response.json();
+                      // Alert.alert(JSON.stringify(data));
+                      const message = data.message;
+                      for (let i = 0; i < message.length; i++) {
+                        const newItem = { label: message[i].name, value: message[i]._id };
+                        setItemsDep(prevItems => [...prevItems, newItem]);
+                      }
+
+                    } else {
+                      const errorData = await response.json();
+                      throw new Error(errorData.message);
+                    }
+                  } catch (error) {
+                    console.error(error);
+                    //Alert.alert("Error", error.message);
+                  }
+                }
+
+                fetchDataDep();
+
+              }}
+            />
+            <Text
+              accessible={true}
+              accessibilityLabel="Texto na cor preta num fundo branco escrito Departamento."
+              style={[styles.inputLabel, { paddingBottom: 0 }]}
+            >
+              Departamento
+            </Text>
+            <DropDownPicker
+              zIndex={10}
+              autoScroll={true}
+              open={openDep}
+              value={valueDep}
+              items={itemsDep}
+              setOpen={setOpenDep}
+              setValue={setValueDep}
+              setItems={setItemsDep}
+              style={styles.inputField}
+              placeholder=""
+              multiple={false}
+              showTickIcon={false}
+              closeAfterSelecting={true}
+              textStyle={{
+                fontFamily: "GothamBook",
+                fontSize: CONST.pageSmallTextSize,
+              }}
+              onSelectItem={(item) => {
+                setDepartment(JSON.stringify(item.value));
+              }}
+            />
+
+            <Text
+              accessible={true}
+              accessibilityLabel="Texto na cor preta num fundo branco escrito Palavra-passe."
+              style={styles.inputLabel}
+            >
+              Palavra-passe
+            </Text>
+            <View style={{ flexDirection: 'row', width: '100%' }}>
               <TextInput
-                secureTextEntry={true}
-                style={styles.inputFieldPass}
+                secureTextEntry={showPassword ? false : true}
+                style={[styles.inputField, { width: '90%' }]}
+                accessible={true}
+                accessibilityLabel="Campo para introdução da Palavra-passe."
                 onChangeText={(text) => setPassword(text)}
               />
-              <View
-                style={{
-                  overflow: "hidden",
-                  width: "100%",
-                  borderRadius: 8,
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                }}
-              >
-                <PassMeter
-                  showLabels={false}
-                  password={password}
-                  maxLength={15}
-                  minLength={8}
-                  labels={[]}
+              {showPassword ?
+                <EyeSlash
+                  style={{ marginLeft: 'auto', marginRight: 'auto' }}
+                  size={CONST.pageSubtitleSize}
+                  color={CONST.darkerColor}
+                  onPress={() => setShowPassword(!showPassword)}
                 />
-              </View>
-              <Text style={{ marginTop: 40 }}>Confirmar palavra-passe</Text>
+                :
+                <Eye
+                  style={{ marginLeft: 'auto', marginRight: 'auto' }}
+                  size={CONST.pageSubtitleSize}
+                  color={CONST.darkerColor}
+                  onPress={() => setShowPassword(!showPassword)}
+                />}
+            </View>
+            <View style={styles.passwordProgressBar}>
+              <PassMeter
+                showLabels={false}
+                password={password}
+                maxLength={15}
+                minLength={8}
+                labels={[]}
+              />
+            </View>
+            <Text
+              accessible={true}
+              accessibilityLabel="Texto na cor preta num fundo branco escrito Confirmar nova palavra-passe."
+              style={styles.inputLabel}
+            >
+              Confirmar nova palavra-passe
+            </Text>
+            <View style={{ flexDirection: 'row', width: '100%' }}>
               <TextInput
-                secureTextEntry={true}
-                style={styles.inputField}
+                secureTextEntry={showPasswordConfirm ? false : true}
+                style={[styles.inputField, { width: '90%' }]}
                 onChangeText={(text) => setConfirmPassword(text)}
               />
-              <Pressable
-                activeOpacity={0.8}
-                onPress={() => submit()}
-                style={styles.button}
-              >
-                <Text style={styles.buttonText}>Registar</Text>
-              </Pressable>
-            </ScrollView>
-          </View>
-        )}
-      </KeyboardAvoidingView>
-    </View>
+              {showPasswordConfirm ?
+                <EyeSlash
+                  style={{ marginLeft: 'auto', marginRight: 'auto' }}
+                  size={CONST.pageSubtitleSize}
+                  color={CONST.darkerColor}
+                  onPress={() => setShowPasswordConfirm(!showPasswordConfirm)}
+                />
+                :
+                <Eye
+                  style={{ marginLeft: 'auto', marginRight: 'auto' }}
+                  size={CONST.pageSubtitleSize}
+                  color={CONST.darkerColor}
+                  onPress={() => setShowPasswordConfirm(!showPasswordConfirm)}
+                />}
+            </View>
+          </ScrollView>
+
+          <Pressable
+            accessible={true}
+            accessibilityLabel="Botão da cor azul escura num fundo branco com o objetivo de efetuar o registo. Tem escrito na cor branca a palavra Registar."
+            onPress={() => submit()}
+            style={styles.primaryButton}
+          >
+            <Text style={styles.primaryButtonText}>Registar</Text>
+          </Pressable>
+        </View>
+      )}
+    </KeyboardAvoidingView>
   );
 }
-
-// Get screen dimensions
-const screenWidth = Dimensions.get("window").width;
-const screenHeight = Dimensions.get("window").height - 50;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#0051BA",
-    flexDirection: "column",
-  },
-  groupContainer: {
-    paddingLeft: 25,
-    paddingRight: 25,
-  },
-  subContainer: {
-    flexDirection: "column",
-    backgroundColor: "#FFF",
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0,
-    borderTopRightRadius: 50,
-    borderTopLeftRadius: 50,
-    paddingLeft: 25,
-    paddingRight: 25,
-    paddingTop: 40,
-    height: (4 * screenHeight) / 5,
-  },
-  registerPhoto: {
-    height: screenWidth / 5,
-    width: screenWidth / 5,
-    marginLeft: "auto",
-    marginRight: "auto",
-    borderRadius: screenWidth / 10,
-    flex: 1 / 2,
-  },
-  inputField: {
-    borderBottomColor: "#000000",
-    borderBottomWidth: 1,
-    marginBottom: 40,
-    borderTopWidth: 0,
-    borderLeftWidth: 0,
-    borderRightWidth: 0,
-    borderRadius: 0,
-  },
-  inputFieldPass: {
-    borderBottomColor: "#000000",
-    borderBottomWidth: 1,
-    marginBottom: 10,
-    borderTopWidth: 0,
-    borderLeftWidth: 0,
-    borderRightWidth: 0,
-    borderRadius: 0,
-  },
-  buttonText: {
-    fontFamily: "GothamBook",
-    color: "#FFF",
-    fontSize: 18,
-    textAlign: "center",
-  },
-  button: {
-    backgroundColor: "#0051BA",
-    justifyContent: "center",
-    height: 48,
-    borderRadius: 15,
-    marginBottom: 40,
-    marginTop: 20,
-  },
-  textMessageTitle: {
-    fontSize: 24,
-    textAlign: "left",
-    paddingTop: 40,
-    fontFamily: "GothamBook",
-    color: "#FFFFFF",
-  },
-  textMessageBody: {
-    fontSize: 16,
-    lineHeight: 24,
-    textAlign: "left",
-    paddingTop: 15,
-    fontFamily: "GothamBook",
-    color: "#FFFFFF",
-  },
-});

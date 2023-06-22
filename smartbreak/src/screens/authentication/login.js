@@ -1,113 +1,171 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TextInput,
-  StyleSheet,
   Text,
   View,
   ScrollView,
   Image,
-  Dimensions,
-  TouchableOpacity,
   Alert,
-  KeyboardAvoidingView,
   Pressable,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { Eye, EyeSlash } from "iconsax-react-native";
 
 //redux
 import { useDispatch } from "react-redux";
 import { logUser } from "../../redux/user.js";
 
-// Font Gotham
 import { useFonts } from "expo-font";
 
-// Firebase
-import firebase from "./../../config/firebase.js";
-import { collection, where, query, getDocs } from "firebase/firestore";
+//storage
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-//secure store para guardar a sessao
-import * as SecureStore from "expo-secure-store";
+// Variables
+import * as CONST from "./../../styles/variables.js";
 
-export default function Login() {
-  const navigation = useNavigation();
+const apiURL = "https://sb-api.herokuapp.com/auth/login";
+
+// STYLES -- CSS
+import { styles } from "./../../styles/css.js";
+
+export default function Login({ navigation }) {
   const dispatch = useDispatch();
-  //const userData = useSelector((state) => state.userID);
-
-  // Loading Gotham font
+  //const navigation = useNavigation();
   const [loaded] = useFonts({
     GothamMedium: require("./../../fonts/GothamMedium.ttf"),
     GothamBook: require("./../../fonts/GothamBook.ttf"),
   });
 
   const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [responseData, setResponseData] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
 
+  useEffect(() => {
+    if (responseData && responseData.message === "Logged in successfully") {
+      const userData = {
+        userID: responseData.user._id,
+        token: responseData.token,
+        email: email.trim(),
+        password: password,
+        name: responseData.user.name,
+        surname: responseData.user.surname,
+        admin: responseData.user.admin,
+        organization: responseData.user.organization,
+        department: responseData.user.department,
+        battery: responseData.user.battery,
+        total_battery: responseData.user.total_battery,
+        pause: responseData.user.pause,
+        rewards: responseData.user.rewards,
+        accessibility: responseData.user.accessibility,
+        permissions: responseData.user.permissions,
+        notifications: responseData.user.notifications,
+        created: responseData.user.created,
+        connected_in: responseData.user.connected_in,
+        organization_name: responseData.userOrganization.name,
+        full: responseData.userOrganization.battery_full,
+        department_name: responseData.userDepartment.name,
+        department_description: responseData.userDepartment.description,
+      };
 
-  const submit = async () => {
-    const user = query(
-      collection(firebase.firestore(), "users_data"),
-      where("email", "==", email.trim())
-    );
-    const querySnapshot = await getDocs(user);
-    var uid = null;
-    var emailCheck = false;
-    var passCheck = false;
-    querySnapshot.forEach((doc) => {
-      if (typeof doc.data() == "object") {
-        emailCheck = true;
-      }
-    });
+      dispatch(logUser(userData)); // dispatch the logUser action para Redux
+      handleNavigate(responseData.user._id); // navega para outra pagina
+    } else if (responseData && responseData.message) {
+      Alert.alert("Login failed", responseData.message);
+    }
+  }, [responseData]);
 
-    if (!emailCheck) {
-      Alert.alert(
-        "Email não registado!",
-        "Por favor, registe-se primeiro na aplicação."
-      );
-    } else {
-      const pass = query(user, where("password", "==", password));
-      const querySnapshot2 = await getDocs(pass);
-      querySnapshot2.forEach((doc) => {
-        if (typeof doc.data() == "object") {
-          passCheck = true;
-          console.log(doc.data().uid);
-          uid = doc.data().uid;
-        }
+  const handleLogin = async () => {
+    try {
+      setLoading(true);
+
+      const response = await fetch(apiURL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email.trim(),
+          password: password,
+        }),
       });
 
-      if (!passCheck) {
-        Alert.alert(
-          "Palavra passe incorreta!",
-          "A palavra-passe não coincide com o email registado."
-        );
+      if (response.ok) {
+        const data = await response.json();
+        setResponseData(data);
+
+        // Save user data to AsyncStorage
+        const userData = {
+          userID: data.user._id,
+          token: data.token,
+          email: email.trim(),
+          password: password,
+          name: data.user.name,
+          surname: data.user.surname,
+          admin: data.user.admin,
+          organization: data.user.organization,
+          department: data.user.department,
+          battery: data.user.battery,
+          total_battery: data.user.total_battery,
+          pause: data.user.pause,
+          rewards: data.user.rewards,
+          accessibility: data.user.accessibility,
+          permissions: data.user.permissions,
+          notifications: data.user.notifications,
+          created: data.user.created,
+          connected_in: data.user.connected_in,
+          organization_name: data.userOrganization.name,
+          full: data.userOrganization.battery_full,
+          department_name: data.userDepartment.name,
+          department_description: data.userDepartment.description,
+        };
+
+        await AsyncStorage.setItem("userStorage", JSON.stringify(userData));
+        console.log("User data saved to AsyncStorage");
+
+        const storedData = await AsyncStorage.getItem("userStorage");
+        console.log("Current async storage data:", storedData);
+
+        const authStatus = "true";
+
+        await AsyncStorage.setItem("authStatus", authStatus);
+        console.log("AuthStatus saved to AsyncStorage");
+
+        const strotedStatus = await AsyncStorage.getItem("authStatus");
+        console.log("Current AuthStatus:", strotedStatus);
+
+        dispatch(logUser(userData));
+        handleNavigate(data.user._id);
       } else {
-        // navigate.navigate("Painel", {idUser: uid})
-        await SecureStore.setItemAsync("uid", uid);
-        handleNavigate(uid);
+        const errorData = await response.json();
+        throw new Error(errorData.message);
       }
+    } catch (error) {
+      console.error(error);
+      //Alert.alert("Error", error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleNavigate = (uid) => {
-    //console.log(uid + "o uid tá aqui");
-    let id = uid;
-    navigation.navigate("TabRoutes");
-    dispatch(logUser(id));
+    navigation.navigate("TabRoutes", { screen: "TabRoutes" });
   };
 
   const loadingScreen = () => {
     return (
       <Image
-        source={require("./../../imgs/img_loading_v2.gif")}
+        source={require("./../../imgs/white-gif-jun.gif")}
         style={{
-          height: screenWidth / 3.4,
-          width: screenWidth / 4,
+          height: CONST.screenWidth / 4,
+          width: CONST.screenWidth / 4,
           marginLeft: "auto",
           marginRight: "auto",
           marginTop: "auto",
-          marginBottom: "auto",
+          marginBottom: CONST.screenHeight / 5,
         }}
       />
     );
@@ -116,134 +174,99 @@ export default function Login() {
   return (
     <SafeAreaProvider style={styles.container}>
       <StatusBar style="light" />
-      <ScrollView style={styles.groupContainer}>
-        <Text style={styles.textMessageTitle}>
-          <Text style={{ fontFamily: "GothamMedium" }}>Login</Text>
-        </Text>
-        <Text style={styles.textMessageBody}>
-          Estamos contentes por continuares a melhorar o teu local de trabalho.
-        </Text>
-        <View style={styles.imageLogo}>
-          <Image
-            style={{ width: 300, height: 200 }}
-            source={require("./../../imgs/img_login.png")}
-          />
-        </View>
-      </ScrollView>
+      <Text
+        accessible={true}
+        accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Login."
+        style={styles.titleTextWhite}
+      >
+        Login
+      </Text>
+      <Text
+        accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Estamos contentes por continuares a melhorar o teu local de trabalho."
+        style={[
+          styles.normalTextWhite,
+          { paddingTop: CONST.boxPadding, paddingBottom: CONST.inputMargin },
+        ]}
+      >
+        Estamos contentes por continuares a melhorar o teu local de trabalho.
+      </Text>
+      <View style={styles.imageLogo}>
+        <Image
+          style={{ width: 300, height: 200 }}
+          source={require("./../../imgs/img_login.png")}
+        />
+      </View>
 
-      <ScrollView style={styles.subContainer}>
-        {loading == true ? (
-          loadingScreen()
-        ) : (
+      {loading ? (
+        loadingScreen()
+      ) : (
+        <ScrollView style={styles.subContainer}>
           <View>
-            <ScrollView>
-              <Text>Email</Text>
+            <Text
+              accessible={true}
+              accessibilityLabel="Texto na cor preta num fundo branco escrito E-mail."
+              style={styles.inputLabel}
+            >
+              E-mail
+            </Text>
+            <TextInput
+              accessible={true}
+              accessibilityLabel="Campo para introdução do E-mail."
+              style={styles.inputField}
+              onChangeText={(text) => setEmail(text.toLowerCase())}
+              autoCapitalize="none"
+            />
+            <Text
+              accessible={true}
+              accessibilityLabel="Texto na cor preta num fundo branco escrito Palavra-passe."
+              style={styles.inputLabel}
+            >
+              Palavra-passe
+            </Text>
+            <View style={{ flexDirection: "row", width: "100%" }}>
               <TextInput
-                style={styles.inputField}
-                onChangeText={(text) => setEmail(text.toLowerCase())}
-              />
-              <Text>Palavra-passe</Text>
-              <TextInput
-                secureTextEntry={true}
-                style={styles.inputField}
+                accessible={true}
+                accessibilityLabel="Campo para introdução da palavra-passe."
+                secureTextEntry={showPassword ? false : true}
+                style={[styles.inputField, { width: "90%" }]}
                 onChangeText={(text) => setPassword(text)}
               />
-              <Pressable onPress={() => navigation.navigate("Password")}>
-                <Text style={styles.extra}>Esqueceu-se da palavra-passe?</Text>
-              </Pressable>
-              <Pressable onPress={() => submit()} style={styles.button}>
-                <Text style={styles.buttonText}>Entrar</Text>
-              </Pressable>
-            </ScrollView>
+              {showPassword ? (
+                <EyeSlash
+                  style={{ marginLeft: "auto", marginRight: "auto" }}
+                  size={CONST.pageSubtitleSize}
+                  color={CONST.darkerColor}
+                  onPress={() => setShowPassword(!showPassword)}
+                />
+              ) : (
+                <Eye
+                  style={{ marginLeft: "auto", marginRight: "auto" }}
+                  size={CONST.pageSubtitleSize}
+                  color={CONST.darkerColor}
+                  onPress={() => setShowPassword(!showPassword)}
+                />
+              )}
+            </View>
+            <Pressable onPress={() => navigation.navigate("Password")}>
+              <Text
+                accessible={true}
+                accessibilityLabel="Texto na cor cinza num fundo branco escrito Esqueceu-se da palavra-passe?"
+                style={styles.forgotPasswordText}
+              >
+                Esqueceu-se da palavra-passe?
+              </Text>
+            </Pressable>
+            <Pressable
+              accessible={true}
+              accessibilityLabel="Botão da cor azul escura num fundo branco com o objetivo de efetuar o Login. Tem escrito na cor branca a palavra Entrar."
+              onPress={() => handleLogin()}
+              style={styles.primaryButton}
+            >
+              <Text style={styles.primaryButtonText}>Entrar</Text>
+            </Pressable>
           </View>
-        )}
-      </ScrollView>
+        </ScrollView>
+      )}
     </SafeAreaProvider>
   );
 }
-
-// Get screen dimensions
-const screenWidth = Dimensions.get("window").width;
-const screenHeight = Dimensions.get("window").height - 50;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#0051BA",
-    flexDirection: "column",
-  },
-  groupContainer: {
-    paddingLeft: 25,
-    paddingRight: 25,
-  },
-  subContainer: {
-    backgroundColor: "#FFF",
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0,
-    borderTopRightRadius: 50,
-    borderTopLeftRadius: 50,
-    paddingLeft: 25,
-    paddingRight: 25,
-    paddingTop: 65,
-    position: "absolute",
-    bottom: 0,
-    width: screenWidth,
-    //height: screenHeight/2,
-  },
-  registerPhoto: {
-    height: screenWidth / 5,
-    width: screenWidth / 5,
-    marginLeft: "auto",
-    marginRight: "auto",
-    borderRadius: screenWidth / 10,
-    flex: 1 / 2,
-  },
-  extra: {
-    color: "#888",
-    fontSize: 12,
-    textAlign: "right",
-    marginBottom: 30,
-  },
-  inputField: {
-    borderBottomColor: "#000000",
-    borderBottomWidth: 1,
-    marginBottom: 40,
-    borderTopWidth: 0,
-    borderLeftWidth: 0,
-    borderRightWidth: 0,
-    borderRadius: 0,
-  },
-  buttonText: {
-    fontFamily: "GothamBook",
-    color: "#FFF",
-    fontSize: 18,
-    textAlign: "center",
-  },
-  button: {
-    backgroundColor: "#0051BA",
-    justifyContent: "center",
-    height: 48,
-    borderRadius: 15,
-    marginBottom: 40,
-    marginTop: 10,
-  },
-  textMessageTitle: {
-    fontSize: 24,
-    textAlign: "left",
-    paddingTop: 40,
-    fontFamily: "GothamBook",
-    color: "#FFFFFF",
-  },
-  textMessageBody: {
-    fontSize: 16,
-    textAlign: "left",
-    paddingTop: 15,
-    fontFamily: "GothamBook",
-    color: "#FFFFFF",
-    lineHeight: 24,
-  },
-  imageLogo: {
-    alignItems: "center",
-    paddingTop: 57,
-  },
-});

@@ -3,8 +3,6 @@ import React, { useState, useEffect } from "react";
 import { Alert } from "react-native";
 import {
   Modal,
-  Dimensions,
-  StyleSheet,
   ScrollView,
   View,
   Text,
@@ -29,17 +27,21 @@ import {
   Keyboard,
   Mouse,
   Mobile,
-  MirroringScreen,
   Monitor,
   Video,
   AddCircle,
 } from "iconsax-react-native";
 
-// Firebase
-import firebase from "./../../config/firebase.js";
-
 // Font Gotham
 import { useFonts } from "expo-font";
+
+// Variables
+import * as CONST from "./../../styles/variables.js";
+
+// CSS
+import { styles } from "./../../styles/css.js";
+import { dark_styles } from "../../styles/darkcss.js";
+
 
 export default function Devices({ navigation }) {
   // Loading Gotham font
@@ -48,24 +50,22 @@ export default function Devices({ navigation }) {
     GothamBook: "./../fonts/GothamBook.ttf",
   });
 
-  const userData = useSelector((state) => state.user.userID);
-  useEffect(() => {
-    try {
-      firebase
-        .firestore()
-        .collection("users_devices")
-        .doc(uid)
-        .get()
-        .then((doc) => {
-          // console.log("From firebase: ", doc.data().devices)
-          setDevices([...doc.data().devices]);
-          // console.log("Devices:", devices)
-        });
-    } catch {
-      setDevices([]);
-    }
-  }, [userData]);
 
+  const userData = useSelector((state) => state.user);
+  const dark_mode = userData.accessibility[1]
+
+  const [devicesEnergy, setDevicesEnergy] = useState({
+    "Video": 0.15,
+    "Monitor": 0.2,
+    "Mobile": 0.02,
+    "Printer": 0.06,
+    "Call": 0.005,
+    "Headphone": 0.002,
+    "TableLamp": 0.03,
+    "Eletricity": 0.5,
+  })
+
+  const [devicesArray, setDevicesArray] = useState([])
   // Var modal
   const [modalVisible, setModalVisible] = useState(false);
   const [type01, setType01] = useState(false);
@@ -76,12 +76,6 @@ export default function Devices({ navigation }) {
   const [type06, setType06] = useState(false);
   const [type07, setType07] = useState(false);
   const [type08, setType08] = useState(false);
-  const [type09, setType09] = useState(false);
-  const [type10, setType10] = useState(false);
-  const [type11, setType11] = useState(false);
-  const [type12, setType12] = useState(false);
-  const [type13, setType13] = useState(false);
-  const [type14, setType14] = useState(false);
   const arrayTypes = [
     setType01,
     setType02,
@@ -91,87 +85,39 @@ export default function Devices({ navigation }) {
     setType06,
     setType07,
     setType08,
-    setType09,
-    setType10,
-    setType11,
-    setType12,
-    setType13,
-    setType14,
   ];
   const [addType, setAddType] = useState(null);
   const [addName, setAddName] = useState("");
-  const [addEnergy, setAddEnergy] = useState(0);
+  const [addEnergy, setAddEnergy] = useState("");
 
-  const [devicesArray, setDevices] = useState([]);
-  const uid = userData; // Posteriormente pegar da navegation
-  const [, updateState] = useState();
-  const forceUpdate = React.useCallback(() => updateState({}), []);
   const [longPress, setLongPress] = useState(false);
+  const [reload, setReload] = useState(false);
 
   const whichIcon = (text) => {
     if (text == "Printer") {
-      return <Printer color="#000000" />;
-    }
-    if (text == "Camera") {
-      return <Camera color="#000000" />;
+      return <Printer color={dark_mode ? CONST.lightBackgroundColor : CONST.darkerColor} variant="Bold" style={dark_mode ? dark_styles.boxIcon : styles.boxIcon} />;
     }
     if (text == "Headphone") {
-      return <Headphone color="#000000" />;
+      return <Headphone color={dark_mode ? CONST.lightBackgroundColor : CONST.darkerColor} variant="Bold" style={dark_mode ? dark_styles.boxIcon : styles.boxIcon} />;
     }
     if (text == "Mobile") {
-      return <Mobile color="#000000" />;
-    }
-    if (text == "Keyboard") {
-      return <Keyboard color="#000000" />;
-    }
-    if (text == "Mouse") {
-      return <Mouse color="#000000" />;
+      return <Mobile color={dark_mode ? CONST.lightBackgroundColor : CONST.darkerColor} variant="Bold" style={dark_mode ? dark_styles.boxIcon : styles.boxIcon} />;
     }
     if (text == "Call") {
-      return <Call color="#000000" />;
+      return <Call color={dark_mode ? CONST.lightBackgroundColor : CONST.darkerColor} variant="Bold" style={dark_mode ? dark_styles.boxIcon : styles.boxIcon} />;
     }
     if (text == "Electricity") {
-      return <Electricity color="#000000" />;
-    }
-    if (text == "MonitorMobbile") {
-      return <MonitorMobbile color="#000000" />;
-    }
-    if (text == "Headphones") {
-      return <Headphones color="#000000" />;
-    }
-    if (text == "Lamp") {
-      return <Lamp color="#000000" />;
+      return <Electricity color={dark_mode ? CONST.lightBackgroundColor : CONST.darkerColor} variant="Bold" style={dark_mode ? dark_styles.boxIcon : styles.boxIcon} />;
     }
     if (text == "TableLamp") {
-      return <TableLamp color="#000000" />;
+      return <TableLamp color={dark_mode ? CONST.lightBackgroundColor : CONST.darkerColor} variant="Bold" style={dark_mode ? dark_styles.boxIcon : styles.boxIcon} />;
     }
     if (text == "Video") {
-      return <Video color="#000000" />;
+      return <Video color={dark_mode ? CONST.lightBackgroundColor : CONST.darkerColor} variant="Bold" style={dark_mode ? dark_styles.boxIcon : styles.boxIcon} />;
     }
     if (text == "Monitor") {
-      return <Monitor color="#000000" />;
+      return <Monitor color={dark_mode ? CONST.lightBackgroundColor : CONST.darkerColor} variant="Bold" style={dark_mode ? dark_styles.boxIcon : styles.boxIcon} />;
     }
-    if (text == "MirroringScreen") {
-      return <MirroringScreen color="#000000" />;
-    }
-    if (text == "Microphone2") {
-      return <Microphone2 color="#000000" />;
-    }
-  };
-
-  const checkId = () => {
-    for (let i = 0; i < devicesArray.length; i++) {
-      devicesArray[i] = {
-        energy: devicesArray[i].energy,
-        name: devicesArray[i].name,
-        id: i,
-        type: devicesArray[i].type,
-        using: devicesArray[i].using,
-      };
-    }
-    firebase.firestore().collection("users_devices").doc(uid).update({
-      devices: devicesArray,
-    });
   };
 
   const typePressed = (type, changeType, nameType) => {
@@ -181,34 +127,19 @@ export default function Devices({ navigation }) {
     let nameType2 = ""
     switch (nameType) {
       case "Printer":
-        nameType2 = "Impressora";
-        break;
-      case "Camera":
-        nameType2 = "Câmera";
+        nameType2 = "Impressora/Scanner";
         break;
       case "Headphone":
         nameType2 = "Fones de Ouvido";
         break;
       case "Mobile":
-        nameType2 = "Telemóvel";
-        break;
-      case "Keyboard":
-        nameType2 = "Teclado";
-        break;
-      case "Mouse":
-        nameType2 = "Rato";
+        nameType2 = "Tablet/Telemóvel";
         break;
       case "Call":
-        nameType2 = "Telefone";
+        nameType2 = "Telefone/Fax";
         break;
       case "Electricity":
-        nameType2 = "Tomada";
-        break;
-      case "MonitorMobbile":
-        nameType2 = "Ecrã Móvel";
-        break;
-      case "Lamp":
-        nameType2 = "Lâmpada";
+        nameType2 = "Tomada/Outros equipamentos";
         break;
       case "TableLamp":
         nameType2 = "Lâmpada de Mesa";
@@ -217,13 +148,7 @@ export default function Devices({ navigation }) {
         nameType2 = "Vídeo";
         break;
       case "Monitor":
-        nameType2 = "Monitor";
-        break;
-      case "MirroringScreen":
-        nameType2 = "Ecrã Espelhado";
-        break;
-      case "Microphone2":
-        nameType2 = "Microfone";
+        nameType2 = "Computador";
         break;
       default:
         nameType2;
@@ -237,7 +162,7 @@ export default function Devices({ navigation }) {
       changeType(true);
       setAddType(nameType);
       ToastAndroid.show(
-        "Dispositivo: " + nameType + " escolhido!",
+        "Dispositivo: " + nameType2 + " escolhido!",
         ToastAndroid.SHORT
       );
     }
@@ -250,15 +175,16 @@ export default function Devices({ navigation }) {
 
   const clearFields = () => {
     setAddName("");
-    setAddEnergy(0);
+    setAddEnergy(0)
     setAddType(null);
-    ~arrayTypes.forEach(function (x) {
+    arrayTypes.forEach(function (x) {
       x(false);
     });
   };
 
-  const addDevice = () => {
-    checkId();
+
+  const addDevice = async () => {
+    const initialState = true
     if (addType == null) {
       Alert.alert(
         "Atenção!",
@@ -273,32 +199,127 @@ export default function Devices({ navigation }) {
       );
       return false;
     }
-    if (!/^\d+$/.test(addEnergy)) {
-      Alert.alert(
-        "Atenção!",
-        "Preencha corretamente o campo Consumo com o consumo do seu equipamento por dia. Introduza apenas números."
-      );
-      return false;
+    if (addEnergy != "") {
+      if (!/^\d+(\.\d+)?$/.test(addEnergy)) {
+        Alert.alert(
+          "Atenção!",
+          "Preencha corretamente o campo Consumo com o consumo do seu equipamento por dia. Introduza apenas números."
+        );
+        return false;
+      }
     }
-    devicesArray.push({
-      name: addName,
-      energy: addEnergy,
-      id: devicesArray.length,
-      type: addType,
-      using: true,
-    });
+    try {
+      const response = await fetch("https://sb-api.herokuapp.com/devices/", {
+        method: "POST",
+        headers: {
+          "Authorization": "Bearer " + userData.token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: addName,
+          energy: addEnergy == "" ? devicesEnergy[addType] : addEnergy,
+          type: addType,
+          state: initialState,
+          user: userData.userID
+        }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.message);
+      }
+    } catch (error) {
+      console.error(error);
+      //Alert.alert("Error", error.message);
+    }
 
-    firebase.firestore().collection("users_devices").doc(uid).update({
-      devices: devicesArray,
-    });
     ToastAndroid.show("Equipamento adicionado!", ToastAndroid.SHORT);
+
     setModalVisible(!modalVisible);
     clearFields();
   };
 
+  async function deleteDevice(id) {
+    try {
+      const response = await fetch("https://sb-api.herokuapp.com/devices/" + id, {
+        method: "DELETE",
+        headers: {
+          "Authorization": "Bearer " + userData.token,
+        }
+      });
+      if (response.ok) {
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.message);
+      }
+    } catch (error) {
+      console.error(error);
+     // Alert.alert("Error", error.message);
+    }
+  }
+
+
+  useEffect(() => {
+    setReload(false)
+    async function fetchData() {
+      try {
+        const response = await fetch("https://sb-api.herokuapp.com/devices/user/" + userData.userID, {
+          method: "GET",
+          headers: {
+            "Authorization": "Bearer " + userData.token
+          }
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setDevicesArray(data.message);
+        } else {
+          const errorData = await response.json();
+          throw new Error(errorData.message);
+        }
+      } catch (error) {
+        console.error(error);
+       // Alert.alert("Error", error.message);
+      }
+    }
+    fetchData();
+  }, [userData, reload]);
+
+
+  async function updateStatus(status, id) {
+    try {
+      const response = await fetch("https://sb-api.herokuapp.com/devices/" + id, {
+        method: "PATCH",
+        headers: {
+          "Authorization": "Bearer " + userData.token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          state: status
+        }),
+      });
+      if (response.ok) {
+        ToastAndroid.show(
+          "Estado do equipamento alterado!",
+          ToastAndroid.SHORT
+        );
+        setReload(true)
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.message);
+      }
+    } catch (error) {
+      console.error(error);
+     // Alert.alert("Error", error.message);
+    }
+  }
+
   return (
-    <SafeAreaProvider style={styles.container}>
-      <StatusBar style="auto" />
+    <SafeAreaProvider
+      showsVerticalScrollIndicator={false}
+      style={[dark_mode ? dark_styles.containerLight : styles.containerLight, { paddingTop: CONST.backgroundPaddingTop / 2 }]}
+    >
+      <StatusBar style={dark_mode ? "light" : "dark"} />
       <Modal
         animationType="fade"
         transparent={true}
@@ -307,196 +328,162 @@ export default function Devices({ navigation }) {
           setModalVisible(!modalVisible);
         }}
       >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Tipo</Text>
-            <View style={{ flexDirection: "row", marginTop: 5 }}>
+        <View style={dark_mode ? dark_styles.modalBackgroundView : styles.modalBackgroundView}>
+          <View style={dark_mode ? dark_styles.modalView : styles.modalView}>
+            <Text
+              accessible={true}
+              accessibilityLabel="Texto escrito Tipo. Em baixo segue-se 8 botões alinhados em 2 filas de 4 colunas para selecionar o tipo de equipamento que pretende adicionar."
+              style={[dark_mode ? dark_styles.normalText : styles.normalText, { marginBottom: CONST.inputPadding }]}>Tipo</Text>
+            <View style={{ flexDirection: "row", justifyContent: 'space-around' }}>
               <Pressable
+                accessible={true}
+                accessibilityLabel="Botão transparente com o icon de uma câmara."
                 onPress={() => typePressed(type01, setType01, "Video")}
                 style={
                   type01
-                    ? styles.modalTypeButtonPressed
-                    : styles.modalTypeButton
+                    ? dark_mode ? dark_styles.modalDeviceTypeButtonPressed : styles.modalDeviceTypeButtonPressed
+                    : dark_mode ? dark_styles.modalDeviceTypeButton : styles.modalDeviceTypeButton
                 }
               >
-                <Video size={24} color="#000000" />
+                <Video size={24} color={dark_mode ? CONST.lightBackgroundColor : CONST.darkerColor} />
               </Pressable>
               <Pressable
+                accessible={true}
+                accessibilityLabel="Botão transparente com o icon de um computador."
                 onPress={() => typePressed(type02, setType02, "Monitor")}
                 style={
                   type02
-                    ? styles.modalTypeButtonPressed
-                    : styles.modalTypeButton
+                    ? dark_mode ? dark_styles.modalDeviceTypeButtonPressed : styles.modalDeviceTypeButtonPressed
+                    : dark_mode ? dark_styles.modalDeviceTypeButton : styles.modalDeviceTypeButton
                 }
               >
-                <Monitor size={24} color="#000000" />
+                <Monitor size={24} color={dark_mode ? CONST.lightBackgroundColor : CONST.darkerColor} />
               </Pressable>
               <Pressable
-                onPress={() => typePressed(type03, setType03, "MonitorMobbile")}
+                accessible={true}
+                accessibilityLabel="Botão transparente com o icon de um tablet."
+                onPress={() => typePressed(type03, setType03, "Mobile")}
                 style={
                   type03
-                    ? styles.modalTypeButtonPressed
-                    : styles.modalTypeButton
+                    ? dark_mode ? dark_styles.modalDeviceTypeButtonPressed : styles.modalDeviceTypeButtonPressed
+                    : dark_mode ? dark_styles.modalDeviceTypeButton : styles.modalDeviceTypeButton
                 }
               >
-                <MonitorMobbile size={24} color="#000000" />
+                <Mobile size={24} color={dark_mode ? CONST.lightBackgroundColor : CONST.darkerColor} />
               </Pressable>
               <Pressable
-                onPress={() =>
-                  typePressed(type04, setType04, "MirroringScreen")
-                }
+                accessible={true}
+                accessibilityLabel="Botão transparente com o icon de uma impressora."
+                onPress={() => typePressed(type04, setType04, "Printer")}
                 style={
                   type04
-                    ? styles.modalTypeButtonPressed
-                    : styles.modalTypeButton
+                    ? dark_mode ? dark_styles.modalDeviceTypeButtonPressed : styles.modalDeviceTypeButtonPressed
+                    : dark_mode ? dark_styles.modalDeviceTypeButton : styles.modalDeviceTypeButton
                 }
               >
-                <MirroringScreen size={24} color="#000000" />
+                <Printer size={24} color={dark_mode ? CONST.lightBackgroundColor : CONST.darkerColor} />
               </Pressable>
+            </View>
+            <View style={{ flexDirection: "row", justifyContent: 'space-around' }}>
               <Pressable
-                onPress={() => typePressed(type05, setType05, "Mobile")}
+                accessible={true}
+                accessibilityLabel="Botão transparente com o icon de um telefone."
+                onPress={() => typePressed(type05, setType05, "Call")}
                 style={
                   type05
-                    ? styles.modalTypeButtonPressed
-                    : styles.modalTypeButton
+                    ? dark_mode ? dark_styles.modalDeviceTypeButtonPressed : styles.modalDeviceTypeButtonPressed
+                    : dark_mode ? dark_styles.modalDeviceTypeButton : styles.modalDeviceTypeButton
                 }
               >
-                <Mobile size={24} color="#000000" />
+                <Call size={24} color={dark_mode ? CONST.lightBackgroundColor : CONST.darkerColor} />
               </Pressable>
               <Pressable
-                onPress={() => typePressed(type06, setType06, "Printer")}
+                accessible={true}
+                accessibilityLabel="Botão transparente com o icon de uns auscutadores."
+                onPress={() => typePressed(type06, setType06, "Headphone")}
                 style={
                   type06
-                    ? styles.modalTypeButtonPressed
-                    : styles.modalTypeButton
+                    ? dark_mode ? dark_styles.modalDeviceTypeButtonPressed : styles.modalDeviceTypeButtonPressed
+                    : dark_mode ? dark_styles.modalDeviceTypeButton : styles.modalDeviceTypeButton
                 }
               >
-                <Printer size={24} color="#000000" />
+                <Headphone size={24} color={dark_mode ? CONST.lightBackgroundColor : CONST.darkerColor} />
               </Pressable>
-            </View>
-            <View style={{ flexDirection: "row", marginTop: 5 }}>
               <Pressable
-                onPress={() => typePressed(type07, setType07, "Call")}
+                onPress={() => typePressed(type07, setType07, "TableLamp")}
                 style={
                   type07
-                    ? styles.modalTypeButtonPressed
-                    : styles.modalTypeButton
+                    ? dark_mode ? dark_styles.modalDeviceTypeButtonPressed : styles.modalDeviceTypeButtonPressed
+                    : dark_mode ? dark_styles.modalDeviceTypeButton : styles.modalDeviceTypeButton
                 }
               >
-                <Call size={24} color="#000000" />
+                <TableLamp size={24} color={dark_mode ? CONST.lightBackgroundColor : CONST.darkerColor} />
               </Pressable>
               <Pressable
-                onPress={() => typePressed(type08, setType08, "Microphone2")}
+                accessible={true}
+                accessibilityLabel="Botão transparente com o icon de uma tomada."
+                onPress={() => typePressed(type08, setType08, "Electricity")}
                 style={
                   type08
-                    ? styles.modalTypeButtonPressed
-                    : styles.modalTypeButton
+                    ? dark_mode ? dark_styles.modalDeviceTypeButtonPressed : styles.modalDeviceTypeButtonPressed
+                    : dark_mode ? dark_styles.modalDeviceTypeButton : styles.modalDeviceTypeButton
                 }
               >
-                <Microphone2 size={24} color="#000000" />
-              </Pressable>
-              <Pressable
-                onPress={() => typePressed(type09, setType09, "Mouse")}
-                style={
-                  type09
-                    ? styles.modalTypeButtonPressed
-                    : styles.modalTypeButton
-                }
-              >
-                <Mouse size={24} color="#000000" />
-              </Pressable>
-              <Pressable
-                onPress={() => typePressed(type10, setType10, "Keyboard")}
-                style={
-                  type10
-                    ? styles.modalTypeButtonPressed
-                    : styles.modalTypeButton
-                }
-              >
-                <Keyboard size={24} color="#000000" />
-              </Pressable>
-              <Pressable
-                onPress={() => typePressed(type11, setType11, "Headphone")}
-                style={
-                  type11
-                    ? styles.modalTypeButtonPressed
-                    : styles.modalTypeButton
-                }
-              >
-                <Headphone size={24} color="#000000" />
-              </Pressable>
-              <Pressable
-                onPress={() => typePressed(type12, setType12, "Electricity")}
-                style={
-                  type12
-                    ? styles.modalTypeButtonPressed
-                    : styles.modalTypeButton
-                }
-              >
-                <Electricity size={24} color="#000000" />
+                <Electricity size={24} color={dark_mode ? CONST.lightBackgroundColor : CONST.darkerColor} />
               </Pressable>
             </View>
-            <View style={{ flexDirection: "row", marginBottom: 30 }}>
-              <Pressable
-                onPress={() => typePressed(type13, setType13, "TableLamp")}
-                style={
-                  type13
-                    ? styles.modalTypeButtonPressed
-                    : styles.modalTypeButton
-                }
-              >
-                <TableLamp size={24} color="#000000" />
-              </Pressable>
-              <Pressable
-                onPress={() => typePressed(type14, setType14, "Lamp")}
-                style={
-                  type14
-                    ? styles.modalTypeButtonPressed
-                    : styles.modalTypeButton
-                }
-              >
-                <Lamp size={24} color="#000000" />
-              </Pressable>
-            </View>
-            <View style={{ flexDirection: "column", marginBottom: 30 }}>
-              <Text style={styles.modalText}>Nome</Text>
+            <View style={{ flexDirection: "column" }}>
+              <Text
+                accessible={true}
+                accessibilityLabel="Texto escrito Nome. Em baixo segue-se um campo para introdução do nome do equipamento que pretende adicionar."
+                style={[dark_mode ? dark_styles.normalText : styles.normalText, { marginBottom: CONST.inputPadding }]}>{"\n"}Nome</Text>
               <TextInput
-                style={styles.modalInput}
+                accessible={true}
+                accessibilityLabel="Campo para introdução do Nome do equipamento."
+                style={dark_mode ? dark_styles.inputField : styles.inputField}
                 onChangeText={(text) => setAddName(text)}
                 value={addName}
               />
             </View>
-            <View style={{ flexDirection: "column", marginBottom: 30 }}>
-              <Text style={styles.modalText}>
-                Consumo{" "}
+            <View style={{ flexDirection: "column" }}>
+              <Text
+                accessible={true}
+                accessibilityLabel="Texto escrito Consumo. Em baixo segue-se um campo de preenchimento opcional para introdução do consumo em watts do equipamento que pretende adicionar."
+                style={[dark_mode ? dark_styles.normalText : styles.normalText, { marginBottom: CONST.inputPadding }]}>
+                Consumo kwh{" "}
                 <Text style={{ fontFamily: "GothamBook" }}>(Opcional)</Text>
               </Text>
               <TextInput
-                style={styles.modalInput}
+                accessible={true}
+                accessibilityLabel="Campo para introdução do Consumo do equipamento."
+                style={dark_mode ? dark_styles.inputField : styles.inputField}
                 onChangeText={(text) => setAddEnergy(text)}
                 value={addEnergy}
               />
             </View>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                marginTop: 10,
-              }}
-            >
+            <View style={{ flexDirection: "row", justifyContent: "space-evenly", marginTop: 20 }}>
               <Pressable
+                accessible={true}
+                accessibilityLabel="Botão com o objetivo de cancelar a adição do equipamento. Tem escrito a palavra Cancelar."
                 onPress={() => {
                   setModalVisible(!modalVisible);
                   clearFields();
                 }}
-                style={{ padding: 10, marginRight: 10 }}
+                style={{ padding: 10, justifyContent: "center", flex: 1,}}
               >
-                <Text style={{ color: "#0051ba", fontFamily: "GothamMedium" }}>
-                  Cancelar
+               <Text style={{ color: dark_mode ? CONST.thirdBlue : CONST.mainBlue, fontFamily: "GothamMedium" }}>
+                    {" "} Cancelar{" "}
                 </Text>
               </Pressable>
-              <Pressable onPress={() => addDevice()} style={styles.buttonAdd}>
-                <Text style={{ color: "#FFF", fontFamily: "GothamMedium" }}>
+              <Pressable
+                accessible={true}
+                accessibilityLabel="Botão com o objetivo de adicionar o equipamento configurado. Tem escrito a palavra Adicionar."
+                onPress={() => {
+                  addDevice()
+                  setReload(true)
+                }}
+                style={dark_mode ? dark_styles.smallPrimaryButton : styles.smallPrimaryButton}>
+                <Text style={dark_mode ? dark_styles.smallPrimaryButtonText : styles.smallPrimaryButtonText}>
                   Adicionar
                 </Text>
               </Pressable>
@@ -504,245 +491,95 @@ export default function Devices({ navigation }) {
           </View>
         </View>
       </Modal>
-      <ScrollView>
-        <Pressable
-          style={styles.button}
-          onPress={() => {
-            setModalVisible(true);
-          }}
-          underlayColor={"transparent"}
-        >
-          <Text style={styles.textButton}>Adicionar equipamento</Text>
-          <AddCircle
-            color="#FFF"
-            variant="Bold"
-            style={{ alignSelf: "center", marginLeft: "auto", marginRight: 25 }}
-            onPress={() => {
-              setModalVisible(true);
-            }}
-          />
-        </Pressable>
-        <Text style={{ color: "grey", fontSize:14, fontFamily:"GothamBook", lineHeight:18}}>
-          Clique continuamente nos seus equipamentos se os desejar eliminar
-        </Text>
-      </ScrollView>
-      <ScrollView style={{ marginTop: 20, marginBottom: 10 }}>
-        {devicesArray &&
-          devicesArray.length > 0 &&
-          devicesArray.map((callbackfn, id) => (
-            <Pressable
-              key={id}
-              style={longPress ? styles.optionsPressed : styles.options}
-              onLongPress={() => {
-                setLongPress(true);
-                Alert.alert(
-                  "Atenção",
-                  "Tem a certeza que deseja eliminar o equipamento?",
-                  [
-                    {
-                      text: "Cancelar",
-                      onPress: () => {
-                        setLongPress(false);
-                      },
-                    },
-                    {
-                      text: "Confirmar",
-                      onPress: () => {
-                        setLongPress(false);
-                        const arrTemp = devicesArray.filter(
-                          (item) => item.id !== devicesArray[id].id
-                        );
-                        setDevices([...arrTemp]);
-                        firebase
-                          .firestore()
-                          .collection("users_devices")
-                          .doc(uid)
-                          .update({
-                            devices: arrTemp,
-                          });
-                        ToastAndroid.show(
-                          "Equipamento eliminado!",
-                          ToastAndroid.SHORT
-                        );
-                      },
-                    },
-                  ]
-                );
-              }}
-            >
-              {whichIcon(devicesArray[id].type)}
-              <Text style={styles.text}> {devicesArray[id].name} </Text>
-              <Switch
-                style={{ marginLeft: "auto", marginRight: 25 }}
-                trackColor={{ false: "#BBBABA", true: "#0051BA" }}
-                thumbColor={devicesArray[id].using ? "#FFF" : "#0051ba"}
-                value={devicesArray[id].using}
-                onValueChange={() => {
-                  devicesArray[id] = {
-                    energy: devicesArray[id].energy,
-                    name: devicesArray[id].name,
-                    id: devicesArray[id].id,
-                    type: devicesArray[id].type,
-                    using: !devicesArray[id].using,
-                  };
-                  firebase
-                    .firestore()
-                    .collection("users_devices")
-                    .doc(uid)
-                    .update({
-                      devices: devicesArray,
-                    });
+      <View style={{ flexDirection: 'column' }}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}>
+          <Pressable
+            accessible={true}
+            accessibilityLabel="Botão com o objetivo de Adicionar um novo equipamento. Tem escrito a frase Adicionar equipamento e está acompanhado por um icon redondo com o símbolo de mais. Ao clicar nele abrirá um modal branco com três campos de preenchimento para registo de um dispositivo."
+            style={dark_mode ? dark_styles.primaryButton : styles.primaryButton}
+            onPress={() => { setModalVisible(true); }}
+            underlayColor={"transparent"} >
+            <Text style={[dark_mode ? dark_styles.primaryButtonText : styles.primaryButtonText, { paddingLeft: CONST.textPadding }]}>Adicionar equipamento</Text>
+            <AddCircle
+              color={dark_mode ? CONST.darkerColor : CONST.whiteText}
+              variant="Bold"
+              style={{ marginLeft: "auto", marginRight: CONST.iconPadding }}
+              onPress={() => { setModalVisible(true); }}
+            />
+          </Pressable>
 
-                  ToastAndroid.show(
-                    "Estado do equipamento alterado!",
-                    ToastAndroid.SHORT
+          <Text
+            accessible={true}
+            accessibilityLabel="Texto escrito Clique continuamente nos seus equipamentos se os desejar eliminar."
+            style={[dark_mode ? dark_styles.smallText : styles.smallText, { opacity: 0.5, paddingBottom: CONST.textPadding }]}>
+            Clique continuamente nos seus equipamentos se os desejar eliminar.
+          </Text>
+        </ScrollView>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{ marginBottom: CONST.backgroundPaddingTop * 5, marginTop: 5 }}>
+          {devicesArray &&
+            devicesArray.length > 0 &&
+            devicesArray.map((callbackfn, id) => (
+              <Pressable
+                accessible={true}
+                accessibilityLabel="Botão transparente com texto com a denominação do dispositivo. Ao pressionar continuamente irá ativar um alerta que lhe pergunta se tem a certeza que deseja eliminar o equipamento."
+                key={devicesArray[id]._id}
+                style={longPress ? dark_mode ? dark_styles.boxOptionsPressed : styles.boxOptionsPressed :
+                  dark_mode ? dark_styles.boxOptions : styles.boxOptions}
+                onLongPress={() => {
+                  setLongPress(true);
+                  Alert.alert(
+                    "Atenção",
+                    "Tem a certeza que deseja eliminar o equipamento?",
+                    [
+                      {
+                        text: "Cancelar",
+                        accessible: true,
+                        accessibilityLabel: "Texto escrito Cancelar.",
+                        onPress: () => {
+                          setLongPress(false);
+                        },
+                      },
+                      {
+                        text: "Confirmar",
+                        accessible: true,
+                        accessibilityLabel: "Texto escrito Confirmar.",
+                        onPress: () => {
+                          setLongPress(false);
+                          deleteDevice(devicesArray[id]._id)
+                          setReload(true);
+                          ToastAndroid.show(
+                            "Equipamento eliminado!",
+                            ToastAndroid.SHORT
+                          );
+                        },
+                      },
+                    ]
                   );
-                  forceUpdate();
                 }}
-              />
-            </Pressable>
-          ))}
-      </ScrollView>
+              >
+                {whichIcon(devicesArray[id].type)}
+                <Text
+                  accessible={true}
+                  accessibilityLabel={devicesArray[id].name}
+                  style={dark_mode ? dark_styles.normalText : styles.normalText}> {devicesArray[id].name} </Text>
+                <Switch
+                  accessible={true}
+                  accessibilityLabel={devicesArray[id].state ? "Dispositivo em uso." : "Dispositivo desativado."}
+                  style={{ marginLeft: "auto", marginRight: CONST.iconPadding }}
+                  thumbColor={devicesArray[id].state ? CONST.switchIndicatorColor : dark_mode ? CONST.lightBlue : CONST.mainBlue}
+                  trackColor={{ false: CONST.switchOffColor, true: dark_mode ? CONST.lightBlue : CONST.switchOnColor }}
+                  value={devicesArray[id].state}
+                  onValueChange={() => {
+                    updateStatus(!devicesArray[id].state, devicesArray[id]._id)
+                  }}
+                />
+              </Pressable>
+            ))}
+        </ScrollView>
+      </View>
     </SafeAreaProvider>
   );
 }
-
-const screenWidth = Dimensions.get("window").width;
-const screenHeight = Dimensions.get("window").height;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    paddingLeft: 25,
-    paddingRight: 25,
-    paddingBottom: 90,
-  },
-
-  title: {
-    fontFamily: "GothamMedium",
-    fontSize: 24,
-    marginTop: 30,
-    marginBottom: 10,
-  },
-
-  options: {
-    flex: 1,
-    marginTop: 20,
-    marginBottom: 10,
-    borderRadius: 15,
-    paddingTop: 15,
-    paddingBottom: 15,
-    paddingLeft: 25,
-    width: screenWidth - 50,
-    flexDirection: "row",
-    alignItems: "center",
-    textAlign: "left",
-    backgroundColor: "#E3ECF7",
-  },
-
-  optionsPressed: {
-    flex: 1,
-    marginTop: 20,
-    marginBottom: 10,
-    borderRadius: 15,
-    paddingTop: 15,
-    paddingBottom: 15,
-    paddingLeft: 25,
-    width: screenWidth - 50,
-    flexDirection: "row",
-    alignItems: "center",
-    textAlign: "left",
-    backgroundColor: "#d2dbe6",
-  },
-
-  text: {
-    marginLeft: 10,
-    fontFamily: "GothamBook",
-    fontSize: 16,
-  },
-
-  button: {
-    flex: 1,
-    marginTop: 30,
-    marginBottom: 10,
-    borderRadius: 15,
-    paddingTop: 15,
-    paddingBottom: 15,
-    paddingLeft: 20,
-    width: screenWidth - 50,
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    textAlign: "left",
-    backgroundColor: "#0051ba",
-  },
-
-  textButton: {
-    marginLeft: 10,
-    fontFamily: "GothamBook",
-    fontSize: 16,
-    color: "#FFF",
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  modalView: {
-    backgroundColor: "#E3ECF7",
-    borderRadius: 15,
-    padding: 25,
-    shadowColor: "#000",
-    shadowRadius: 5,
-    shadowOpacity: 0.5,
-    elevation: 10,
-  },
-  modalText: {
-    fontFamily: "GothamMedium",
-    fontSize: 16,
-    textAlign: "left",
-    marginBottom: 0,
-  },
-  modalTypeButton: {
-    backgroundColor: "transparent",
-    borderColor: "transparent",
-    borderWidth: 1,
-    borderRadius: 8,
-    padding: 8,
-    margin: 2,
-    textAlign: "center",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  modalTypeButtonPressed: {
-    backgroundColor: "transparent",
-    borderColor: "#000",
-    borderWidth: 1,
-    borderRadius: 8,
-    padding: 8,
-    margin: 2,
-    textAlign: "center",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  modalInput: {
-    marginTop: 0,
-    borderBottomWidth: 1,
-    paddingTop: 5,
-    paddingBottom: 5,
-    fontFamily: "GothamBook",
-    fontSize: 16,
-  },
-  buttonAdd: {
-    backgroundColor: "#0051ba",
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 20,
-    paddingRight: 20,
-    borderRadius: 8,
-    alignItems: "center",
-    marginLeft: 10,
-  },
-});

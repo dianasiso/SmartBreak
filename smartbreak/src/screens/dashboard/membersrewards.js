@@ -1,24 +1,33 @@
 import { StatusBar } from "expo-status-bar";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import {
-  StyleSheet,
   ScrollView,
   View,
   Text,
-  TouchableHighlight,
+  Alert
 } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Car, Coffee, DollarCircle } from "iconsax-react-native";
-import { useNavigation , useRoute} from "@react-navigation/native";
+import { Car, Coffee, DollarCircle, Airplane, CardAdd } from "iconsax-react-native";
+import { useSelector } from "react-redux";
+
 
 // Font Gotham
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
 
+// CSS
+import { styles } from "./../../styles/css.js";
+
+// CSS
+import * as CONST from "./../../styles/variables.js";
+import { dark_styles } from "../../styles/darkcss.js";
+
 export default function MembersRewards({ route, navigation }) {
-  const props = route.params;
-  const [teamId, setTeamId] = useState(useRoute().params.teamId);
-  //console.log(props.username);
+
+  const userData = useSelector((state) => state.user);
+
+  const dark_mode = userData.accessibility[1]
+  const [rewards, setRewards] = useState([])
 
   // Loading Gotham font
   const [loaded] = useFonts({
@@ -27,85 +36,68 @@ export default function MembersRewards({ route, navigation }) {
   });
 
   useEffect(() => {
-    navigation.setParams({
-      teamId: teamId,
-    });
+    async function fetchData() {
+      try {
+        const response = await fetch("https://sb-api.herokuapp.com/users/rewards/" + route.params.userID, {
+          method: "GET",
+          headers: {
+            "Authorization": "Bearer " + userData.token
+          }
+        });
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data)
+          setRewards(data.message);
+
+        } else {
+          const errorData = await response.json();
+          throw new Error(errorData.message);
+        }
+      } catch (error) {
+        console.error(error);
+       // Alert.alert("Error", error.message);
+      }
+    }
+
+    fetchData()
   }, [])
+
+  // ! ATUALIZAR DE ACORDO COM OS TIPOS EXISTENTES
+  const renderRewardIcon = (type) => {
+    switch (type) {
+      case "Car":
+        return <Car color={CONST.darkerColor} />;
+      case "Coffee":
+        return <Coffee color={CONST.darkerColor} />;
+      case "DollarCircle":
+        return <DollarCircle color={CONST.darkerColor} />;
+      case "Airplane":
+        return <Airplane color={CONST.darkerColor} />;
+      case "CardAdd":
+        return <CardAdd color={CONST.darkerColor} />;
+      default:
+        return null;
+    }
+  };
 
   return (
     <SafeAreaProvider
       showsVerticalScrollIndicator={false}
-      style={styles.container}
+      style={[dark_mode ? dark_styles.containerLight : styles.containerLight, { paddingTop: CONST.backgroundPaddingTop / 2 }]}
     >
-      <ScrollView>
-        <StatusBar style="auto" />
-        <Text style={styles.title}>Recompensas de {props.username}</Text>
-
-        <View style={styles.options}>
-          <Car color="#000000" />
-          <TouchableHighlight
-            onPress={() => navigation.navigate("EditPassword")}
-            underlayColor={"transparent"}
-          >
-            <Text style={styles.text}>1 dia de férias em setembro</Text>
-          </TouchableHighlight>
-        </View>
-
-        <View style={styles.options}>
-          <Coffee color="#000000" />
-          <TouchableHighlight
-            onPress={() => navigation.navigate("NotificationsProfile")}
-            underlayColor={"transparent"}
-          >
-            <Text style={styles.text}>10 cafés grátis no bar</Text>
-          </TouchableHighlight>
-        </View>
-
-        <View style={styles.options}>
-          <DollarCircle color="#000000" />
-          <TouchableHighlight
-            onPress={() => navigation.navigate("SecurityProfile")}
-            underlayColor={"transparent"}
-          >
-            <Text style={styles.text}>Vale 15€ em refeições</Text>
-          </TouchableHighlight>
-        </View>
+      <StatusBar style={dark_mode ? "light" : "dark"} />
+      <Text style={dark_mode ? dark_styles.titleText : styles.titleText}>Recompensas de {route.params.userName}</Text>
+      <ScrollView style={{ marginTop: 30 }}>
+        {rewards && rewards.length > 0 && rewards.map((callbackfn, id) => (
+          <View key={rewards[id]._id} style={styles.metricsElement}>
+            <View style={[styles.metricsCircle, { backgroundColor: CONST.thirdOrange }]}>
+              {renderRewardIcon(rewards[id].type)}
+            </View>
+            <Text style={dark_mode ? dark_styles.metricsElementText : styles.metricsElementText}> {rewards[id].description} </Text>
+          </View>
+        ))}
       </ScrollView>
     </SafeAreaProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    paddingLeft: 25,
-    paddingRight: 25,
-    paddingBottom: 90,
-  },
-
-  options: {
-    marginTop: 30,
-    borderRadius: 15,
-    paddingLeft: 25,
-    paddingTop: 15,
-    paddingBottom: 15,
-    width: "100%",
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#E3ECF7",
-  },
-
-  title: {
-    fontFamily: "GothamMedium",
-    fontSize: 24,
-    marginTop: 30,
-  },
-
-  text: {
-    fontFamily: "GothamBook",
-    fontSize: 16,
-    marginLeft: 15,
-    lineHeight: 24,
-  },
-});

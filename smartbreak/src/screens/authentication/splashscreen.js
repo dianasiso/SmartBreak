@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { React, useEffect } from "react";
+import { React, useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -15,32 +15,75 @@ import * as ScreenOrientation from "expo-screen-orientation";
 // Font Gotham
 import { useFonts } from "expo-font";
 
+// Import AsyncStorage
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 //redux
 import { useDispatch } from "react-redux";
-import { logUser } from "../../redux/user.js";
-
-import * as SecureStore from "expo-secure-store";
+import { logUser, logoutUser } from "../../redux/user.js";
 
 export default function SplashScreen({ navigation }) {
   const dispatch = useDispatch();
 
-  const handleNavigate = (value) => {
-    let id = value;
-    navigation.navigate("TabRoutes");
-    dispatch(logUser(id));
+  const getAuthStatus = async () => {
+    const authStatus = await AsyncStorage.getItem("authStatus");
+    console.log("AuthStatus atual", authStatus);
+    return authStatus;
+  };
+
+  const getUserStorage = async () => {
+    const userStorage = await AsyncStorage.getItem("userStorage");
+    console.log("Dados do user no Async Storage", userStorage);
+    return userStorage;
+  };
+
+  const tokenCheck = (dataConexao, dataAtual) => {
+    // Adiciona 3 meses à data de conexão
+    const threeMonthsLater = new Date(dataConexao);
+    threeMonthsLater.setMonth(threeMonthsLater.getMonth() + 3);
+
+    // Verifica se a data atual é maior ou igual a três meses após a data de conexão
+    return dataAtual >= threeMonthsLater;
   };
 
   useEffect(() => {
-    SecureStore.getItemAsync("uid").then((value) => {
-      if (!value) {
+    const checkAuthStatus = async () => {
+      const status = await getAuthStatus();
+      if (status === "true") {
+        const userStorage = await getUserStorage();
+        dispatch(logUser(JSON.parse(userStorage))); // Parse the JSON string
+        const dataConexao = new Date(
+          JSON.parse(userStorage).connected_in.replace("Z", "")
+        );
+        const dataAtual = new Date(Date.now());
+
+        console.log("Data de conexão:", dataConexao);
+        console.log("Data atual:", dataAtual);
+
+        if (tokenCheck(dataConexao, dataAtual)) {
+          console.log("Já se passaram três meses!");
+          dispatch(logoutUser());
+          AsyncStorage.removeItem("userStorage");
+
+          setTimeout(() => {
+            navigation.navigate("Welcome");
+          }, 3500);
+        } else {
+          console.log("Ainda não se passaram três meses.");
+
+          setTimeout(() => {
+            navigation.navigate("TabRoutes");
+          }, 3500);
+        }
+      } else {
         setTimeout(() => {
           navigation.navigate("Welcome");
-        }, 3500); // delay for 3.5 seconds before navigating
-      } else {
-        handleNavigate(value);
+        }, 3500);
       }
-    }, []);
-  });
+    };
+
+    checkAuthStatus();
+  }, []);
 
   useEffect(() => {
     ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
@@ -49,7 +92,6 @@ export default function SplashScreen({ navigation }) {
     };
   }, []);
 
-  //console.log(uid);
   // Loading Gotham font
   const [loaded] = useFonts({
     GothamMedium: require("./../../fonts/GothamMedium.ttf"),
@@ -58,13 +100,13 @@ export default function SplashScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <StatusBar />
+      <StatusBar style="light" />
       <View style={styles.splashImage}>
         <Image
-          source={require("./../../imgs/gif_battery_white_v2.gif")}
+          source={require("./../../imgs/white-gif-jun.gif")}
           style={{
-            width: width * 0.5,
-            height: width * 0.5,
+            width: width * 0.7,
+            height: width * 0.7,
             resizeMode: "contain",
           }}
         />
@@ -78,7 +120,7 @@ const { width, height } = Dimensions.get("screen");
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0051BA",
+    backgroundColor: "#07407B",
     position: "relative",
   },
   splashImage: {
@@ -87,8 +129,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: "50%",
     left: "50%",
-    marginTop: -(width * 0.5) / 2,
-    marginLeft: -(width * 0.5) / 2,
+    marginTop: -(width * 0.7) / 2,
+    marginLeft: -(width * 0.7) / 2,
     alignSelf: "center",
   },
 });
