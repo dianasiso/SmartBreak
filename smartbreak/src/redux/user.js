@@ -101,4 +101,17 @@ export const saveUserDataToAsyncStorage = async (updatedFields) => {
   }
 };
 
+export const saveNewPasswordToAsyncStorage = async (password) => {
+  try {
+    const savedData = await AsyncStorage.getItem("userStorage");
+    const userData = JSON.parse(savedData);
+    const updatedUserData = { ...userData, password: password };
+    const updatedDataString = JSON.stringify(updatedUserData);
+    await AsyncStorage.setItem("userStorage", updatedDataString);
+    console.log("User data saved to AsyncStorage:", updatedUserData);
+  } catch (error) {
+    console.error("Error saving user data to AsyncStorage:", error);
+  }
+};
+
 export default userSlice.reducer;

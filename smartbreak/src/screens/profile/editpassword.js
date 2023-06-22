@@ -16,7 +16,10 @@ import * as CONST from "./../../styles/variables.js";
 import { useFonts } from "expo-font";
 
 import { useDispatch, useSelector } from "react-redux";
-import { updatePassword } from "../../redux/user.js";
+import {
+  updatePassword,
+  saveNewPasswordToAsyncStorage,
+} from "../../redux/user.js";
 
 export default function EditPassword({ navigation }) {
   // ---- userData information ----
@@ -93,6 +96,20 @@ export default function EditPassword({ navigation }) {
               if (response.ok) {
                 const updatedPassword = { password: newPassword };
                 dispatch(updatePassword(updatedPassword));
+
+                try {
+                  await saveNewPasswordToAsyncStorage(updatedPassword);
+                  console.log(
+                    "Password data saved to AsyncStorage:",
+                    updatedPassword
+                  );
+                } catch (error) {
+                  console.error(
+                    "Error saving user data to AsyncStorage:",
+                    error
+                  );
+                }
+
                 Alert.alert("Sucesso!", "Palavra-passe alterada com sucesso.");
                 navigation.navigate("ProfileSettings", {
                   reload: true,
