@@ -43,7 +43,7 @@ import NotificationsProfile from "../screens/profile/notificationsprofile";
 import SecurityProfile from "../screens/profile/securityprofile.js";
 import TermsofUseProfile from "../screens/profile/termsofuseprofile";
 import HelpCenterProfile from "../screens/profile/helpcenterprofile";
-import historicoPausas from "../screens/profile/historicoPausas";
+import HistoricoPausas from "../screens/profile/historicoPausas";
 import Accessibility from "../screens/profile/accessibility.js";
 
 //autenticação
@@ -497,8 +497,8 @@ export const ProfileStackNavigation = ({ navigation }) => {
         }}
       />
       <ProfileStack.Screen
-        name="historicoPausas"
-        component={historicoPausas}
+        name="HistoricoPausas"
+        component={HistoricoPausas}
         options={{
           headerShown: true,
           headerTitle: "",

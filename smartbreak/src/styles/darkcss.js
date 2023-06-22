@@ -863,28 +863,21 @@ export const dark_styles = StyleSheet.create({
 
   // ---- HISTORIC ----
   pauseBoxMain: {
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 2,
-    // },
-    // shadowColor: 'rgba(0, 0, 0, 0.1)',
-    // shadowOpacity: 1,
-    // shadowRadius: 10,
-    marginLeft: CONST.backgroundPaddingLateral,
-    marginRight: CONST.backgroundPaddingLateral,
-    shadowColor: CONST.enableColor,
-    shadowRadius: CONST.shadowRadius,
-    shadowOpacity: 1,
-    elevation: 10,
-    backgroundColor: CONST.lightGreyColor,
-    borderRadius: CONST.normalButtonRadius,
-    marginTop: CONST.boxMargin,
-    marginBottom: CONST.inputMargin,
+      marginLeft: 2,
+      marginRight: 2,
+      shadowColor: "#000",
+      shadowRadius: CONST.shadowRadius,
+      shadowOpacity: 1,
+      elevation: 3,
+      backgroundColor: CONST.greyColor,
+      borderRadius: CONST.normalButtonRadius,
+      marginTop: CONST.boxMargin,
+      marginBottom: CONST.inputMargin,
   },
   pauseBoxTop: {
     flexDirection: "row",
     justifyContent: "space-between",
-    backgroundColor: CONST.mainBlue,
+    backgroundColor: CONST.thirdBlue,
     padding: CONST.boxPadding,
     borderTopLeftRadius: CONST.normalButtonRadius,
     borderTopRightRadius: CONST.normalButtonRadius,
@@ -893,7 +886,7 @@ export const dark_styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     padding: CONST.boxPadding,
-    paddingTop: 0,
+    paddingTop: 10,
   },
 
   // --- GOALS --- //

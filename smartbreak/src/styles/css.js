@@ -922,20 +922,13 @@ export const styles = StyleSheet.create({
 
   // ---- HISTORIC ----
   pauseBoxMain: {
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 2,
-    // },
-    // shadowColor: 'rgba(0, 0, 0, 0.1)',
-    // shadowOpacity: 1,
-    // shadowRadius: 10,
-    marginLeft: CONST.backgroundPaddingLateral,
-    marginRight: CONST.backgroundPaddingLateral,
-    shadowColor: CONST.enableColor,
+    marginLeft: 2,
+    marginRight: 2,
+    shadowColor: CONST.greyColor,
     shadowRadius: CONST.shadowRadius,
     shadowOpacity: 1,
-    elevation: 10,
-    backgroundColor: CONST.lightBackgroundColor,
+    elevation: 3,
+    backgroundColor: CONST.whiteText,
     borderRadius: CONST.normalButtonRadius,
     marginTop: CONST.boxMargin,
     marginBottom: CONST.inputMargin,
@@ -958,7 +951,8 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     padding: CONST.boxPadding,
-    paddingTop: 0,
+    paddingTop: 10,
+
   },
 
   // --- GOALS --- //
@@ -1086,4 +1080,18 @@ export const styles = StyleSheet.create({
     marginBottom: CONST.boxMargin,
     backgroundColor: CONST.darkerColor,
   },
+
+  //STATISTICS
+  dropdown: {
+    height: 50,
+    marginTop: CONST.inputPadding*2,
+    borderBottomWidth: 1,
+  },
+
+  calendar: {
+    borderRadius: CONST.normalButtonRadius,
+    elevation: 4,
+    padding: CONST.inputPadding,
+    margin: CONST.inputMargin,
+  }
 });

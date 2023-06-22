@@ -178,7 +178,7 @@ export default function ProfilePage({ navigation, route }) {
             dark_mode ? dark_styles.boxOptions : styles.boxOptions,
             { paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding },
           ]}
-          onPress={() => navigation.navigate("historicoPausas")}
+          onPress={() => navigation.navigate("HistoricoPausas")}
         >
           <Clock
             variant="Bold"
