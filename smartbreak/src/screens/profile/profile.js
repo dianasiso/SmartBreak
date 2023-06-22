@@ -156,7 +156,7 @@ export default function ProfilePage({ navigation, route }) {
           style={[dark_mode ? dark_styles.boxOptions : styles.boxOptions,
             { paddingTop: CONST.textPadding, paddingBottom: CONST.textPadding },
           ]}
-          onPress={() => navigation.navigate("historicoPausas")}
+          onPress={() => navigation.navigate("HistoricoPausas")}
         >
           <Clock variant="Bold" style={dark_mode ? dark_styles.boxIcon : styles.boxIcon} />
           <Text style={dark_mode ? dark_styles.normalText : styles.normalText}> Histórico de pausas</Text>

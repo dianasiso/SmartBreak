@@ -6444,6 +6444,13 @@ expo-constants@~14.0.0, expo-constants@~14.0.2:
     "@expo/config" "~7.0.2"
     uuid "^3.3.2"
 
+expo-device@~5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/expo-device/-/expo-device-5.0.0.tgz#2039e01a9d8bc696c060771145b764758e3ed242"
+  integrity sha512-FWlbOUMzAjHojLER8fnS42vLT7aqZ7IoEY+nw/RqmW17SA3GE2lzcYxRYZs1vAIgDnLzcS5CQMp08Eu+EXih1g==
+  dependencies:
+    ua-parser-js "^0.7.19"
+
 expo-error-recovery@~4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/expo-error-recovery/-/expo-error-recovery-4.0.1.tgz#3e3333e134c992c234539d3773fe78915c883755"
@@ -11304,6 +11311,11 @@ react-native-modal@^13.0.1:
     prop-types "^15.6.2"
     react-native-animatable "1.3.3"
 
+react-native-notifications@^4.3.5:
+  version "4.3.5"
+  resolved "https://registry.yarnpkg.com/react-native-notifications/-/react-native-notifications-4.3.5.tgz#90c7f3b1b248f6628c8efc8cafab4fd464ce3e5a"
+  integrity sha512-tCKkPaauN8/RIwPTeWdyezHXt5i4iDJViZGZ7/EBBuHB9kl9Oq3UjKFZeDfnM4DmJt+m7K2FQ7NaAuh3Kg1FCA==
+
 react-native-passmeter@^0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/react-native-passmeter/-/react-native-passmeter-0.0.5.tgz#6d49965f84a63936e705299658eba7e372dc83f5"
@@ -13083,6 +13095,11 @@ typical@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/typical/-/typical-4.0.0.tgz#cbeaff3b9d7ae1e2bbfaf5a4e6f11eccfde94fc4"
   integrity sha512-VAH4IvQ7BDFYglMd7BPRDfLgxZZX4O4TFcRDA6EN5X7erNJJq+McIEp8np9aVtxrCJ6qx4GTYVfOWNjcqwZgRw==
+
+ua-parser-js@^0.7.19:
+  version "0.7.35"
+  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.35.tgz#8bda4827be4f0b1dda91699a29499575a1f1d307"
+  integrity sha512-veRf7dawaj9xaWEu9HoTVn5Pggtc/qj+kqTOFvNiN1l0YdxwC1kvel57UCjThjGa3BHBihE8/UJAHI+uQHmd/g==
 
 ua-parser-js@^1.0.35:
   version "1.0.35"

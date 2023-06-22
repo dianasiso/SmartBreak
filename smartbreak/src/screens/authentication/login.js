@@ -17,6 +17,9 @@ import { Eye, EyeSlash } from "iconsax-react-native";
 import { useDispatch } from "react-redux";
 import { logUser } from "../../redux/user.js";
 
+
+import { useFonts } from "expo-font";
+
 //storage
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -31,12 +34,19 @@ import { styles } from "./../../styles/css.js";
 export default function Login({ navigation }) {
   const dispatch = useDispatch();
   //const navigation = useNavigation();
+  const [loaded] = useFonts({
+    GothamMedium: require("./../../fonts/GothamMedium.ttf"),
+    GothamBook: require("./../../fonts/GothamBook.ttf"),
+  });
+
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [responseData, setResponseData] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
+
+  
 
   useEffect(() => {
     if (responseData && responseData.message === "Logged in successfully") {
@@ -152,7 +162,7 @@ export default function Login({ navigation }) {
   const loadingScreen = () => {
     return (
       <Image
-        source={require("./../../imgs/loading-sb-logo-white.gif")}
+      source={require("./../../imgs/white-gif-jun.gif")}
         style={{
           height: CONST.screenWidth / 4,
           width: CONST.screenWidth / 4,

@@ -32,9 +32,6 @@ import {
   AddCircle,
 } from "iconsax-react-native";
 
-// Firebase
-import firebase from "./../../config/firebase.js";
-
 // Font Gotham
 import { useFonts } from "expo-font";
 

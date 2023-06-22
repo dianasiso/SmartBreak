@@ -25,8 +25,6 @@ import { useRoute } from "@react-navigation/native";
 // Font Gotham
 import { useFonts } from "expo-font";
 
-// Firebase
-import { getAuth, deleteUser } from "firebase/auth";
 
 import { useDispatch, useSelector } from "react-redux";
 import user, { logoutUser } from "../../redux/user.js";
@@ -48,20 +46,43 @@ const cleanUserData = async () => {
   return authStatus, userStorage;
 };
 
+
 export default function ProfileSettings({ route, navigation }) {
   const dispatch = useDispatch();
+  const userData = useSelector((state) => state.user);
+
   // Loading Gotham font
   const [loaded] = useFonts({
     GothamMedium: "./../fonts/GothamMedium.ttf",
     GothamBook: "./../fonts/GothamBook.ttf",
   });
 
-  const userData = useSelector((state) => state.user);
   const password = userData.password;
   const dark_mode = userData.accessibility[1];
   const uid = userData.userID;
   const props = route.params;
   const [reload, setReload] = useState(false);
+
+  const deleteAccount = async () => {
+    console.log("user data id", userData.userID)
+    try {
+      const response = await fetch("https://sb-api.herokuapp.com/users/" + userData.userID, {
+        method: "DELETE",
+        headers: {
+          Authorization: "Bearer " + userData.token,
+        }
+      });
+      if (response.ok) {
+        handleLogout();
+      } else {
+        const errorData = await response.json();
+        Alert.alert("Falha no servidor!", errorData.message);
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Erro!", "Ocorreu um erro durante a mudança de estado.");
+    }
+  };
 
   useEffect(() => {
     if (route.params && route.params.reload) {
@@ -85,12 +106,7 @@ export default function ProfileSettings({ route, navigation }) {
       {
         text: "Confirmar",
         onPress: () => {
-          getAuth().currentUser.delete();
-          firebase.firestore().collection("users_data").doc(uid).delete();
-          firebase.firestore().collection("users_devices").doc(uid).delete();
-          firebase.firestore().collection("users_routines").doc(uid).delete();
-
-          handleLogout();
+          deleteAccount()
         },
       },
     ]);
@@ -100,7 +116,7 @@ export default function ProfileSettings({ route, navigation }) {
     try {
       await cleanUserData();
       dispatch(logoutUser());
-      navigation.navigate("Welcome");
+      navigation.navigate("Login");
     } catch (err) {
       console.error(err);
     }
