@@ -110,9 +110,8 @@ export default function EditProfile({ navigation }) {
 
       //guardar no async storage
       try {
-        // Save the data to AsyncStorage
-        saveUserDataToAsyncStorage(response);
-        console.log("User data saved to AsyncStorage:", response);
+        await saveUserDataToAsyncStorage(updatedProfileData);
+        console.log("User data saved to AsyncStorage:", updatedProfileData);
       } catch (error) {
         console.error("Error saving user data to AsyncStorage:", error);
       }

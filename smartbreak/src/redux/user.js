@@ -19,6 +19,9 @@ const initialState = {
   notifications: [false, true, true, true],
   created: "",
   connected_in: "",
+  token: "",
+  organization_name: "",
+  full: 1000,
 };
 
 const userSlice = createSlice({
@@ -85,16 +88,14 @@ export const {
   updateSecurity,
 } = userSlice.actions;
 
-export const saveUserDataToAsyncStorage = async (data) => {
-  console.log(data);
+export const saveUserDataToAsyncStorage = async (updatedFields) => {
   try {
-    const dataString = JSON.stringify(data); // Convert the data object to a string
-    await AsyncStorage.setItem("userStorage", dataString);
-    console.log("User data saved to AsyncStorage");
-
-    // Retrieve the saved data for debugging
     const savedData = await AsyncStorage.getItem("userStorage");
-    console.log("Saved data in AsyncStorage:", savedData);
+    const userData = JSON.parse(savedData);
+    const updatedUserData = { ...userData, ...updatedFields };
+    const updatedDataString = JSON.stringify(updatedUserData);
+    await AsyncStorage.setItem("userStorage", updatedDataString);
+    console.log("User data saved to AsyncStorage:", updatedUserData);
   } catch (error) {
     console.error("Error saving user data to AsyncStorage:", error);
   }
