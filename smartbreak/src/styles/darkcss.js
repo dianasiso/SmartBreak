@@ -934,9 +934,23 @@ export const dark_styles = StyleSheet.create({
     elevation: 6,
   },
 
-  shadowColor: CONST.enableColor,
-  shadowRadius: CONST.shadowRadius,
-  shadowOpacity: 1,
+  goalsv2: {
+    marginBottom: CONST.inputMargin,
+    borderTopLeftRadius: CONST.normalButtonRadius,
+    borderBottomLeftRadius: CONST.normalButtonRadius,
+    paddingTop: CONST.boxPadding,
+    paddingBottom: CONST.boxPadding,
+    paddingLeft: CONST.boxPadding,
+    paddingRight: CONST.modalPadding,
+    width: CONST.screenWidth - 50,
+    flexDirection: "row",
+    borderRightWidth: 3,
+    backgroundColor: CONST.greyColor,
+    shadowColor: "#000",
+    shadowRadius: CONST.shadowRadius,
+    shadowOpacity: 1,
+    elevation: 6,
+  },
 
   goalsBox: {
     flexDirection: "row",

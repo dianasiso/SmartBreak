@@ -59,9 +59,8 @@ export default function Login({ navigation }) {
         notifications: responseData.user.notifications,
         created: responseData.user.created,
         connected_in: responseData.user.connected_in,
-        battery_full: responseData.userOrganization.battery_full,
         organization_name: responseData.userOrganization.name,
-        full: responseData.userOrganization.full,
+        full: responseData.userOrganization.battery_full,
         department_name: responseData.userDepartment.name,
         department_description: responseData.userDepartment.description,
       };
