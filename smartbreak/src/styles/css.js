@@ -1086,4 +1086,18 @@ export const styles = StyleSheet.create({
     marginBottom: CONST.boxMargin,
     backgroundColor: CONST.darkerColor,
   },
+
+  //STATISTICS
+  dropdown: {
+    height: 50,
+    marginTop: CONST.inputPadding*2,
+    borderBottomWidth: 1,
+  },
+
+  calendar: {
+    borderRadius: CONST.normalButtonRadius,
+    elevation: 4,
+    padding: CONST.inputPadding,
+    margin: CONST.inputMargin,
+  }
 });

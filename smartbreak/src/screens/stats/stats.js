@@ -1,17 +1,20 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import {
-  Modal,
   Text,
   View,
   ScrollView,
   Pressable,
   Alert,
-  Dimensions,
 } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 
+// CHART
+import {
+  LineChart,
+  BarChart,
+} from "react-native-chart-kit";
 
 // Font Gotham
 import { useFonts } from "expo-font";
@@ -29,6 +32,47 @@ export default function Stats() {
 
   const userData = useSelector((state) => state.user);
   const dark_mode = userData.accessibility[1];
+
+
+  const randomDataPausas = Array.from({ length: 7 }, () =>
+    Math.floor(Math.random() * 11) // 0 - 1000
+  );
+
+  const randomDataTempo = Array.from({ length: 7 }, () =>
+    Math.floor(Math.random() * 21) // 0 - 1000
+  );
+
+  const [color, setColor] = useState();
+
+  const chartConfig = {
+    backgroundGradientFrom: dark_mode ? CONST.darkerColor : CONST.lightBackgroundColor,
+    backgroundGradientTo: dark_mode ? CONST.darkerColor : CONST.lightBackgroundColor,
+    color: (opacity = 0.2) => {
+      return color;
+    },
+    labelColor: (opacity = 1) => !dark_mode ? CONST.darkerColor : CONST.lightBackgroundColor,
+    strokeWidth: 2, // optional, default 3
+  };
+
+
+  const dataPausa = {
+    labels: ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"],
+    datasets: [
+      {
+        data: randomDataPausas,
+      },
+    ],
+  };
+
+  const dataTempo = {
+    labels: ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"],
+    datasets: [
+      {
+        data: randomDataTempo,
+      },
+    ],
+  };
+
 
   const [activeGoals, setActiveGoals] = useState()
   const [inactiveGoals, setInactiveGoals] = useState()
@@ -87,30 +131,44 @@ export default function Stats() {
       }
     }
     fetchData();
-  }, []);
+    if (selected === "personal") {
+      if (dark_mode) {
+        setColor(CONST.thirdBlue)
+      } else {
+        setColor(CONST.mainBlue)
+      }
+    } else {
+      if (dark_mode) {
+        setColor(CONST.thirdOrange)
+      } else {
+        setColor(CONST.mainOrange)
+      }
+    }
+  }, [inactiveGoals, activeGoals, selected]);
   // // MOD
 
+
   return (
-    <SafeAreaProvider style={dark_mode ? dark_styles.mainContainerDark : styles.mainContainerLight}>
+    <SafeAreaProvider style={[dark_mode ? dark_styles.mainContainerDark : styles.mainContainerLight]}>
       <StatusBar style={dark_mode ? "light" : "dark"} />
 
       <ScrollView
         showsVerticalScrollIndicator={false}
-        style={dark_mode ? dark_styles.containerLight : styles.containerLight}
+        style={[dark_mode ? dark_styles.containerLight : styles.containerLight]}
       >
         <View
-          style={[
-            styles.toggleContainer,
-            selected == "personal"
-              ? dark_mode ?
-                { backgroundColor: "#444" }
-                :
-                { backgroundColor: "#f0f0f0" }
+          style={[{ marginBottom: 40 },
+          styles.toggleContainer,
+          selected == "personal"
+            ? dark_mode ?
+              { backgroundColor: "#444" }
               :
-              dark_mode ?
-                { backgroundColor: "#444" }
-                :
-                { backgroundColor: "#f0f0f0" },
+              { backgroundColor: "#f0f0f0" }
+            :
+            dark_mode ?
+              { backgroundColor: "#444" }
+              :
+              { backgroundColor: "#f0f0f0" },
           ]}
         >
           <Pressable
@@ -122,7 +180,7 @@ export default function Stats() {
             ]}
             onPress={() => setSelected("personal")}
           >
-            <Text style={[dark_mode ? dark_styles.normalText : styles.normalText, { fontFamily: "GothamMedium" }]}>
+            <Text accessibilityLabel="Texto escrito Individual" style={[dark_mode ? dark_styles.normalText : styles.normalText, { fontFamily: "GothamMedium" }]}>
               Individual
             </Text>
           </Pressable>
@@ -135,79 +193,105 @@ export default function Stats() {
             ]}
             onPress={() => setSelected("team")}
           >
-            <Text style={[dark_mode ? dark_styles.normalText : styles.normalText, { fontFamily: "GothamMedium" }]}>
+            <Text accessibilityLabel="Texto escrito Departamental" style={[dark_mode ? dark_styles.normalText : styles.normalText, { fontFamily: "GothamMedium" }]}>
               Departamental
             </Text>
           </Pressable>
         </View>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          style={{ height: "100%", marginTop: 40, overflow: "scroll" }}>
-          <View style={dark_mode ? dark_styles.goalsBox : styles.goalsBox}>
-            <View style={[dark_mode ? dark_styles.goals : styles.goals]}>
-              <View style={dark_mode ? dark_styles.goalsBoxContent : styles.goalsBoxContent}>
-                {selected === "personal" ?
-                  <Text style={dark_mode ? dark_styles.normalText : styles.normalText}>
-                    Concluíste um total de <Text style={{ fontFamily: 'GothamMedium' }}>{inactiveGoals}</Text> objetivos.
-                  </Text>
-                  :
-                  <Text style={dark_mode ? dark_styles.normalText : styles.normalText}>
-                    Concluíram um total de <Text style={{ fontFamily: 'GothamMedium' }}>{inactiveGoals}</Text> objetivos.
-                  </Text>
-                }
-              </View>
+
+
+        <View style={dark_mode ? dark_styles.goalsBox : styles.goalsBox}>
+          <View style={[dark_mode ? dark_styles.goals : styles.goals]}>
+            <View style={dark_mode ? dark_styles.goalsBoxContent : styles.goalsBoxContent}>
+              {selected === "personal" ?
+                <Text accessibilityLabel={`Texto escrito Concluíste um total de ${inactiveGoals} objetivos.`}
+                  style={dark_mode ? dark_styles.normalText : styles.normalText}>
+                  Concluíste um total de <Text style={{ fontFamily: 'GothamMedium' }}>{inactiveGoals}</Text> objetivos.
+                </Text>
+                :
+                <Text accessibilityLabel={`Texto escrito Concluíram um total de ${inactiveGoals} objetivos.`}
+                  style={dark_mode ? dark_styles.normalText : styles.normalText}>
+                  Concluíram um total de <Text style={{ fontFamily: 'GothamMedium' }}>{inactiveGoals}</Text> objetivos.
+                </Text>
+              }
             </View>
           </View>
+        </View>
 
-          <View style={[dark_mode ? dark_styles.goalsBox : styles.goalsBox, {marginTop: 10}]}>
-            <View style={[dark_mode ? dark_styles.goalsv2 : styles.goalsv2]}>
-              <View style={dark_mode ? dark_styles.goalsBoxContent : styles.goalsBoxContent}>
-                {selected === "personal" ?
-                  <Text style={[dark_mode ? dark_styles.normalText : styles.normalText, {textAlign: 'right'}]}>
-                    Atualmente tens pendentes <Text style={{ fontFamily: 'GothamMedium' }}>{activeGoals}</Text> objetivos.
-                  </Text>
-                  :
-                  <Text style={[dark_mode ? dark_styles.normalText : styles.normalText, {textAlign: 'right'}]}>
-                    Atualmente têm pendentes <Text style={{ fontFamily: 'GothamMedium' }}>{activeGoals}</Text> objetivos.
-                  </Text>
-                }
-              </View>
+        <View style={[dark_mode ? dark_styles.goalsBox : styles.goalsBox, { marginTop: 10 }]}>
+          <View style={[dark_mode ? dark_styles.goalsv2 : styles.goalsv2]}>
+            <View style={dark_mode ? dark_styles.goalsBoxContent : styles.goalsBoxContent}>
+              {selected === "personal" ?
+                <Text accessibilityLabel={`Texto escrito Atualmente tens pendentes ${activeGoals} objetivos.`}
+                  style={[dark_mode ? dark_styles.normalText : styles.normalText, { textAlign: 'right' }]}>
+                  Atualmente tens pendentes <Text style={{ fontFamily: 'GothamMedium' }}>{activeGoals}</Text> objetivos.
+                </Text>
+                :
+                <Text accessibilityLabel={`Texto escrito Atualmente têm pendentes ${activeGoals} objetivos.`}
+                  style={[dark_mode ? dark_styles.normalText : styles.normalText, { textAlign: 'right' }]}>
+                  Atualmente têm pendentes <Text style={{ fontFamily: 'GothamMedium' }}>{activeGoals}</Text> objetivos.
+                </Text>
+              }
             </View>
           </View>
+        </View>
+        <Text accessibilityLabel={`Texto escrito Esta semana.`}
+          style={[styles.subTitleText, { marginTop: 20, color: !dark_mode ? CONST.darkerColor : CONST.lightBackgroundColor }]}>Esta semana</Text>
 
-        </ScrollView>
+
+        {dataPausa && (
+          <View style={{ paddingTop: CONST.iconPadding }}>
+            <BarChart
+              accessibilityLabel={`Gráfico de barras com intervalo de uma semana (Seg, Ter, Qua, Qui, Sex, Sáb, Dom).`}
+              data={dataPausa}
+              width={CONST.screenWidth - 60}
+              height={200}
+              yAxisSuffix={""}
+              chartConfig={chartConfig}
+              withInnerLines={false}
+            />
+
+            <Text accessibilityLabel={`Texto escrito Número de pausas.`}
+              style={[styles.smallText,
+              {
+                textAlign: "center",
+                paddingTop: 10,
+                color: !dark_mode ? CONST.darkerColor : CONST.lightBackgroundColor
+              }]}>Número de pausas</Text>
+          </View>
+        )}
 
 
-        {/* 
 
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          style={{ height: "100%", overflow: "scroll" }}
-        >
-          {docs &&
-            docs.length > 0 &&
-            docs.map((callbackfn, id) => (
-              <Pressable style={[dark_mode ? dark_styles.goals : styles.goals, { borderLeftColor: whichPriorityColor(docs[id].priority) }]} key={docs[id]._id}>
-                <View style={dark_mode ? dark_styles.goalsBox : styles.goalsBox}>
-                  <View style={dark_mode ? dark_styles.goalsBoxContent : styles.goalsBoxContent}>
-                    <Text style={dark_mode ? dark_styles.normalText : styles.normalText}>
-                      {docs[id].description}
-                    </Text>
+        {dataTempo && (
+          <View style={{ paddingTop: CONST.iconPadding * 2 }}>
+            <LineChart
+              accessibilityLabel={`Gráfico de linhas com intervalo de uma semana (Seg, Ter, Qua, Qui, Sex, Sáb, Dom).`}
+              data={dataTempo}
+              width={CONST.screenWidth - 60}
+              height={256}
+              verticalLabelRotation={30}
+              chartConfig={chartConfig}
+              bezier
+              withInnerLines={false}
+            />
+            <Text accessibilityLabel={`Texto escrito Tempo médio de pausas (em minutos).`}
+              style={[
+                styles.smallText,
+                {
+                  textAlign: "center",
+                  paddingTop: 10,
+                  color: !dark_mode ? CONST.darkerColor : CONST.lightBackgroundColor
+                }
+              ]}>Tempo médio de pausas (em minutos)</Text>
+          </View>
 
-                    <View style={dark_mode ? dark_styles.goalsBoxPriority : styles.goalsBoxPriority}>
-                      <View>
-                        {whichPriorityText(docs[id].priority)}
-                      </View>
-                      <View style={{ marginRight: 0, marginLeft: "auto" }}>
-                        <Text style={[dark_mode ? dark_styles.smallText : styles.smallText, { fontFamily: "GothamMedium" }]}>{(docs[id].date).substring(0, 10)}</Text>
-                      </View>
-                    </View>
-                  </View>
-                </View>
-              </Pressable>
-            ))}
-        </ScrollView> */}
+
+        )}
+
+        <View style={{ backgroundColor: 'transparent', height: 60 }}></View>
+
       </ScrollView>
-    </SafeAreaProvider>
+    </SafeAreaProvider >
   );
 }
