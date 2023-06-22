@@ -11,6 +11,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { Svg, Path } from "react-native-svg";
 
+
 import React, { useState, useEffect, useRef } from "react";
 import {
   Text,
@@ -37,7 +38,6 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 
-import * as Notifications from "expo-notifications";
 
 // screenOrientation
 import * as ScreenOrientation from "expo-screen-orientation";
@@ -55,6 +55,18 @@ import {
   updatePause,
   updateTotalBattery,
 } from "../../redux/user.js";
+
+import * as Device from 'expo-device';
+import * as Notifications from 'expo-notifications';
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
+
 
 const apiURL = "https://sb-api.herokuapp.com/users/";
 
@@ -320,8 +332,30 @@ export default function Dashboard() {
     }
   };
 
+  const [expoPushToken, setExpoPushToken] = useState('');
+  const [notification, setNotification] = useState(false);
+  const notificationListener = useRef();
+  const responseListener = useRef();
+
+
   useEffect(() => {
-    async function fetchData() {
+    ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
+    ScreenOrientation.unlockAsync();
+
+    moveWaves();
+
+    const updateHeightAnimated = () => {
+      if (selected === "personal") {
+        setHeightBattery(heightAlgorithm(batteryFull, battery));
+      } else {
+        setHeightBattery(heightAlgorithm(batteryFull, batteryDep));
+      }
+    };
+
+    // Call the updateHeightAnimated function when selected changes
+    updateHeightAnimated();
+
+    async function fetchValues() {
       try {
         const response = await fetch("https://sb-api.herokuapp.com/values", {
           method: "GET",
@@ -342,25 +376,7 @@ export default function Dashboard() {
         Alert.alert("Error", error.message);
       }
     }
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
-    ScreenOrientation.unlockAsync();
-
-    moveWaves();
-
-    const updateHeightAnimated = () => {
-      if (selected === "personal") {
-        setHeightBattery(heightAlgorithm(batteryFull, battery));
-      } else {
-        setHeightBattery(heightAlgorithm(batteryFull, batteryDep));
-      }
-    };
-
-    // Call the updateHeightAnimated function when selected changes
-    updateHeightAnimated();
+    fetchValues();
 
     async function fetchData() {
       try {
@@ -407,8 +423,24 @@ export default function Dashboard() {
         Alert.alert("Error", error.message);
       }
     }
+    
 
     fetchData();
+
+    registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+
+    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+      setNotification(notification);
+    });
+
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+      console.log(response);
+    });
+
+    return () => {
+      Notifications.removeNotificationSubscription(notificationListener.current);
+      Notifications.removeNotificationSubscription(responseListener.current);
+    };
   }, [userData, selected, pause, heightAnimated.value]);
 
   return (
@@ -526,13 +558,14 @@ export default function Dashboard() {
                   </Text>
                 </Pressable>
                 <Pressable
-                  onPress={() => {
+                  onPress={async () => {
                     dispatch(logUser({ ...userData, pause: !pause }));
                     if (pause) {
                       addPauseAPI(startPause, Date.now());
                     } else {
                       setStartPause(Date.now());
                       editUser(battery, false);
+                      await startPausePushNotification();
                     }
                   }}
                   style={dark_mode ? dark_styles.buttonAdd : styles.buttonAdd}
@@ -942,4 +975,48 @@ export default function Dashboard() {
       </View>
     </SafeAreaView>
   );
+}
+
+async function startPausePushNotification() {
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title: "Começaste uma pausa!",
+      body: 'Não te esqueças de desligar os teus equipamentos! Vemo-nos daqui a pouco.',
+    },
+    trigger: { seconds: 1 },
+  });
+}
+
+
+
+async function registerForPushNotificationsAsync() {
+  let token;
+
+  if (Platform.OS === 'android') {
+    await Notifications.setNotificationChannelAsync('default', {
+      name: 'SmartBreak',
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+    });
+  }
+
+  if (Device.isDevice) {
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+    console.log(token);
+  } else {
+    alert('Must use physical device for Push Notifications');
+  }
+
+  return token;
 }

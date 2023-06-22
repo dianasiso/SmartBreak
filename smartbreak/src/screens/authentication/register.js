@@ -114,7 +114,7 @@ export default function Register() {
   const loadingScreen = () => {
     return (
       <Image
-        source={require("./../../imgs/loading-sb-logo-white.gif")}
+      source={require("./../../imgs/white-gif-jun.gif")}
         style={{
           height: CONST.screenWidth / 4,
           width: CONST.screenWidth / 4,

@@ -8,6 +8,8 @@ import AvailableSoon from "./src/errors/availableSoon";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 
+
+
 //import TabRoutes from "./src/routes/Routes";
 import {
   MainStackNavigation,
@@ -38,27 +40,13 @@ const clearAuthStatus = async () => {
   await AsyncStorage.removeItem("authStatus");
 };
 
-// const getAuthStatus = async () => {
-//   const authStatus = await AsyncStorage.getItem("authStatus");
-//   console.log("authStatus", authStatus);
-//   return authStatus;
-// };
-
-// const getUserStorage = async () => {
-//   const userStorage = await AsyncStorage.getItem("userStorage");
-//   console.log("userStorage", userStorage);
-//   return userStorage;
-// };
-
-//export da app
 
 export default function App() {
   console.log("carregou?");
   const [loaded] = useFonts({
-    GothamMedium: "./src/fonts/GothamMedium.ttf",
-    GothamBook: "./src/fonts/GothamBook.ttf",
+    GothamMedium: require("./src/fonts/GothamMedium.ttf"),
+    GothamBook: require("./src/fonts/GothamBook.ttf"),
   });
-
   return (
     <Provider store={store}>
       <NavigationContainer>

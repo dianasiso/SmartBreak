@@ -43,9 +43,13 @@ export default function SplashScreen({ navigation }) {
       if (status === "true") {
         const userStorage = await getUserStorage();
         dispatch(logUser(JSON.parse(userStorage))); // Parse the JSON string
-        navigation.navigate("TabRoutes");
+        setTimeout(() => {
+          navigation.navigate("TabRoutes");
+        }, 3500);
       } else {
-        navigation.navigate("Welcome");
+        setTimeout(() => {
+          navigation.navigate("Welcome");
+        }, 3500);
       }
       console.log("authStatus no useEffect !!!", status);
     };
