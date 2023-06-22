@@ -58,8 +58,6 @@ export default function Accessibility({ navigation }) {
       accessibilityArray = [accessibilityContrast, value];
     }
 
-    console.log("aaaa", accessibilityArray);
-
     try {
       const response = await fetch(
         "https://sb-api.herokuapp.com/users/" + userData.userID,
@@ -76,7 +74,6 @@ export default function Accessibility({ navigation }) {
       );
       if (response.ok) {
         const updateArray = accessibilityArray;
-        console.log("............", updateArray);
         dispatch(updateAccessibility(updateArray));
 
         //guardar no async storage

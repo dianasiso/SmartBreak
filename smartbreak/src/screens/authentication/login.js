@@ -131,15 +131,15 @@ export default function Login({ navigation }) {
         console.log("User data saved to AsyncStorage");
 
         const storedData = await AsyncStorage.getItem("userStorage");
-        console.log("Retrieved data from AsyncStorage:", storedData);
+        console.log("Current async storage data:", storedData);
 
         const authStatus = "true";
 
         await AsyncStorage.setItem("authStatus", authStatus);
-        console.log("User data saved to AsyncStorage");
+        console.log("AuthStatus saved to AsyncStorage");
 
         const strotedStatus = await AsyncStorage.getItem("authStatus");
-        console.log("Retrieved data from AsyncStorage:", strotedStatus);
+        console.log("Current AuthStatus:", strotedStatus);
 
         dispatch(logUser(userData));
         handleNavigate(data.user._id);

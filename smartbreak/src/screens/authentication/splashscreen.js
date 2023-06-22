@@ -20,21 +20,30 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 //redux
 import { useDispatch } from "react-redux";
-import { logUser } from "../../redux/user.js";
+import { logUser, logoutUser } from "../../redux/user.js";
 
 export default function SplashScreen({ navigation }) {
   const dispatch = useDispatch();
 
   const getAuthStatus = async () => {
     const authStatus = await AsyncStorage.getItem("authStatus");
-    console.log("authStatus", authStatus);
+    console.log("AuthStatus atual", authStatus);
     return authStatus;
   };
 
   const getUserStorage = async () => {
     const userStorage = await AsyncStorage.getItem("userStorage");
-    console.log("userStorage", userStorage);
+    console.log("Dados do user no Async Storage", userStorage);
     return userStorage;
+  };
+
+  const tokenCheck = (dataConexao, dataAtual) => {
+    // Adiciona 3 meses à data de conexão
+    const threeMonthsLater = new Date(dataConexao);
+    threeMonthsLater.setMonth(threeMonthsLater.getMonth() + 3);
+
+    // Verifica se a data atual é maior ou igual a três meses após a data de conexão
+    return dataAtual >= threeMonthsLater;
   };
 
   useEffect(() => {
@@ -43,15 +52,34 @@ export default function SplashScreen({ navigation }) {
       if (status === "true") {
         const userStorage = await getUserStorage();
         dispatch(logUser(JSON.parse(userStorage))); // Parse the JSON string
-        setTimeout(() => {
-          navigation.navigate("TabRoutes");
-        }, 3500);
+        const dataConexao = new Date(
+          JSON.parse(userStorage).connected_in.replace("Z", "")
+        );
+        const dataAtual = new Date(Date.now());
+
+        console.log("Data de conexão:", dataConexao);
+        console.log("Data atual:", dataAtual);
+
+        if (tokenCheck(dataConexao, dataAtual)) {
+          console.log("Já se passaram três meses!");
+          dispatch(logoutUser());
+          AsyncStorage.removeItem("userStorage");
+
+          setTimeout(() => {
+            navigation.navigate("Welcome");
+          }, 3500);
+        } else {
+          console.log("Ainda não se passaram três meses.");
+
+          setTimeout(() => {
+            navigation.navigate("TabRoutes");
+          }, 3500);
+        }
       } else {
         setTimeout(() => {
           navigation.navigate("Welcome");
         }, 3500);
       }
-      console.log("authStatus no useEffect !!!", status);
     };
 
     checkAuthStatus();
@@ -64,7 +92,6 @@ export default function SplashScreen({ navigation }) {
     };
   }, []);
 
-  //console.log(uid);
   // Loading Gotham font
   const [loaded] = useFonts({
     GothamMedium: require("./../../fonts/GothamMedium.ttf"),

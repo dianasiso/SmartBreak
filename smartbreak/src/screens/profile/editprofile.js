@@ -51,7 +51,6 @@ export default function EditProfile({ navigation }) {
   async function updateUserProfile(updatedProfileData) {
     try {
       const apiURLUser = "https://sb-api.herokuapp.com/users/" + userID;
-      //console.log(apiURLUser);
       const response = await fetch(apiURLUser, {
         method: "PATCH",
         headers: {
@@ -60,8 +59,6 @@ export default function EditProfile({ navigation }) {
         },
         body: JSON.stringify(updatedProfileData),
       });
-
-      //console.log(JSON.stringify(response));
 
       if (response.ok) {
         const data = await response.json();
@@ -106,7 +103,6 @@ export default function EditProfile({ navigation }) {
       //guardar no redux
 
       dispatch(updateUserData(response));
-      console.log("A RESPOSTA ATUAL É:", response);
 
       //guardar no async storage
       try {

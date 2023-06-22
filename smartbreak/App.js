@@ -8,15 +8,8 @@ import AvailableSoon from "./src/errors/availableSoon";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 
-
-
 //import TabRoutes from "./src/routes/Routes";
-import {
-  MainStackNavigation,
-  DashboardStackNavigation,
-  AuthStackNavigation,
-  TabRoutes,
-} from "./src/routes/Routes";
+import { MainStackNavigation } from "./src/routes/Routes";
 
 //funções navegação
 const Stack = createStackNavigator();
@@ -24,25 +17,10 @@ const Stack = createStackNavigator();
 // Font Gotham
 import { useFonts } from "expo-font";
 
-// Firebase
-import firebase from "./src/config/firebase.js";
-
 import { Provider } from "react-redux";
 import store from "./src/redux/store";
 
-// Import AsyncStorage
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-//import useEffect
-import { useState, useEffect } from "react";
-
-const clearAuthStatus = async () => {
-  await AsyncStorage.removeItem("authStatus");
-};
-
-
 export default function App() {
-  console.log("carregou?");
   const [loaded] = useFonts({
     GothamMedium: require("./src/fonts/GothamMedium.ttf"),
     GothamBook: require("./src/fonts/GothamBook.ttf"),

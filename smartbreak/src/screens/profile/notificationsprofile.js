@@ -41,7 +41,10 @@ export default function NotificationsProfile({ navigation }) {
     userData.notifications
   );
 
-  async function update() {
+  async function update(position, value) {
+    const updatedNotificationsArray = [...notificationsArray];
+    updatedNotificationsArray[position] = value;
+
     try {
       const response = await fetch(
         "https://sb-api.herokuapp.com/users/" + userData.userID,
@@ -52,27 +55,27 @@ export default function NotificationsProfile({ navigation }) {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            notifications: notificationsArray,
+            notifications: updatedNotificationsArray,
           }),
         }
       );
+
       if (response.ok) {
-        const updatedNotifications = { notifications: notificationsArray };
-        dispatch(updateNotifications(updatedNotifications));
+        dispatch(updateNotifications(updatedNotificationsArray));
 
         try {
-          await dispatch(
-            saveNewNotificationsToAsyncStorage(updatedNotifications)
+          dispatch(
+            saveNewNotificationsToAsyncStorage(updatedNotificationsArray)
           );
           console.log(
             "Notifications saved to AsyncStorage:",
-            updatedNotifications
+            updatedNotificationsArray
           );
         } catch (error) {
           console.error(error);
           Alert.alert("Erro!", "Ocorreu um erro durante a mudança de estado.");
         }
-        // !!! TÁ A DAR UM ERRO AQUI MAS ESTÁ A MUDAR REDUX E STORAGE
+
         Alert.alert("Sucesso!", "Notificações alteradas com sucesso.");
         navigation.navigate("ProfileSettings");
       } else {
@@ -196,56 +199,6 @@ export default function NotificationsProfile({ navigation }) {
         <View style={dark_mode ? dark_styles.boxOptions : styles.boxOptions}>
           <Text
             accessible={true}
-            accessibilityLabel="Texto escrito Dicas diárias. Possui um switch à frente para ativar ou desativar a opção."
-            style={dark_mode ? dark_styles.normalText : styles.normalText}
-          >
-            Dicas diárias
-          </Text>
-          <Switch
-            accessible={true}
-            accessibilityLabel={
-              notificationsArray[2] ? "Ativado" : "Desativado"
-            }
-            style={{ marginLeft: "auto", marginRight: CONST.iconPadding }}
-            trackColor={{
-              false: CONST.switchOffColor,
-              true: dark_mode ? CONST.lightBlue : CONST.switchOnColor,
-            }}
-            thumbColor={
-              notificationsArray[2]
-                ? CONST.switchIndicatorColor
-                : dark_mode
-                ? CONST.lightBlue
-                : CONST.mainBlue
-            }
-            value={notificationsArray[2]}
-            onValueChange={() => {
-              if (notificationsArray[2]) {
-                setNotificationsArray([
-                  notificationsArray[0],
-                  notificationsArray[1],
-                  !notificationsArray[2],
-                  notificationsArray[3],
-                ]);
-              } else {
-                setNotificationsArray([
-                  false,
-                  notificationsArray[1],
-                  !notificationsArray[2],
-                  notificationsArray[3],
-                ]);
-              }
-              ToastAndroid.show(
-                "Alterações efetuadas com sucesso!",
-                ToastAndroid.SHORT
-              );
-            }}
-          />
-        </View>
-
-        <View style={dark_mode ? dark_styles.boxOptions : styles.boxOptions}>
-          <Text
-            accessible={true}
             accessibilityLabel="Texto escrito Novos objetivos. Possui um switch à frente para ativar ou desativar a opção."
             style={dark_mode ? dark_styles.normalText : styles.normalText}
           >
@@ -292,25 +245,6 @@ export default function NotificationsProfile({ navigation }) {
             }}
           />
         </View>
-        <Pressable
-          accessible={true}
-          accessibilityLabel="Botão com o objetivo de guardar as alterações. Tem escrito a palavra Concluído."
-          onPress={() => update()}
-          style={[
-            dark_mode ? dark_styles.primaryButton : styles.primaryButton,
-            { marginTop: CONST.backgroundPaddingLateral * 2 },
-          ]}
-        >
-          <Text
-            style={
-              dark_mode
-                ? dark_styles.primaryButtonText
-                : styles.primaryButtonText
-            }
-          >
-            Concluído
-          </Text>
-        </Pressable>
       </ScrollView>
     </SafeAreaProvider>
   );

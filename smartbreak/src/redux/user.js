@@ -16,7 +16,7 @@ const initialState = {
   rewards: [],
   accessibility: [false, false],
   permissions: [false, true],
-  notifications: [false, true, true, true],
+  notifications: [false, true, true],
   created: "",
   connected_in: "",
   token: "",
@@ -31,7 +31,6 @@ const userSlice = createSlice({
     logUser: (state, action) => {
       const userData = action.payload;
       Object.assign(state, userData);
-      // console.log("Login State:", state);
     },
     logoutUser: () => initialState,
     updateUserData: (state, action) => {
@@ -140,12 +139,37 @@ export const saveNewAccessibilityToAsyncStorage = async (accessibility) => {
   }
 };
 
-
 export const saveNewSecurityToAsyncStorage = async (security) => {
   try {
     const savedData = await AsyncStorage.getItem("userStorage");
     const userData = JSON.parse(savedData);
     const updatedUserData = { ...userData, permissions: security };
+    const updatedDataString = JSON.stringify(updatedUserData);
+    await AsyncStorage.setItem("userStorage", updatedDataString);
+    console.log("User data saved to AsyncStorage:", updatedUserData);
+  } catch (error) {
+    console.error("Error saving user data to AsyncStorage:", error);
+  }
+};
+
+export const saveNewPauseToAsyncStorage = async (pause) => {
+  try {
+    const savedData = await AsyncStorage.getItem("userStorage");
+    const userData = JSON.parse(savedData);
+    const updatedUserData = { ...userData, pause: pause };
+    const updatedDataString = JSON.stringify(updatedUserData);
+    await AsyncStorage.setItem("userStorage", updatedDataString);
+    console.log("User data saved to AsyncStorage:", updatedUserData);
+  } catch (error) {
+    console.error("Error saving user data to AsyncStorage:", error);
+  }
+};
+
+export const saveNewBatteryToAsyncStorage = async (battery) => {
+  try {
+    const savedData = await AsyncStorage.getItem("userStorage");
+    const userData = JSON.parse(savedData);
+    const updatedUserData = { ...userData, battery: battery };
     const updatedDataString = JSON.stringify(updatedUserData);
     await AsyncStorage.setItem("userStorage", updatedDataString);
     console.log("User data saved to AsyncStorage:", updatedUserData);

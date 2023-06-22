@@ -86,7 +86,6 @@ const MainStack = createStackNavigator();
 
 //nav stack de autenticacao
 export const AuthStackNavigation = ({ navigation }) => {
-  console.log("Entrei no authstack!!!");
   return (
     <AuthStack.Navigator
       initialRouteName="SplashScreen"
@@ -642,8 +641,6 @@ function Icon({ name, color }) {
 
 //routes da barra de navegação
 export const TabRoutes = ({}) => {
-  console.log("//   entrou no TabRoutes!    //");
-
   // ---- userData information
   const userData = useSelector((state) => state.user);
 
