@@ -12,7 +12,10 @@ import {
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { useDispatch, useSelector } from "react-redux";
-import { updateNotifications } from "../../redux/user.js";
+import {
+  updateNotifications,
+  saveNewNotificationsToAsyncStorage,
+} from "../../redux/user.js";
 
 // Font Gotham
 import { useFonts } from "expo-font";
@@ -56,6 +59,20 @@ export default function NotificationsProfile({ navigation }) {
       if (response.ok) {
         const updatedNotifications = { notifications: notificationsArray };
         dispatch(updateNotifications(updatedNotifications));
+
+        try {
+          await dispatch(
+            saveNewNotificationsToAsyncStorage(updatedNotifications)
+          );
+          console.log(
+            "Notifications saved to AsyncStorage:",
+            updatedNotifications
+          );
+        } catch (error) {
+          console.error(error);
+          Alert.alert("Erro!", "Ocorreu um erro durante a mudança de estado.");
+        }
+        // !!! TÁ A DAR UM ERRO AQUI MAS ESTÁ A MUDAR REDUX E STORAGE
         Alert.alert("Sucesso!", "Notificações alteradas com sucesso.");
         navigation.navigate("ProfileSettings");
       } else {

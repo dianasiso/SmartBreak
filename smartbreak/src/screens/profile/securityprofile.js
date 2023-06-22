@@ -11,7 +11,10 @@ import {
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { useSelector, useDispatch } from "react-redux";
-import { updateSecurity } from "../../redux/user.js";
+import {
+  updateSecurity,
+  saveNewSecurityToAsyncStorage,
+} from "../../redux/user.js";
 
 // Font Gotham
 import { useFonts } from "expo-font";
@@ -56,6 +59,16 @@ export default function SecurityProfile({ navigation }) {
       );
       if (response.ok) {
         dispatch(updateSecurity(updatedPermissionsArray));
+        //guardar no async storage
+        try {
+          await saveNewSecurityToAsyncStorage(updatedPermissionsArray);
+          console.log(
+            "User data saved to AsyncStorage:",
+            updatedPermissionsArray
+          );
+        } catch (error) {
+          console.error("Error saving user data to AsyncStorage:", error);
+        }
         Alert.alert("Sucesso!", "Permissões alteradas com sucesso.");
         navigation.navigate("ProfileSettings");
       } else {

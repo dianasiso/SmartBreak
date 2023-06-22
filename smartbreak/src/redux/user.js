@@ -114,4 +114,45 @@ export const saveNewPasswordToAsyncStorage = async (password) => {
   }
 };
 
+export const saveNewNotificationsToAsyncStorage = async (notifications) => {
+  try {
+    const savedData = await AsyncStorage.getItem("userStorage");
+    const userData = JSON.parse(savedData);
+    const updatedUserData = { ...userData, notifications: notifications };
+    const updatedDataString = JSON.stringify(updatedUserData);
+    await AsyncStorage.setItem("userStorage", updatedDataString);
+    console.log("User data saved to AsyncStorage:", updatedUserData);
+  } catch (error) {
+    console.error("Error saving user data to AsyncStorage:", error);
+  }
+};
+
+export const saveNewAccessibilityToAsyncStorage = async (accessibility) => {
+  try {
+    const savedData = await AsyncStorage.getItem("userStorage");
+    const userData = JSON.parse(savedData);
+    const updatedUserData = { ...userData, accessibility: accessibility };
+    const updatedDataString = JSON.stringify(updatedUserData);
+    await AsyncStorage.setItem("userStorage", updatedDataString);
+    console.log("User data saved to AsyncStorage:", updatedUserData);
+  } catch (error) {
+    console.error("Error saving user data to AsyncStorage:", error);
+  }
+};
+
+
+export const saveNewSecurityToAsyncStorage = async (security) => {
+  try {
+    const savedData = await AsyncStorage.getItem("userStorage");
+    const userData = JSON.parse(savedData);
+    const updatedUserData = { ...userData, permissions: security };
+    const updatedDataString = JSON.stringify(updatedUserData);
+    await AsyncStorage.setItem("userStorage", updatedDataString);
+    console.log("User data saved to AsyncStorage:", updatedUserData);
+  } catch (error) {
+    console.error("Error saving user data to AsyncStorage:", error);
+  }
+};
+
+
 export default userSlice.reducer;

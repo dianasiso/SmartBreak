@@ -11,7 +11,10 @@ import {
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { useDispatch, useSelector } from "react-redux";
-import { updateAccessibility } from "../../redux/user.js";
+import {
+  updateAccessibility,
+  saveNewAccessibilityToAsyncStorage,
+} from "../../redux/user.js";
 
 // Font Gotham
 import { useFonts } from "expo-font";
@@ -34,24 +37,28 @@ export default function Accessibility({ navigation }) {
     GothamBook: "./../fonts/GothamBook.ttf",
   });
 
-  const [accessibilityContrast, setAccessibilityContrast] = useState(userData.accessibility[0])
-  const [accessibilityMode, setAccessibilityMode] = useState(userData.accessibility[1])
+  const [accessibilityContrast, setAccessibilityContrast] = useState(
+    userData.accessibility[0]
+  );
+  const [accessibilityMode, setAccessibilityMode] = useState(
+    userData.accessibility[1]
+  );
 
   async function update(position, value) {
-    let accessibilityArray = []
+    let accessibilityArray = [];
     if (position == 0) {
-      setAccessibilityContrast(!accessibilityContrast)
-      accessibilityArray = [value, accessibilityMode]
+      setAccessibilityContrast(!accessibilityContrast);
+      accessibilityArray = [value, accessibilityMode];
       if (value) {
-        accessibilityArray = [value, false]
-        setAccessibilityMode(false)
+        accessibilityArray = [value, false];
+        setAccessibilityMode(false);
       }
     } else {
-      setAccessibilityMode(!accessibilityMode)
-      accessibilityArray = [accessibilityContrast, value]
+      setAccessibilityMode(!accessibilityMode);
+      accessibilityArray = [accessibilityContrast, value];
     }
 
-    console.log("aaaa", accessibilityArray)
+    console.log("aaaa", accessibilityArray);
 
     try {
       const response = await fetch(
@@ -68,10 +75,18 @@ export default function Accessibility({ navigation }) {
         }
       );
       if (response.ok) {
-        const updateArray = accessibilityArray
-        console.log("............", updateArray)
+        const updateArray = accessibilityArray;
+        console.log("............", updateArray);
         dispatch(updateAccessibility(updateArray));
-        console.log(userData)
+
+        //guardar no async storage
+        try {
+          await saveNewAccessibilityToAsyncStorage(updateArray);
+          console.log("User data saved to AsyncStorage:", updateArray);
+        } catch (error) {
+          console.error("Error saving user data to AsyncStorage:", error);
+        }
+        console.log(userData);
         ToastAndroid.show(
           "Alterações efetuadas com sucesso!",
           ToastAndroid.SHORT
@@ -86,9 +101,7 @@ export default function Accessibility({ navigation }) {
     }
   }
 
-  useEffect(() => {
-
-  }, [accessibilityContrast, accessibilityMode])
+  useEffect(() => {}, [accessibilityContrast, accessibilityMode]);
 
   return (
     <SafeAreaProvider
@@ -120,7 +133,7 @@ export default function Accessibility({ navigation }) {
                 ? CONST.lightBlue
                 : CONST.mainBlue
             }
-            value={ accessibilityContrast}
+            value={accessibilityContrast}
             onValueChange={() => {
               update(0, !accessibilityContrast);
             }}
@@ -143,7 +156,7 @@ export default function Accessibility({ navigation }) {
                 ? CONST.lightBlue
                 : CONST.mainBlue
             }
-            value={ accessibilityMode}
+            value={accessibilityMode}
             onValueChange={() => {
               update(1, !accessibilityMode);
             }}
