@@ -233,11 +233,11 @@ export default function Onboarding() {
           </Text>
           <Text 
             accessible={true}
-            accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Carregue a sua bateria e aprenda a converter tempo em lucro e lazer." 
+            accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Carrega a tua bateria e aprende a converter tempo em lucro e lazer." 
             style={[styles.normalTextWhite, {textAlign: 'center', paddingTop: CONST.backgroundPaddingTop}]}>
-              Carregue a sua{" "}
+              Carrega a tua{" "}
             <Text style={{ fontFamily: "GothamMedium" }}>bateria</Text> e
-              aprenda a converter tempo em{" "}
+              aprende a converter tempo em{" "}
             <Text style={{ fontFamily: "GothamMedium" }}>lucro</Text> e{" "}
             <Text style={{ fontFamily: "GothamMedium" }}>lazer</Text>
           </Text>
@@ -256,11 +256,11 @@ export default function Onboarding() {
                 Energia</Text>
               <Text  
                 accessible={true}
-                accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Tome as decisões mais acertadas, poupe e ganhe energia numa pausa." 
+                accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Toma as decisões mais acertadas, poupa e ganha energia numa pausa." 
                 style={[styles.normalTextWhite, {textAlign: 'center', paddingTop: CONST.backgroundPaddingTop}]}>
-                Tome as decisões mais acertadas,{" "}
-              <Text style={{ fontFamily: "GothamMedium" }}>poupe</Text> e{" "}
-              <Text style={{ fontFamily: "GothamMedium" }}>ganhe</Text> energia
+                Toma as decisões mais acertadas,{" "}
+              <Text style={{ fontFamily: "GothamMedium" }}>poupa</Text> e{" "}
+              <Text style={{ fontFamily: "GothamMedium" }}>ganha</Text> energia
                 numa pausa{" "}
             </Text>
           <View 
@@ -278,11 +278,11 @@ export default function Onboarding() {
               Produtividade</Text>
             <Text 
               accessible={true}
-              accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Aumente a sua produtividade e o seu contributo para a empresa através de estatísticas." 
+              accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Aumenta a tua produtividade e o teu contributo para a empresa através de estatísticas." 
               style={[styles.normalTextWhite, {textAlign: 'center', paddingTop: CONST.backgroundPaddingTop}]}>
-              Aumente a sua{" "}
+              Aumenta a tua{" "}
               <Text style={{ fontFamily: "GothamMedium" }}>produtividade</Text>{" "}
-              e o seu contributo para a empresa através de{" "}
+              e o teu contributo para a empresa através de{" "}
               <Text style={{ fontFamily: "GothamMedium" }}>estatísticas</Text>{" "}
             </Text>
           <View 
@@ -301,9 +301,9 @@ export default function Onboarding() {
             </Text>
             <Text 
               accessible={true}
-              accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Auxilie-se de dicas para melhorar hábitos de consumo energético mais conscientes." 
+              accessibilityLabel="Texto na cor branca num fundo azul escuro escrito Auxilia-te de dicas para melhorar hábitos de consumo energético mais conscientes." 
               style={[styles.normalTextWhite, {textAlign: 'center', paddingTop: CONST.backgroundPaddingTop}]}>
-              Auxilie-se de{" "}
+              Auxilia-te de{" "}
               <Text style={{ fontFamily: "GothamMedium" }}>dicas</Text> para
               melhorar hábitos de consumo energético mais{" "}
               <Text style={{ fontFamily: "GothamMedium" }}>conscientes</Text>{" "}

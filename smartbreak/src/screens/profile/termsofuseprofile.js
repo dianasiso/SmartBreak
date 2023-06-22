@@ -10,11 +10,18 @@ import { useFonts } from "expo-font";
 
 // CSS
 import { styles } from "./../../styles/css.js";
+import { dark_styles } from "../../styles/darkcss.js";
+
 // Variables
 import * as CONST from "./../../styles/variables.js";
 
+import { useSelector } from "react-redux";
+
 
 export default function TermsofUseProfile() {
+  const userData = useSelector((state) => state.user);
+  const dark_mode = userData.accessibility[1]
+
   // Loading Gotham font
   const [loaded] = useFonts({
     GothamMedium: "./../fonts/GothamMedium.ttf",
@@ -32,24 +39,24 @@ export default function TermsofUseProfile() {
   }
 
   return (
-    <SafeAreaProvider style={styles.containerLight}>
-      <StatusBar style="dark" />
+    <SafeAreaProvider style={[dark_mode ? dark_styles.containerLight : styles.containerLight, {paddingTop: CONST.backgroundPaddingTop/2}]}>
+      <StatusBar style={dark_mode ? "light" : "dark" } />
       <Pressable 
         accessible={true}
-        accessibilityLabel="Botão circular na cor azul escura num fundo branco com o objetivo de regressar ao topo do ecrã. Tem uma seta a apontar para o topo na cor branca."
-        style={styles.arrow} onPress={onPressTouch} >
-        <ArrowCircleUp variant="Bold" color={CONST.mainBlue} size="50" />
+        accessibilityLabel="Botão circular na cor azul com o objetivo de regressar ao topo do ecrã. Tem uma seta a apontar para o topo."
+        style={dark_mode ? dark_styles.arrow : styles.arrow} onPress={onPressTouch} >
+        <ArrowCircleUp variant="Bold" color={dark_mode ? CONST.thirdBlue : CONST.mainBlue} size="50" />
       </Pressable>
         <ScrollView ref={content} showsVerticalScrollIndicator={false}>
         <Text 
           accessible={true}
-          accessibilityLabel="Texto na cor preta num fundo branco escrito Termos de utilização. É o título da página."
-          style={styles.titleText}>Termos de utilização{"\n"}</Text>
+          accessibilityLabel="Texto escrito Termos de utilização. É o título da página."
+          style={dark_mode ? dark_styles.titleText : styles.titleText}>Termos de utilização{"\n"}</Text>
         
           <Text 
             accessible={true}
             accessibilityLabel="Termos e condições gerais de uso do aplicativo Smart Break."
-            style={[styles.normalText, {fontFamily: 'GothamMedium',marginTop: CONST.textPadding}]}>
+            style={[dark_mode ? dark_styles.normalText : styles.normalText, {fontFamily: 'GothamMedium', marginTop: CONST.textPadding}]}>
             Termos e condições gerais de uso do aplicativo Smart Break.
           </Text>
           <Text 
@@ -62,7 +69,7 @@ export default function TermsofUseProfile() {
             utilizadores do aplicativo Smart Break. Ao utilizar a plataforma o
             utilizador aceita integralmente as presentes normas e compromete-se
             a observá-las, sob o risco de aplicação de penalidades."
-            style={styles.normalText}>
+            style={dark_mode ? dark_styles.normalText : styles.normalText}>
             {"\n"}A plataforma visa licenciar o uso do aplicativo e demais ativos de
             propriedade intelectual, fornecendo ferramentas para auxiliar e
             dinamizar o dia a dia dos utilizadores. O presente Termo estabelece
@@ -75,7 +82,7 @@ export default function TermsofUseProfile() {
           <Text 
             accessible={true}
             accessibilityLabel="Registro."
-            style={[styles.normalText, {marginTop: CONST.textPadding, fontFamily: 'GothamMedium'}]}>
+            style={[dark_mode ? dark_styles.normalText : styles.normalText, {marginTop: CONST.textPadding, fontFamily: 'GothamMedium'}]}>
             Registo:
           </Text>
           <Text 
@@ -94,7 +101,7 @@ export default function TermsofUseProfile() {
             momento em que realizar ou atualizar o seu registo, além de outras
             expressamente descritas na Política de Privacidade que deverá ser
             autorizada pelo usuário."
-            style={styles.normalText}>
+            style={dark_mode ? dark_styles.normalText : styles.normalText}>
             Após a confirmação do registo, o utilizador possuirá um login e uma
             senha pessoal, a qual assegura ao utilizador o acesso individual à
             mesma. Desta forma, compete ao utilizador exclusivamente a
@@ -113,7 +120,7 @@ export default function TermsofUseProfile() {
           <Text 
             accessible={true}
             accessibilityLabel="Suporte."
-            style={[styles.normalText, {marginTop: CONST.textPadding, fontFamily: 'GothamMedium'}]}>
+            style={[dark_mode ? dark_styles.normalText : styles.normalText, {marginTop: CONST.textPadding, fontFamily: 'GothamMedium'}]}>
             Suporte:
           </Text>
           <Text 
@@ -121,7 +128,7 @@ export default function TermsofUseProfile() {
             accessibilityLabel=" Em caso de qualquer dúvida, sugestão ou problema com a utilização da
             aplicação, o utilizador poderá entrar em contato com o suporte,
             através do email suporte@smarkbreak.pt."
-            style={styles.normalText}>
+            style={dark_mode ? dark_styles.normalText : styles.normalText}>
             Em caso de qualquer dúvida, sugestão ou problema com a utilização da
             aplicação, o utilizador poderá entrar em contato com o suporte,
             através do email suporte@smarkbreak.pt.
@@ -129,7 +136,7 @@ export default function TermsofUseProfile() {
           <Text 
             accessible={true}
             accessibilityLabel="Responsabilidade."
-            style={[styles.normalText, {marginTop: CONST.textPadding, fontFamily: 'GothamMedium'}]}>
+            style={[dark_mode ? dark_styles.normalText : styles.normalText, {marginTop: CONST.textPadding, fontFamily: 'GothamMedium'}]}>
             Responsabilidade:
           </Text>
           <Text 
@@ -148,7 +155,7 @@ export default function TermsofUseProfile() {
             sirvam para fins comerciais ou publicitários ou quaisquer
             informações ilícitas, violentas, polêmicas, pornográficas,
             xenofóbicas, discriminatórias ou ofensivas."
-            style={styles.normalText}>
+            style={dark_mode ? dark_styles.normalText : styles.normalText}>
             É de responsabilidade do utilizador: a. defeitos ou vícios técnicos
             originados no próprio sistema do utilizador; b. pela proteção aos
             dados de acesso à sua conta/perfil (login e senha).
@@ -167,7 +174,7 @@ export default function TermsofUseProfile() {
           <Text 
             accessible={true}
             accessibilityLabel="Alterações."
-            style={[styles.normalText, {marginTop: CONST.textPadding, fontFamily: 'GothamMedium'}]}>
+            style={[dark_mode ? dark_styles.normalText : styles.normalText, {marginTop: CONST.textPadding, fontFamily: 'GothamMedium'}]}>
             Alterações:</Text>
           <Text 
             accessible={true}
@@ -177,7 +184,7 @@ export default function TermsofUseProfile() {
             bem como para atender novas exigências legais. As alterações serão
             veiculadas pelo aplicativo SmartBreak e o utilizador poderá optar
             por aceitar ao não o novo conteúdo."
-            style={styles.normalText}>
+            style={dark_mode ? dark_styles.normalText : styles.normalText}>
             Os itens descritos no presente instrumento poderão sofrer
             alterações, unilateralmente e a qualquer tempo, por parte da empresa
             responsável pelo Smart Break, para adequar ou modificar os serviços,
@@ -188,7 +195,7 @@ export default function TermsofUseProfile() {
           <Text 
             accessible={true}
             accessibilityLabel="Política de privacidade."
-            style={[styles.normalText, {marginTop: CONST.textPadding, fontFamily: 'GothamMedium'}]}>
+            style={[dark_mode ? dark_styles.normalText : styles.normalText, {marginTop: CONST.textPadding, fontFamily: 'GothamMedium'}]}>
             Política de privacidade:</Text>
           <Text 
             accessible={true}
@@ -196,7 +203,7 @@ export default function TermsofUseProfile() {
             disposições contidas na respectiva Política de Privacidade a ser
             apresentada a todos os interessados dentro da interface do
             aplicativo."
-            style={styles.normalText}>
+            style={dark_mode ? dark_styles.normalText : styles.normalText}>
             Além do presente Termo, o utilizador deverá consentir com as
             disposições contidas na respectiva Política de Privacidade a ser
             apresentada a todos os interessados dentro da interface do

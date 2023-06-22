@@ -10,12 +10,16 @@ export const styles = StyleSheet.create({
     flex: 1,
     paddingTop: CONST.backgroundPaddingTop,
     backgroundColor: CONST.mainBlue,
+    paddingBottom: CONST.backgroundPaddingTop / 2,
     width: CONST.screenWidth,
   },
+
   mainContainerLight: {
     flex: 1,
     paddingTop: CONST.backgroundPaddingTop,
     backgroundColor: CONST.lightBackgroundColor,
+    paddingBottom: CONST.backgroundPaddingTop / 2,
+    marginBottom: 90,
     width: CONST.screenWidth,
   },
   container: {
@@ -27,6 +31,8 @@ export const styles = StyleSheet.create({
     backgroundColor: CONST.mainBlue,
     width: CONST.screenWidth,
   },
+  // ! CADA VEZ QUE SE USA O CONTAINER LIGHT NUMA PÁGINA QUE TEM < SETA PRA VOLTAR ATRÁS É PRECISO ALTERAR NA PRÓPRIA PÁGINA
+  // ! O VALOR DO PADDINGTOP PARA CONST.BACKGROUNDPADDINGTOP / 2
   containerLight: {
     flex: 1,
     flexDirection: "column",
@@ -34,6 +40,7 @@ export const styles = StyleSheet.create({
     paddingRight: CONST.backgroundPaddingLateral,
     paddingTop: CONST.backgroundPaddingTop,
     backgroundColor: CONST.lightBackgroundColor,
+    paddingBottom: CONST.backgroundPaddingTop / 2,
     width: CONST.screenWidth,
   },
   dashboardContainer: {
@@ -66,9 +73,9 @@ export const styles = StyleSheet.create({
     borderTopLeftRadius: CONST.largeCardRadius,
     paddingLeft: CONST.cardPadding,
     paddingRight: CONST.cardPadding,
-    paddingBottom: CONST.cardPadding + 10,
-    paddingTop: CONST.cardPadding + 10,
-    maxHeight: (CONST.screenHeight / 3) * 2,
+    paddingBottom: CONST.cardPadding,
+    paddingTop: CONST.cardPadding,
+    maxHeight: (CONST.screenHeight / 5) * 3,
   },
   // ---- buttons ----
   primaryButtonText: {
@@ -230,6 +237,7 @@ export const styles = StyleSheet.create({
     color: CONST.darkerColor,
     textAlign: "left",
     paddingBottom: CONST.inputPadding,
+    marginTop: CONST.inputMargin,
   },
   inputLabelWhite: {
     fontFamily: "GothamBook",
@@ -297,7 +305,6 @@ export const styles = StyleSheet.create({
   indicator: {
     width: 50,
     height: 3,
-    backgroundColor: CONST.mainBlue,
     borderRadius: 5,
     top: -15,
   },
@@ -343,7 +350,7 @@ export const styles = StyleSheet.create({
     padding: CONST.modalPadding,
     shadowColor: CONST.darkerColor,
     shadowRadius: CONST.shadowRadius,
-    width: CONST.screenWidth / 3 * 2,
+    width: (CONST.screenWidth / 3) * 2,
     shadowOpacity: 0.5,
     elevation: 10,
     overflow: "hidden",
@@ -477,7 +484,7 @@ export const styles = StyleSheet.create({
     justifyContent: "flex-end",
     position: "absolute",
     right: CONST.backgroundPaddingLateral,
-    bottom: CONST.backgroundPaddingTop * 3,
+    bottom: CONST.backgroundPaddingTop,
     zIndex: 10,
     backgroundColor: CONST.lightBackgroundColor,
     borderRadius: 50,
@@ -486,7 +493,11 @@ export const styles = StyleSheet.create({
   // ---- PROFILE ----
   profileInfo: {
     alignItems: "center",
-    marginBottom: CONST.inputMargin,
+    //marginBottom: CONST.inputMargin,
+    flex: 1,
+    justifyContent: "center",
+    flexDirection: "column",
+    marginBottom: CONST.backgroundPaddingTop ,
   },
   profileImage: {
     width: 100,
@@ -556,7 +567,21 @@ export const styles = StyleSheet.create({
     borderBottomRightRadius: CONST.normalButtonRadius,
     marginLeft: -CONST.heightButton / 2,
     height: CONST.heightButton,
-    paddingLeft: CONST.iconPadding, //TODO: COLCOAR - 10
+    paddingLeft: CONST.iconPadding, //TODO: COLOCAR - 10
+    paddingRight: CONST.iconPadding + 10,
+    justifyContent: "center",
+  },
+
+  viewTeamButton: {
+    backgroundColor: CONST.thirdOrange,
+    color: CONST.darkerColor,
+    borderBottomLeftRadius: 0,
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: CONST.normalButtonRadius,
+    borderBottomRightRadius: CONST.normalButtonRadius,
+    marginLeft: -CONST.heightButton / 2,
+    height: CONST.heightButton,
+    paddingLeft: CONST.iconPadding, //TODO: COLOCAR - 10
     paddingRight: CONST.iconPadding + 10,
     justifyContent: "center",
   },
@@ -617,31 +642,24 @@ export const styles = StyleSheet.create({
     paddingLeft: 25,
     paddingRight: 25,
   },
-  /*modalView: {
-    backgroundColor: "#E3ECF7",
-    borderRadius: 15,
-    padding: 25,
-    shadowColor: "#000",
-    shadowRadius: 5,
-    shadowOpacity: 0.5,
-    elevation: 10,
-  }, */
   modalTextBold: {
     fontFamily: "GothamMedium",
     fontSize: 16,
     textAlign: "left",
     marginBottom: 20,
     lineHeight: 22,
+    color: CONST.darkerColor,
   },
   modalText: {
     fontFamily: "GothamBook",
     fontSize: 16,
     textAlign: "left",
     marginBottom: 20,
+    color: CONST.darkerColor,
     lineHeight: 22,
   },
   buttonAdd: {
-    backgroundColor: "#0051ba",
+    backgroundColor: CONST.mainBlue,
     paddingTop: 10,
     paddingBottom: 10,
     paddingLeft: 20,
@@ -709,17 +727,12 @@ export const styles = StyleSheet.create({
   batteryFill: {
     position: "absolute",
     marginRight: CONST.cardPadding,
-    width: 82.5,
-    height: 50,
+    background: "transparent",
     // width: 90, //máximo 163
-    backgroundColor: CONST.whiteText,
     borderTopRightRadius: 0,
     borderTopLeftRadius: 0,
     borderRadius: 16.5,
     bottom: 0,
-    //position: "absolute",
-    //left: CONST.screenWidth / 2 - 112,
-    //transform: [{ rotate: "90deg" }],
   },
   batteryFillPause: {
     // height: 88,
@@ -785,16 +798,13 @@ export const styles = StyleSheet.create({
     marginBottom: 18,
   },
   metricsElement: {
-    width: CONST.screenWidth - 50,
     //backgroundColor: "#E3ECF7",
     borderRadius: 15,
-    marginBottom: 20,
-    marginTop: 20,
+    marginBottom: 30,
     flexDirection: "row",
     alignItems: "center",
   },
   metricsCircle: {
-    backgroundColor: CONST.thirdBlue,
     height: CONST.heightButton,
     width: CONST.heightButton,
     borderRadius: CONST.heightButton / 2,
@@ -807,8 +817,8 @@ export const styles = StyleSheet.create({
     color: CONST.darkerColor,
     fontFamily: "GothamBook",
     paddingLeft: 15,
-    paddingRight: 25,
     lineHeight: 20,
+    flex: 1,
   },
 
   membersView: {
@@ -842,12 +852,6 @@ export const styles = StyleSheet.create({
     paddingTop: CONST.backgroundPaddingTop,
   },
 
-  profileInfo: {
-  flexDirection: "row",
-   alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: CONST.inputMargin,
-  },
   // ---- REWARDS PROFILE ----
   editprofileRewards: {
     flexDirection: "row",
@@ -918,20 +922,13 @@ export const styles = StyleSheet.create({
 
   // ---- HISTORIC ----
   pauseBoxMain: {
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 2,
-    // },
-    // shadowColor: 'rgba(0, 0, 0, 0.1)',
-    // shadowOpacity: 1,
-    // shadowRadius: 10,
-    marginLeft: CONST.backgroundPaddingLateral,
-    marginRight: CONST.backgroundPaddingLateral,
-    shadowColor: CONST.enableColor,
+    marginLeft: 2,
+    marginRight: 2,
+    shadowColor: CONST.greyColor,
     shadowRadius: CONST.shadowRadius,
     shadowOpacity: 1,
-    elevation: 10,
-    backgroundColor: CONST.lightBackgroundColor,
+    elevation: 3,
+    backgroundColor: CONST.whiteText,
     borderRadius: CONST.normalButtonRadius,
     marginTop: CONST.boxMargin,
     marginBottom: CONST.inputMargin,
@@ -941,7 +938,7 @@ export const styles = StyleSheet.create({
     fontSize: CONST.pageTextSize,
     color: CONST.darkerColor,
     fontFamily: "GothamBook",
-},
+  },
   pauseBoxTop: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -954,13 +951,14 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     padding: CONST.boxPadding,
-    paddingTop: 0,
+    paddingTop: 10,
+
   },
 
   // --- GOALS --- //
 
   modalAlign: {
-    flexDirection: "row",
+    flexDirection: "column",
     paddingTop: CONST.iconPadding,
     paddingBottom: CONST.iconPadding + 10,
   },
@@ -968,13 +966,24 @@ export const styles = StyleSheet.create({
   modal: {
     marginRight: 0,
     marginLeft: "auto",
+    flexDirection: 'row',
+    marginBottom: 20,
     padding: CONST.boxMargin,
     borderRadius: CONST.smallButtonRadius,
   },
 
+  viewPriority: {
+    borderRadius: CONST.circleRadius,
+    marginBottom: 15,
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingBottom: 5,
+    paddingTop: 5, 
+  },
+
   goals: {
     flex: 1,
-    marginBottom: CONST.inputMargin - 10,
+    marginBottom: CONST.inputMargin,
     borderTopRightRadius: CONST.normalButtonRadius,
     borderBottomRightRadius: CONST.normalButtonRadius,
     paddingTop: CONST.boxPadding,
@@ -985,19 +994,37 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     textAlign: "left",
-    borderLeftWidth: 3,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowColor: "rgba(0, 0, 0, 0.1)",
+    borderLeftWidth: 6,
+ 
+
+    backgroundColor: "transparent",
+    shadowColor: "rgba(0, 0, 0, 0.5)",
+    shadowRadius: CONST.shadowRadius,
     shadowOpacity: 1,
-    shadowRadius: 10,
+    elevation: 1,
+  },
+
+  goalsv2: {
+    marginBottom: CONST.inputMargin,
+    borderTopLeftRadius: CONST.normalButtonRadius,
+    borderBottomLeftRadius: CONST.normalButtonRadius,
+    paddingTop: CONST.boxPadding,
+    paddingBottom: CONST.boxPadding,
+    paddingLeft: CONST.boxPadding,
+    paddingRight: CONST.modalPadding,
+    width: CONST.screenWidth - 50,
+    textAlign: "left",
+    borderRightWidth: 6,
+    backgroundColor: "transparent",
+    shadowColor: "rgba(0, 0, 0, 0.5)",
+    shadowRadius: CONST.shadowRadius,
+    shadowOpacity: 1,
+    elevation: 1,
   },
 
   shadowColor: CONST.enableColor,
-    shadowRadius: CONST.shadowRadius,
-    shadowOpacity: 1,
+  shadowRadius: CONST.shadowRadius,
+  shadowOpacity: 1,
 
   goalsBox: {
     flexDirection: "row",
@@ -1019,14 +1046,14 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     flex: 1,
     alignItems: "center",
-    marginTop: 20,
+    marginTop: 40,
   },
-  /*  ESTILOS ONDE APARECEM OS FILTROS SELECIONADOS
+
   textPriority: {
     fontFamily: "GothamBook",
-    color: "#FFF",
-    fontSize: 12,
-  }, */
+    fontSize: CONST.pageSmallTextSize,
+    color: CONST.whiteText
+  }, 
 
   modalFilter: {
     marginRight: "auto",
@@ -1053,4 +1080,18 @@ export const styles = StyleSheet.create({
     marginBottom: CONST.boxMargin,
     backgroundColor: CONST.darkerColor,
   },
+
+  //STATISTICS
+  dropdown: {
+    height: 50,
+    marginTop: CONST.inputPadding*2,
+    borderBottomWidth: 1,
+  },
+
+  calendar: {
+    borderRadius: CONST.normalButtonRadius,
+    elevation: 4,
+    padding: CONST.inputPadding,
+    margin: CONST.inputMargin,
+  }
 });

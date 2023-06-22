@@ -9,8 +9,12 @@ import { useNavigation } from "@react-navigation/native";
 // Variables
 import * as CONST from "./../styles/variables.js";
 
+// REDUX
+import { useSelector } from "react-redux";
+
 // CSS
 import { styles } from "../styles/css.js";
+import { dark_styles } from "../styles/darkcss.js";
 
 //dashboard
 import Dashboard from "../screens/dashboard/dashboard";
@@ -21,9 +25,6 @@ import MembersRewards from "../screens/dashboard/membersrewards";
 
 //ojbetivos
 import Goals from "../screens/goals/goals";
-
-//subpágina dos objetivos
-import Tips from "../screens/goals/tips";
 
 //estatísticas
 import Stats from "../screens/stats/stats";
@@ -39,10 +40,10 @@ import ProfileRewards from "../screens/profile/profilerewards";
 import ProfileSettings from "../screens/profile/profilesettings";
 import EditPassword from "../screens/profile/editpassword";
 import NotificationsProfile from "../screens/profile/notificationsprofile";
-import SecurityProfile from "../screens/profile/secutiryprofile";
+import SecurityProfile from "../screens/profile/securityprofile.js";
 import TermsofUseProfile from "../screens/profile/termsofuseprofile";
 import HelpCenterProfile from "../screens/profile/helpcenterprofile";
-import historicoPausas from "../screens/profile/historicoPausas";
+import HistoricoPausas from "../screens/profile/historicoPausas";
 import Accessibility from "../screens/profile/accessibility.js";
 
 //autenticação
@@ -68,6 +69,10 @@ import { Diagram } from "iconsax-react-native";
 import { Profile } from "iconsax-react-native";
 import { ArrowLeft2 } from "iconsax-react-native";
 
+//import dispatch
+import { useDispatch } from "react-redux";
+import { logUser } from "../redux/user.js";
+
 //funções navegação
 const Tab = createBottomTabNavigator();
 const DashboardStack = createStackNavigator();
@@ -80,7 +85,7 @@ const AuthStack = createStackNavigator();
 const MainStack = createStackNavigator();
 
 //nav stack de autenticacao
-const AuthStackNavigation = ({ navigation }) => {
+export const AuthStackNavigation = ({ navigation }) => {
   return (
     <AuthStack.Navigator
       initialRouteName="SplashScreen"
@@ -111,7 +116,7 @@ const AuthStackNavigation = ({ navigation }) => {
             <View style={styles.returnTopButton}>
               <ArrowLeft2
                 size="24"
-                color="#F5F5F5"
+                color={CONST.lightBackgroundColor}
                 onPress={() => navigation.navigate("Welcome")}
               />
             </View>
@@ -134,7 +139,7 @@ const AuthStackNavigation = ({ navigation }) => {
             <View style={styles.returnTopButton}>
               <ArrowLeft2
                 size="24"
-                color="#F5F5F5"
+                color={CONST.lightBackgroundColor}
                 onPress={() => navigation.navigate("Welcome")}
               />
             </View>
@@ -161,7 +166,7 @@ const AuthStackNavigation = ({ navigation }) => {
             <View style={styles.returnTopButton}>
               <ArrowLeft2
                 size="24"
-                color="#F5F5F5"
+                color={CONST.lightBackgroundColor}
                 onPress={() => navigation.navigate("Login")}
               />
             </View>
@@ -173,7 +178,13 @@ const AuthStackNavigation = ({ navigation }) => {
 };
 
 //navegação stack na dashboard
-const DashboardStackNavigation = ({ navigation, route }) => {
+export const DashboardStackNavigation = ({ navigation, route }) => {
+  // ---- userData information
+  const userData = useSelector((state) => state.user);
+
+  // ---- check if dark mode or high contrast mode is active
+  const dark_mode = userData.accessibility[1];
+
   return (
     <DashboardStack.Navigator
       initialRouteName="HomeDashboard"
@@ -192,11 +203,18 @@ const DashboardStackNavigation = ({ navigation, route }) => {
           headerShown: true,
           headerTitle: "",
           headerShadowVisible: false,
+          headerStyle: {
+            backgroundColor: dark_mode
+              ? CONST.darkerColor
+              : CONST.lightBackgroundColor,
+          },
           headerLeft: () => (
             <View style={styles.returnTopButton}>
               <ArrowLeft2
                 size="24"
-                color="#333333"
+                color={
+                  dark_mode ? CONST.lightBackgroundColor : CONST.darkerColor
+                }
                 onPress={() => navigation.navigate("HomeDashboard")}
               />
             </View>
@@ -211,11 +229,18 @@ const DashboardStackNavigation = ({ navigation, route }) => {
           headerShown: true,
           headerTitle: "",
           headerShadowVisible: false,
+          headerStyle: {
+            backgroundColor: dark_mode
+              ? CONST.darkerColor
+              : CONST.lightBackgroundColor,
+          },
           headerLeft: () => (
             <View style={styles.returnTopButton}>
               <ArrowLeft2
                 size="24"
-                color="#333333"
+                color={
+                  dark_mode ? CONST.lightBackgroundColor : CONST.darkerColor
+                }
                 onPress={() =>
                   navigation.navigate("TeamDashboard", { teamId: null })
                 }
@@ -229,7 +254,12 @@ const DashboardStackNavigation = ({ navigation, route }) => {
 };
 
 //navegação stack nos objetivos
-const GoalsStackNavigation = ({ navigation }) => {
+export const GoalsStackNavigation = ({ navigation }) => {
+  // ---- userData information
+  const userData = useSelector((state) => state.user);
+
+  // ---- check if dark mode or high contrast mode is active
+  const dark_mode = userData.accessibility[1];
   return (
     <GoalsStack.Navigator
       initialRouteName="GoalsOverview"
@@ -240,30 +270,17 @@ const GoalsStackNavigation = ({ navigation }) => {
         component={Goals}
         options={{ headerShown: false }}
       />
-      <GoalsStack.Screen
-        name="Tips"
-        component={Tips}
-        options={{
-          headerShown: true,
-          headerTitle: "",
-          headerShadowVisible: false,
-          headerLeft: () => (
-            <View style={styles.returnTopButton}>
-              <ArrowLeft2
-                size="24"
-                color="#333333"
-                onPress={() => navigation.navigate("GoalsOverview")} //não esquecer de colocar sempre a pagina para onde queremos voltar!
-              />
-            </View>
-          ),
-        }}
-      />
     </GoalsStack.Navigator>
   );
 };
 
 //navegação stack no perfil
-const ProfileStackNavigation = ({ navigation }) => {
+export const ProfileStackNavigation = ({ navigation }) => {
+  // ---- userData information
+  const userData = useSelector((state) => state.user);
+
+  // ---- check if dark mode or high contrast mode is active
+  const dark_mode = userData.accessibility[1];
   return (
     <ProfileStack.Navigator
       initialRouteName="ProfilePage"
@@ -280,12 +297,19 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerStyle: {
+            backgroundColor: dark_mode
+              ? CONST.darkerColor
+              : CONST.lightBackgroundColor,
+          },
           headerShadowVisible: false,
           headerLeft: () => (
             <View style={styles.returnTopButton}>
               <ArrowLeft2
                 size="24"
-                color="#333333"
+                color={
+                  dark_mode ? CONST.lightBackgroundColor : CONST.darkerColor
+                }
                 onPress={() => navigation.navigate("ProfilePage")}
               />
             </View>
@@ -299,12 +323,19 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerStyle: {
+            backgroundColor: dark_mode
+              ? CONST.darkerColor
+              : CONST.lightBackgroundColor,
+          },
           headerShadowVisible: false,
           headerLeft: () => (
             <View style={styles.returnTopButton}>
               <ArrowLeft2
                 size="24"
-                color="#333333"
+                color={
+                  dark_mode ? CONST.lightBackgroundColor : CONST.darkerColor
+                }
                 onPress={() => navigation.navigate("ProfilePage")}
               />
             </View>
@@ -318,12 +349,19 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerStyle: {
+            backgroundColor: dark_mode
+              ? CONST.darkerColor
+              : CONST.lightBackgroundColor,
+          },
           headerShadowVisible: false,
           headerLeft: () => (
             <View style={styles.returnTopButton}>
               <ArrowLeft2
                 size="24"
-                color="#333333"
+                color={
+                  dark_mode ? CONST.lightBackgroundColor : CONST.darkerColor
+                }
                 onPress={() => navigation.navigate("ProfilePage")}
               />
             </View>
@@ -337,12 +375,19 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerStyle: {
+            backgroundColor: dark_mode
+              ? CONST.darkerColor
+              : CONST.lightBackgroundColor,
+          },
           headerShadowVisible: false,
           headerLeft: () => (
             <View style={styles.returnTopButton}>
               <ArrowLeft2
                 size="24"
-                color="#333333"
+                color={
+                  dark_mode ? CONST.lightBackgroundColor : CONST.darkerColor
+                }
                 onPress={() => navigation.navigate("ProfilePage")}
               />
             </View>
@@ -356,12 +401,19 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerStyle: {
+            backgroundColor: dark_mode
+              ? CONST.darkerColor
+              : CONST.lightBackgroundColor,
+          },
           headerShadowVisible: false,
           headerLeft: () => (
             <View style={styles.returnTopButton}>
               <ArrowLeft2
                 size="24"
-                color="#333333"
+                color={
+                  dark_mode ? CONST.lightBackgroundColor : CONST.darkerColor
+                }
                 onPress={() => navigation.navigate("ProfilePage")}
               />
             </View>
@@ -369,36 +421,25 @@ const ProfileStackNavigation = ({ navigation }) => {
         }}
       />
 
-<ProfileStack.Screen
+      <ProfileStack.Screen
         name="EditPassword"
         component={EditPassword}
         options={{
           headerShown: true,
           headerTitle: "",
+          headerStyle: {
+            backgroundColor: dark_mode
+              ? CONST.darkerColor
+              : CONST.lightBackgroundColor,
+          },
           headerShadowVisible: false,
           headerLeft: () => (
             <View style={styles.returnTopButton}>
               <ArrowLeft2
                 size="24"
-                color="#333333"
-                onPress={() => navigation.navigate("ProfileSettings")}
-              />
-            </View>
-          ),
-        }}
-      />
-       <ProfileStack.Screen
-        name="Accessibility"
-        component={Accessibility}
-        options={{
-          headerShown: true,
-          headerTitle: "",
-          headerShadowVisible: false,
-          headerLeft: () => (
-            <View style={styles.returnTopButton}>
-              <ArrowLeft2
-                size="24"
-                color="#333333"
+                color={
+                  dark_mode ? CONST.lightBackgroundColor : CONST.darkerColor
+                }
                 onPress={() => navigation.navigate("ProfileSettings")}
               />
             </View>
@@ -411,12 +452,19 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerStyle: {
+            backgroundColor: dark_mode
+              ? CONST.darkerColor
+              : CONST.lightBackgroundColor,
+          },
           headerShadowVisible: false,
           headerLeft: () => (
             <View style={styles.returnTopButton}>
               <ArrowLeft2
                 size="24"
-                color="#333333"
+                color={
+                  dark_mode ? CONST.lightBackgroundColor : CONST.darkerColor
+                }
                 onPress={() => navigation.navigate("ProfileSettings")}
               />
             </View>
@@ -429,12 +477,19 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerStyle: {
+            backgroundColor: dark_mode
+              ? CONST.darkerColor
+              : CONST.lightBackgroundColor,
+          },
           headerShadowVisible: false,
           headerLeft: () => (
             <View style={styles.returnTopButton}>
               <ArrowLeft2
                 size="24"
-                color="#333333"
+                color={
+                  dark_mode ? CONST.lightBackgroundColor : CONST.darkerColor
+                }
                 onPress={() => navigation.navigate("ProfileSettings")}
               />
             </View>
@@ -442,17 +497,24 @@ const ProfileStackNavigation = ({ navigation }) => {
         }}
       />
       <ProfileStack.Screen
-        name="historicoPausas"
-        component={historicoPausas}
+        name="HistoricoPausas"
+        component={HistoricoPausas}
         options={{
           headerShown: true,
           headerTitle: "",
+          headerStyle: {
+            backgroundColor: dark_mode
+              ? CONST.darkerColor
+              : CONST.lightBackgroundColor,
+          },
           headerShadowVisible: false,
           headerLeft: () => (
             <View style={styles.returnTopButton}>
               <ArrowLeft2
                 size="24"
-                color="#333333"
+                color={
+                  dark_mode ? CONST.lightBackgroundColor : CONST.darkerColor
+                }
                 onPress={() => navigation.navigate("ProfilePage")}
               />
             </View>
@@ -465,12 +527,19 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerStyle: {
+            backgroundColor: dark_mode
+              ? CONST.darkerColor
+              : CONST.lightBackgroundColor,
+          },
           headerShadowVisible: false,
           headerLeft: () => (
             <View style={styles.returnTopButton}>
               <ArrowLeft2
                 size="24"
-                color="#333333"
+                color={
+                  dark_mode ? CONST.lightBackgroundColor : CONST.darkerColor
+                }
                 onPress={() => navigation.navigate("ProfileSettings")}
               />
             </View>
@@ -483,12 +552,19 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerStyle: {
+            backgroundColor: dark_mode
+              ? CONST.darkerColor
+              : CONST.lightBackgroundColor,
+          },
           headerShadowVisible: false,
           headerLeft: () => (
             <View style={styles.returnTopButton}>
               <ArrowLeft2
                 size="24"
-                color="#333333"
+                color={
+                  dark_mode ? CONST.lightBackgroundColor : CONST.darkerColor
+                }
                 onPress={() => navigation.navigate("ProfileSettings")}
               />
             </View>
@@ -501,12 +577,19 @@ const ProfileStackNavigation = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "",
+          headerStyle: {
+            backgroundColor: dark_mode
+              ? CONST.darkerColor
+              : CONST.lightBackgroundColor,
+          },
           headerShadowVisible: false,
           headerLeft: () => (
             <View style={styles.returnTopButton}>
               <ArrowLeft2
                 size="24"
-                color="#333333"
+                color={
+                  dark_mode ? CONST.lightBackgroundColor : CONST.darkerColor
+                }
                 onPress={() => navigation.navigate("ProfileSettings")}
               />
             </View>
@@ -518,7 +601,21 @@ const ProfileStackNavigation = ({ navigation }) => {
 };
 
 const RectangleIndicator = () => {
-  return <View style={styles.indicator} />;
+  // ---- userData information
+  const userData = useSelector((state) => state.user);
+
+  // ---- check if dark mode or high contrast mode is active
+  const dark_mode = userData.accessibility[1];
+  return (
+    <View
+      style={[
+        styles.indicator,
+        dark_mode
+          ? { backgroundColor: CONST.thirdBlue }
+          : { backgroundColor: CONST.mainBlue },
+      ]}
+    />
+  );
 };
 
 const RectangleIndicatorError = () => {
@@ -543,13 +640,12 @@ function Icon({ name, color }) {
 }
 
 //routes da barra de navegação
-const TabRoutes = (
-  {
-    /* route*/
-  }
-) => {
-  //const { idUser } = route.params;
-  //console.log(idUser);
+export const TabRoutes = ({}) => {
+  // ---- userData information
+  const userData = useSelector((state) => state.user);
+
+  // ---- check if dark mode or high contrast mode is active
+  const dark_mode = userData.accessibility[1];
 
   const [loaded] = useFonts({
     GothamMedium: require("./../fonts/GothamMedium.ttf"),
@@ -575,12 +671,14 @@ const TabRoutes = (
           padding: 12,
         },
         tabBarStyle: {
-          backgroundColor: "white",
+          backgroundColor: dark_mode
+            ? CONST.darkerColor
+            : CONST.lightBackgroundColor,
           borderTopColor: "transparent",
           height: 90,
           borderTopLeftRadius: 0,
           borderTopRightRadius: 0,
-          borderTopColor: CONST.mainBlue,
+          borderTopColor: dark_mode ? CONST.thirdBlue : CONST.mainBlue,
           borderTopWidth: 0,
           position: "absolute",
           elevation: 0,
@@ -597,7 +695,7 @@ const TabRoutes = (
         component={DashboardStackNavigation}
         options={{
           tabBarLabel: "Painel",
-          tabBarActiveTintColor: CONST.mainBlue,
+          tabBarActiveTintColor: dark_mode ? CONST.thirdBlue : CONST.mainBlue,
           tabBarIcon: ({ focused, color }) => (
             <>
               <View style={{ opacity: focused ? 1 : 0 }}>
@@ -613,7 +711,7 @@ const TabRoutes = (
         component={GoalsStackNavigation}
         options={{
           tabBarLabel: "Objetivos",
-          tabBarActiveTintColor: CONST.mainBlue,
+          tabBarActiveTintColor: dark_mode ? CONST.thirdBlue : CONST.mainBlue,
           tabBarIcon: ({ focused, color }) => (
             <>
               <View style={{ opacity: focused ? 1 : 0 }}>
@@ -627,36 +725,18 @@ const TabRoutes = (
 
       <Tab.Screen
         name="Stats"
-        component={AvailableSoon}
+        component={Stats}
         options={{
           tabBarLabel: "Estatísticas",
-          tabBarActiveTintColor: "#F5F5F5",
-          headerShown: true,
-          headerShadowVisible: false,
-          headerTitle: "",
-          headerStyle: { backgroundColor: CONST.mainOrange },
+          tabBarActiveTintColor: dark_mode ? CONST.thirdBlue : CONST.mainBlue,
           tabBarIcon: ({ focused, color }) => (
             <>
               <View style={{ opacity: focused ? 1 : 0 }}>
-                <RectangleIndicatorError
-                  style={{ backgroundColor: "#F5F5F5" }}
-                />
+                <RectangleIndicator />
               </View>
               <Icon name="stats" color={color} />
             </>
           ),
-          tabBarStyle: {
-            backgroundColor: CONST.mainOrange,
-            borderTopColor: "transparent",
-            height: 90,
-            borderTopLeftRadius: 0,
-            borderTopRightRadius: 0,
-            borderTopColor: "#F5F5F5",
-            borderTopWidth: 0,
-            position: "absolute",
-            elevation: 0,
-            color: "#F5F5F5",
-          },
         }}
       />
 
@@ -665,7 +745,7 @@ const TabRoutes = (
         component={ProfileStackNavigation}
         options={{
           tabBarLabel: "Perfil",
-          tabBarActiveTintColor: CONST.mainBlue,
+          tabBarActiveTintColor: dark_mode ? CONST.thirdBlue : CONST.mainBlue,
           tabBarIcon: ({ focused, color }) => (
             <>
               <View style={{ opacity: focused ? 1 : 0 }}>
@@ -680,7 +760,12 @@ const TabRoutes = (
   );
 };
 
-const MainStackNavigation = () => {
+export const MainStackNavigation = ({ authStatus }) => {
+  const dispatch = useDispatch();
+  // guardar no redux
+  if (authStatus === "true") {
+    dispatch(logUser(JSON.stringify(getUserStorage())));
+  }
   return (
     <MainStack.Navigator>
       <MainStack.Screen
@@ -696,26 +781,5 @@ const MainStackNavigation = () => {
     </MainStack.Navigator>
   );
 };
-
-/*
-const styles = StyleSheet.create({
-  IconContainer: {},
-  Indicator: {
-    width: 50,
-    height: 5,
-    backgroundColor: CONST.mainBlue,
-    borderRadius: 5,
-    //position: "absolute",
-    top: -15,
-  },
-  IndicatorError: {
-    width: 50,
-    height: 5,
-    backgroundColor: "#FFF",
-    borderRadius: 5,
-    //position: "absolute",
-    top: -15,
-  },
-});*/
 
 export default MainStackNavigation;

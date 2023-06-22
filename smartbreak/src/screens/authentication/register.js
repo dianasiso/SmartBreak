@@ -1,16 +1,21 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TextInput,
   Text,
   View,
+  KeyboardAvoidingView,
   ScrollView,
   Alert,
   Image,
   Pressable,
 } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import {
+  Eye,
+  EyeSlash
+} from "iconsax-react-native";
+
 
 // Password meter
 import PassMeter from "react-native-passmeter";
@@ -46,10 +51,12 @@ export default function Register() {
   // select items
   const [open, setOpen] = useState(false);
   const [valueOrg, setValueOrg] = useState("");
-  const [items, setItems] = useState([
-    { label: "Universidade de Aveiro", value: "Universidade de Aveiro" },
-    { label: "Universidade de Coimbra", value: "Universidade de Coimbra" },
-  ]);
+  const [items, setItems] = useState([]);
+  const [orgId, setOrgId] = useState("");
+
+  const [openDep, setOpenDep] = useState(false);
+  const [valueDep, setValueDep] = useState("");
+  const [itemsDep, setItemsDep] = useState([]);
 
   // fields
   const [name, setName] = useState("");
@@ -58,6 +65,7 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [organization, setOrganization] = useState("");
   const [department, setDepartment] = useState("");
   const [notifications, setNotifications] = useState([
     true,
@@ -66,17 +74,54 @@ export default function Register() {
     false,
   ]);
 
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        setLoading(true);
+        const response = await fetch("https://sb-api.herokuapp.com/organizations", {
+          method: "GET"
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const message = data.message;
+          for (let i = 0; i < message.length; i++) {
+            const newItem = { label: message[i].name, value: message[i]._id };
+            setItems(prevItems => [...prevItems, newItem]);
+          }
+
+        } else {
+          const errorData = await response.json();
+          throw new Error(errorData.message);
+        }
+      } catch (error) {
+        console.error(error);
+       // Alert.alert("Error", error.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchData();
+  }, [setItemsDep]);
+
+
+
   const loadingScreen = () => {
     return (
       <Image
-        source={require("./../../imgs/img_loading_v2.gif")}
+      source={require("./../../imgs/white-gif-jun.gif")}
         style={{
-          height: CONST.screenWidth / 3.4,
+          height: CONST.screenWidth / 4,
           width: CONST.screenWidth / 4,
           marginLeft: "auto",
           marginRight: "auto",
-          marginTop: "auto",
-          marginBottom: "auto",
+          marginTop: 'auto',
+          marginBottom: CONST.screenHeight / 2,
         }}
       />
     );
@@ -94,36 +139,26 @@ export default function Register() {
           body: JSON.stringify({
             name: name,
             surname: surname,
-            email: email,
+            email: email.trim(),
             password: password,
             admin: false,
-            department: "DECA" //TODO: TO CHANGE
+            department: department.replace(/"/g, ''),
+            organization: organization.replace(/"/g, ''),
           }),
         }
       );
 
-      let res = JSON.stringify({
-        name: name,
-        surname: surname,
-        email: email,
-        password: password,
-        admin: false,
-        department: "DECA"
-      });
-
-      console.log(res + "TÁ AQUI");
-
       if (response.ok) {
         // registo com sucesso
-        Alert.alert("Registration successful");
+        // Alert.alert("Registration successful");
         // --->  redireccionar para outra pagina
       } else {
         const errorData = await response.json();
-        Alert.alert("Registration failed", errorData.message);
+        Alert.alert("Falha no registo!", errorData.message);
       }
     } catch (error) {
       console.error(error);
-      Alert.alert("Error", "An error occurred during registration");
+      Alert.alert("Erro!", "Ocorreu um erro durante o registo.");
     }
   };
 
@@ -170,6 +205,11 @@ export default function Register() {
       setLoading(false);
       return false;
     }
+    if (valueDep == null) {
+      Alert.alert("Preencha corretamente o campo Departamento");
+      setLoading(false);
+      return false;
+    }
     if (password.length === 0) {
       Alert.alert("Preencha corretamente o campo Palavra-passe");
       setLoading(false);
@@ -189,7 +229,10 @@ export default function Register() {
   };
 
   return (
-    <SafeAreaProvider style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
       <StatusBar style="light" />
       <ScrollView>
         <Text
@@ -202,14 +245,13 @@ export default function Register() {
         <Text
           accessible={true}
           accessibilityLabel="Texto na cor branca num fundo azul escuro escrito  Estamos contentes por teres tomado esta iniciativa. Vem fazer energy breaks."
-          style={styles.normalTextWhite}
-        >
+          style={[styles.normalTextWhite, { paddingTop: CONST.boxPadding, paddingBottom: CONST.inputMargin }]}>
           Estamos contentes por teres tomado esta iniciativa. Vem fazer energy
           breaks.
         </Text>
       </ScrollView>
 
-      {loading == true ? (
+      {loading ? (
         loadingScreen()
       ) : (
         <View style={styles.subContainer}>
@@ -262,13 +304,18 @@ export default function Register() {
             <Text
               accessible={true}
               accessibilityLabel="Texto na cor preta num fundo branco escrito Empresa."
-              style={styles.inputLabel}
+              style={[styles.inputLabel, { paddingBottom: 0 }]}
             >
               Empresa
             </Text>
-
-            {/* TODO: ADD ACESSIBILIDADE NO DROPDOWNPICKER */}
             <DropDownPicker
+              selectedItemContainerStyle={{
+
+                fontFamily: "GothamBook",
+                fontSize: CONST.pageSmallTextSize,
+                color: CONST.darkerColor
+              }}
+              zIndex={1000}
               autoScroll={true}
               open={open}
               value={valueOrg}
@@ -280,8 +327,73 @@ export default function Register() {
               placeholder=""
               multiple={false}
               showTickIcon={false}
+              textStyle={{
+                fontFamily: "GothamBook",
+                fontSize: CONST.pageSmallTextSize,
+              }}
               closeAfterSelecting={true}
-              onChangeText={(text) => setDepartment(text)}
+              onSelectItem={(item) => {
+                setOrganization(JSON.stringify(item.value));
+
+                const apiURLDep = "https://sb-api.herokuapp.com/departments/organization/" + JSON.stringify(item.value).replace(/"/g, '');
+
+                async function fetchDataDep() {
+                  try {
+                    const response = await fetch(apiURLDep, {
+                      method: "GET"
+                    });
+
+                    if (response.ok) {
+                      const data = await response.json();
+                      // Alert.alert(JSON.stringify(data));
+                      const message = data.message;
+                      for (let i = 0; i < message.length; i++) {
+                        const newItem = { label: message[i].name, value: message[i]._id };
+                        setItemsDep(prevItems => [...prevItems, newItem]);
+                      }
+
+                    } else {
+                      const errorData = await response.json();
+                      throw new Error(errorData.message);
+                    }
+                  } catch (error) {
+                    console.error(error);
+                    //Alert.alert("Error", error.message);
+                  }
+                }
+
+                fetchDataDep();
+
+              }}
+            />
+            <Text
+              accessible={true}
+              accessibilityLabel="Texto na cor preta num fundo branco escrito Departamento."
+              style={[styles.inputLabel, { paddingBottom: 0 }]}
+            >
+              Departamento
+            </Text>
+            <DropDownPicker
+              zIndex={10}
+              autoScroll={true}
+              open={openDep}
+              value={valueDep}
+              items={itemsDep}
+              setOpen={setOpenDep}
+              setValue={setValueDep}
+              setItems={setItemsDep}
+              style={styles.inputField}
+              placeholder=""
+              multiple={false}
+              showTickIcon={false}
+              closeAfterSelecting={true}
+              textStyle={{
+                fontFamily: "GothamBook",
+                fontSize: CONST.pageSmallTextSize,
+              }}
+              onSelectItem={(item) => {
+                setDepartment(JSON.stringify(item.value));
+              }}
             />
 
             <Text
@@ -291,13 +403,29 @@ export default function Register() {
             >
               Palavra-passe
             </Text>
-            <TextInput
-              secureTextEntry={true}
-              style={styles.inputField}
-              accessible={true}
-              accessibilityLabel="Campo para introdução da Palavra-passe."
-              onChangeText={(text) => setPassword(text)}
-            />
+            <View style={{ flexDirection: 'row', width: '100%' }}>
+              <TextInput
+                secureTextEntry={showPassword ? false : true}
+                style={[styles.inputField, { width: '90%' }]}
+                accessible={true}
+                accessibilityLabel="Campo para introdução da Palavra-passe."
+                onChangeText={(text) => setPassword(text)}
+              />
+              {showPassword ?
+                <EyeSlash
+                  style={{ marginLeft: 'auto', marginRight: 'auto' }}
+                  size={CONST.pageSubtitleSize}
+                  color={CONST.darkerColor}
+                  onPress={() => setShowPassword(!showPassword)}
+                />
+                :
+                <Eye
+                  style={{ marginLeft: 'auto', marginRight: 'auto' }}
+                  size={CONST.pageSubtitleSize}
+                  color={CONST.darkerColor}
+                  onPress={() => setShowPassword(!showPassword)}
+                />}
+            </View>
             <View style={styles.passwordProgressBar}>
               <PassMeter
                 showLabels={false}
@@ -314,18 +442,32 @@ export default function Register() {
             >
               Confirmar nova palavra-passe
             </Text>
-            <TextInput
-              accessible={true}
-              accessibilityLabel="Campo para introdução da Confirmação da nova palavra-passe."
-              secureTextEntry={true}
-              style={styles.inputField}
-              onChangeText={(text) => setConfirmPassword(text)}
-            />
+            <View style={{ flexDirection: 'row', width: '100%' }}>
+              <TextInput
+                secureTextEntry={showPasswordConfirm ? false : true}
+                style={[styles.inputField, { width: '90%' }]}
+                onChangeText={(text) => setConfirmPassword(text)}
+              />
+              {showPasswordConfirm ?
+                <EyeSlash
+                  style={{ marginLeft: 'auto', marginRight: 'auto' }}
+                  size={CONST.pageSubtitleSize}
+                  color={CONST.darkerColor}
+                  onPress={() => setShowPasswordConfirm(!showPasswordConfirm)}
+                />
+                :
+                <Eye
+                  style={{ marginLeft: 'auto', marginRight: 'auto' }}
+                  size={CONST.pageSubtitleSize}
+                  color={CONST.darkerColor}
+                  onPress={() => setShowPasswordConfirm(!showPasswordConfirm)}
+                />}
+            </View>
           </ScrollView>
 
           <Pressable
             accessible={true}
-            accessibilityLabel="Botão da cor azul escura num fundo branco com o objetivo de efetuar o Login. Tem escrito na cor branca a palavra Entrar."
+            accessibilityLabel="Botão da cor azul escura num fundo branco com o objetivo de efetuar o registo. Tem escrito na cor branca a palavra Registar."
             onPress={() => submit()}
             style={styles.primaryButton}
           >
@@ -333,85 +475,6 @@ export default function Register() {
           </Pressable>
         </View>
       )}
-    </SafeAreaProvider>
+    </KeyboardAvoidingView>
   );
 }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#0051BA",
-//     flexDirection: "column",
-//   },
-//   groupContainer: {
-//     paddingLeft: 25,
-//     paddingRight: 25,
-//   },
-//   subContainer: {
-//     flexDirection: "column",
-//     backgroundColor: "#FFF",
-//     borderBottomLeftRadius: 0,
-//     borderBottomRightRadius: 0,
-//     borderTopRightRadius: 50,
-//     borderTopLeftRadius: 50,
-//     paddingLeft: 25,
-//     paddingRight: 25,
-//     paddingTop: 40,
-//     height: (4 * screenHeight) / 5,
-//   },
-//   registerPhoto: {
-//     height: screenWidth / 5,
-//     width: screenWidth / 5,
-//     marginLeft: "auto",
-//     marginRight: "auto",
-//     borderRadius: screenWidth / 10,
-//     flex: 1 / 2,
-//   },
-//   inputField: {
-//     borderBottomColor: "#000000",
-//     borderBottomWidth: 1,
-//     marginBottom: 40,
-//     borderTopWidth: 0,
-//     borderLeftWidth: 0,
-//     borderRightWidth: 0,
-//     borderRadius: 0,
-//   },
-//   inputFieldPass: {
-//     borderBottomColor: "#000000",
-//     borderBottomWidth: 1,
-//     marginBottom: 10,
-//     borderTopWidth: 0,
-//     borderLeftWidth: 0,
-//     borderRightWidth: 0,
-//     borderRadius: 0,
-//   },
-//   buttonText: {
-//     fontFamily: "GothamBook",
-//     color: "#FFF",
-//     fontSize: 18,
-//     textAlign: "center",
-//   },
-//   button: {
-//     backgroundColor: "#0051BA",
-//     justifyContent: "center",
-//     height: 48,
-//     borderRadius: 15,
-//     marginBottom: 40,
-//     marginTop: 20,
-//   },
-//   textMessageTitle: {
-//     fontSize: 24,
-//     textAlign: "left",
-//     paddingTop: 40,
-//     fontFamily: "GothamBook",
-//     color: "#FFFFFF",
-//   },
-//   textMessageBody: {
-//     fontSize: 16,
-//     lineHeight: 24,
-//     textAlign: "left",
-//     paddingTop: 15,
-//     fontFamily: "GothamBook",
-//     color: "#FFFFFF",
-//   },
-// });

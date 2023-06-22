@@ -4,20 +4,27 @@ import { Dimensions } from "react-native";
 export const mainBlue = "#07407B";
 export const lightBlue = "#7591AE";
 export const thirdBlue = "#B5C6D7";
+export const fadeBlue = "#E5EBF1";
 export const mainOrange = "#F57738";
 export const lightOrange = "#EBAC8D";
 export const thirdOrange = "#FCD6C3";
+export const fadeOrange= "#FDF0E9";
 export const lightBackgroundColor = "#FEFEFE";
 export const darkerColor = "#333333";
 export const enableColor = "#888";
 export const greyColor = "#555555";
+export const greySoft = "#AAA";
 export const whiteText = "#FEFEFE";
 export const dividerColor = "#D9D9D9";
 
+
 // ---- GOALS COLORS ----
 export const lowPriorityColor = "#07407B";
-export const mediumPriorityColor = "#F57738";
-export const highPriorityColor = "#F55038";
+export const mediumPriorityColor = "#DD6427";
+export const highPriorityColor = "#AA0000";
+export const lowPriorityColorDark = "#B5C6D7";
+export const mediumPriorityColorDark = "#FFA06A";
+export const highPriorityColorDark = "#FF7A7A";
 
 // ---- FONT SIZES ----
 export const dashboardChargeSize = 40; //gotham medium 40
@@ -75,15 +82,16 @@ export const cardPadding = 25;
 // ---- PADDING ----
 export const textPadding = 25;
 export const iconPadding = 25;
-export const inputPadding = 5;
+export const inputPadding = 10;
 export const boxPadding = 15;
+export const buttonPadding = 5;
 
 // ---- MODAL -----
 export const modalPadding = 25;
 export const shadowRadius = 5;
 
 // ---- MARGINS ----
-export const inputMargin = 40;
+export const inputMargin = 20;
 export const boxMargin = 10;
 export const dividerMargin = 10;
 
