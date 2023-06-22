@@ -2,6 +2,8 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions, Pressable } from 'react-native';
 import { useSelector } from "react-redux";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+
 
 // Font Gotham
 import { useFonts } from 'expo-font';
@@ -63,9 +65,9 @@ export default function HistoricoPausas({ navigation }) {
             return 'Invalid date';
         }
     };
-    console.log(start);
-    console.log(end);
-    console.log(total);
+    // console.log(start);
+    // console.log(end);
+    // console.log(total);
 
     // ver se a data atual dá match com os dados da API 
     const matchingDates = start.reduce((matches, date, index) => {
@@ -149,12 +151,13 @@ export default function HistoricoPausas({ navigation }) {
 
 
     return (
-        <SafeAreaView
-            showsVerticalScrollIndicator={false}
-            style={styles.mainContainerLight}>
-            <ScrollView>
-                <StatusBar style="dark" />
-
+        <SafeAreaProvider
+      showsVerticalScrollIndicator={false}
+      style={[dark_mode ? dark_styles.containerLight : styles.containerLight, { paddingTop: CONST.backgroundPaddingTop / 2 }]}
+    >
+      <StatusBar style={dark_mode ? "light" : "dark"} />
+            <ScrollView style={{marginBottom: 70}}>
+{/* 
                 <View style={{ display: 'flex', flexDirection: 'row' }}>
                     <Pressable
                         style={[
@@ -181,26 +184,26 @@ export default function HistoricoPausas({ navigation }) {
                     >
                         <Text style={[dark_mode ? dark_styles.normalText : styles.normalText]}>Esta Semana</Text>
                     </Pressable>
-                </View>
+                </View> */}
 
-                <Text style={[styles.subTitleText, { marginLeft: CONST.backgroundPaddingLateral, marginRight: CONST.backgroundPaddingLateral, paddingBottom: CONST.textPadding }]}>{renderDate(tempoSelected)}</Text>
+{/* <Text style={[styles.subTitleText, { marginLeft: CONST.backgroundPaddingLateral, marginRight: CONST.backgroundPaddingLateral, paddingBottom: CONST.textPadding }]}>{renderDate(tempoSelected)}</Text> */}
+                <Text style={[dark_mode ? dark_styles.subTitleText : styles.subTitleText, { paddingBottom: CONST.textPadding }]}>Pausas realizadas hoje</Text>
 
-                <View>
                     <View>
 
                         {tempoSelected === 'este dia' && matchingDates.length > 0 && (
-                            <View style={styles.pauseBoxMain}>
-                                <View style={styles.pauseBoxTop}>
-                                    <Text style={styles.normalTextWhite}>Total de pausa</Text>
-                                    <Text style={styles.normalTextWhite}>{formattedTotalMinutes} minutos</Text>
+                            <View style={dark_mode ? dark_styles.pauseBoxMain : styles.pauseBoxMain}>
+                                <View style={dark_mode ? dark_styles.pauseBoxTop : styles.pauseBoxTop}>
+                                    <Text style={dark_mode ? dark_styles.normalTextWhite : styles.normalTextWhite}>Total de pausa</Text>
+                                    <Text style={dark_mode ? dark_styles.normalTextWhite : styles.normalTextWhite}><Text style={{fontFamily: 'GothamMedium'}}>{formattedTotalMinutes} </Text>minutos</Text>
                                 </View>
-                                <View style={styles.pauseBoxBottom}>
+                                <View style={dark_mode ? dark_styles.pauseBoxBottom : styles.pauseBoxBottom}>
                                     <View>
                                         {matchingDates.map((data, index) => (
                                             <View key={index}>
                                                 {data.start && data.end && (
                                                     <>
-                                                        <Text style={styles.smallText}>{data.start.substr(11, 5)}-{data.end.substr(11, 5)}</Text>
+                                                        <Text style={dark_mode ? dark_styles.smallText : styles.smallText}>{data.start.substr(11, 5)}h - {data.end.substr(11, 5)}h{"\n"}</Text>
                                                     </>
                                                 )}
                                             </View>
@@ -212,8 +215,8 @@ export default function HistoricoPausas({ navigation }) {
                                             <View key={index}>
                                                 {data.time && (
                                                     <>
-                                                        <Text style={styles.smallText}>
-                                                            {data.time}
+                                                        <Text style={[dark_mode ? dark_styles.smallText : styles.smallText, {textAlign: "right"}]}>
+                                                            {data.time}min {"\n"}
                                                         </Text>
                                                     </>
                                                 )}
@@ -225,10 +228,10 @@ export default function HistoricoPausas({ navigation }) {
                             </View>
                         )}
                         {tempoSelected === 'este dia' && matchingDates.length === 0 && (
-                            <Text>Não fizeste pausas neste dia.</Text>
+                            <Text style={dark_mode ? dark_styles.normalText : styles.normalText}>Não fizeste pausas neste dia.</Text>
                         )}
 
-                        {tempoSelected === 'esta semana' && matchingDatesWeek.length > 0 && (
+                        {/* {tempoSelected === 'esta semana' && matchingDatesWeek.length > 0 && (
                             matchingDatesWeek.map((data, index) => {
                                 const { date, start, end, time } = data;
                                 const startDate = new Date(start);
@@ -262,32 +265,11 @@ export default function HistoricoPausas({ navigation }) {
                         )}
                         {tempoSelected === 'esta semana' && matchingDatesWeek.length === 0 && (
                             <Text>Não fizeste pausas neste dia.</Text>
-                        )}
+                        )} */}
                     </View>
 
-                </View>
-
-                {/* <View>
-                    <Text style={[styles.normalText, { marginLeft: CONST.backgroundPaddingLateral, marginRight: CONST.backgroundPaddingLateral }]}>Terça-feira, 15 de nov.</Text>
-                    <View style={styles.pauseBoxMain}>
-                        <View style={styles.pauseBoxTop}>
-                            <Text style={styles.normalTextWhite}>Total de pausa</Text>
-                            <Text style={styles.normalTextWhite}>25 minutos</Text>
-                        </View>
-                        <View style={styles.pauseBoxBottom}>
-                            <View>
-                                <Text style={styles.smallText}>10:30 - 10:40</Text>
-                                <Text style={styles.smallText}>16:40 - 16:55</Text>
-                            </View>
-                            <View>
-                                <Text style={styles.smallText}>10 min</Text>
-                                <Text style={styles.smallText}>15 min</Text>
-                            </View>
-                        </View>
-                    </View>
-                </View>*/}
 
             </ScrollView>
-        </SafeAreaView >
+        </SafeAreaProvider >
     );
 }

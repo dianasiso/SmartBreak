@@ -61,7 +61,7 @@ export default function NotificationsProfile({ navigation }) {
         dispatch(updateNotifications(updatedNotifications));
 
         try {
-          await dispatch(
+          dispatch(
             saveNewNotificationsToAsyncStorage(updatedNotifications)
           );
           console.log(
