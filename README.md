@@ -19,6 +19,12 @@ In [this link](https://drive.google.com/file/d/1VPGCKRJEZ6hOJLH5WnHgc6wCk3eYz8pI
 If that's the case, first make sure you have Expo installed on your computer and the Expo app installed on your phone. After downloading the repository and verifying that it has all the dependencies associated with the project (using the npm install or yarn command), just open your terminal and run the command "expo start".
 Decide if you want to run the project on your mobile phone within the Expo application (recommended option) or on an emulator (we do not recommend it, as it limits the functionalities you can access).
 
+## API Repository
+[GitHub](https://github.com/coolalves/SmartBreak_API)
+
+## Web Admintool Repository
+[GitHub](https://github.com/joanalt/SmartBreak_AdminTool)
+
 ## Authors
 
 [Daniel Alves](https://github.com/coolalves)
